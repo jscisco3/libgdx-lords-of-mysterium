@@ -29,6 +29,8 @@ allprojects {
         aiVersion = '1.8.0'
         squidLibVersion = '3.0.0-b9'
         slf4jVersion = '1.7.25'
+        junitVersion = '5.3.2'
+        assertjVersion = '3.11.1'
     }
 
     repositories {
@@ -63,9 +65,19 @@ project(":core") {
 
         compile "org.slf4j:slf4j-api:$slf4jVersion"
 
+        testCompile "org.mockito:mockito-core:2.2.7"
+        testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+        testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+        testCompile "org.assertj:assertj-core:$assertjVersion"
+        testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
     }
 }
 
 tasks.eclipse.doLast {
     delete ".project"
 }
+
+//test {
+//    useJUnitPlatform()
+//}
