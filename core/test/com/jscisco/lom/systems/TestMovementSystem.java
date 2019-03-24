@@ -1,19 +1,37 @@
 package com.jscisco.lom.systems;
 
+import com.artemis.ComponentMapper;
+import com.artemis.World;
+import com.artemis.WorldConfigurationBuilder;
+import com.jscisco.lom.components.MovementComponent;
+import com.jscisco.lom.components.PositionComponent;
+import com.jscisco.lom.util.Position3D;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class TestMovementSystem {
 
-    @BeforeAll
-    public static void init() {
-
-    }
+    private ComponentMapper<PositionComponent> mPosition;
+    private ComponentMapper<MovementComponent> mMovement;
 
     @Test
     public void test() {
-        Assertions.assertThat(true).isFalse();
+        World world = new World(new WorldConfigurationBuilder()
+                .with(new MovementSystem())
+                .build());
+        world.inject(this);
+
+        int e = world.create();
+        PositionComponent positionComponent = mPosition.create(e);
+        positionComponent.position = new Position3D(0, 0, 0);
+        Assertions.assertThat(positionComponent.position.getX()).isEqualTo(0);
+
+        MovementComponent movementComponent = mMovement.create(e);
+        movementComponent.direction = new Position3D(1, 0, 0);
+
+        world.process();
+        Assertions.assertThat(mPosition.get(e).position.getX()).isEqualTo(1);
+        Assertions.assertThat(mMovement.has(e)).isFalse();
     }
 
 }

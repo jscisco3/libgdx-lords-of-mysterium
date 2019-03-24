@@ -1,7 +1,9 @@
 apply plugin: "java"
 
 sourceCompatibility = 1.8
-sourceSets.main.java.srcDirs = ["src/"]
+sourceSets {
+    main.java.srcDirs += 'src/'
+}
 
 project.ext.mainClassName = "com.jscisco.lom.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../core/assets");
@@ -23,33 +25,15 @@ task debug(dependsOn: classes, type: JavaExec) {
     debug = true
 }
 
-task dist(type: Jar) {
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from { configurations.compile.collect { zipTree(it) } }
-    from files(project.assetsDir);
-
+jar {
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        attributes 'Main-Class': 'com.jscisco.lom.MainKt'
     }
+    baseName = project.name + '-all'
+    // This line recursively collects and copies all of a project's files
+    // and adds them to the JAR itself. One can extend this task to skip files or types
+    // at will
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
 
-dist.dependsOn classes
-
-eclipse {
-    project {
-        name = appName + "-desktop"
-        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
-    }
-}
-
-task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
-    doLast {
-        def classpath = new XmlParser().parse(file(".classpath"))
-        new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
-        def writer = new FileWriter(file(".classpath"))
-        def printer = new XmlNodePrinter(new PrintWriter(writer))
-        printer.setPreserveWhitespace(true)
-        printer.print(classpath)
-    }
-}
+//dist.dependsOn classes
