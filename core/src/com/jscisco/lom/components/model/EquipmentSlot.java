@@ -25,8 +25,4 @@ public class EquipmentSlot {
     public EquipmentType getType() {
         return type;
     }
-
-    public void setType(EquipmentType type) {
-        this.type = type;
-    }
 }
