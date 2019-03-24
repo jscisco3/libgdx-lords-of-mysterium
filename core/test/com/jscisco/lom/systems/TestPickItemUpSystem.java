@@ -2,7 +2,7 @@ package com.jscisco.lom.systems;
 
 import com.artemis.*;
 import com.jscisco.lom.components.InventoryComponent;
-import com.jscisco.lom.components.flags.PickingUpItemComponent;
+import com.jscisco.lom.components.PickingUpItemComponent;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

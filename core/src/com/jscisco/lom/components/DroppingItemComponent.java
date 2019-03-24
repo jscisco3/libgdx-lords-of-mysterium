@@ -1,4 +1,4 @@
-package com.jscisco.lom.components.flags;
+package com.jscisco.lom.components;
 
 import com.artemis.Component;
 

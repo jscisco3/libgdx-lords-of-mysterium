@@ -5,7 +5,7 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.jscisco.lom.components.InventoryComponent;
-import com.jscisco.lom.components.flags.DroppingItemComponent;
+import com.jscisco.lom.components.DroppingItemComponent;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

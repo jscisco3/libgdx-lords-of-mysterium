@@ -4,7 +4,7 @@ import com.artemis.Aspect;
 import com.artemis.ComponentMapper;
 import com.artemis.systems.IteratingSystem;
 import com.jscisco.lom.components.InventoryComponent;
-import com.jscisco.lom.components.flags.DroppingItemComponent;
+import com.jscisco.lom.components.DroppingItemComponent;
 
 public class DropItemSystem extends IteratingSystem {
 
