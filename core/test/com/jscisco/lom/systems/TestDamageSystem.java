@@ -17,7 +17,7 @@ public class TestDamageSystem {
     private ComponentMapper<HealthComponent> mHealth;
     private ComponentMapper<Destroy> mDestroy;
 
-    World world;
+    private World world;
 
     @BeforeEach
     public void init() {
@@ -41,7 +41,7 @@ public class TestDamageSystem {
         world.process();
 
         Assertions.assertThat(hc.hp).isEqualTo(50);
-
+        Assertions.assertThat(mDamage.has(e)).isFalse();
     }
 
     @Test
