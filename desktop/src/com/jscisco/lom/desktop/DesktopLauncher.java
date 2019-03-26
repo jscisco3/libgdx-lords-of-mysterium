@@ -3,7 +3,7 @@ package com.jscisco.lom.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import com.jscisco.lom.Game;
+import com.jscisco.lom.LOMGame;
 
 public class DesktopLauncher {
     public static void main(String[] arg) {
@@ -18,6 +18,6 @@ public class DesktopLauncher {
         TexturePacker.process(settings, ".", "../out/images", "images");
 
 
-        new LwjglApplication(new Game(), config);
+        new LwjglApplication(new LOMGame(), config);
     }
 }

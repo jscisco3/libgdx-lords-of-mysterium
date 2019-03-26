@@ -1,32 +1,35 @@
 package com.jscisco.lom;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.screens.DungeonScreen;
 
-public class Game extends ApplicationAdapter {
-    SpriteBatch batch;
+public class LOMGame extends Game {
+
+    private DungeonScreen dungeonScreen;
+
+    public static int WIDTH = 800;
+    public static int HEIGHT = 600;
 
     @Override
     public void create() {
         Assets.load();
-        batch = new SpriteBatch();
+        dungeonScreen = new DungeonScreen();
+        setScreen(dungeonScreen);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(Assets.floor, 0, 0);
-        batch.end();
+        super.render();
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        super.dispose();
         Assets.dispose();
     }
 }
