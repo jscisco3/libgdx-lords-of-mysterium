@@ -3,6 +3,7 @@ package com.jscisco.lom.archetypes;
 import com.artemis.Archetype;
 import com.artemis.ArchetypeBuilder;
 import com.artemis.World;
+import com.jscisco.lom.components.InitiativeComponent;
 import com.jscisco.lom.components.PositionComponent;
 import com.jscisco.lom.components.Tile;
 import com.jscisco.lom.components.flags.BlockOccupier;
@@ -28,6 +29,7 @@ public class ArchetypeFactory {
                 .add(PositionComponent.class)
                 .add(PlayerComponent.class)
                 .add(Tile.class)
+                .add(InitiativeComponent.class)
                 .build(world);
 
         floorArchetype = new ArchetypeBuilder()

@@ -1,6 +1,5 @@
 package com.jscisco.lom.screens;
 
-import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -17,13 +16,11 @@ public class DungeonScreen implements Screen {
 
     private Stage stage;
     private Dungeon dungeon;
-    private World world;
 
-    public DungeonScreen(World world) {
+    public DungeonScreen() {
         stage = new Stage();
-        dungeon = new Dungeon(new Size3D(100, 100, 5), world);
+        dungeon = new Dungeon(new Size3D(100, 100, 5));
         stage.addActor(dungeon);
-        this.world = world;
     }
 
     @Override
@@ -37,6 +34,10 @@ public class DungeonScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+
+        dungeon.getCurrentState().handleInput(Gdx.input);
+        dungeon.getCurrentState().update();
+
     }
 
     @Override
