@@ -9,8 +9,12 @@ import com.jscisco.lom.components.Tile;
 import com.jscisco.lom.components.flags.PlayerComponent;
 import com.jscisco.lom.components.model.TileActor;
 import com.jscisco.lom.util.Position3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RenderSystem extends IteratingSystem {
+
+    private Logger logger = LoggerFactory.getLogger(RenderSystem.class);
 
     private ComponentMapper<Tile> mTile;
     private ComponentMapper<PositionComponent> mPosition;
@@ -31,8 +35,8 @@ public class RenderSystem extends IteratingSystem {
     protected void process(int entityId) {
         TileActor actor = mTile.get(entityId).actor;
         Position3D renderablePosition = mPosition.get(entityId).position;
-        float x = renderablePosition.getX() * actor.getWidth();
-        float y = renderablePosition.getY() * actor.getHeight();
+        float x = renderablePosition.getX() * actor.getRegion().getRegionWidth();
+        float y = renderablePosition.getY() * actor.getRegion().getRegionHeight();
         actor.setPosition(x, y);
         actor.setVisible(true);
         if (mPlayer.has(player)) {

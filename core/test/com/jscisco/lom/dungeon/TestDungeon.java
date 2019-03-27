@@ -1,5 +1,6 @@
 package com.jscisco.lom.dungeon;
 
+import com.artemis.World;
 import com.jscisco.lom.util.Size3D;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -15,7 +16,7 @@ public class TestDungeon {
         int HEIGHT = 20;
         int DEPTH = 30;
 
-        Dungeon dungeon = new Dungeon(new Size3D(WIDTH, HEIGHT, DEPTH));
+        Dungeon dungeon = new Dungeon(new Size3D(WIDTH, HEIGHT, DEPTH), new World());
 
         Block[][][] blocks = dungeon.getBlocks();
 

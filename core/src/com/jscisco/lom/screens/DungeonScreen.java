@@ -1,5 +1,6 @@
 package com.jscisco.lom.screens;
 
+import com.artemis.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -7,16 +8,22 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Size3D;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DungeonScreen implements Screen {
 
+    private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
+
     private Stage stage;
     private Dungeon dungeon;
+    private World world;
 
-    public DungeonScreen() {
+    public DungeonScreen(World world) {
         stage = new Stage();
-        dungeon = new Dungeon(new Size3D(100, 100, 5));
+        dungeon = new Dungeon(new Size3D(100, 100, 5), world);
         stage.addActor(dungeon);
+        this.world = world;
     }
 
     @Override
