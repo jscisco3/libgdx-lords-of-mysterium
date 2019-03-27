@@ -1,14 +1,14 @@
 package com.jscisco.lom.states;
 
-import com.artemis.World;
 import com.badlogic.gdx.Input;
+import com.jscisco.lom.dungeon.Dungeon;
 
 public abstract class State {
 
-    private World world;
+    protected Dungeon dungeon;
 
-    public State(World world) {
-        this.world = world;
+    public State(Dungeon dungeon) {
+        this.dungeon = dungeon;
     }
 
     public abstract void update();

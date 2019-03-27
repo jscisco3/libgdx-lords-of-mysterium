@@ -49,7 +49,7 @@ public class InitiativeSystem extends IteratingSystem {
             mActiveTurn.create(entityId);
             if (mPlayer.has(entityId)) {
                 logger.info("Player has a turn.");
-                dungeon.pushState(new PlayerTurnState(world));
+                dungeon.pushState(new PlayerTurnState(dungeon));
                 this.paused = true;
             }
         }
@@ -84,7 +84,6 @@ public class InitiativeSystem extends IteratingSystem {
 
     public void unpause() {
         this.paused = false;
-        dungeon.popState();
     }
 
 }

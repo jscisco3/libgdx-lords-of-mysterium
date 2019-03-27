@@ -65,7 +65,7 @@ public class Dungeon extends Table {
         addActor(actor);
 
 
-        states.add(new ProcessingState(world));
+        states.add(new ProcessingState(this));
 //        states.add(new PlayerTurnState(world));
     }
 
@@ -104,4 +104,7 @@ public class Dungeon extends Table {
         return states.peekFirst();
     }
 
+    public World getWorld() {
+        return world;
+    }
 }

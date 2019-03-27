@@ -1,20 +1,17 @@
 package com.jscisco.lom.states;
 
-import com.artemis.World;
 import com.badlogic.gdx.Input;
+import com.jscisco.lom.dungeon.Dungeon;
 
 public class ProcessingState extends State {
 
-    private World world;
-
-    public ProcessingState(World world) {
-        super(world);
-        world.inject(this);
+    public ProcessingState(Dungeon dungeon) {
+        super(dungeon);
     }
 
     @Override
     public void update() {
-        world.process();
+        dungeon.getWorld().process();
     }
 
     @Override
