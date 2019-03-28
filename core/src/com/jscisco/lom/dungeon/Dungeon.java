@@ -39,6 +39,8 @@ public class Dungeon extends Table {
     private Deque<State> states = new ArrayDeque<>();
     private World world = createWorld();
 
+    private int player;
+
     public Dungeon(Size3D size) {
         blocks = new Block[size.getDepth()][size.getHeight()][size.getWidth()];
         world.inject(this);
@@ -57,12 +59,12 @@ public class Dungeon extends Table {
         }
 
         int player = world.create(archetypeFactory.playerArchetype);
-        mPosition.get(player).position = new Position3D(0, 0, 0);
+        mPosition.get(player).position = new Position3D(1, 10, 0);
         TileActor actor = new TileActor(Assets.player);
         mTile.get(player).actor = actor;
         mInitiative.get(player).initiative = 1000;
-        logger.info(Integer.toString(player));
         addActor(actor);
+        this.player = player;
 
 
         states.add(new ProcessingState(this));
@@ -106,5 +108,9 @@ public class Dungeon extends Table {
 
     public World getWorld() {
         return world;
+    }
+
+    public int getPlayer() {
+        return player;
     }
 }

@@ -31,7 +31,6 @@ public class InitiativeSystem extends IteratingSystem {
 
     @Override
     protected void begin() {
-        logger.info("Begin initiative system");
         initiativeDelta = getMinimumInitiative();
     }
 

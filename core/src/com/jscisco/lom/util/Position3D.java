@@ -43,4 +43,13 @@ public class Position3D {
     public void setZ(int z) {
         this.z = z;
     }
+
+    @Override
+    public String toString() {
+        return "Position3D{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }
