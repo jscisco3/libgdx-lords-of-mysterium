@@ -66,6 +66,8 @@ public class PlayerTurnState extends State {
         InitiativeSystem initiativeSystem = dungeon.getWorld().getSystem(InitiativeSystem.class);
         initiativeSystem.unpause();
         dungeon.popState();
+        // TODO: Investigate event bus to see about updating this in the appropriate place & time.
+        dungeon.updateCamera();
         logger.info("Ending the player's turn...");
     }
 }
