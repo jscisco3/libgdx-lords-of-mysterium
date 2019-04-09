@@ -8,6 +8,7 @@ import com.jscisco.lom.components.PositionComponent;
 import com.jscisco.lom.components.Tile;
 import com.jscisco.lom.components.flags.PlayerComponent;
 import com.jscisco.lom.components.model.TileActor;
+import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,12 @@ public class RenderSystem extends IteratingSystem {
     private ComponentMapper<PositionComponent> mPosition;
     private ComponentMapper<PlayerComponent> mPlayer;
     private int player;
+    private Dungeon dungeon;
 
 
-    public RenderSystem() {
+    public RenderSystem(Dungeon dungeon) {
         super(Aspect.all(Tile.class, PositionComponent.class));
+        this.dungeon = dungeon;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class RenderSystem extends IteratingSystem {
         actor.setVisible(true);
         if (mPlayer.has(player)) {
             if (renderablePosition.getZ() != mPosition.get(player).position.getZ()) {
+//                dungeon.removeActor(actor);
                 actor.setVisible(false);
             }
         }

@@ -5,6 +5,7 @@ import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.archetypes.ArchetypeFactory;
 import com.jscisco.lom.assets.Assets;
@@ -57,17 +58,6 @@ public class Dungeon extends Table {
         world.inject(this);
         archetypeFactory = new ArchetypeFactory(world);
 
-//        for (int x = 0; x < size.getWidth(); x++) {
-//            for (int y = 0; y < size.getHeight(); y++) {
-//                for (int z = 0; z < size.getDepth(); z++) {
-//                    int floor = world.create(archetypeFactory.floorArchetype);
-//                    mPosition.get(floor).position = new Position3D(x, y, z);
-//                    TileActor actor = new TileActor(Assets.floor);
-//                    mTile.get(floor).actor = actor;
-//                    addActor(actor);
-//                }
-//            }
-//        }
         generateDungeon();
 
         int player = world.create(archetypeFactory.playerArchetype);
@@ -87,7 +77,7 @@ public class Dungeon extends Table {
         WorldConfiguration config = new WorldConfigurationBuilder()
                 .with(new MovementSystem())
                 .with(new InitiativeSystem(this))
-                .with(new RenderSystem())
+                .with(new RenderSystem(this))
                 .build();
 
         return new World(config);
@@ -127,6 +117,10 @@ public class Dungeon extends Table {
     }
 
     private void generateDungeon() {
+
+        Group floorGroup = new Group();
+        Group wallGroup = new Group();
+
         DungeonGenerator generator = new DungeonGenerator(size.getWidth(), size.getHeight());
         RNG rng = new StatefulRNG();
         for (int z = 0; z < size.getHeight(); z++) {
@@ -141,17 +135,17 @@ public class Dungeon extends Table {
                 for (int y = 0; y < generator.getDungeon()[x].length; y++) {
                     char terrain = generator.getDungeon()[x][y];
                     if (terrain == '.') {
-//                        int floor = world.create(archetypeFactory.floorArchetype);
-//                        mPosition.get(floor).position = new Position3D(x, y, z);
-//                        TileActor actor = new TileActor(Assets.floor);
-//                        mTile.get(floor).actor = actor;
+                        int floor = world.create(archetypeFactory.floorArchetype);
+                        mPosition.get(floor).position = new Position3D(x, y, z);
+                        TileActor actor = new TileActor(Assets.floor);
+                        mTile.get(floor).actor = actor;
 //                        addActor(actor);
                     }
                     if (terrain == '#') {
-//                        int wall = world.create(archetypeFactory.wallArchetype);
-//                        mPosition.get(wall).position = new Position3D(x, y, z);
-//                        TileActor actor = new TileActor(Assets.wall);
-//                        mTile.get(wall).actor = actor;
+                        int wall = world.create(archetypeFactory.wallArchetype);
+                        mPosition.get(wall).position = new Position3D(x, y, z);
+                        TileActor actor = new TileActor(Assets.wall);
+                        mTile.get(wall).actor = actor;
 //                        addActor(actor);
                     }
                 }
@@ -175,5 +169,4 @@ public class Dungeon extends Table {
         }
         this.getStage().getCamera().update();
     }
-
 }

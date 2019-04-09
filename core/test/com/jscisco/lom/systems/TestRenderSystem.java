@@ -21,7 +21,7 @@ public class TestRenderSystem {
     @BeforeEach
     public void init() {
         WorldConfiguration config = new WorldConfigurationBuilder()
-                .with(new RenderSystem())
+//                .with(new RenderSystem())
                 .build();
         world = new World(config);
         world.inject(this);

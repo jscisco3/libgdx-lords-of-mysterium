@@ -6,6 +6,7 @@ import com.artemis.systems.IteratingSystem;
 import com.jscisco.lom.components.InitiativeComponent;
 import com.jscisco.lom.components.MovementComponent;
 import com.jscisco.lom.components.PositionComponent;
+import com.jscisco.lom.util.Position3D;
 
 /**
  * Responsible for moving an entity.
