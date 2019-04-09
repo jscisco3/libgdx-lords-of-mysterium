@@ -31,16 +31,16 @@ public class DungeonScreen implements Screen {
         stage = new Stage();
         dungeon = new Dungeon(new Size3D(20, 20, 1));
         dungeon.getWorld().inject(this);
-        stage.addActor(dungeon);
+//        stage.addActor(dungeon);
 
         subscription = dungeon.getWorld().getAspectSubscriptionManager().get(Aspect.all(Tile.class));
-        logger.info("Actors before adding tiles: " + stage.getActors().size);
-
-        for (int e : subscription.getEntities().getData()) {
-            stage.addActor(mTile.get(e).actor);
-        }
-
-        logger.info("Actors after adding tiles: " + stage.getActors().size);
+//        logger.info("Actors before adding tiles: " + stage.getActors().size);
+//
+//        for (int e : subscription.getEntities().getData()) {
+//            stage.addActor(mTile.get(e).actor);
+//        }
+//
+//        logger.info("Actors after adding tiles: " + stage.getActors().size);
 
     }
 
@@ -58,7 +58,7 @@ public class DungeonScreen implements Screen {
         dungeon.getCurrentState().handleInput(Gdx.input);
         dungeon.getCurrentState().update();
 
-//        logger.info("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+        logger.info("Frames per second: " + Gdx.graphics.getFramesPerSecond());
 
     }
 

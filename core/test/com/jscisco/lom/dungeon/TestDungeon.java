@@ -1,6 +1,5 @@
 package com.jscisco.lom.dungeon;
 
-import com.artemis.World;
 import com.jscisco.lom.util.Size3D;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -9,12 +8,11 @@ import org.junit.jupiter.api.Test;
 public class TestDungeon {
 
     @Test
-    @Disabled
     public void creating_a_dungeon_should_be_correct_size() {
 
-        int WIDTH = 10;
+        int WIDTH = 20;
         int HEIGHT = 20;
-        int DEPTH = 30;
+        int DEPTH = 1;
 
         Dungeon dungeon = new Dungeon(new Size3D(WIDTH, HEIGHT, DEPTH));
 

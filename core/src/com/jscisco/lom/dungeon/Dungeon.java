@@ -6,7 +6,6 @@ import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.archetypes.ArchetypeFactory;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.components.InitiativeComponent;
@@ -31,7 +30,7 @@ import squidpony.squidmath.StatefulRNG;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Dungeon extends Table {
+public class Dungeon {
 
     // TODO: Configuration file
     private float DEFAULT_TILE_WIDTH = 24.0f;
@@ -62,10 +61,9 @@ public class Dungeon extends Table {
 
         int player = world.create(archetypeFactory.playerArchetype);
         mPosition.get(player).position = new Position3D(1, 10, 0);
-        TileActor actor = new TileActor(Assets.player);
-        mTile.get(player).actor = actor;
+//        TileActor actor = new TileActor(Assets.player);
+//        mTile.get(player).actor = actor;
         mInitiative.get(player).initiative = 1000;
-        addActor(actor);
         this.player = player;
 
 
@@ -81,11 +79,6 @@ public class Dungeon extends Table {
                 .build();
 
         return new World(config);
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
     }
 
     public Block[][][] getBlocks() {
@@ -137,15 +130,15 @@ public class Dungeon extends Table {
                     if (terrain == '.') {
                         int floor = world.create(archetypeFactory.floorArchetype);
                         mPosition.get(floor).position = new Position3D(x, y, z);
-                        TileActor actor = new TileActor(Assets.floor);
-                        mTile.get(floor).actor = actor;
+//                        TileActor actor = new TileActor(Assets.floor);
+//                        mTile.get(floor).actor = actor;
 //                        addActor(actor);
                     }
                     if (terrain == '#') {
                         int wall = world.create(archetypeFactory.wallArchetype);
                         mPosition.get(wall).position = new Position3D(x, y, z);
-                        TileActor actor = new TileActor(Assets.wall);
-                        mTile.get(wall).actor = actor;
+//                        TileActor actor = new TileActor(Assets.wall);
+//                        mTile.get(wall).actor = actor;
 //                        addActor(actor);
                     }
                 }
@@ -153,20 +146,20 @@ public class Dungeon extends Table {
         }
     }
 
-    public void updateCamera() {
-        Position3D position = mPosition.get(player).position;
-        float halfWidth = this.getStage().getWidth() / 2.0f;
-        float halfHeight = this.getStage().getHeight() / 2.0f;
-
-        float newX = position.getX() * DEFAULT_TILE_WIDTH;
-        float newY = position.getY() * DEFAULT_TILE_HEIGHT;
-
-        if (newX > halfWidth && newX < this.getStage().getWidth()) {
-            this.getStage().getCamera().position.x = position.getX() * DEFAULT_TILE_WIDTH;
-        }
-        if (newY > halfHeight && newY < this.getStage().getHeight()) {
-            this.getStage().getCamera().position.y = position.getY() * DEFAULT_TILE_HEIGHT;
-        }
-        this.getStage().getCamera().update();
-    }
+//    public void updateCamera() {
+//        Position3D position = mPosition.get(player).position;
+//        float halfWidth = this.getStage().getWidth() / 2.0f;
+//        float halfHeight = this.getStage().getHeight() / 2.0f;
+//
+//        float newX = position.getX() * DEFAULT_TILE_WIDTH;
+//        float newY = position.getY() * DEFAULT_TILE_HEIGHT;
+//
+//        if (newX > halfWidth && newX < this.getStage().getWidth()) {
+//            this.getStage().getCamera().position.x = position.getX() * DEFAULT_TILE_WIDTH;
+//        }
+//        if (newY > halfHeight && newY < this.getStage().getHeight()) {
+//            this.getStage().getCamera().position.y = position.getY() * DEFAULT_TILE_HEIGHT;
+//        }
+//        this.getStage().getCamera().update();
+//    }
 }

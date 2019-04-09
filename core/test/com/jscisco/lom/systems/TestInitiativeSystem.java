@@ -5,10 +5,10 @@ import com.jscisco.lom.components.InitiativeComponent;
 import com.jscisco.lom.components.flags.ActiveTurn;
 import com.jscisco.lom.components.flags.PlayerComponent;
 import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.util.Size3D;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 public class TestInitiativeSystem {
 
@@ -18,11 +18,14 @@ public class TestInitiativeSystem {
     private ComponentMapper<ActiveTurn> mActiveTurn;
     private ComponentMapper<PlayerComponent> mPlayer;
     private Archetype initiativeArchetype;
+    private Dungeon dungeon;
 
     @BeforeEach
     public void init() {
+        dungeon = new Dungeon(new Size3D(20, 20, 1));
+
         WorldConfiguration config = new WorldConfigurationBuilder()
-                .with(new InitiativeSystem(Mockito.any(Dungeon.class)))
+                .with(new InitiativeSystem(dungeon))
                 .build();
         world = new World(config);
 
