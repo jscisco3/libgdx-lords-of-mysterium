@@ -15,6 +15,7 @@ public class PlayerTurnState extends State {
 
     public PlayerTurnState(Dungeon dungeon) {
         super(dungeon);
+        this.player = dungeon.getPlayer();
     }
 
     @Override
@@ -47,6 +48,5 @@ public class PlayerTurnState extends State {
 
     private void endTurn() {
         dungeon.popState();
-        logger.info("Ending the player's turn...");
     }
 }

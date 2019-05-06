@@ -12,8 +12,8 @@ public class DesktopLauncher {
         settings.maxHeight = 512;
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 800;
-        config.height = 600;
+        config.width = LOMGame.WIDTH;
+        config.height = LOMGame.HEIGHT;
 
         TexturePacker.process(settings, ".", "../out/images", "images");
 

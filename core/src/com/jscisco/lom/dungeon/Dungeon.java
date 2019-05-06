@@ -5,7 +5,7 @@ import com.jscisco.lom.actor.Player;
 import com.jscisco.lom.archetypes.ArchetypeFactory;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.components.model.TileActor;
-import com.jscisco.lom.states.ProcessingState;
+import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
@@ -54,7 +54,7 @@ public class Dungeon {
         this.player = player;
 
 
-        states.add(new ProcessingState(this));
+        states.add(new PlayerTurnState(this));
     }
 
     public Block[][][] getBlocks() {
@@ -65,12 +65,10 @@ public class Dungeon {
         if (states.size() > 1) {
             states.removeFirst();
         }
-        logger.info("A state has been popped. Current state is: %s".format(states.toString()));
     }
 
     public void pushState(State state) {
         states.addFirst(state);
-        logger.info("%s has been pushed and is the current state.".format(states.toString()));
     }
 
     public State getCurrentState() {
@@ -126,20 +124,11 @@ public class Dungeon {
         return floor;
     }
 
-    //    public void updateCamera() {
-//        Position3D position = mPosition.get(player).position;
-//        float halfWidth = this.getStage().getWidth() / 2.0f;
-//        float halfHeight = this.getStage().getHeight() / 2.0f;
-//
-//        float newX = position.getX() * DEFAULT_TILE_WIDTH;
-//        float newY = position.getY() * DEFAULT_TILE_HEIGHT;
-//
-//        if (newX > halfWidth && newX < this.getStage().getWidth()) {
-//            this.getStage().getCamera().position.x = position.getX() * DEFAULT_TILE_WIDTH;
-//        }
-//        if (newY > halfHeight && newY < this.getStage().getHeight()) {
-//            this.getStage().getCamera().position.y = position.getY() * DEFAULT_TILE_HEIGHT;
-//        }
-//        this.getStage().getCamera().update();
-//    }
+    public int getHeight() {
+        return size.getHeight();
+    }
+
+    public int getWidth() {
+        return size.getWidth();
+    }
 }

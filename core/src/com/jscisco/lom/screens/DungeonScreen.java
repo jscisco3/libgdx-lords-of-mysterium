@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,21 +22,13 @@ public class DungeonScreen implements Screen {
     private Dungeon dungeon;
     private SpriteBatch batch;
 
+    private OrthographicCamera camera;
 
     public DungeonScreen() {
         dungeon = new Dungeon(new Size3D(100, 80, 1));
         batch = new SpriteBatch();
-
-//        stage.addActor(dungeon);
-
-//        logger.info("Actors before adding tiles: " + stage.getActors().size);
-//
-//        for (int e : subscription.getEntities().getData()) {
-//            stage.addActor(mTile.get(e).actor);
-//        }
-//
-//        logger.info("Actors after adding tiles: " + stage.getActors().size);
-
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
     }
 
     @Override
@@ -45,6 +41,10 @@ public class DungeonScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        updateCamera();
+        camera.update();
+
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
 
         for (int x = 0; x < 100; x++) {
@@ -63,11 +63,10 @@ public class DungeonScreen implements Screen {
         batch.end();
 
         dungeon.getCurrentState().handleInput(Gdx.input);
-        dungeon.getCurrentState().update();
-
-        logger.info("Frames per second: " + Gdx.graphics.getFramesPerSecond());
-
+        logger.debug("Render calls: " + batch.renderCalls);
+        logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -91,5 +90,16 @@ public class DungeonScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public void updateCamera() {
+        Position3D position = dungeon.getPlayer().getPosition();
+        float maxWidth = (dungeon.getWidth() * 24.0f) - (LOMGame.WIDTH / 2.0f);
+        float maxHeight = (dungeon.getHeight() * 24.0f) - (LOMGame.HEIGHT / 2.0f);
+
+        // Set it to player X * 24.0f, then clamp it?
+        camera.position.x = MathUtils.clamp(position.getX() * 24.0f, LOMGame.WIDTH / 2.0f, maxWidth);
+        camera.position.y = MathUtils.clamp(position.getY() * 24.0f, LOMGame.HEIGHT / 2.0f, maxHeight);
+        logger.info(String.format("New camera position: %s".format(camera.position.toString())));
     }
 }
