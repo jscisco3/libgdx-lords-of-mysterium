@@ -3,7 +3,6 @@ package com.jscisco.lom.dungeon;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.actor.Actor;
 import com.jscisco.lom.actor.Player;
-import com.jscisco.lom.archetypes.ArchetypeFactory;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.terrain.Floor;
@@ -30,7 +29,6 @@ public class Dungeon {
 
     private Size3D size;
     private Block[][][] blocks;
-    private ArchetypeFactory archetypeFactory;
 
     private Deque<State> states = new ArrayDeque<>();
 

@@ -2,7 +2,6 @@ package com.jscisco.lom.dungeon;
 
 import com.jscisco.lom.util.Size3D;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestDungeon {
