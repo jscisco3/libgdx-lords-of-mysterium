@@ -78,10 +78,10 @@ public class AutoexploreState extends State {
 
     private List<Coord> getCoordsOfUnseenBlocks(int z) {
         List<Coord> goals = new ArrayList<>();
-        Block[][][] blocks = dungeon.getBlocks();
+        Block[][] blocks = dungeon.getBlocksByZLevel(z);
         for (int x = 0; x < dungeon.getWidth(); x++) {
             for (int y = 0; y < dungeon.getHeight(); y++) {
-                if (!blocks[x][y][z].isSeen()) {
+                if (!blocks[x][y].isSeen()) {
                     goals.add(Coord.get(x, y));
                 }
             }

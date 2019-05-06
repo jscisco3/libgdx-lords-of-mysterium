@@ -147,4 +147,14 @@ public class Dungeon {
             }
         }
     }
+
+    public Block[][] getBlocksByZLevel(int z) {
+        Block[][] floor = new Block[getWidth()][getHeight()];
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                floor[x][y] = blocks[x][y][z];
+            }
+        }
+        return floor;
+    }
 }
