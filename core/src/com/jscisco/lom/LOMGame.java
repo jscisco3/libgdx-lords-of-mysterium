@@ -7,12 +7,14 @@ import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.screens.DungeonScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidmath.RNG;
 
 public class LOMGame extends Game {
 
     private Logger logger = LoggerFactory.getLogger(LOMGame.class);
-
     private DungeonScreen dungeonScreen;
+
+    public static RNG rng = new RNG(0xDEADBEEF);
 
     // WINDOW Sizes
     public static int WIDTH = 800;
@@ -23,6 +25,7 @@ public class LOMGame extends Game {
         Assets.load();
         dungeonScreen = new DungeonScreen();
         setScreen(dungeonScreen);
+
     }
 
     @Override

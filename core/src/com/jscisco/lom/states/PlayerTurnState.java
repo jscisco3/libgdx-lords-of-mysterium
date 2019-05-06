@@ -27,16 +27,16 @@ public class PlayerTurnState extends State {
     public Command handleInput(Input input) {
         Command command = null;
         if (input.isKeyPressed(Input.Keys.UP)) {
-            command = new MoveCommand(0, 1, 0);
+            command = new MoveCommand(dungeon, player, 0, 1, 0);
         }
         if (input.isKeyPressed(Input.Keys.DOWN)) {
-            command = new MoveCommand(0, -1, 0);
+            command = new MoveCommand(dungeon, player, 0, -1, 0);
         }
         if (input.isKeyPressed(Input.Keys.RIGHT)) {
-            command = new MoveCommand(1, 0, 0);
+            command = new MoveCommand(dungeon, player, 1, 0, 0);
         }
         if (input.isKeyPressed(Input.Keys.LEFT)) {
-            command = new MoveCommand(-1, 0, 0);
+            command = new MoveCommand(dungeon, player, -1, 0, 0);
         }
         return command;
     }

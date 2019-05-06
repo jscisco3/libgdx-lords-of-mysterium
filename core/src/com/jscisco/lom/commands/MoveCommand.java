@@ -1,24 +1,26 @@
 package com.jscisco.lom.commands;
 
 import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 
-public class MoveCommand implements Command {
-
+public class MoveCommand extends Command {
     Position3D direction;
 
-    public MoveCommand(int x, int y, int z) {
+    public MoveCommand(Dungeon dungeon, Actor actor, int x, int y, int z) {
+        super(dungeon, actor);
         this.direction = new Position3D(x, y, z);
     }
 
-    public MoveCommand(Position3D direction) {
+    public MoveCommand(Dungeon dungeon, Actor actor, Position3D direction) {
+        super(dungeon, actor);
         this.direction = direction;
     }
 
     @Override
-    public void invoke(Actor actor) {
-        Position3D oldPosition = actor.getPosition();
+    public void invoke() {
+        Position3D oldPosition = receiver.getPosition();
         Position3D newPosition = oldPosition.add(direction);
-        actor.setPosition(newPosition);
+        receiver.setPosition(newPosition);
     }
 }

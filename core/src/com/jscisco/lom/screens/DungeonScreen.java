@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
@@ -24,12 +25,15 @@ public class DungeonScreen implements Screen {
     private SpriteBatch batch;
 
     private OrthographicCamera camera;
+    private BitmapFont font;
 
     public DungeonScreen() {
         dungeon = new Dungeon(new Size3D(100, 80, 1));
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
+        font = new BitmapFont();
+        font.setColor(255, 0, 0, 1);
     }
 
     @Override
@@ -61,11 +65,13 @@ public class DungeonScreen implements Screen {
 
         batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
 
+        font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
+
         batch.end();
 
         Command command = dungeon.getCurrentState().handleInput(Gdx.input);
         if (command != null) {
-            command.invoke(dungeon.getPlayer());
+            command.invoke();
         }
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
