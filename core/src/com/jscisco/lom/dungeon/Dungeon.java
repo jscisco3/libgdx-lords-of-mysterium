@@ -137,4 +137,8 @@ public class Dungeon {
     public int getWidth() {
         return size.getWidth();
     }
+
+    public boolean terrainIsWalkableAtPosition(Position3D position3D) {
+        return floor[position3D.getX()][position3D.getY()].isWalkable();
+    }
 }

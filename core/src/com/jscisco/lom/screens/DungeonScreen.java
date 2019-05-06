@@ -54,12 +54,7 @@ public class DungeonScreen implements Screen {
 
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 80; y++) {
-                if (dungeon.getFloor()[x][y] == '.') {
-                    batch.draw(Assets.floor, x * 24.0f, y * 24.0f);
-                }
-                if (dungeon.getFloor()[x][y] == '#') {
-                    batch.draw(Assets.wall, x * 24.0f, y * 24.0f);
-                }
+                batch.draw(dungeon.getFloor()[x][y].getTexture(), x * 24.0f, y * 24.0f);
             }
         }
 

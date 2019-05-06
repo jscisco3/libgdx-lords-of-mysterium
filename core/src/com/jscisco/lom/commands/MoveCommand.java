@@ -21,6 +21,8 @@ public class MoveCommand extends Command {
     public void invoke() {
         Position3D oldPosition = receiver.getPosition();
         Position3D newPosition = oldPosition.add(direction);
-        receiver.setPosition(newPosition);
+        if (dungeon.terrainIsWalkableAtPosition(newPosition)) {
+            receiver.setPosition(newPosition);
+        }
     }
 }
