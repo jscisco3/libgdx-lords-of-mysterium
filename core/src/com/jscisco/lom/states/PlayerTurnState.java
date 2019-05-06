@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 public class PlayerTurnState extends State {
 
     private Logger logger = LoggerFactory.getLogger(PlayerTurnState.class);
-
     private Actor player;
 
     public PlayerTurnState(Dungeon dungeon) {
@@ -37,6 +36,9 @@ public class PlayerTurnState extends State {
         }
         if (input.isKeyPressed(Input.Keys.LEFT)) {
             command = new MoveCommand(dungeon, player, -1, 0, 0);
+        }
+        if (input.isKeyJustPressed(Input.Keys.Z)) {
+            dungeon.pushState(new AutoexploreState(dungeon));
         }
         return command;
     }

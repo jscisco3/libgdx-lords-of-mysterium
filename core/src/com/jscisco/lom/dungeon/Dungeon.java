@@ -58,7 +58,7 @@ public class Dungeon {
         states.add(new PlayerTurnState(this));
     }
 
-    private Position3D findEmptyPositionZLevel(int z) {
+    public Position3D findEmptyPositionZLevel(int z) {
         while (true) {
             int x = LOMGame.rng.between(0, this.size.getWidth());
             int y = LOMGame.rng.between(0, this.size.getHeight());
@@ -140,5 +140,13 @@ public class Dungeon {
 
     public boolean terrainIsWalkableAtPosition(Position3D position3D) {
         return floor[position3D.getX()][position3D.getY()].isWalkable();
+    }
+
+    public Terrain getTerrainAtPosition(Position3D position3D) {
+        return floor[position3D.getX()][position3D.getY()];
+    }
+
+    public Terrain getTerrainAtPosition(int x, int y, int z) {
+        return floor[x][y];
     }
 }

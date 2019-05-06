@@ -61,6 +61,7 @@ public class DungeonScreen implements Screen {
         batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
 
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
+        font.draw(batch, String.format("Position: {%s, %s}", dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
 
         batch.end();
 
@@ -68,6 +69,7 @@ public class DungeonScreen implements Screen {
         if (command != null) {
             command.invoke();
         }
+        dungeon.getCurrentState().update();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }
