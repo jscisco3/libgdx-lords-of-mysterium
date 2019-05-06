@@ -2,6 +2,7 @@ package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.commands.MoveCommand;
 import com.jscisco.lom.dungeon.Dungeon;
 import org.slf4j.Logger;
@@ -23,27 +24,21 @@ public class PlayerTurnState extends State {
     }
 
     @Override
-    public void handleInput(Input input) {
+    public Command handleInput(Input input) {
+        Command command = null;
         if (input.isKeyPressed(Input.Keys.UP)) {
-            MoveCommand command = new MoveCommand(0, 1, 0);
-            command.invoke(player);
-            endTurn();
+            command = new MoveCommand(0, 1, 0);
         }
         if (input.isKeyPressed(Input.Keys.DOWN)) {
-            MoveCommand command = new MoveCommand(0, -1, 0);
-            command.invoke(player);
-            endTurn();
+            command = new MoveCommand(0, -1, 0);
         }
         if (input.isKeyPressed(Input.Keys.RIGHT)) {
-            MoveCommand command = new MoveCommand(1, 0, 0);
-            command.invoke(player);
-            endTurn();
+            command = new MoveCommand(1, 0, 0);
         }
         if (input.isKeyPressed(Input.Keys.LEFT)) {
-            MoveCommand command = new MoveCommand(-1, 0, 0);
-            command.invoke(player);
-            endTurn();
+            command = new MoveCommand(-1, 0, 0);
         }
+        return command;
     }
 
     private void endTurn() {

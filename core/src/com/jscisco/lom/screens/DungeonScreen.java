@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
@@ -62,7 +63,10 @@ public class DungeonScreen implements Screen {
 
         batch.end();
 
-        dungeon.getCurrentState().handleInput(Gdx.input);
+        Command command = dungeon.getCurrentState().handleInput(Gdx.input);
+        if (command != null) {
+            command.invoke(dungeon.getPlayer());
+        }
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }
@@ -100,6 +104,6 @@ public class DungeonScreen implements Screen {
         // Set it to player X * 24.0f, then clamp it?
         camera.position.x = MathUtils.clamp(position.getX() * 24.0f, LOMGame.WIDTH / 2.0f, maxWidth);
         camera.position.y = MathUtils.clamp(position.getY() * 24.0f, LOMGame.HEIGHT / 2.0f, maxHeight);
-        logger.info(String.format("New camera position: %s".format(camera.position.toString())));
+        logger.trace(String.format("New camera position: %s".format(camera.position.toString())));
     }
 }

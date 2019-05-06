@@ -93,21 +93,6 @@ public class Dungeon {
         serpent.putCaveCarvers(2);
         map = serpent.generate();
         DungeonUtility.closeDoors(generator.generate(map));
-//            for (int x = 0; x < generator.getDungeon().length; x++) {
-//                for (int y = 0; y < generator.getDungeon()[x].length; y++) {
-//                    char terrain = generator.getDungeon()[x][y];
-//                    if (terrain == '.') {
-//                        TileActor actor = new TileActor(Assets.floor);
-//                        actor.setPosition(x * DEFAULT_TILE_WIDTH, y * DEFAULT_TILE_HEIGHT);
-//                        addActor(actor);
-//                    }
-//                    if (terrain == '#') {
-//                        TileActor actor = new TileActor(Assets.wall);
-//                        actor.setPosition(x * DEFAULT_TILE_WIDTH, y * DEFAULT_TILE_HEIGHT);
-//                        addActor(actor);
-//                    }
-//                }
-//            }
         return map;
     }
 

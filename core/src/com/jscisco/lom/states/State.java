@@ -1,6 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
+import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Dungeon;
 
 public abstract class State {
@@ -13,6 +14,6 @@ public abstract class State {
 
     public abstract void update();
 
-    public abstract void handleInput(Input input);
+    public abstract Command handleInput(Input input);
 
 }
