@@ -3,6 +3,7 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.commands.MoveCommand;
+import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
@@ -31,8 +32,8 @@ public class AutoexploreState extends State {
         dijkstraMap.initialize(calculateAutoexploreCosts());
         Coord playerCoord = Coord.get(dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY());
 
-        Coord[] goals = new Coord[1];
-        goals[0] = Coord.get(95, 1);
+        List<Coord> goalList = getCoordsOfUnseenBlocks(dungeon.getPlayer().getZ());
+        Coord[] goals = getCoordsOfUnseenBlocks(dungeon.getPlayer().getZ()).toArray(new Coord[goalList.size()]);
 
         List<Coord> path = dijkstraMap.findPath(1,
                 new ArrayList<Coord>(),
@@ -73,5 +74,19 @@ public class AutoexploreState extends State {
             }
         }
         return costs;
+    }
+
+    private List<Coord> getCoordsOfUnseenBlocks(int z) {
+        List<Coord> goals = new ArrayList<>();
+        Block[][][] blocks = dungeon.getBlocks();
+        for (int x = 0; x < dungeon.getWidth(); x++) {
+            for (int y = 0; y < dungeon.getHeight(); y++) {
+                if (!blocks[x][y][z].isSeen()) {
+                    goals.add(Coord.get(x, y));
+                }
+            }
+        }
+
+        return goals;
     }
 }
