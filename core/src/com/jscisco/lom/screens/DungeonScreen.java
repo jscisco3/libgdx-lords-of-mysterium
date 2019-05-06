@@ -1,15 +1,11 @@
 package com.jscisco.lom.screens;
 
-import com.artemis.Aspect;
-import com.artemis.ComponentMapper;
-import com.artemis.EntitySubscription;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.jscisco.lom.components.PositionComponent;
-import com.jscisco.lom.components.Tile;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
@@ -19,21 +15,16 @@ public class DungeonScreen implements Screen {
 
     private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
 
-    private ComponentMapper<PositionComponent> mPosition;
-    private ComponentMapper<Tile> mTile;
-    private EntitySubscription subscription;
-
-    private Stage stage;
     private Dungeon dungeon;
+    private SpriteBatch batch;
 
 
     public DungeonScreen() {
-        stage = new Stage();
-        dungeon = new Dungeon(new Size3D(20, 20, 1));
-        dungeon.getWorld().inject(this);
+        dungeon = new Dungeon(new Size3D(100, 80, 1));
+        batch = new SpriteBatch();
+
 //        stage.addActor(dungeon);
 
-        subscription = dungeon.getWorld().getAspectSubscriptionManager().get(Aspect.all(Tile.class));
 //        logger.info("Actors before adding tiles: " + stage.getActors().size);
 //
 //        for (int e : subscription.getEntities().getData()) {
@@ -53,8 +44,24 @@ public class DungeonScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act(delta);
-        stage.draw();
+
+        batch.begin();
+
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 80; y++) {
+                if (dungeon.getFloor()[x][y] == '.') {
+                    batch.draw(Assets.floor, x * 24.0f, y * 24.0f);
+                }
+                if (dungeon.getFloor()[x][y] == '#') {
+                    batch.draw(Assets.wall, x * 24.0f, y * 24.0f);
+                }
+            }
+        }
+
+        batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
+
+        batch.end();
+
         dungeon.getCurrentState().handleInput(Gdx.input);
         dungeon.getCurrentState().update();
 

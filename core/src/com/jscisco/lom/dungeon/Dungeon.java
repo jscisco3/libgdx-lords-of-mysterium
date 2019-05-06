@@ -1,19 +1,12 @@
 package com.jscisco.lom.dungeon;
 
-import com.artemis.ComponentMapper;
-import com.artemis.World;
-import com.artemis.WorldConfiguration;
-import com.artemis.WorldConfigurationBuilder;
-import com.badlogic.gdx.scenes.scene2d.Group;
+import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.Player;
 import com.jscisco.lom.archetypes.ArchetypeFactory;
-import com.jscisco.lom.components.InitiativeComponent;
-import com.jscisco.lom.components.PositionComponent;
-import com.jscisco.lom.components.Tile;
+import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.components.model.TileActor;
 import com.jscisco.lom.states.ProcessingState;
 import com.jscisco.lom.states.State;
-import com.jscisco.lom.systems.InitiativeSystem;
-import com.jscisco.lom.systems.MovementSystem;
-import com.jscisco.lom.systems.RenderSystem;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
@@ -35,52 +28,33 @@ public class Dungeon {
 
     private static final Logger logger = LoggerFactory.getLogger(Dungeon.class);
 
-    private ComponentMapper<PositionComponent> mPosition;
-    private ComponentMapper<Tile> mTile;
-    private ComponentMapper<InitiativeComponent> mInitiative;
-
     private Size3D size;
     private Block[][][] blocks;
     private ArchetypeFactory archetypeFactory;
 
     private Deque<State> states = new ArrayDeque<>();
-    private World world = createWorld();
 
-    private int player;
+    private Actor player;
 
     private float[][][] resistanceMap;
+    private char[][] floor;
 
     public Dungeon(Size3D size) {
         this.size = size;
         blocks = new Block[size.getDepth()][size.getHeight()][size.getWidth()];
-        world.inject(this);
-        archetypeFactory = new ArchetypeFactory(world);
 
         resistanceMap = new float[size.getDepth()][size.getHeight()][size.getWidth()];
 
-        generateDungeon();
+        this.floor = generateFloor();
         calculateResistanceMap();
 
-        int player = world.create(archetypeFactory.playerArchetype);
-        mPosition.get(player).position = new Position3D(1, 10, 0);
-//        TileActor actor = new TileActor(Assets.player);
-//        mTile.get(player).actor = actor;
-        mInitiative.get(player).initiative = 1000;
+        Actor player = new Player(new Position3D(10, 10, 0));
+        TileActor actor = new TileActor(Assets.player);
+//        actor.setPosition(player.getPosition().getX() * DEFAULT_TILE_WIDTH, player.getPosition().getY() * DEFAULT_TILE_HEIGHT);
         this.player = player;
 
 
         states.add(new ProcessingState(this));
-//        states.add(new PlayerTurnState(world));
-    }
-
-    private World createWorld() {
-        WorldConfiguration config = new WorldConfigurationBuilder()
-                .with(new MovementSystem())
-                .with(new InitiativeSystem(this))
-                .with(new RenderSystem(this))
-                .build();
-
-        return new World(config);
     }
 
     public Block[][][] getBlocks() {
@@ -103,62 +77,56 @@ public class Dungeon {
         return states.peekFirst();
     }
 
-    public World getWorld() {
-        return world;
-    }
 
-    public int getPlayer() {
+    public Actor getPlayer() {
         return player;
     }
 
-    private void generateDungeon() {
 
-        Group floorGroup = new Group();
-        Group wallGroup = new Group();
+    private char[][] generateFloor() {
+        char[][] map;
 
         DungeonGenerator generator = new DungeonGenerator(size.getWidth(), size.getHeight());
         RNG rng = new StatefulRNG();
-        for (int z = 0; z < size.getHeight(); z++) {
-            generator.addDoors(25, false);
-            SerpentMapGenerator serpent = new SerpentMapGenerator(size.getWidth(), size.getHeight(), rng, 0.2);
-            serpent.putWalledBoxRoomCarvers(2);
-            serpent.putWalledRoundRoomCarvers(2);
-            serpent.putCaveCarvers(2);
-            char[][] map = serpent.generate();
-            DungeonUtility.closeDoors(generator.generate(map));
-            for (int x = 0; x < generator.getDungeon().length; x++) {
-                for (int y = 0; y < generator.getDungeon()[x].length; y++) {
-                    char terrain = generator.getDungeon()[x][y];
-                    if (terrain == '.') {
-                        int floor = world.create(archetypeFactory.floorArchetype);
-                        mPosition.get(floor).position = new Position3D(x, y, z);
+        generator.addDoors(25, false);
+        SerpentMapGenerator serpent = new SerpentMapGenerator(size.getWidth(), size.getHeight(), rng, 0.2);
+        serpent.putWalledBoxRoomCarvers(2);
+        serpent.putWalledRoundRoomCarvers(2);
+        serpent.putCaveCarvers(2);
+        map = serpent.generate();
+        DungeonUtility.closeDoors(generator.generate(map));
+//            for (int x = 0; x < generator.getDungeon().length; x++) {
+//                for (int y = 0; y < generator.getDungeon()[x].length; y++) {
+//                    char terrain = generator.getDungeon()[x][y];
+//                    if (terrain == '.') {
 //                        TileActor actor = new TileActor(Assets.floor);
-//                        mTile.get(floor).actor = actor;
+//                        actor.setPosition(x * DEFAULT_TILE_WIDTH, y * DEFAULT_TILE_HEIGHT);
 //                        addActor(actor);
-                    }
-                    if (terrain == '#') {
-                        int wall = world.create(archetypeFactory.wallArchetype);
-                        mPosition.get(wall).position = new Position3D(x, y, z);
+//                    }
+//                    if (terrain == '#') {
 //                        TileActor actor = new TileActor(Assets.wall);
-//                        mTile.get(wall).actor = actor;
+//                        actor.setPosition(x * DEFAULT_TILE_WIDTH, y * DEFAULT_TILE_HEIGHT);
 //                        addActor(actor);
-                    }
-                }
-            }
-        }
+//                    }
+//                }
+//            }
+        return map;
     }
 
     public void calculateResistanceMap() {
         for (int z = 0; z < size.getDepth(); z++) {
             for (int y = 0; y < size.getHeight(); y++) {
                 for (int x = 0; x < size.getWidth(); x++) {
-                    if (blocks[z][y][x])
                 }
             }
         }
     }
 
-//    public void updateCamera() {
+    public char[][] getFloor() {
+        return floor;
+    }
+
+    //    public void updateCamera() {
 //        Position3D position = mPosition.get(player).position;
 //        float halfWidth = this.getStage().getWidth() / 2.0f;
 //        float halfHeight = this.getStage().getHeight() / 2.0f;

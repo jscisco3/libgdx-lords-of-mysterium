@@ -11,7 +11,6 @@ public class ProcessingState extends State {
 
     @Override
     public void update() {
-        dungeon.getWorld().process();
     }
 
     @Override
