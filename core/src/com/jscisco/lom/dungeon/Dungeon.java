@@ -4,14 +4,11 @@ import com.artemis.ComponentMapper;
 import com.artemis.World;
 import com.artemis.WorldConfiguration;
 import com.artemis.WorldConfigurationBuilder;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.jscisco.lom.archetypes.ArchetypeFactory;
-import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.components.InitiativeComponent;
 import com.jscisco.lom.components.PositionComponent;
 import com.jscisco.lom.components.Tile;
-import com.jscisco.lom.components.model.TileActor;
 import com.jscisco.lom.states.ProcessingState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.systems.InitiativeSystem;
@@ -51,13 +48,18 @@ public class Dungeon {
 
     private int player;
 
+    private float[][][] resistanceMap;
+
     public Dungeon(Size3D size) {
         this.size = size;
         blocks = new Block[size.getDepth()][size.getHeight()][size.getWidth()];
         world.inject(this);
         archetypeFactory = new ArchetypeFactory(world);
 
+        resistanceMap = new float[size.getDepth()][size.getHeight()][size.getWidth()];
+
         generateDungeon();
+        calculateResistanceMap();
 
         int player = world.create(archetypeFactory.playerArchetype);
         mPosition.get(player).position = new Position3D(1, 10, 0);
@@ -141,6 +143,16 @@ public class Dungeon {
 //                        mTile.get(wall).actor = actor;
 //                        addActor(actor);
                     }
+                }
+            }
+        }
+    }
+
+    public void calculateResistanceMap() {
+        for (int z = 0; z < size.getDepth(); z++) {
+            for (int y = 0; y < size.getHeight(); y++) {
+                for (int x = 0; x < size.getWidth(); x++) {
+                    if (blocks[z][y][x])
                 }
             }
         }
