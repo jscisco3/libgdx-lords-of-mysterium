@@ -15,6 +15,18 @@ public abstract class Actor {
         this.position = position;
     }
 
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
+    }
+
+    public int getZ() {
+        return position.getZ();
+    }
+
     public Command takeTurn() {
         return null;
     }

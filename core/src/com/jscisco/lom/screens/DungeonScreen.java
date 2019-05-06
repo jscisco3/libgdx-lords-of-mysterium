@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.commands.Command;
+import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
@@ -50,19 +51,35 @@ public class DungeonScreen implements Screen {
         camera.update();
 
         batch.setProjectionMatrix(camera.combined);
-        batch.begin();
 
+        Block[][][] blocks = dungeon.getBlocks();
+        Block block;
+
+        batch.begin();
+        batch.setColor(0.5f, 0.5f, 0.5f, 1.0f);
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 80; y++) {
-                batch.draw(dungeon.getFloor()[x][y].getTexture(), x * 24.0f, y * 24.0f);
+                block = blocks[x][y][dungeon.getPlayer().getZ()];
+                if (block.isSeen()) {
+                    batch.draw(block.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
+                }
             }
         }
-
-        batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
-
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
         font.draw(batch, String.format("Position: {%s, %s}", dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
+        batch.end();
 
+        batch.begin();
+        batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        for (int x = 0; x < 100; x++) {
+            for (int y = 0; y < 80; y++) {
+                block = blocks[x][y][dungeon.getPlayer().getZ()];
+                if (block.isInFov()) {
+                    batch.draw(block.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
+                }
+            }
+        }
+        batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
         batch.end();
 
         Command command = dungeon.getCurrentState().handleInput(Gdx.input);
@@ -70,6 +87,7 @@ public class DungeonScreen implements Screen {
             command.invoke();
         }
         dungeon.getCurrentState().update();
+        dungeon.updateBlocksBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }

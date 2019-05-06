@@ -3,15 +3,15 @@ package com.jscisco.lom.dungeon;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.actor.Actor;
 import com.jscisco.lom.actor.Player;
+import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
-import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
-import com.jscisco.lom.terrain.Wall;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidgrid.FOV;
 import squidpony.squidgrid.mapping.DungeonGenerator;
 import squidpony.squidgrid.mapping.DungeonUtility;
 import squidpony.squidgrid.mapping.SerpentMapGenerator;
@@ -32,26 +32,18 @@ public class Dungeon {
 
     private Deque<State> states = new ArrayDeque<>();
 
-    private Actor player;
+    private Player player;
 
-    private float[][][] resistanceMap;
-    private Terrain[][] floor;
-
-    private Terrain FLOOR = new Floor();
-    private Terrain WALL = new Wall();
+    private FOV fovCalculator = new FOV();
 
     public Dungeon(Size3D size) {
         this.size = size;
-        blocks = new Block[size.getDepth()][size.getHeight()][size.getWidth()];
+        blocks = new Block[size.getWidth()][size.getHeight()][size.getDepth()];
 
-        resistanceMap = new float[size.getDepth()][size.getHeight()][size.getWidth()];
+        generateDungeon();
 
-        this.floor = generateFloor();
-        calculateResistanceMap();
-
-        Actor player = new Player(findEmptyPositionZLevel(0));
-        this.player = player;
-
+        player = new Player(findEmptyPositionZLevel(0));
+        player.getFieldOfView().initialize(this, player);
 
         states.add(new PlayerTurnState(this));
     }
@@ -60,7 +52,7 @@ public class Dungeon {
         while (true) {
             int x = LOMGame.rng.between(0, this.size.getWidth());
             int y = LOMGame.rng.between(0, this.size.getHeight());
-            if (this.floor[x][y].isWalkable()) {
+            if (this.blocks[x][y][z].getTerrain().isWalkable()) {
                 return new Position3D(x, y, z);
             }
         }
@@ -90,42 +82,31 @@ public class Dungeon {
     }
 
 
-    private Terrain[][] generateFloor() {
+    private void generateDungeon() {
         char[][] map;
         Terrain[][] terrainMap = new Terrain[size.getWidth()][size.getHeight()];
 
         DungeonGenerator generator = new DungeonGenerator(size.getWidth(), size.getHeight());
-        generator.addDoors(25, false);
-        SerpentMapGenerator serpent = new SerpentMapGenerator(size.getWidth(), size.getHeight(), LOMGame.rng, 0.2);
-        serpent.putWalledBoxRoomCarvers(2);
-        serpent.putWalledRoundRoomCarvers(2);
-        serpent.putCaveCarvers(2);
-        map = serpent.generate();
-        DungeonUtility.closeDoors(generator.generate(map));
-
-        for (int x = 0; x < size.getWidth(); x++) {
-            for (int y = 0; y < size.getHeight(); y++) {
-                if (map[x][y] == '#') {
-                    terrainMap[x][y] = WALL;
-                } else {
-                    terrainMap[x][y] = FLOOR;
-                }
-            }
-        }
-        return terrainMap;
-    }
-
-    public void calculateResistanceMap() {
         for (int z = 0; z < size.getDepth(); z++) {
-            for (int y = 0; y < size.getHeight(); y++) {
-                for (int x = 0; x < size.getWidth(); x++) {
+            generator.addDoors(25, false);
+            SerpentMapGenerator serpent = new SerpentMapGenerator(size.getWidth(), size.getHeight(), LOMGame.rng, 0.2);
+            serpent.putWalledBoxRoomCarvers(2);
+            serpent.putWalledRoundRoomCarvers(2);
+            serpent.putCaveCarvers(2);
+            map = serpent.generate();
+            DungeonUtility.closeDoors(generator.generate(map));
+
+            for (int x = 0; x < size.getWidth(); x++) {
+                for (int y = 0; y < size.getHeight(); y++) {
+                    if (map[x][y] == '#') {
+                        blocks[x][y][z] = new Block(TerrainRepository.WALL);
+                    } else {
+                        blocks[x][y][z] = new Block(TerrainRepository.FLOOR);
+                    }
                 }
             }
         }
-    }
 
-    public Terrain[][] getFloor() {
-        return floor;
     }
 
     public int getHeight() {
@@ -136,15 +117,34 @@ public class Dungeon {
         return size.getWidth();
     }
 
+    public int getDepth() {
+        return size.getDepth();
+    }
+
     public boolean terrainIsWalkableAtPosition(Position3D position3D) {
-        return floor[position3D.getX()][position3D.getY()].isWalkable();
+        return blocks[position3D.getX()][position3D.getY()][position3D.getZ()].getTerrain().isWalkable();
     }
 
     public Terrain getTerrainAtPosition(Position3D position3D) {
-        return floor[position3D.getX()][position3D.getY()];
+        return blocks[position3D.getX()][position3D.getY()][position3D.getZ()].getTerrain();
     }
 
     public Terrain getTerrainAtPosition(int x, int y, int z) {
-        return floor[x][y];
+        return blocks[x][y][z].getTerrain();
+    }
+
+    public void updateBlocksBasedOnFOV() {
+        player.getFieldOfView().calculateFov(player, fovCalculator);
+        double[][] playerFov = player.getFieldOfView().getFov();
+        for (int x = 0; x < getWidth(); x++) {
+            for (int y = 0; y < getHeight(); y++) {
+                if (playerFov[x][y] > 0.0) {
+                    blocks[x][y][player.getZ()].setSeen(true);
+                    blocks[x][y][player.getZ()].setInFov(true);
+                } else {
+                    blocks[x][y][player.getZ()].setInFov(false);
+                }
+            }
+        }
     }
 }
