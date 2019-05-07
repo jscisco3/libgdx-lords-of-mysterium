@@ -1,10 +1,12 @@
 package com.jscisco.lom.actor;
 
+import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.util.Position3D;
 
 public abstract class Actor {
 
+    protected FieldOfView fieldOfView;
     protected Position3D position;
 
     public Position3D getPosition() {
@@ -13,6 +15,10 @@ public abstract class Actor {
 
     public void setPosition(Position3D position) {
         this.position = position;
+    }
+
+    public FieldOfView getFieldOfView() {
+        return fieldOfView;
     }
 
     public int getX() {

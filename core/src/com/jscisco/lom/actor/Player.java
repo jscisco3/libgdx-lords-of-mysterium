@@ -6,10 +6,9 @@ import com.jscisco.lom.util.Position3D;
 
 public class Player extends Actor {
 
-    FieldOfView fieldOfView = new FieldOfView(10.0);
-
-    public Player(Position3D position) {
+    public Player(Position3D position, double radius) {
         this.position = position;
+        this.fieldOfView = new FieldOfView(radius);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.terrain.Terrain;
+import com.jscisco.lom.util.FOVCalculator;
 import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
@@ -42,8 +43,7 @@ public class Dungeon {
 
         generateDungeon();
 
-        player = new Player(findEmptyPositionZLevel(0));
-        player.getFieldOfView().initialize(this, player);
+        player = new Player(findEmptyPositionZLevel(0), 10.0);
 
         states.add(new PlayerTurnState(this));
     }
@@ -134,7 +134,7 @@ public class Dungeon {
     }
 
     public void updateBlocksBasedOnFOV() {
-        player.getFieldOfView().calculateFov(player, fovCalculator);
+        FOVCalculator.calculateFOV(player, this);
         double[][] playerFov = player.getFieldOfView().getFov();
         for (int x = 0; x < getWidth(); x++) {
             for (int y = 0; y < getHeight(); y++) {
