@@ -1,6 +1,7 @@
 package com.jscisco.lom.actor;
 
 import com.jscisco.lom.attributes.FieldOfView;
+import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.util.Position3D;
 
@@ -8,6 +9,7 @@ public abstract class Actor {
 
     protected FieldOfView fieldOfView;
     protected Position3D position;
+    protected Health health;
 
     public Position3D getPosition() {
         return position;

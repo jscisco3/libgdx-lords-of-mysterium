@@ -20,7 +20,6 @@ public class AutoexploreState extends State {
 
     private Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
 
-
     public AutoexploreState(Dungeon dungeon) {
         super(dungeon);
     }
