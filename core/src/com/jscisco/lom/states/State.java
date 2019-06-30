@@ -16,4 +16,8 @@ public abstract class State {
 
     public abstract Command handleInput(Input input);
 
+    public abstract void start();
+
+    public abstract void stop();
+
 }

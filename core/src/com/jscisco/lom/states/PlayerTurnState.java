@@ -43,6 +43,16 @@ public class PlayerTurnState extends State {
         return command;
     }
 
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
     private void endTurn() {
         dungeon.popState();
     }

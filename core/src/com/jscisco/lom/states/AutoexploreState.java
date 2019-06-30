@@ -59,6 +59,16 @@ public class AutoexploreState extends State {
         return null;
     }
 
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
     private double[][] calculateAutoexploreCosts() {
         double[][] costs = new double[dungeon.getWidth()][dungeon.getHeight()];
         for (int x = 0; x < dungeon.getWidth(); x++) {
@@ -85,7 +95,6 @@ public class AutoexploreState extends State {
                 }
             }
         }
-
         return goals;
     }
 }

@@ -19,4 +19,14 @@ public class ProcessingState extends State {
         // Processing state is just responsible for making sure the world is processing
         return null;
     }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
 }
