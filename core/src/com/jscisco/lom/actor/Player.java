@@ -18,7 +18,4 @@ public class Player extends Actor {
         return null;
     }
 
-    public FieldOfView getFieldOfView() {
-        return fieldOfView;
-    }
 }
