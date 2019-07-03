@@ -1,0 +1,22 @@
+General
+- Add Main menu
+    - New Game
+    - Load Game
+    - Exit
+
+Kingdom
+- Add KingdomManagementUI
+- Add KingdomManagementState
+- Build Buildings
+- Research upgrades
+- Hire Heroes
+- View Heroes
+- Select Hero
+- Select Dungeon
+
+Dungeon
+- Add ProcessingState to handle AI
+- Add Turn System
+- Add Basic Skills
+- Add Basic Magic
+- Add Targeting System
