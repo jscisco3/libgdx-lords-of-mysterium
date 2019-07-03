@@ -1,5 +1,6 @@
 package com.jscisco.lom.states;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.actor.Actor;
 import com.jscisco.lom.commands.Command;
@@ -39,6 +40,9 @@ public class PlayerTurnState extends State {
         }
         if (input.isKeyJustPressed(Input.Keys.Z)) {
             dungeon.pushState(new AutoexploreState(dungeon));
+        }
+        if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
         }
         return command;
     }

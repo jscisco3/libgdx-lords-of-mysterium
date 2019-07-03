@@ -14,7 +14,6 @@ import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
-import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,8 +27,9 @@ public class DungeonScreen implements Screen {
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public DungeonScreen() {
-        dungeon = new Dungeon(new Size3D(100, 80, 1));
+    public DungeonScreen(Dungeon dungeon) {
+        this.dungeon = dungeon;
+//        dungeon = new Dungeon(new Size3D(100, 80, 1));
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);

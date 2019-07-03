@@ -4,7 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.screens.DungeonScreen;
+import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
@@ -23,7 +25,7 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        dungeonScreen = new DungeonScreen();
+        dungeonScreen = new DungeonScreen(new Dungeon(new Size3D(100, 80, 1)));
         setScreen(dungeonScreen);
 
     }

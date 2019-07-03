@@ -14,6 +14,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = LOMGame.WIDTH;
         config.height = LOMGame.HEIGHT;
+        config.forceExit = true;
 
         TexturePacker.process(settings, ".", "../out/images", "images");
 
