@@ -1,5 +1,6 @@
 package com.jscisco.lom.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
@@ -22,12 +23,14 @@ public class DungeonScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
 
     private Dungeon dungeon;
+    private Game game;
     private SpriteBatch batch;
 
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public DungeonScreen(Dungeon dungeon) {
+    public DungeonScreen(Game game, Dungeon dungeon) {
+        this.game = game;
         this.dungeon = dungeon;
 //        dungeon = new Dungeon(new Size3D(100, 80, 1));
         batch = new SpriteBatch();
