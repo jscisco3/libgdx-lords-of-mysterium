@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.dungeon.Dungeon;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.kingdom.Kingdom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,7 +77,7 @@ public class MainMenuScreen implements Screen {
     private void handleInput() {
         Input input = Gdx.input;
         if (input.isKeyJustPressed(Input.Keys.N)) {
-            game.setScreen(new DungeonScreen(this.game, new Dungeon(new Size3D(100, 80, 1))));
+            this.game.setScreen(new KingdomManagementScreen(this.game, new Kingdom()));
         }
         if (input.isKeyJustPressed(Input.Keys.L)) {
             logger.warn("Loading games is not yet implemented!");
