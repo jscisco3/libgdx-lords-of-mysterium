@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.actor.Actor;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
@@ -82,7 +82,9 @@ public class DungeonScreen implements Screen {
                 }
             }
         }
-        batch.draw(Assets.player, dungeon.getPlayer().getPosition().getX() * 24.0f, dungeon.getPlayer().getPosition().getY() * 24.0f);
+        for (Actor a : dungeon.getActors()) {
+            batch.draw(a.getTexture(), a.getX() * 24.0f, a.getY() * 24.0f);
+        }
         batch.end();
 
         Command command = dungeon.getCurrentState().handleInput(Gdx.input);

@@ -11,12 +11,14 @@ public class Assets {
     public static TextureRegion wall;
 
     public static TextureRegion player;
+    public static TextureRegion rat;
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
         floor = atlas.findRegion("floor");
         wall = atlas.findRegion("wall");
         player = atlas.findRegion("player");
+        rat = atlas.findRegion("rat");
     }
 
     public static void dispose() {

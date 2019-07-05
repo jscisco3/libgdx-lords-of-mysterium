@@ -2,7 +2,9 @@ package com.jscisco.lom.dungeon;
 
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.NPC;
 import com.jscisco.lom.actor.Player;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
@@ -18,7 +20,9 @@ import squidpony.squidgrid.mapping.DungeonUtility;
 import squidpony.squidgrid.mapping.SerpentMapGenerator;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 public class Dungeon {
 
@@ -34,6 +38,7 @@ public class Dungeon {
     private Deque<State> states = new ArrayDeque<>();
 
     private Player player;
+    private List<Actor> actors = new ArrayList<>();
 
     private FOV fovCalculator = new FOV();
 
@@ -44,6 +49,9 @@ public class Dungeon {
         generateDungeon();
 
         player = new Player(findEmptyPositionZLevel(0), 10.0);
+        this.actors.add(this.player);
+
+        this.actors.add(new NPC(Assets.rat, findEmptyPositionZLevel(0)));
 
         states.add(new PlayerTurnState(this));
     }
@@ -156,5 +164,9 @@ public class Dungeon {
             }
         }
         return floor;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
     }
 }

@@ -1,17 +1,19 @@
 package com.jscisco.lom.actor;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.attributes.Initiative;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.util.Position3D;
 
-public abstract class Actor implements Comparable<Actor> {
+public abstract class Actor {
 
     protected FieldOfView fieldOfView;
     protected Position3D position;
     protected Health health;
-    protected Initiative initiative;
+    protected Energy energy;
+    protected TextureRegion texture;
 
     public Position3D getPosition() {
         return position;
@@ -37,17 +39,12 @@ public abstract class Actor implements Comparable<Actor> {
         this.health = health;
     }
 
-    public Initiative getInitiative() {
-        return initiative;
+    public Energy getEnergy() {
+        return energy;
     }
 
-    public void setInitiative(Initiative initiative) {
-        this.initiative = initiative;
-    }
-
-    @Override
-    public int compareTo(Actor o) {
-        return Integer.compare(this.getInitiative().getCooldown(), o.getInitiative().getCooldown());
+    public void setEnergy(Energy energy) {
+        this.energy = energy;
     }
 
     public int getX() {
@@ -60,6 +57,10 @@ public abstract class Actor implements Comparable<Actor> {
 
     public int getZ() {
         return position.getZ();
+    }
+
+    public TextureRegion getTexture() {
+        return texture;
     }
 
     public Command takeTurn() {
