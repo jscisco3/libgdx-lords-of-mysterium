@@ -45,18 +45,17 @@ public class AutoexploreState extends State {
                     path.get(0).x - playerCoord.x,
                     path.get(0).y - playerCoord.y,
                     0);
-            command.invoke();
+            dungeon.getPlayer().setNextCommand(command);
         } else {
             dungeon.popState();
         }
     }
 
     @Override
-    public Command handleInput(Input input) {
+    public void handleInput(Input input) {
         if (input.isKeyPressed(Input.Keys.ESCAPE)) {
             dungeon.popState();
         }
-        return null;
     }
 
     @Override

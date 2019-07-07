@@ -24,7 +24,7 @@ public class PlayerTurnState extends State {
     }
 
     @Override
-    public Command handleInput(Input input) {
+    public void handleInput(Input input) {
         Command command = null;
         if (input.isKeyPressed(Input.Keys.UP)) {
             command = new MoveCommand(dungeon, player, 0, 1, 0);
@@ -44,7 +44,7 @@ public class PlayerTurnState extends State {
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        return command;
+        this.player.setNextCommand(command);
     }
 
     @Override

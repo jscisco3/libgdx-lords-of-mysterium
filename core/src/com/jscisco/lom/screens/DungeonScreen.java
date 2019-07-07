@@ -87,14 +87,25 @@ public class DungeonScreen implements Screen {
         }
         batch.end();
 
-        Command command = dungeon.getCurrentState().handleInput(Gdx.input);
-        if (command != null) {
-            command.invoke();
-        }
+        process();
+        dungeon.getCurrentState().handleInput(Gdx.input);
+
         dungeon.getCurrentState().update();
         dungeon.updateBlocksBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+    }
+
+    /**
+     * This method processes the turns for all actors in the dungeon level
+     */
+    private void process() {
+        for (Actor actor : dungeon.getActors()) {
+            Command command = actor.getNextCommand();
+            if (command != null) {
+                command.invoke();
+            }
+        }
     }
 
 

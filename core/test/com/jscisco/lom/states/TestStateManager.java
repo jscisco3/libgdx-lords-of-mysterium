@@ -1,7 +1,6 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Dungeon;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,8 +25,8 @@ public class TestStateManager {
         }
 
         @Override
-        public Command handleInput(Input input) {
-            return null;
+        public void handleInput(Input input) {
+
         }
 
         @Override

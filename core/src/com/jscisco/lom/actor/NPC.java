@@ -12,7 +12,7 @@ public class NPC extends Actor {
     }
 
     @Override
-    public Command takeTurn() {
-        return super.takeTurn();
+    public Command getNextCommand() {
+        return super.getNextCommand();
     }
 }

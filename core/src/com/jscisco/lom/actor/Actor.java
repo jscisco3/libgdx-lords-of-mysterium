@@ -9,6 +9,7 @@ import com.jscisco.lom.util.Position3D;
 
 public abstract class Actor {
 
+    protected Command nextCommand;
     protected FieldOfView fieldOfView;
     protected Position3D position;
     protected Health health;
@@ -63,7 +64,14 @@ public abstract class Actor {
         return texture;
     }
 
-    public Command takeTurn() {
-        return null;
+    public Command getNextCommand() {
+        Command command = nextCommand;
+        // Only do this action once!
+        nextCommand = null;
+        return command;
+    }
+
+    public void setNextCommand(Command nextCommand) {
+        this.nextCommand = nextCommand;
     }
 }
