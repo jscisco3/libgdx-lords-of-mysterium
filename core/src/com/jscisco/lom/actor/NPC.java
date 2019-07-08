@@ -18,7 +18,6 @@ public class NPC extends Actor {
 
     @Override
     public Command getNextCommand() {
-        logger.info("{} is resting!", this);
         return new RestCommand(null, this);
     }
 }

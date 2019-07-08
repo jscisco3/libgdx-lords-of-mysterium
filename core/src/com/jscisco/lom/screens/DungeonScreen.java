@@ -101,6 +101,7 @@ public class DungeonScreen implements Screen {
      */
     private int process(int currentActor) {
         Actor actor = dungeon.getActors().get(currentActor);
+        logger.debug("The current actor is: {}", actor);
         Command command = actor.getNextCommand();
         if (command == null) {
             return currentActor;
