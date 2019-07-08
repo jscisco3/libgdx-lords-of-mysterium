@@ -87,7 +87,7 @@ public class DungeonScreen implements Screen {
         }
         batch.end();
 
-        process();
+        dungeon.setCurrentActor(process(dungeon.getCurrentActor()));
         dungeon.getCurrentState().handleInput(Gdx.input);
 
         dungeon.getCurrentState().update();
@@ -99,13 +99,14 @@ public class DungeonScreen implements Screen {
     /**
      * This method processes the turns for all actors in the dungeon level
      */
-    private void process() {
-        for (Actor actor : dungeon.getActors()) {
-            Command command = actor.getNextCommand();
-            if (command != null) {
-                command.invoke();
-            }
+    private int process(int currentActor) {
+        Actor actor = dungeon.getActors().get(currentActor);
+        Command command = actor.getNextCommand();
+        if (command == null) {
+            return currentActor;
         }
+        command.invoke();
+        return (currentActor + 1) % dungeon.getActors().size();
     }
 
 

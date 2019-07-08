@@ -40,6 +40,8 @@ public class Dungeon {
     private Player player;
     private List<Actor> actors = new ArrayList<>();
 
+    private int currentActor;
+
     private FOV fovCalculator = new FOV();
 
     public Dungeon(Size3D size) {
@@ -54,6 +56,7 @@ public class Dungeon {
         this.actors.add(new NPC(Assets.rat, findEmptyPositionZLevel(0)));
 
         states.add(new PlayerTurnState(this));
+        this.currentActor = 0;
     }
 
     public Position3D findEmptyPositionZLevel(int z) {
@@ -168,5 +171,13 @@ public class Dungeon {
 
     public List<Actor> getActors() {
         return actors;
+    }
+
+    public int getCurrentActor() {
+        return currentActor;
+    }
+
+    public void setCurrentActor(int currentActor) {
+        this.currentActor = currentActor;
     }
 }
