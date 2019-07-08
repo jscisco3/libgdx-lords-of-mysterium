@@ -1,9 +1,11 @@
 package com.jscisco.lom.desktop;
 
+import ch.qos.logback.classic.util.ContextInitializer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.jscisco.lom.LOMGame;
+
 
 public class DesktopLauncher {
     public static void main(String[] arg) {
@@ -18,6 +20,7 @@ public class DesktopLauncher {
 
         TexturePacker.process(settings, ".", "../out/images", "images");
 
+        System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "../../logback.xml");
 
         new LwjglApplication(new LOMGame(), config);
     }
