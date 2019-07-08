@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.ai.Director;
 import com.jscisco.lom.commands.Command;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
@@ -23,6 +24,7 @@ public class DungeonScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
 
     private Dungeon dungeon;
+    private Director director;
     private Game game;
     private SpriteBatch batch;
 
@@ -32,7 +34,7 @@ public class DungeonScreen implements Screen {
     public DungeonScreen(Game game, Dungeon dungeon) {
         this.game = game;
         this.dungeon = dungeon;
-//        dungeon = new Dungeon(new Size3D(100, 80, 1));
+        this.director = new Director(this.dungeon);
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
