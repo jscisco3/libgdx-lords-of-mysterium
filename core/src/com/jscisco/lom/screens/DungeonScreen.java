@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.action.Action;
+import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.actor.Entity;
-import com.jscisco.lom.ai.Director;
-import com.jscisco.lom.commands.Action;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
@@ -24,7 +24,6 @@ public class DungeonScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
 
     private Dungeon dungeon;
-    private Director director;
     private Game game;
     private SpriteBatch batch;
 
@@ -34,7 +33,6 @@ public class DungeonScreen implements Screen {
     public DungeonScreen(Game game, Dungeon dungeon) {
         this.game = game;
         this.dungeon = dungeon;
-        this.director = new Director(this.dungeon);
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
@@ -103,12 +101,16 @@ public class DungeonScreen implements Screen {
      */
     private int process(int currentActor) {
         Entity entity = dungeon.getEntities().get(currentActor);
-        logger.debug("The current entity is: {}", entity);
+        logger.debug("The current entity is: {}", currentActor);
         Action action = entity.getNextAction();
         if (action == null) {
             return currentActor;
         }
-        action.invoke();
+        ActionResult result = action.invoke();
+        // Do not progress past this actor if their action failed.
+        if (!result.succeeded()) {
+            return currentActor;
+        }
         return (currentActor + 1) % dungeon.getEntities().size();
     }
 

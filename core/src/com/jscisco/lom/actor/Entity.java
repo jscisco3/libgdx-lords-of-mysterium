@@ -1,10 +1,10 @@
 package com.jscisco.lom.actor;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.commands.Action;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 

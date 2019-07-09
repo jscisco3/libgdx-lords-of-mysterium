@@ -1,8 +1,8 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.commands.Action;
-import com.jscisco.lom.commands.MoveAction;
+import com.jscisco.lom.action.Action;
+import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.terrain.Floor;
@@ -41,7 +41,7 @@ public class AutoexploreState extends State {
                 goals);
 
         if (!path.isEmpty() && !path.get(0).equals(playerCoord)) {
-            Action action = new MoveAction(dungeon, dungeon.getPlayer(),
+            Action action = new MoveAction(dungeon.getPlayer(),
                     path.get(0).x - playerCoord.x,
                     path.get(0).y - playerCoord.y,
                     0);

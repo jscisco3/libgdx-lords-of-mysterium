@@ -2,9 +2,9 @@ package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.jscisco.lom.action.Action;
+import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.actor.Entity;
-import com.jscisco.lom.commands.Action;
-import com.jscisco.lom.commands.MoveAction;
 import com.jscisco.lom.dungeon.Dungeon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +27,16 @@ public class PlayerTurnState extends State {
     public void handleInput(Input input) {
         Action action = null;
         if (input.isKeyPressed(Input.Keys.UP)) {
-            action = new MoveAction(dungeon, player, 0, 1, 0);
+            action = new MoveAction(player, 0, 1, 0);
         }
         if (input.isKeyPressed(Input.Keys.DOWN)) {
-            action = new MoveAction(dungeon, player, 0, -1, 0);
+            action = new MoveAction(player, 0, -1, 0);
         }
         if (input.isKeyPressed(Input.Keys.RIGHT)) {
-            action = new MoveAction(dungeon, player, 1, 0, 0);
+            action = new MoveAction(player, 1, 0, 0);
         }
         if (input.isKeyPressed(Input.Keys.LEFT)) {
-            action = new MoveAction(dungeon, player, -1, 0, 0);
+            action = new MoveAction(player, -1, 0, 0);
         }
         if (input.isKeyJustPressed(Input.Keys.Z)) {
             dungeon.pushState(new AutoexploreState(dungeon));

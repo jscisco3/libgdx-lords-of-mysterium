@@ -53,7 +53,9 @@ public class Dungeon {
         player = new Player(this, findEmptyPositionZLevel(0), 10.0);
         this.entities.add(this.player);
 
-        this.entities.add(new NPC(this, Assets.rat, findEmptyPositionZLevel(0)));
+        for (int i = 0; i < 10; i++) {
+            this.entities.add(new NPC(this, Assets.rat, findEmptyPositionZLevel(0)));
+        }
 
         states.add(new PlayerTurnState(this));
         this.currentActor = 0;
