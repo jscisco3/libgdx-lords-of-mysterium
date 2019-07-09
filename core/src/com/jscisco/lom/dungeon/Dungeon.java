@@ -14,7 +14,6 @@ import com.jscisco.lom.util.Position3D;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import squidpony.squidgrid.FOV;
 import squidpony.squidgrid.mapping.DungeonGenerator;
 import squidpony.squidgrid.mapping.DungeonUtility;
 import squidpony.squidgrid.mapping.SerpentMapGenerator;
@@ -40,9 +39,7 @@ public class Dungeon {
     private Player player;
     private List<Entity> entities = new ArrayList<>();
 
-    private int currentActor;
-
-    private FOV fovCalculator = new FOV();
+    private int currentEntityIndex;
 
     public Dungeon(Size3D size) {
         this.size = size;
@@ -58,7 +55,7 @@ public class Dungeon {
         }
 
         states.add(new PlayerTurnState(this));
-        this.currentActor = 0;
+        this.currentEntityIndex = 0;
     }
 
     public Position3D findEmptyPositionZLevel(int z) {
@@ -175,11 +172,15 @@ public class Dungeon {
         return entities;
     }
 
-    public int getCurrentActor() {
-        return currentActor;
+    public Entity getCurrentEntity() {
+        return this.entities.get(this.currentEntityIndex);
     }
 
-    public void setCurrentActor(int currentActor) {
-        this.currentActor = currentActor;
+    public void setCurrentEntity(int entityIndex) {
+        this.currentEntityIndex = entityIndex;
+    }
+
+    public void advanceEntity() {
+        this.currentEntityIndex = (this.currentEntityIndex + 1) % this.entities.size();
     }
 }

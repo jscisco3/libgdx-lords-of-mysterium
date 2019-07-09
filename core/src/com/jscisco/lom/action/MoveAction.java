@@ -26,7 +26,7 @@ public class MoveAction extends Action {
         Position3D newPosition = oldPosition.add(direction);
         if (source.getDungeon().terrainIsWalkableAtPosition(newPosition)) {
             source.setPosition(newPosition);
-            logger.info("{} tried to move to {}, and succeeded!.", source, direction);
+            logger.debug("{} tried to move to {}, and succeeded!.", source, direction);
             return ActionResult.success();
         } else {
             logger.info("{} tried to move to {}, but failed.", source, direction);

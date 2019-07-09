@@ -87,7 +87,7 @@ public class DungeonScreen implements Screen {
         }
         batch.end();
 
-        dungeon.setCurrentActor(process(dungeon.getCurrentActor()));
+        process();
         dungeon.getCurrentState().handleInput(Gdx.input);
 
         dungeon.getCurrentState().update();
@@ -99,19 +99,31 @@ public class DungeonScreen implements Screen {
     /**
      * This method processes the turns for all actors in the dungeon level
      */
-    private int process(int currentActor) {
-        Entity entity = dungeon.getEntities().get(currentActor);
-        logger.debug("The current entity is: {}", currentActor);
-        Action action = entity.getNextAction();
-        if (action == null) {
-            return currentActor;
+    private void process() {
+        // Continue processing entities until we get to a null action (e.g. waiting for player input
+        while (true) {
+            Entity entity = dungeon.getCurrentEntity();
+            logger.debug("The current entity is: {}", entity);
+            Action action = entity.getNextAction();
+            if (action == null) {
+                return;
+            }
+            // Handle alternatives in a loop since an alternative could have an alternative
+            while (true) {
+                ActionResult result = action.invoke();
+                if (!result.succeeded()) {
+                    return;
+                }
+                if (result.getAlternative() == null) {
+                    break;
+                }
+                action = result.getAlternative();
+            }
+            // Do not progress past this actor if their action failed.
+            // Advance the current actor
+            dungeon.advanceEntity();
         }
-        ActionResult result = action.invoke();
-        // Do not progress past this actor if their action failed.
-        if (!result.succeeded()) {
-            return currentActor;
-        }
-        return (currentActor + 1) % dungeon.getEntities().size();
+
     }
 
 
