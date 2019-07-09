@@ -55,6 +55,20 @@ public class DungeonScreen implements Screen {
 
         batch.setProjectionMatrix(camera.combined);
 
+        drawSeenTiles();
+        drawFOVTiles();
+        drawEntities();
+
+        process();
+        dungeon.getCurrentState().handleInput(Gdx.input);
+
+        dungeon.getCurrentState().update();
+        dungeon.updateBlocksBasedOnFOV();
+        logger.debug("Render calls: " + batch.renderCalls);
+        logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+    }
+
+    private void drawSeenTiles() {
         Block[][][] blocks = dungeon.getBlocks();
         Block block;
 
@@ -71,6 +85,11 @@ public class DungeonScreen implements Screen {
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
         font.draw(batch, String.format("Position: {%s, %s}", dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
         batch.end();
+    }
+
+    private void drawFOVTiles() {
+        Block[][][] blocks = dungeon.getBlocks();
+        Block block;
 
         batch.begin();
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -82,18 +101,19 @@ public class DungeonScreen implements Screen {
                 }
             }
         }
-        for (Entity a : dungeon.getEntities()) {
-            batch.draw(a.getTexture(), a.getX() * 24.0f, a.getY() * 24.0f);
-        }
         batch.end();
+    }
 
-        process();
-        dungeon.getCurrentState().handleInput(Gdx.input);
+    private void drawEntities() {
+        batch.begin();
 
-        dungeon.getCurrentState().update();
-        dungeon.updateBlocksBasedOnFOV();
-        logger.debug("Render calls: " + batch.renderCalls);
-        logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+        for (Entity entity : this.dungeon.getEntities()) {
+            if (this.dungeon.getBlockAt(entity.getPosition()).isInFov()) {
+                batch.draw(entity.getTexture(), entity.getX() * 24.0f, entity.getY() * 24.0f);
+            }
+        }
+
+        batch.end();
     }
 
     /**

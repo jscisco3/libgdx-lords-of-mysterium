@@ -168,6 +168,10 @@ public class Dungeon {
         return floor;
     }
 
+    public Block getBlockAt(Position3D position3D) {
+        return this.blocks[position3D.getX()][position3D.getY()][position3D.getZ()];
+    }
+
     public List<Entity> getEntities() {
         return entities;
     }
