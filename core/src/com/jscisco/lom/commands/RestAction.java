@@ -1,11 +1,11 @@
 package com.jscisco.lom.commands;
 
-import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.Entity;
 import com.jscisco.lom.dungeon.Dungeon;
 
-public class RestCommand extends Command {
+public class RestAction extends Action {
 
-    public RestCommand(Dungeon dungeon, Actor receiver) {
+    public RestAction(Dungeon dungeon, Entity receiver) {
         super(dungeon, receiver);
     }
 

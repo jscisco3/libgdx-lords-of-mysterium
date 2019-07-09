@@ -1,14 +1,14 @@
 package com.jscisco.lom.commands;
 
-import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.Entity;
 import com.jscisco.lom.dungeon.Dungeon;
 
-public abstract class Command {
+public abstract class Action {
 
     protected Dungeon dungeon;
-    protected Actor receiver;
+    protected Entity receiver;
 
-    public Command(Dungeon dungeon, Actor receiver) {
+    public Action(Dungeon dungeon, Entity receiver) {
         this.dungeon = dungeon;
         this.receiver = receiver;
     }

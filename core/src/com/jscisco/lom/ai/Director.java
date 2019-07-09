@@ -1,7 +1,7 @@
 package com.jscisco.lom.ai;
 
-import com.jscisco.lom.actor.Actor;
-import com.jscisco.lom.commands.RestCommand;
+import com.jscisco.lom.actor.Entity;
+import com.jscisco.lom.commands.RestAction;
 import com.jscisco.lom.dungeon.Dungeon;
 
 public class Director {
@@ -12,8 +12,8 @@ public class Director {
         this.dungeon = dungeon;
     }
 
-    public void setNextAction(Actor actor) {
-        actor.setNextCommand(new RestCommand(this.dungeon, actor));
+    public void setNextAction(Entity entity) {
+        entity.setNextAction(new RestAction(this.dungeon, entity));
     }
 
 }

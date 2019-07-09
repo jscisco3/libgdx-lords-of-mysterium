@@ -1,7 +1,7 @@
 package com.jscisco.lom.dungeon;
 
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.Entity;
 import com.jscisco.lom.actor.NPC;
 import com.jscisco.lom.actor.Player;
 import com.jscisco.lom.assets.Assets;
@@ -38,7 +38,7 @@ public class Dungeon {
     private Deque<State> states = new ArrayDeque<>();
 
     private Player player;
-    private List<Actor> actors = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
 
     private int currentActor;
 
@@ -50,10 +50,10 @@ public class Dungeon {
 
         generateDungeon();
 
-        player = new Player(findEmptyPositionZLevel(0), 10.0);
-        this.actors.add(this.player);
+        player = new Player(this, findEmptyPositionZLevel(0), 10.0);
+        this.entities.add(this.player);
 
-        this.actors.add(new NPC(Assets.rat, findEmptyPositionZLevel(0)));
+        this.entities.add(new NPC(this, Assets.rat, findEmptyPositionZLevel(0)));
 
         states.add(new PlayerTurnState(this));
         this.currentActor = 0;
@@ -88,7 +88,7 @@ public class Dungeon {
     }
 
 
-    public Actor getPlayer() {
+    public Entity getPlayer() {
         return player;
     }
 
@@ -169,8 +169,8 @@ public class Dungeon {
         return floor;
     }
 
-    public List<Actor> getActors() {
-        return actors;
+    public List<Entity> getEntities() {
+        return entities;
     }
 
     public int getCurrentActor() {

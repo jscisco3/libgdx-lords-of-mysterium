@@ -10,9 +10,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.actor.Actor;
+import com.jscisco.lom.actor.Entity;
 import com.jscisco.lom.ai.Director;
-import com.jscisco.lom.commands.Command;
+import com.jscisco.lom.commands.Action;
 import com.jscisco.lom.dungeon.Block;
 import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
@@ -84,7 +84,7 @@ public class DungeonScreen implements Screen {
                 }
             }
         }
-        for (Actor a : dungeon.getActors()) {
+        for (Entity a : dungeon.getEntities()) {
             batch.draw(a.getTexture(), a.getX() * 24.0f, a.getY() * 24.0f);
         }
         batch.end();
@@ -102,14 +102,14 @@ public class DungeonScreen implements Screen {
      * This method processes the turns for all actors in the dungeon level
      */
     private int process(int currentActor) {
-        Actor actor = dungeon.getActors().get(currentActor);
-        logger.debug("The current actor is: {}", actor);
-        Command command = actor.getNextCommand();
-        if (command == null) {
+        Entity entity = dungeon.getEntities().get(currentActor);
+        logger.debug("The current entity is: {}", entity);
+        Action action = entity.getNextAction();
+        if (action == null) {
             return currentActor;
         }
-        command.invoke();
-        return (currentActor + 1) % dungeon.getActors().size();
+        action.invoke();
+        return (currentActor + 1) % dungeon.getEntities().size();
     }
 
 

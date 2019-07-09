@@ -4,17 +4,31 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.commands.Command;
+import com.jscisco.lom.commands.Action;
+import com.jscisco.lom.dungeon.Dungeon;
 import com.jscisco.lom.util.Position3D;
 
-public abstract class Actor {
+public abstract class Entity {
 
-    protected Command nextCommand;
+    protected Dungeon dungeon;
+    protected Action nextAction;
     protected FieldOfView fieldOfView;
     protected Position3D position;
     protected Health health;
     protected Energy energy;
     protected TextureRegion texture;
+
+    public Entity(Dungeon dungeon) {
+        this.dungeon = dungeon;
+    }
+
+    public Dungeon getDungeon() {
+        return dungeon;
+    }
+
+    public void setDungeon(Dungeon dungeon) {
+        this.dungeon = dungeon;
+    }
 
     public Position3D getPosition() {
         return position;
@@ -64,14 +78,14 @@ public abstract class Actor {
         return texture;
     }
 
-    public Command getNextCommand() {
-        Command command = nextCommand;
+    public Action getNextAction() {
+        Action action = nextAction;
         // Only do this action once!
-        nextCommand = null;
-        return command;
+        nextAction = null;
+        return action;
     }
 
-    public void setNextCommand(Command nextCommand) {
-        this.nextCommand = nextCommand;
+    public void setNextAction(Action nextAction) {
+        this.nextAction = nextAction;
     }
 }
