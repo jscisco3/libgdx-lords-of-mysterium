@@ -26,7 +26,7 @@ public class ZoneScreen implements Screen {
     private static final int SIDEBAR_HEIGHT = LOMGame.HEIGHT;
     private static final int SIDEBAR_WIDTH = 200;
     private static final int LOG_AREA_HEIGHT = 100;
-    private static final int LOG_AREA_WIDTH = LOMGame.WIDTH;
+    private static final int LOG_AREA_WIDTH = LOMGame.WIDTH - SIDEBAR_WIDTH;
 
     private Zone zone;
     private Game game;
@@ -58,6 +58,8 @@ public class ZoneScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
         updateCamera();
         camera.update();
@@ -134,14 +136,16 @@ public class ZoneScreen implements Screen {
         float sidebarY = camera.position.y - (LOMGame.HEIGHT / 2);
 
         // Bottom left coords for log area
-        float logX = camera.position.x - (LOG_AREA_WIDTH / 2);
+        float logX = camera.position.x - (LOMGame.WIDTH / 2);
         float logY = camera.position.y - (LOMGame.HEIGHT / 2);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1.0f);
         // Sidebar
+        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1.0f);
         shapeRenderer.rect(sidebarX, sidebarY, SIDEBAR_WIDTH, SIDEBAR_HEIGHT);
+
         // Log Area
+        shapeRenderer.setColor(1f, 1f, 1f, 0.75f);
         shapeRenderer.rect(logX, logY, LOG_AREA_WIDTH, LOG_AREA_HEIGHT);
 
         shapeRenderer.end();
