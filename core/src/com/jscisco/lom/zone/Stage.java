@@ -5,15 +5,13 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.FOVCalculator;
 import com.jscisco.lom.util.Position;
+import com.jscisco.lom.zone.strategies.EmptyDungeonGenerationStrategy;
+import com.jscisco.lom.zone.strategies.GenerationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import squidpony.squidgrid.mapping.DungeonGenerator;
-import squidpony.squidgrid.mapping.DungeonUtility;
-import squidpony.squidgrid.mapping.SerpentMapGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,39 +31,20 @@ public class Stage {
     private List<Entity> entities;
     private int currentEntityIndex;
 
+    private GenerationStrategy strategy;
 
     public Stage(int width, int height) {
+        this(width, height, new EmptyDungeonGenerationStrategy(width, height));
+    }
+
+    public Stage(int width, int height, GenerationStrategy strategy) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<>();
-        this.tiles = new Tile[width][height];
+        this.strategy = strategy;
+        this.tiles = strategy.generate();
 
         this.currentEntityIndex = 0;
-        this.generateTiles();
-    }
-
-    private void generateTiles() {
-        char[][] map;
-        Terrain[][] terrainMap = new Terrain[width][height];
-
-        DungeonGenerator generator = new DungeonGenerator(width, height);
-        generator.addDoors(25, false);
-        SerpentMapGenerator serpent = new SerpentMapGenerator(width, height, LOMGame.rng, 0.2);
-        serpent.putWalledBoxRoomCarvers(2);
-        serpent.putWalledRoundRoomCarvers(2);
-        serpent.putCaveCarvers(2);
-        map = serpent.generate();
-        DungeonUtility.closeDoors(generator.generate(map));
-
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (map[x][y] == '#') {
-                    tiles[x][y] = new Tile(TerrainRepository.WALL);
-                } else {
-                    tiles[x][y] = new Tile(TerrainRepository.FLOOR);
-                }
-            }
-        }
     }
 
     public void addEntity(Entity e) {
