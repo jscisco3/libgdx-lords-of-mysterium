@@ -2,23 +2,17 @@ package com.jscisco.lom.zone.strategies;
 
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.repositories.TerrainRepository;
-import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.zone.Tile;
 import squidpony.squidgrid.mapping.DungeonGenerator;
 import squidpony.squidgrid.mapping.DungeonUtility;
 import squidpony.squidgrid.mapping.SerpentMapGenerator;
 
-public class GenericStrategy extends GenerationStrategy {
-
-    public GenericStrategy(int width, int height) {
-        super(width, height);
-    }
+public class GenericStrategy implements GenerationStrategy {
 
     @Override
-    public Tile[][] generate() {
+    public Tile[][] generate(int width, int height) {
         Tile[][] tiles = new Tile[width][height];
         char[][] map;
-        Terrain[][] terrainMap = new Terrain[width][height];
 
         DungeonGenerator generator = new DungeonGenerator(width, height);
         generator.addDoors(25, false);

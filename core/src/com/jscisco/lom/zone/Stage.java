@@ -31,10 +31,11 @@ public class Stage {
     private List<Entity> entities;
     private int currentEntityIndex;
 
+    // Do I need to store this? Maybe, for saving and loading the stage.
     private GenerationStrategy strategy;
 
     public Stage(int width, int height) {
-        this(width, height, new EmptyStageGenerationStrategy(width, height));
+        this(width, height, new EmptyStageGenerationStrategy());
     }
 
     public Stage(int width, int height, GenerationStrategy strategy) {
@@ -42,7 +43,7 @@ public class Stage {
         this.height = height;
         this.entities = new ArrayList<>();
         this.strategy = strategy;
-        this.tiles = strategy.generate();
+        this.tiles = this.strategy.generate(this.width, this.height);
 
         this.currentEntityIndex = 0;
     }

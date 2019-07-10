@@ -10,18 +10,18 @@ public class TestEmptyStageGenerationStrategy {
 
     private static final int WIDTH = 100;
     private static final int HEIGHT = 50;
-    private GenerationStrategy strategy = new EmptyStageGenerationStrategy(WIDTH, HEIGHT);
+    private GenerationStrategy strategy = new EmptyStageGenerationStrategy();
 
     @Test
     public void emptyGenerationStrategyShouldReturnCorrectDimensions() {
-        Tile[][] tiles = this.strategy.generate();
+        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT);
         Assertions.assertThat(tiles.length).isEqualTo(WIDTH);
         Assertions.assertThat(tiles[0].length).isEqualTo(HEIGHT);
     }
 
     @Test
     public void emptyGenerationStrategyShouldYieldOnlyFloorAndWalls() {
-        Tile[][] tiles = this.strategy.generate();
+        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT);
         int nonFloor = 0;
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {

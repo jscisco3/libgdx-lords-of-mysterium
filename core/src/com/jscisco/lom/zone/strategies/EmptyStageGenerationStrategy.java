@@ -3,14 +3,10 @@ package com.jscisco.lom.zone.strategies;
 import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.zone.Tile;
 
-public class EmptyStageGenerationStrategy extends GenerationStrategy {
-
-    public EmptyStageGenerationStrategy(int width, int height) {
-        super(width, height);
-    }
+public class EmptyStageGenerationStrategy implements GenerationStrategy {
 
     @Override
-    public Tile[][] generate() {
+    public Tile[][] generate(int width, int height) {
         Tile[][] tiles = new Tile[width][height];
 
         for (int x = 0; x < width; x++) {

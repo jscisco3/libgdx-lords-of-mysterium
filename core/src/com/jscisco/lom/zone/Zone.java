@@ -7,6 +7,7 @@ import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
+import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,8 @@ public class Zone {
         this.stages = new ArrayList<>();
 
         for (int z = 0; z < size.getDepth(); z++) {
-//            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new GenericStrategy(size.getWidth(), size.getHeight())));
-            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy(size.getWidth(), size.getHeight())));
+//            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new GenericStrategy()));
+            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
         }
         this.currentStageIndex = 0;
 

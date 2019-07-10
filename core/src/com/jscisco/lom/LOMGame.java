@@ -4,9 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
@@ -19,8 +19,8 @@ public class LOMGame extends Game {
     public static final RNG rng = new RNG(0xDEADBEEF);
 
     // WINDOW Sizes
-    public static int WIDTH = 800;
-    public static int HEIGHT = 600;
+    public static int WIDTH = 1200;
+    public static int HEIGHT = 900;
 
     @Override
     public void create() {

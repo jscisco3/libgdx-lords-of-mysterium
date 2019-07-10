@@ -25,7 +25,7 @@ public class ZoneScreen implements Screen {
 
     private static final int SIDEBAR_HEIGHT = LOMGame.HEIGHT;
     private static final int SIDEBAR_WIDTH = 200;
-    private static final int LOG_AREA_HEIGHT = 200;
+    private static final int LOG_AREA_HEIGHT = 100;
     private static final int LOG_AREA_WIDTH = LOMGame.WIDTH;
 
     private Zone zone;
@@ -133,9 +133,16 @@ public class ZoneScreen implements Screen {
         float sidebarX = camera.position.x + (LOMGame.WIDTH / 2 - SIDEBAR_WIDTH);
         float sidebarY = camera.position.y - (LOMGame.HEIGHT / 2);
 
+        // Bottom left coords for log area
+        float logX = camera.position.x - (LOG_AREA_WIDTH / 2);
+        float logY = camera.position.y - (LOMGame.HEIGHT / 2);
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1.0f);
+        // Sidebar
         shapeRenderer.rect(sidebarX, sidebarY, SIDEBAR_WIDTH, SIDEBAR_HEIGHT);
+        // Log Area
+        shapeRenderer.rect(logX, logY, LOG_AREA_WIDTH, LOG_AREA_HEIGHT);
 
         shapeRenderer.end();
 
