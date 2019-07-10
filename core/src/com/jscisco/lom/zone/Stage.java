@@ -8,7 +8,7 @@ import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.FOVCalculator;
 import com.jscisco.lom.util.Position;
-import com.jscisco.lom.zone.strategies.EmptyDungeonGenerationStrategy;
+import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenerationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public class Stage {
     private GenerationStrategy strategy;
 
     public Stage(int width, int height) {
-        this(width, height, new EmptyDungeonGenerationStrategy(width, height));
+        this(width, height, new EmptyStageGenerationStrategy(width, height));
     }
 
     public Stage(int width, int height, GenerationStrategy strategy) {
