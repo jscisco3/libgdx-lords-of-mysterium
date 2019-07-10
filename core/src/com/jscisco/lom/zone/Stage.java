@@ -138,10 +138,8 @@ public class Stage {
     }
 
     public Entity getEntityAtPosition(Position position) {
-        logger.info("looking for an entity at: {}", position);
         for (Entity e : this.entities) {
-            if (e.getPosition() == position) {
-                logger.info("Got one!");
+            if (e.getPosition().equals(position)) {
                 return e;
             }
         }
