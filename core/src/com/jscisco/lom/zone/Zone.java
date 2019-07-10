@@ -54,8 +54,10 @@ public class Zone {
             ));
         }
 
-        Item item = new Item(new ItemType("Sword", "A Cool Sword", 5), player.getPosition(), Assets.sword);
-        this.getCurrentStage().addItem(item);
+        for (int i = 0; i < 5; i++) {
+            Item item = new Item(new ItemType("Sword", "A Cool Sword", 5), player.getPosition(), Assets.sword);
+            this.getCurrentStage().addItem(item);
+        }
 
         states.add(new PlayerTurnState(this));
     }

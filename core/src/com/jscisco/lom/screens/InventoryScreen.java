@@ -50,7 +50,7 @@ public class InventoryScreen implements Screen {
     private BitmapFont createFont() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("../../fonts/consola.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (int) (16 * Gdx.graphics.getDensity());
+        parameter.size = (int) (24 * Gdx.graphics.getDensity());
         return generator.generateFont(parameter);
     }
 
@@ -74,7 +74,7 @@ public class InventoryScreen implements Screen {
             // Selected Item Highlight
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Config.SELECTED_ITEM_COLOR);
-            shapeRenderer.rect(camera.position.x - Config.WINDOW_WIDTH / 2 + (15f * 3), camera.position.y - ((selectedItemIndex + 1) * 15f) + (Config.WINDOW_HEIGHT / 2), this.inventory.getItems().get(selectedItemIndex).toString().length() * 21f, 21f);
+            shapeRenderer.rect(camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 2), camera.position.y - ((selectedItemIndex + 1) * 24f) + (Config.WINDOW_HEIGHT / 2), this.inventory.getItems().get(selectedItemIndex).toString().length() * 10f, 24f);
 //            shapeRenderer.rect(camera.position.x, camera.position.y, this.items.get(selectedItemIndex).toString().length() * 10f, 24f);
             shapeRenderer.end();
         }
@@ -87,7 +87,7 @@ public class InventoryScreen implements Screen {
         }
 
         for (int i = 0; i < this.inventory.getItems().size(); i++) {
-            font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x - Config.WINDOW_WIDTH / 2 + (21f * 3), camera.position.y + Config.WINDOW_HEIGHT / 2 + (i * 21f));
+            font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 3), camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * 24f));
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -97,9 +97,29 @@ public class InventoryScreen implements Screen {
             // Go ahead and drop the item here, because it should be free to do!
             this.player.setNextAction(new DropItemAction(this.player, this.inventory.getItems().get(selectedItemIndex)));
             this.player.getNextAction().invoke();
+            decrementSelectedItem();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            incrementSelectedItem();
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            decrementSelectedItem();
         }
 
         batch.end();
+    }
+
+    private void incrementSelectedItem() {
+        this.selectedItemIndex = (this.selectedItemIndex + 1) % this.inventory.getItems().size();
+    }
+
+    private void decrementSelectedItem() {
+        this.selectedItemIndex -= 1;
+        if (this.selectedItemIndex < 0) {
+            this.selectedItemIndex = this.inventory.getItems().size() - 1;
+        }
     }
 
     @Override
