@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 public class TestZone {
 
-    @Disabled
     @Test
     public void creating_a_dungeon_should_be_correct_size() {
 
@@ -17,10 +16,10 @@ public class TestZone {
 
         Zone zone = new Zone(new Size3D(WIDTH, HEIGHT, DEPTH));
 
-        Tile[][][] tiles = zone.getTiles();
+        Stage stage = zone.getCurrentStage();
 
-        Assertions.assertThat(tiles.length).isEqualTo(DEPTH);
-        Assertions.assertThat(tiles[0].length).isEqualTo(HEIGHT);
-        Assertions.assertThat(tiles[0][0].length).isEqualTo(WIDTH);
+        Assertions.assertThat(zone.getStages().size()).isEqualTo(DEPTH);
+        Assertions.assertThat(stage.getTiles().length).isEqualTo(WIDTH);
+        Assertions.assertThat(stage.getTiles()[0].length).isEqualTo(WIDTH);
     }
 }

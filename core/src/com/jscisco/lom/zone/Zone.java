@@ -80,4 +80,7 @@ public class Zone {
         return this.stages.get(currentStageIndex);
     }
 
+    public List<Stage> getStages() {
+        return stages;
+    }
 }

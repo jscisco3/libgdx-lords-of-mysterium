@@ -1,7 +1,6 @@
 package com.jscisco.lom.zone.strategies;
 
 import com.jscisco.lom.zone.Tile;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public abstract class GenerationStrategy {
 
@@ -14,6 +13,6 @@ public abstract class GenerationStrategy {
     }
 
     public Tile[][] generate() {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not yet implemented");
     }
 }
