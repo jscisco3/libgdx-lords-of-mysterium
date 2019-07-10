@@ -5,6 +5,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
+import com.jscisco.lom.attributes.Inventory;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 
@@ -16,6 +17,7 @@ public abstract class Entity {
     protected Position position;
     protected Health health;
     protected Energy energy;
+    protected Inventory inventory;
     protected TextureRegion texture;
 
     public Entity(Stage stage) {
@@ -68,6 +70,10 @@ public abstract class Entity {
 
     public int getY() {
         return position.getY();
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public TextureRegion getTexture() {

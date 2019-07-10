@@ -3,11 +3,16 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.action.Action;
+import com.jscisco.lom.action.DropItemAction;
 import com.jscisco.lom.action.MoveAction;
+import com.jscisco.lom.action.PickupItemAction;
 import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class PlayerTurnState extends State {
 
@@ -40,6 +45,17 @@ public class PlayerTurnState extends State {
         }
         if (input.isKeyJustPressed(Input.Keys.Z)) {
             zone.pushState(new AutoexploreState(zone));
+        }
+        if (input.isKeyJustPressed(Input.Keys.COMMA)) {
+            List<Item> items = zone.getCurrentStage().getItemsAtPosition(player.getPosition());
+            if (!items.isEmpty()) {
+                action = new PickupItemAction(player, items.get(0));
+            }
+        }
+        if (input.isKeyJustPressed(Input.Keys.D)) {
+            if (!player.getInventory().getItems().isEmpty()) {
+                action = new DropItemAction(player, player.getInventory().getItems().get(0));
+            }
         }
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
