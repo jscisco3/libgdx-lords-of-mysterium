@@ -1,21 +1,21 @@
-package com.jscisco.lom.dungeon;
+package com.jscisco.lom.zone;
 
 import com.jscisco.lom.repositories.TerrainRepository;
 import com.jscisco.lom.terrain.Terrain;
 
-public class Block {
+public class Tile {
 
     private Terrain terrain;
     private boolean seen;
     private boolean inFov;
 
-    public Block() {
+    public Tile() {
         this.terrain = TerrainRepository.FLOOR;
         this.seen = false;
         this.inFov = false;
     }
 
-    public Block(Terrain terrain) {
+    public Tile(Terrain terrain) {
         this.terrain = terrain;
         this.seen = false;
         this.inFov = false;

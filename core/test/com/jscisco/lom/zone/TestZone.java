@@ -1,4 +1,4 @@
-package com.jscisco.lom.dungeon;
+package com.jscisco.lom.zone;
 
 import com.jscisco.lom.util.Size3D;
 import org.assertj.core.api.Assertions;
@@ -17,10 +17,10 @@ public class TestZone {
 
         Zone zone = new Zone(new Size3D(WIDTH, HEIGHT, DEPTH));
 
-        Block[][][] blocks = zone.getBlocks();
+        Tile[][][] tiles = zone.getTiles();
 
-        Assertions.assertThat(blocks.length).isEqualTo(DEPTH);
-        Assertions.assertThat(blocks[0].length).isEqualTo(HEIGHT);
-        Assertions.assertThat(blocks[0][0].length).isEqualTo(WIDTH);
+        Assertions.assertThat(tiles.length).isEqualTo(DEPTH);
+        Assertions.assertThat(tiles[0].length).isEqualTo(HEIGHT);
+        Assertions.assertThat(tiles[0][0].length).isEqualTo(WIDTH);
     }
 }

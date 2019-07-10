@@ -1,4 +1,4 @@
-package com.jscisco.lom.dungeon.strategies;
+package com.jscisco.lom.zone.strategies;
 
 import com.jscisco.lom.util.Size3D;
 

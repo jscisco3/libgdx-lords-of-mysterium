@@ -1,7 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.dungeon.Zone;
+import com.jscisco.lom.zone.Zone;
 
 public abstract class State {
 

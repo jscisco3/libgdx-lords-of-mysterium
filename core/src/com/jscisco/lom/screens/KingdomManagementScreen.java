@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.dungeon.Zone;
+import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.kingdom.Kingdom;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 public class KingdomManagementScreen implements Screen {
 
-    private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
+    private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
 
     private Kingdom kingdom;
     private Game game;
@@ -96,7 +96,7 @@ public class KingdomManagementScreen implements Screen {
             logger.warn("Hiring heroes is not yet implemented.");
         }
         if (input.isKeyJustPressed(Input.Keys.E)) {
-            this.game.setScreen(new DungeonScreen(this.game, new Zone(new Size3D(100, 80, 1))));
+            this.game.setScreen(new ZoneScreen(this.game, new Zone(new Size3D(100, 80, 1))));
         }
     }
 }

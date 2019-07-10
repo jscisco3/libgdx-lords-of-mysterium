@@ -1,40 +1,40 @@
-package com.jscisco.lom.actor;
+package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.dungeon.Zone;
-import com.jscisco.lom.util.Position3D;
+import com.jscisco.lom.util.Position;
+import com.jscisco.lom.zone.Stage;
 
 public abstract class Entity {
 
-    protected Zone zone;
+    protected Stage stage;
     protected Action nextAction;
     protected FieldOfView fieldOfView;
-    protected Position3D position;
+    protected Position position;
     protected Health health;
     protected Energy energy;
     protected TextureRegion texture;
 
-    public Entity(Zone zone) {
-        this.zone = zone;
+    public Entity(Stage stage) {
+        this.stage = stage;
     }
 
-    public Zone getZone() {
-        return zone;
+    public Stage getStage() {
+        return stage;
     }
 
-    public void setZone(Zone zone) {
-        this.zone = zone;
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-    public Position3D getPosition() {
+    public Position getPosition() {
         return position;
     }
 
-    public void setPosition(Position3D position) {
+    public void setPosition(Position position) {
         this.position = position;
     }
 
@@ -68,10 +68,6 @@ public abstract class Entity {
 
     public int getY() {
         return position.getY();
-    }
-
-    public int getZ() {
-        return position.getZ();
     }
 
     public TextureRegion getTexture() {

@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.dungeon.Zone;
-import com.jscisco.lom.screens.DungeonScreen;
+import com.jscisco.lom.zone.Zone;
+import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import squidpony.squidmath.RNG;
 public class LOMGame extends Game {
 
     private Logger logger = LoggerFactory.getLogger(LOMGame.class);
-    private DungeonScreen dungeonScreen;
+    private ZoneScreen zoneScreen;
 
     public static final RNG rng = new RNG(0xDEADBEEF);
 
@@ -25,8 +25,8 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        dungeonScreen = new DungeonScreen(this, new Zone(new Size3D(100, 80, 1)));
-        setScreen(dungeonScreen);
+        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(100, 80, 1)));
+        setScreen(zoneScreen);
 //        setScreen(new MainMenuScreen(this));
 
     }

@@ -3,11 +3,12 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
-import com.jscisco.lom.dungeon.Block;
-import com.jscisco.lom.dungeon.Zone;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.terrain.Wall;
+import com.jscisco.lom.zone.Stage;
+import com.jscisco.lom.zone.Tile;
+import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -19,9 +20,11 @@ import java.util.List;
 public class AutoexploreState extends State {
 
     private Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
+    private Stage stage;
 
     public AutoexploreState(Zone zone) {
         super(zone);
+        this.stage = zone.getCurrentStage();
     }
 
     @Override
@@ -29,10 +32,10 @@ public class AutoexploreState extends State {
         // Calculate explore map
         DijkstraMap dijkstraMap = new DijkstraMap();
         dijkstraMap.initialize(calculateAutoexploreCosts());
-        Coord playerCoord = Coord.get(zone.getPlayer().getPosition().getX(), zone.getPlayer().getPosition().getY());
+        Coord playerCoord = Coord.get(stage.getPlayer().getPosition().getX(), stage.getPlayer().getPosition().getY());
 
-        List<Coord> goalList = getCoordsOfUnseenBlocks(zone.getPlayer().getZ());
-        Coord[] goals = getCoordsOfUnseenBlocks(zone.getPlayer().getZ()).toArray(new Coord[goalList.size()]);
+        List<Coord> goalList = getCoordsOfUnseenBlocks();
+        Coord[] goals = getCoordsOfUnseenBlocks().toArray(new Coord[goalList.size()]);
 
         List<Coord> path = dijkstraMap.findPath(1,
                 new ArrayList<Coord>(),
@@ -41,11 +44,10 @@ public class AutoexploreState extends State {
                 goals);
 
         if (!path.isEmpty() && !path.get(0).equals(playerCoord)) {
-            Action action = new MoveAction(zone.getPlayer(),
+            Action action = new MoveAction(stage.getPlayer(),
                     path.get(0).x - playerCoord.x,
-                    path.get(0).y - playerCoord.y,
-                    0);
-            zone.getPlayer().setNextAction(action);
+                    path.get(0).y - playerCoord.y);
+            stage.getPlayer().setNextAction(action);
         } else {
             zone.popState();
         }
@@ -69,10 +71,10 @@ public class AutoexploreState extends State {
     }
 
     private double[][] calculateAutoexploreCosts() {
-        double[][] costs = new double[zone.getWidth()][zone.getHeight()];
-        for (int x = 0; x < zone.getWidth(); x++) {
-            for (int y = 0; y < zone.getHeight(); y++) {
-                Terrain t = zone.getTerrainAtPosition(x, y, 0);
+        double[][] costs = new double[stage.getWidth()][stage.getHeight()];
+        for (int x = 0; x < stage.getWidth(); x++) {
+            for (int y = 0; y < stage.getHeight(); y++) {
+                Terrain t = stage.getTerrainAtPosition(x, y);
                 if (t.getClass() == Floor.class) {
                     costs[x][y] = DijkstraMap.FLOOR;
                 }
@@ -84,12 +86,12 @@ public class AutoexploreState extends State {
         return costs;
     }
 
-    private List<Coord> getCoordsOfUnseenBlocks(int z) {
+    private List<Coord> getCoordsOfUnseenBlocks() {
         List<Coord> goals = new ArrayList<>();
-        Block[][] blocks = zone.getBlocksByZLevel(z);
-        for (int x = 0; x < zone.getWidth(); x++) {
-            for (int y = 0; y < zone.getHeight(); y++) {
-                if (!blocks[x][y].isSeen()) {
+        Tile[][] tiles = stage.getTiles();
+        for (int x = 0; x < stage.getWidth(); x++) {
+            for (int y = 0; y < stage.getHeight(); y++) {
+                if (!tiles[x][y].isSeen()) {
                     goals.add(Coord.get(x, y));
                 }
             }

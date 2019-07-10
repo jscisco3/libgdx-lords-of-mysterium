@@ -1,6 +1,6 @@
 package com.jscisco.lom.action;
 
-import com.jscisco.lom.actor.Entity;
+import com.jscisco.lom.entity.Entity;
 
 public class AttackAction extends Action {
 
@@ -16,7 +16,7 @@ public class AttackAction extends Action {
         this.defender.getHealth().damage(10);
 
         if (this.defender.getHealth().shouldBeDestroyed()) {
-            defender.getZone().removeEntity(defender);
+            defender.getStage().removeEntity(defender);
         }
 
         return ActionResult.success();

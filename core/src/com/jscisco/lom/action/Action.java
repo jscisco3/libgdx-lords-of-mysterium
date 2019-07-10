@@ -1,6 +1,6 @@
 package com.jscisco.lom.action;
 
-import com.jscisco.lom.actor.Entity;
+import com.jscisco.lom.entity.Entity;
 
 public abstract class Action {
 

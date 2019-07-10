@@ -1,16 +1,17 @@
-package com.jscisco.lom.actor;
+package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.dungeon.Zone;
-import com.jscisco.lom.util.Position3D;
+import com.jscisco.lom.util.Position;
+import com.jscisco.lom.zone.Stage;
+import com.jscisco.lom.zone.Zone;
 
 public class Player extends Entity {
 
-    public Player(Zone zone, Position3D position, double radius) {
-        super(zone);
+    public Player(Stage stage, Position position, double radius) {
+        super(stage);
         this.position = position;
         this.fieldOfView = new FieldOfView(radius);
         this.health = new Health(100);
