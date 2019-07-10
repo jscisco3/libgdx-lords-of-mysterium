@@ -35,8 +35,8 @@ public class Zone {
         this.stages = new ArrayList<>();
 
         for (int z = 0; z < size.getDepth(); z++) {
-//            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new GenericStrategy()));
-            this.stages.add(new Stage(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
+//            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new GenericStrategy()));
+            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
         }
         this.currentStageIndex = 0;
 
