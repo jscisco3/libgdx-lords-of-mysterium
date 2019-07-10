@@ -14,4 +14,6 @@ public class Config {
 
     public static final Color SIDEBAR_COLOR = new Color(0.5f, 0.5f, 0.5f, 1.0f);
     public static final Color LOG_AREA_COLOR = new Color(1f, 1f, 1f, 0.75f);
+
+    public static final Color SELECTED_ITEM_COLOR = new Color(1f, 0.8f, 0.25f, 1f);
 }

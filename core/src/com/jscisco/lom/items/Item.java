@@ -35,4 +35,9 @@ public class Item {
     public TextureRegion getTexture() {
         return texture;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s   | $%s", this.itemType.getName(), this.itemType.getDescription(), this.itemType.getValue());
+    }
 }
