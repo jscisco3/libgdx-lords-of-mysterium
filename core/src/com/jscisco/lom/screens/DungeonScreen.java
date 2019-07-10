@@ -14,7 +14,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.actor.Entity;
 import com.jscisco.lom.dungeon.Block;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 import com.jscisco.lom.util.Position3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +23,16 @@ public class DungeonScreen implements Screen {
 
     private Logger logger = LoggerFactory.getLogger(DungeonScreen.class);
 
-    private Dungeon dungeon;
+    private Zone zone;
     private Game game;
     private SpriteBatch batch;
 
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public DungeonScreen(Game game, Dungeon dungeon) {
+    public DungeonScreen(Game game, Zone zone) {
         this.game = game;
-        this.dungeon = dungeon;
+        this.zone = zone;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
@@ -60,42 +60,42 @@ public class DungeonScreen implements Screen {
         drawEntities();
 
         process();
-        dungeon.getCurrentState().handleInput(Gdx.input);
+        zone.getCurrentState().handleInput(Gdx.input);
 
-        dungeon.getCurrentState().update();
-        dungeon.updateBlocksBasedOnFOV();
+        zone.getCurrentState().update();
+        zone.updateBlocksBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }
 
     private void drawSeenTiles() {
-        Block[][][] blocks = dungeon.getBlocks();
+        Block[][][] blocks = zone.getBlocks();
         Block block;
 
         batch.begin();
         batch.setColor(0.5f, 0.5f, 0.5f, 1.0f);
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 80; y++) {
-                block = blocks[x][y][dungeon.getPlayer().getZ()];
+                block = blocks[x][y][zone.getPlayer().getZ()];
                 if (block.isSeen()) {
                     batch.draw(block.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
                 }
             }
         }
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
-        font.draw(batch, String.format("Position: {%s, %s}", dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
+        font.draw(batch, String.format("Position: {%s, %s}", zone.getPlayer().getPosition().getX(), zone.getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
         batch.end();
     }
 
     private void drawFOVTiles() {
-        Block[][][] blocks = dungeon.getBlocks();
+        Block[][][] blocks = zone.getBlocks();
         Block block;
 
         batch.begin();
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         for (int x = 0; x < 100; x++) {
             for (int y = 0; y < 80; y++) {
-                block = blocks[x][y][dungeon.getPlayer().getZ()];
+                block = blocks[x][y][zone.getPlayer().getZ()];
                 if (block.isInFov()) {
                     batch.draw(block.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
                 }
@@ -107,8 +107,8 @@ public class DungeonScreen implements Screen {
     private void drawEntities() {
         batch.begin();
 
-        for (Entity entity : this.dungeon.getEntities()) {
-            if (this.dungeon.getBlockAt(entity.getPosition()).isInFov()) {
+        for (Entity entity : this.zone.getEntities()) {
+            if (this.zone.getBlockAt(entity.getPosition()).isInFov()) {
                 batch.draw(entity.getTexture(), entity.getX() * 24.0f, entity.getY() * 24.0f);
             }
         }
@@ -117,12 +117,12 @@ public class DungeonScreen implements Screen {
     }
 
     /**
-     * This method processes the turns for all actors in the dungeon level
+     * This method processes the turns for all actors in the zone level
      */
     private void process() {
         // Continue processing entities until we get to a null action (e.g. waiting for player input
         while (true) {
-            Entity entity = dungeon.getCurrentEntity();
+            Entity entity = zone.getCurrentEntity();
             logger.debug("The current entity is: {}", entity);
             Action action = entity.getNextAction();
             if (action == null) {
@@ -141,7 +141,7 @@ public class DungeonScreen implements Screen {
             }
             // Do not progress past this actor if their action failed.
             // Advance the current actor
-            dungeon.advanceEntity();
+            zone.advanceEntity();
         }
 
     }
@@ -172,9 +172,9 @@ public class DungeonScreen implements Screen {
     }
 
     public void updateCamera() {
-        Position3D position = dungeon.getPlayer().getPosition();
-        float maxWidth = (dungeon.getWidth() * 24.0f) - (LOMGame.WIDTH / 2.0f);
-        float maxHeight = (dungeon.getHeight() * 24.0f) - (LOMGame.HEIGHT / 2.0f);
+        Position3D position = zone.getPlayer().getPosition();
+        float maxWidth = (zone.getWidth() * 24.0f) - (LOMGame.WIDTH / 2.0f);
+        float maxHeight = (zone.getHeight() * 24.0f) - (LOMGame.HEIGHT / 2.0f);
 
         // Set it to player X * 24.0f, then clamp it?
         camera.position.x = MathUtils.clamp(position.getX() * 24.0f, LOMGame.WIDTH / 2.0f, maxWidth);

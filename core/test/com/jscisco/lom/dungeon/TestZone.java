@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-public class TestDungeon {
+public class TestZone {
 
     @Disabled
     @Test
@@ -15,9 +15,9 @@ public class TestDungeon {
         int HEIGHT = 20;
         int DEPTH = 1;
 
-        Dungeon dungeon = new Dungeon(new Size3D(WIDTH, HEIGHT, DEPTH));
+        Zone zone = new Zone(new Size3D(WIDTH, HEIGHT, DEPTH));
 
-        Block[][][] blocks = dungeon.getBlocks();
+        Block[][][] blocks = zone.getBlocks();
 
         Assertions.assertThat(blocks.length).isEqualTo(DEPTH);
         Assertions.assertThat(blocks[0].length).isEqualTo(HEIGHT);

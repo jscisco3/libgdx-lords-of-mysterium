@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.dungeon.Block;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.terrain.Wall;
@@ -20,8 +20,8 @@ public class AutoexploreState extends State {
 
     private Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
 
-    public AutoexploreState(Dungeon dungeon) {
-        super(dungeon);
+    public AutoexploreState(Zone zone) {
+        super(zone);
     }
 
     @Override
@@ -29,10 +29,10 @@ public class AutoexploreState extends State {
         // Calculate explore map
         DijkstraMap dijkstraMap = new DijkstraMap();
         dijkstraMap.initialize(calculateAutoexploreCosts());
-        Coord playerCoord = Coord.get(dungeon.getPlayer().getPosition().getX(), dungeon.getPlayer().getPosition().getY());
+        Coord playerCoord = Coord.get(zone.getPlayer().getPosition().getX(), zone.getPlayer().getPosition().getY());
 
-        List<Coord> goalList = getCoordsOfUnseenBlocks(dungeon.getPlayer().getZ());
-        Coord[] goals = getCoordsOfUnseenBlocks(dungeon.getPlayer().getZ()).toArray(new Coord[goalList.size()]);
+        List<Coord> goalList = getCoordsOfUnseenBlocks(zone.getPlayer().getZ());
+        Coord[] goals = getCoordsOfUnseenBlocks(zone.getPlayer().getZ()).toArray(new Coord[goalList.size()]);
 
         List<Coord> path = dijkstraMap.findPath(1,
                 new ArrayList<Coord>(),
@@ -41,20 +41,20 @@ public class AutoexploreState extends State {
                 goals);
 
         if (!path.isEmpty() && !path.get(0).equals(playerCoord)) {
-            Action action = new MoveAction(dungeon.getPlayer(),
+            Action action = new MoveAction(zone.getPlayer(),
                     path.get(0).x - playerCoord.x,
                     path.get(0).y - playerCoord.y,
                     0);
-            dungeon.getPlayer().setNextAction(action);
+            zone.getPlayer().setNextAction(action);
         } else {
-            dungeon.popState();
+            zone.popState();
         }
     }
 
     @Override
     public void handleInput(Input input) {
         if (input.isKeyPressed(Input.Keys.ESCAPE)) {
-            dungeon.popState();
+            zone.popState();
         }
     }
 
@@ -69,10 +69,10 @@ public class AutoexploreState extends State {
     }
 
     private double[][] calculateAutoexploreCosts() {
-        double[][] costs = new double[dungeon.getWidth()][dungeon.getHeight()];
-        for (int x = 0; x < dungeon.getWidth(); x++) {
-            for (int y = 0; y < dungeon.getHeight(); y++) {
-                Terrain t = dungeon.getTerrainAtPosition(x, y, 0);
+        double[][] costs = new double[zone.getWidth()][zone.getHeight()];
+        for (int x = 0; x < zone.getWidth(); x++) {
+            for (int y = 0; y < zone.getHeight(); y++) {
+                Terrain t = zone.getTerrainAtPosition(x, y, 0);
                 if (t.getClass() == Floor.class) {
                     costs[x][y] = DijkstraMap.FLOOR;
                 }
@@ -86,9 +86,9 @@ public class AutoexploreState extends State {
 
     private List<Coord> getCoordsOfUnseenBlocks(int z) {
         List<Coord> goals = new ArrayList<>();
-        Block[][] blocks = dungeon.getBlocksByZLevel(z);
-        for (int x = 0; x < dungeon.getWidth(); x++) {
-            for (int y = 0; y < dungeon.getHeight(); y++) {
+        Block[][] blocks = zone.getBlocksByZLevel(z);
+        for (int x = 0; x < zone.getWidth(); x++) {
+            for (int y = 0; y < zone.getHeight(); y++) {
                 if (!blocks[x][y].isSeen()) {
                     goals.add(Coord.get(x, y));
                 }

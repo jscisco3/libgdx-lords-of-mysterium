@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class Dungeon {
+public class Zone {
 
     // TODO: Configuration file
     private float DEFAULT_TILE_WIDTH = 24.0f;
     private float DEFAULT_TILE_HEIGHT = 24.0f;
 
-    private static final Logger logger = LoggerFactory.getLogger(Dungeon.class);
+    private static final Logger logger = LoggerFactory.getLogger(Zone.class);
 
     private Size3D size;
     private Block[][][] blocks;
@@ -41,7 +41,7 @@ public class Dungeon {
 
     private int currentEntityIndex;
 
-    public Dungeon(Size3D size) {
+    public Zone(Size3D size) {
         this.size = size;
         blocks = new Block[size.getWidth()][size.getHeight()][size.getDepth()];
 

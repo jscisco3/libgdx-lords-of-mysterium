@@ -1,14 +1,14 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 
 public abstract class State {
 
-    protected Dungeon dungeon;
+    protected Zone zone;
 
-    public State(Dungeon dungeon) {
-        this.dungeon = dungeon;
+    public State(Zone zone) {
+        this.zone = zone;
     }
 
     public abstract void update();

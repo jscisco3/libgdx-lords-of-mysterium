@@ -5,12 +5,12 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 import com.jscisco.lom.util.Position3D;
 
 public abstract class Entity {
 
-    protected Dungeon dungeon;
+    protected Zone zone;
     protected Action nextAction;
     protected FieldOfView fieldOfView;
     protected Position3D position;
@@ -18,16 +18,16 @@ public abstract class Entity {
     protected Energy energy;
     protected TextureRegion texture;
 
-    public Entity(Dungeon dungeon) {
-        this.dungeon = dungeon;
+    public Entity(Zone zone) {
+        this.zone = zone;
     }
 
-    public Dungeon getDungeon() {
-        return dungeon;
+    public Zone getZone() {
+        return zone;
     }
 
-    public void setDungeon(Dungeon dungeon) {
-        this.dungeon = dungeon;
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
 
     public Position3D getPosition() {

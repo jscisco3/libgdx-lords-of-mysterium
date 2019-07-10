@@ -1,12 +1,12 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 
 public class ProcessingState extends State {
 
-    public ProcessingState(Dungeon dungeon) {
-        super(dungeon);
+    public ProcessingState(Zone zone) {
+        super(zone);
     }
 
     @Override

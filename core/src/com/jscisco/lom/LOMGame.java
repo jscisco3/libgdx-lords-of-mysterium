@@ -4,9 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.dungeon.Dungeon;
+import com.jscisco.lom.dungeon.Zone;
 import com.jscisco.lom.screens.DungeonScreen;
-import com.jscisco.lom.screens.MainMenuScreen;
 import com.jscisco.lom.util.Size3D;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,7 @@ public class LOMGame extends Game {
     private Logger logger = LoggerFactory.getLogger(LOMGame.class);
     private DungeonScreen dungeonScreen;
 
-    public static RNG rng = new RNG(0xDEADBEEF);
+    public static final RNG rng = new RNG(0xDEADBEEF);
 
     // WINDOW Sizes
     public static int WIDTH = 800;
@@ -26,9 +25,9 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        dungeonScreen = new DungeonScreen(this, new Dungeon(new Size3D(100, 80, 1)));
-//        setScreen(dungeonScreen);
-        setScreen(new MainMenuScreen(this));
+        dungeonScreen = new DungeonScreen(this, new Zone(new Size3D(100, 80, 1)));
+        setScreen(dungeonScreen);
+//        setScreen(new MainMenuScreen(this));
 
     }
 

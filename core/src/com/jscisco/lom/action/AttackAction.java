@@ -16,7 +16,7 @@ public class AttackAction extends Action {
         this.defender.getHealth().damage(10);
 
         if (this.defender.getHealth().shouldBeDestroyed()) {
-            defender.getDungeon().removeEntity(defender);
+            defender.getZone().removeEntity(defender);
         }
 
         return ActionResult.success();
