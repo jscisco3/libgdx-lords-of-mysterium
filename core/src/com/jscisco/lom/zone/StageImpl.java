@@ -50,18 +50,25 @@ public class StageImpl implements Stage {
 
     @Override
     public void addEntity(Entity e) {
+        if (player == null && e instanceof Player) {
+            setPlayer((Player) e);
+        }
         this.entities.add(e);
     }
 
     @Override
     public Position findEmptyPosition() {
-        while (true) {
+        int attempt = 0;
+        int maxAttempts = 100;
+        while (attempt < maxAttempts) {
             int x = LOMGame.rng.between(0, width);
             int y = LOMGame.rng.between(0, height);
             if (this.tiles[x][y].getTerrain().isWalkable()) {
                 return new Position(x, y);
             }
+            attempt += 1;
         }
+        return null;
     }
 
     @Override
@@ -81,7 +88,8 @@ public class StageImpl implements Stage {
     }
 
     @Override
-    public void updateBlocksBasedOnFOV() {
+    public void updateTilesBasedOnFOV() {
+        assert player != null;
         FOVCalculator.calculateFOV(player, this);
         double[][] playerFov = player.getFieldOfView().getFov();
         for (int x = 0; x < width; x++) {

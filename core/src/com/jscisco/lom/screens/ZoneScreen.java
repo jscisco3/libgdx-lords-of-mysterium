@@ -76,7 +76,7 @@ public class ZoneScreen implements Screen {
         zone.getCurrentState().handleInput(Gdx.input);
 
         zone.getCurrentState().update();
-        zone.getCurrentStage().updateBlocksBasedOnFOV();
+        zone.getCurrentStage().updateTilesBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }

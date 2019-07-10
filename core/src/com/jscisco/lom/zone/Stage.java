@@ -9,7 +9,17 @@ import java.util.List;
 
 public interface Stage {
 
+    Player getPlayer();
+
+    void setPlayer(Player player);
+
     void addEntity(Entity entity);
+
+    List<Entity> getEntities();
+
+    Entity getEntityAtPosition(Position position);
+
+    void removeEntity(Entity entity);
 
     Position findEmptyPosition();
 
@@ -19,26 +29,27 @@ public interface Stage {
 
     Terrain getTerrainAtPosition(int x, int y);
 
-    void updateBlocksBasedOnFOV();
+    void updateTilesBasedOnFOV();
 
     Tile getTileAt(Position position);
 
-    Player getPlayer();
-
-    void setPlayer(Player player);
-
     Tile[][] getTiles();
 
-    List<Entity> getEntities();
-
-    Entity getEntityAtPosition(Position position);
-
-    void removeEntity(Entity entity);
-
+    /**
+     * Iterate over entities, get their actions and invoke them as appropriate
+     */
     void process();
 
+    /**
+     * All Stage implementations should have a height
+     * @return height of the stage
+     */
     int getHeight();
 
+    /**
+     * All Stage implementations should have a width
+     * @return width of the stage
+     */
     int getWidth();
 
 }
