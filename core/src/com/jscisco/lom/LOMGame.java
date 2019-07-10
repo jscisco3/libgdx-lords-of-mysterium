@@ -18,10 +18,6 @@ public class LOMGame extends Game {
 
     public static final RNG rng = new RNG(0xDEADBEEF);
 
-    // WINDOW Sizes
-    public static int WIDTH = 1200;
-    public static int HEIGHT = 900;
-
     @Override
     public void create() {
         Assets.load();

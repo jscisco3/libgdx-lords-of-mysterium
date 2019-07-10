@@ -5,6 +5,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.FOVCalculator;
 import com.jscisco.lom.util.Position;
@@ -29,6 +30,7 @@ public class StageImpl implements Stage {
     private Player player;
 
     private List<Entity> entities;
+    private List<Item> items;
     private int currentEntityIndex;
 
     // Do I need to store this? Maybe, for saving and loading the stage.
@@ -42,6 +44,7 @@ public class StageImpl implements Stage {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<>();
+        this.items = new ArrayList<>();
         this.strategy = strategy;
         this.tiles = this.strategy.generate(this.width, this.height);
 
@@ -54,6 +57,32 @@ public class StageImpl implements Stage {
             setPlayer((Player) e);
         }
         this.entities.add(e);
+    }
+
+    @Override
+    public void addItem(Item item) {
+        this.items.add(item);
+    }
+
+    @Override
+    public List<Item> getItems() {
+        return this.items;
+    }
+
+    @Override
+    public void removeItem(Item item) {
+        this.items.remove(item);
+    }
+
+    @Override
+    public List<Item> getItemsAtPosition(Position position) {
+        List<Item> foundItems = new ArrayList<>();
+        for (Item item : this.items) {
+            if (item.getPosition().equals(position)) {
+                foundItems.add(item);
+            }
+        }
+        return foundItems;
     }
 
     @Override

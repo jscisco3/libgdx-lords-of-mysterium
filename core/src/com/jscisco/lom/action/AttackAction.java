@@ -2,7 +2,7 @@ package com.jscisco.lom.action;
 
 import com.jscisco.lom.entity.Entity;
 
-public class AttackAction extends Action {
+public class AttackAction extends AbstractAction {
 
     private Entity defender;
 

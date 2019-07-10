@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.config.Config;
 
 
 public class DesktopLauncher {
@@ -14,8 +15,8 @@ public class DesktopLauncher {
         settings.maxHeight = 512;
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = LOMGame.WIDTH;
-        config.height = LOMGame.HEIGHT;
+        config.width = Config.WINDOW_WIDTH;
+        config.height = Config.WINDOW_HEIGHT;
         config.forceExit = true;
 
         TexturePacker.process(settings, ".", "../out/images", "images");

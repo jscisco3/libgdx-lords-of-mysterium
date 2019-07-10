@@ -3,11 +3,12 @@ package com.jscisco.lom.zone;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.Item;
+import com.jscisco.lom.items.ItemType;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
-import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +53,10 @@ public class Zone {
                     this.getCurrentStage(), Assets.rat, this.getCurrentStage().findEmptyPosition()
             ));
         }
+
+        Item item = new Item(new ItemType("Sword", "A Cool Sword", 5), player.getPosition(), Assets.sword);
+        this.getCurrentStage().addItem(item);
+
         states.add(new PlayerTurnState(this));
     }
 

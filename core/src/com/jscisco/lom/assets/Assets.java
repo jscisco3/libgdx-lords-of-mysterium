@@ -12,6 +12,7 @@ public class Assets {
 
     public static TextureRegion player;
     public static TextureRegion rat;
+    public static TextureRegion sword;
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
@@ -19,6 +20,7 @@ public class Assets {
         wall = atlas.findRegion("wall");
         player = atlas.findRegion("player");
         rat = atlas.findRegion("rat");
+        sword = atlas.findRegion("sword");
     }
 
     public static void dispose() {

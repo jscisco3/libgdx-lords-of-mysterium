@@ -10,9 +10,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -22,11 +23,6 @@ import org.slf4j.LoggerFactory;
 public class ZoneScreen implements Screen {
 
     private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
-
-    private static final int SIDEBAR_HEIGHT = LOMGame.HEIGHT;
-    private static final int SIDEBAR_WIDTH = 200;
-    private static final int LOG_AREA_HEIGHT = 100;
-    private static final int LOG_AREA_WIDTH = LOMGame.WIDTH - SIDEBAR_WIDTH;
 
     private Zone zone;
     private Game game;
@@ -44,7 +40,7 @@ public class ZoneScreen implements Screen {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
+        camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         font = new BitmapFont();
         font.setColor(255, 0, 0, 1);
     }
@@ -69,6 +65,7 @@ public class ZoneScreen implements Screen {
 
         drawSeenTiles();
         drawFOVTiles();
+        drawItems();
         drawEntities();
         drawPlayerHUD();
 
@@ -117,6 +114,18 @@ public class ZoneScreen implements Screen {
         batch.end();
     }
 
+    private void drawItems() {
+        batch.begin();
+
+        for (Item item : this.zone.getCurrentStage().getItems()) {
+            if (this.zone.getCurrentStage().getTileAt(item.getPosition()).isInFov()) {
+                batch.draw(item.getTexture(), item.getPosition().getX() * 24.0f, item.getPosition().getY() * 24.0f);
+            }
+        }
+
+        batch.end();
+    }
+
     private void drawEntities() {
         batch.begin();
 
@@ -132,26 +141,26 @@ public class ZoneScreen implements Screen {
     private void drawPlayerHUD() {
 
         // Bottom left coords for sidebar
-        float sidebarX = camera.position.x + (LOMGame.WIDTH / 2 - SIDEBAR_WIDTH);
-        float sidebarY = camera.position.y - (LOMGame.HEIGHT / 2);
+        float sidebarX = camera.position.x + (Config.WINDOW_WIDTH / 2 - Config.SIDEBAR_WIDTH);
+        float sidebarY = camera.position.y - (Config.WINDOW_HEIGHT / 2);
 
         // Bottom left coords for log area
-        float logX = camera.position.x - (LOMGame.WIDTH / 2);
-        float logY = camera.position.y - (LOMGame.HEIGHT / 2);
+        float logX = camera.position.x - (Config.WINDOW_WIDTH / 2);
+        float logY = camera.position.y - (Config.WINDOW_HEIGHT / 2);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         // Sidebar
-        shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1.0f);
-        shapeRenderer.rect(sidebarX, sidebarY, SIDEBAR_WIDTH, SIDEBAR_HEIGHT);
+        shapeRenderer.setColor(Config.SIDEBAR_COLOR);
+        shapeRenderer.rect(sidebarX, sidebarY, Config.SIDEBAR_WIDTH, Config.SIDEBAR_HEIGHT);
 
         // Log Area
-        shapeRenderer.setColor(1f, 1f, 1f, 0.75f);
-        shapeRenderer.rect(logX, logY, LOG_AREA_WIDTH, LOG_AREA_HEIGHT);
+        shapeRenderer.setColor(Config.LOG_AREA_COLOR);
+        shapeRenderer.rect(logX, logY, Config.LOG_AREA_WIDTH, Config.LOG_AREA_HEIGHT);
 
         shapeRenderer.end();
 
         batch.begin();
-        font.draw(batch, String.format("HP: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()), sidebarX + 5, sidebarY + SIDEBAR_HEIGHT - 5);
+        font.draw(batch, String.format("HP: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()), sidebarX + 5, sidebarY + Config.SIDEBAR_HEIGHT - 5);
         batch.end();
     }
 
@@ -181,12 +190,12 @@ public class ZoneScreen implements Screen {
 
     public void updateCamera() {
         Position position = player.getPosition();
-        float maxWidth = (zone.getWidth() * 24.0f) - (LOMGame.WIDTH / 2.0f);
-        float maxHeight = (zone.getHeight() * 24.0f) - (LOMGame.HEIGHT / 2.0f);
+        float maxWidth = (zone.getWidth() * 24.0f) - (Config.WINDOW_WIDTH / 2.0f);
+        float maxHeight = (zone.getHeight() * 24.0f) - (Config.WINDOW_HEIGHT / 2.0f);
 
         // Set it to player X * 24.0f, then clamp it?
-        camera.position.x = MathUtils.clamp((position.getX() + 2) * 24.0f, LOMGame.WIDTH / 2.0f, maxWidth + SIDEBAR_WIDTH);
-        camera.position.y = MathUtils.clamp(position.getY() * 24.0f, LOMGame.HEIGHT / 2.0f - LOG_AREA_HEIGHT, maxHeight);
+        camera.position.x = MathUtils.clamp((position.getX() + 2) * 24.0f, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
+        camera.position.y = MathUtils.clamp(position.getY() * 24.0f, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
         logger.trace(String.format("New camera position: %s".format(camera.position.toString())));
     }
 }

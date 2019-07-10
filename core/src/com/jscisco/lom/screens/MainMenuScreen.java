@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.config.Config;
 import com.jscisco.lom.kingdom.Kingdom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(Game game) {
         this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, LOMGame.WIDTH, LOMGame.HEIGHT);
+        camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         font = new BitmapFont();
         font.setColor(255, 255, 255, 1);
 

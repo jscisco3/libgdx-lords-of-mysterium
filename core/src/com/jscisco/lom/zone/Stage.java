@@ -2,6 +2,7 @@ package com.jscisco.lom.zone;
 
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 
@@ -20,6 +21,14 @@ public interface Stage {
     Entity getEntityAtPosition(Position position);
 
     void removeEntity(Entity entity);
+
+    void addItem(Item item);
+
+    List<Item> getItems();
+
+    void removeItem(Item item);
+
+    List<Item> getItemsAtPosition(Position position);
 
     Position findEmptyPosition();
 

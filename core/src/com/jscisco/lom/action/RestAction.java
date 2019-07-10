@@ -4,7 +4,7 @@ import com.jscisco.lom.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RestAction extends Action {
+public class RestAction extends AbstractAction {
 
     private static final Logger logger = LoggerFactory.getLogger(RestAction.class);
 

@@ -5,7 +5,7 @@ import com.jscisco.lom.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MoveAction extends Action {
+public class MoveAction extends AbstractAction {
 
     private final static Logger logger = LoggerFactory.getLogger(MoveAction.class);
     Position direction;
