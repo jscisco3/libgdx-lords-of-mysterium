@@ -24,6 +24,14 @@ public class MoveAction extends Action {
     public ActionResult invoke() {
         Position3D oldPosition = source.getPosition();
         Position3D newPosition = oldPosition.add(direction);
+
+        // Attack if something is there
+        Entity e = source.getDungeon().getEntityAtPosition(newPosition);
+        if (e != null) {
+            logger.info("{} tried to move, but the space was occupied by {}.", source, e);
+            return ActionResult.alternate(new AttackAction(source, e));
+        }
+
         if (source.getDungeon().terrainIsWalkableAtPosition(newPosition)) {
             source.setPosition(newPosition);
             logger.debug("{} tried to move to {}, and succeeded!.", source, direction);

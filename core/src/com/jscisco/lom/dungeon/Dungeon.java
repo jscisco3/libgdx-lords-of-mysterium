@@ -187,4 +187,20 @@ public class Dungeon {
     public void advanceEntity() {
         this.currentEntityIndex = (this.currentEntityIndex + 1) % this.entities.size();
     }
+
+    public void removeEntity(Entity entity) {
+        this.entities.remove(entity);
+    }
+
+    public Entity getEntityAtPosition(Position3D position) {
+        logger.info("looking for an entity at: {}", position);
+        for (Entity e : this.entities) {
+            if (e.getPosition() == position) {
+                logger.info("Got one!");
+                return e;
+            }
+        }
+        return null;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.jscisco.lom.actor;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
+import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.ai.AI;
 import com.jscisco.lom.attributes.ai.RestAI;
 import com.jscisco.lom.dungeon.Dungeon;
@@ -18,6 +19,7 @@ public class NPC extends Entity {
         super(dungeon);
         this.texture = texture;
         this.position = position;
+        this.health = new Health(40);
         this.ai = new RestAI();
     }
 

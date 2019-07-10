@@ -14,7 +14,7 @@ public class RestAction extends Action {
 
     @Override
     public ActionResult invoke() {
-        logger.info("{} is resting.", source);
+        logger.debug("{} is resting.", source);
         return ActionResult.success();
     }
 }

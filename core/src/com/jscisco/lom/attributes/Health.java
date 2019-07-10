@@ -21,4 +21,12 @@ public class Health {
     public void setHp(int hp) {
         this.hp = hp;
     }
+
+    public boolean shouldBeDestroyed() {
+        return this.hp <= 0;
+    }
+
+    public void damage(int damage) {
+        this.hp -= damage;
+    }
 }
