@@ -22,7 +22,6 @@ import java.util.List;
 public class HunterSeekerAI extends AbstractAI {
 
     private static final Logger logger = LoggerFactory.getLogger(HunterSeekerAI.class);
-
     private Entity target;
 
     public HunterSeekerAI(Entity entity) {
