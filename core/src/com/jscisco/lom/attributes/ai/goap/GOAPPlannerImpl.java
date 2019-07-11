@@ -12,7 +12,7 @@ public class GOAPPlannerImpl implements GOAPPlanner {
     public Queue<GOAPAction> plan(Entity entity, Set<GOAPAction> availableActions, Map<GOAPGoal, Object> worldState, Map<GOAPGoal, Object> goal) {
         // Reset all the actions so they are fresh
         for (GOAPAction action : availableActions) {
-            action.reset();
+            action.doReset();
         }
 
         // Get the usable actions by checking their preconditions

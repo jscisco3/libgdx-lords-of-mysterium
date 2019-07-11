@@ -8,16 +8,20 @@ import java.util.Map;
 
 public abstract class GOAPAction {
 
-    private Map<GOAPGoal, Object> preconditions;
-    private Map<GOAPGoal, Object> effects;
-    private int cost;
-    private Position target;
+    protected Map<GOAPGoal, Object> preconditions;
+    protected Map<GOAPGoal, Object> effects;
+    protected int cost;
+    protected Position target;
+    protected boolean done;
+    protected boolean inRange;
 
-    public GOAPAction() {
+    protected GOAPAction() {
         this.preconditions = new HashMap<>();
         this.effects = new HashMap<>();
         this.cost = 1;
         this.target = null;
+        this.done = false;
+        this.inRange = false;
     }
 
     public void addPrecondition(GOAPGoal key, Object value) {
@@ -32,13 +36,24 @@ public abstract class GOAPAction {
         this.cost = cost;
     }
 
-    public void reset() {
-
+    public void doReset() {
+        inRange = false;
+        target = null;
+        reset();
     }
 
-    public boolean checkProceduralPreconditions(Entity entity) {
-        return true;
-    }
+    /**
+     * Resets any variables that need to be reset before planning happens again.
+     */
+    public abstract void reset();
+
+    /**
+     * Procedurally check if this action can run. Not all actions will need it, but some might.
+     *
+     * @param entity
+     * @return
+     */
+    public abstract boolean checkProceduralPreconditions(Entity entity);
 
     /**
      * This is responsible for setting the Entity's nextAction
@@ -68,5 +83,36 @@ public abstract class GOAPAction {
 
     public void setTarget(Position target) {
         this.target = target;
+    }
+
+    public void finish() {
+        this.done = true;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    /**
+     * Does this action need to be within range of a target position?
+     * If not, then MoveTo state will not run for this action (e.g. drop item here)
+     * Else, MoveTo will tell the entity to move until within range
+     *
+     * @return
+     */
+    public abstract boolean requiresInRange();
+
+    /**
+     * Determines if we are in range of the target.
+     * The MoveTo state will set thios and it gets reset each time this action is performed
+     *
+     * @return
+     */
+    public boolean isInRange() {
+        return inRange;
+    }
+
+    public void setInRange(boolean inRange) {
+        this.inRange = inRange;
     }
 }

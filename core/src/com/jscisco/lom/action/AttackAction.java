@@ -17,7 +17,7 @@ public class AttackAction extends AbstractAction {
 
     @Override
     public ActionResult invoke() {
-        this.defender.getHealth().damage(10);
+        this.defender.getHealth().damage(1000);
 
         if (this.defender.getHealth().shouldBeDestroyed()) {
             logger.info("{} has been destroyed!", this.defender);

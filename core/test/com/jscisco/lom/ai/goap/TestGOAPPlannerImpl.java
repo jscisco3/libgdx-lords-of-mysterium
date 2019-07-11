@@ -119,6 +119,16 @@ public class TestGOAPPlannerImpl {
         }
 
         @Override
+        public void reset() {
+
+        }
+
+        @Override
+        public boolean requiresInRange() {
+            return false;
+        }
+
+        @Override
         public boolean checkProceduralPreconditions(Entity entity) {
             return true;
         }
@@ -147,6 +157,16 @@ public class TestGOAPPlannerImpl {
         }
 
         @Override
+        public void reset() {
+
+        }
+
+        @Override
+        public boolean requiresInRange() {
+            return false;
+        }
+
+        @Override
         public boolean checkProceduralPreconditions(Entity entity) {
             return true;
         }
@@ -171,6 +191,16 @@ public class TestGOAPPlannerImpl {
         @Override
         public boolean checkProceduralPreconditions(Entity entity) {
             return true;
+        }
+
+        @Override
+        public void reset() {
+
+        }
+
+        @Override
+        public boolean requiresInRange() {
+            return false;
         }
 
         public boolean perform(Entity entity) {
