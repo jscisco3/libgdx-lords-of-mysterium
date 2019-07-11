@@ -27,4 +27,8 @@ public class NPC extends Entity {
     public Action getNextAction() {
         return this.ai.nextAction();
     }
+
+    public void setAi(AI ai) {
+        this.ai = ai;
+    }
 }
