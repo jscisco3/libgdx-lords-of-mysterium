@@ -5,6 +5,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.ai.AI;
 import com.jscisco.lom.attributes.ai.WanderAI;
+import com.jscisco.lom.attributes.ai.goap.GOAPAgent;
 import com.jscisco.lom.attributes.ai.goap.actions.AcquireTargetAction;
 import com.jscisco.lom.attributes.ai.goap.actions.AttackTargetAction;
 import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
@@ -21,6 +22,7 @@ public class NPC extends Entity {
 
     private final Logger logger = LoggerFactory.getLogger(NPC.class);
     private AI ai;
+    private GOAPAgent agent;
     private Set<GOAPAction> actions;
 
     public NPC(Stage stage, TextureRegion texture, Position position) {
@@ -34,14 +36,21 @@ public class NPC extends Entity {
         this.actions.add(new WanderAction());
         this.actions.add(new AcquireTargetAction());
         this.actions.add(new AttackTargetAction());
+        this.agent = new GOAPAgent(this);
     }
 
     @Override
     public Action getNextAction() {
-        return this.ai.nextAction();
+//        return this.ai.nextAction();
+        this.agent.update();
+        return this.nextAction;
     }
 
     public void setAi(AI ai) {
         this.ai = ai;
+    }
+
+    public Set<GOAPAction> getAvailableActions() {
+        return actions;
     }
 }

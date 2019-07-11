@@ -1,10 +1,14 @@
 package com.jscisco.lom.attributes.ai.goap;
 
 import com.jscisco.lom.entity.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Stack;
 
 public class FSM {
+
+    private static final Logger logger = LoggerFactory.getLogger(FSM.class);
 
     private Stack<FSMState> states;
 
@@ -18,6 +22,7 @@ public class FSM {
 
     public void update(Entity entity) {
         if (states.peek() != null) {
+            logger.info("Updating {}", states.peek());
             states.peek().update(this, entity);
         }
     }

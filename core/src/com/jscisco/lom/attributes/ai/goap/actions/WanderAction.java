@@ -7,6 +7,16 @@ public class WanderAction extends GOAPAction {
     }
 
     @Override
+    public void reset() {
+
+    }
+
+    @Override
+    public boolean requiresInRange() {
+        return false;
+    }
+
+    @Override
     public boolean checkProceduralPreconditions(Entity entity) {
         return true;
     }

@@ -6,12 +6,16 @@ import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.Inventory;
+import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.terrain.Wall;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Entity {
 
@@ -25,10 +29,15 @@ public abstract class Entity {
     protected TextureRegion texture;
     protected DijkstraMap pathingMap;
 
+    protected Map<GOAPGoal, Object> worldState;
+    protected Map<GOAPGoal, Object> goals;
+
     public Entity(Stage stage) {
         this.stage = stage;
         this.pathingMap = new DijkstraMap();
         this.updatePathingMap();
+        this.worldState = new HashMap<>();
+        this.goals = new HashMap<>();
     }
 
     public Stage getStage() {
@@ -118,5 +127,21 @@ public abstract class Entity {
             }
             this.pathingMap.initialize(costs);
         }
+    }
+
+    public Map<GOAPGoal, Object> getWorldState() {
+        return worldState;
+    }
+
+    public void updateWorldState(GOAPGoal goal, Object value) {
+        this.worldState.put(goal, value);
+    }
+
+    public Map<GOAPGoal, Object> getGoals() {
+        return goals;
+    }
+
+    public void setGoal(GOAPGoal goal, Object value) {
+        this.goals.put(goal, value);
     }
 }
