@@ -2,10 +2,7 @@ package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.action.Action;
-import com.jscisco.lom.action.DropItemAction;
-import com.jscisco.lom.action.MoveAction;
-import com.jscisco.lom.action.PickupItemAction;
+import com.jscisco.lom.action.*;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.zone.Zone;
@@ -31,20 +28,23 @@ public class PlayerTurnState extends State {
     @Override
     public void handleInput(Input input) {
         Action action = null;
-        if (input.isKeyPressed(Input.Keys.UP)) {
+        if (input.isKeyJustPressed(Input.Keys.UP)) {
             action = new MoveAction(player, 0, 1);
         }
-        if (input.isKeyPressed(Input.Keys.DOWN)) {
+        if (input.isKeyJustPressed(Input.Keys.DOWN)) {
             action = new MoveAction(player, 0, -1);
         }
-        if (input.isKeyPressed(Input.Keys.RIGHT)) {
+        if (input.isKeyJustPressed(Input.Keys.RIGHT)) {
             action = new MoveAction(player, 1, 0);
         }
-        if (input.isKeyPressed(Input.Keys.LEFT)) {
+        if (input.isKeyJustPressed(Input.Keys.LEFT)) {
             action = new MoveAction(player, -1, 0);
         }
         if (input.isKeyJustPressed(Input.Keys.Z)) {
             zone.pushState(new AutoexploreState(zone));
+        }
+        if (input.isKeyJustPressed(Input.Keys.R)) {
+            action = new RestAction(player);
         }
         if (input.isKeyJustPressed(Input.Keys.COMMA)) {
             List<Item> items = zone.getCurrentStage().getItemsAtPosition(player.getPosition());

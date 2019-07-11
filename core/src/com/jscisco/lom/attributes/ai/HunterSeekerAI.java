@@ -4,7 +4,6 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.action.RestAction;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +38,6 @@ public class HunterSeekerAI extends AbstractAI {
         if (target == null) {
             logger.info("{} has no target, so trying to find a target.", this.entity);
             findTarget();
-            if (this.entity instanceof NPC) {
-                ((NPC) this.entity).setAi(new WanderAI(this.entity));
-            }
             return new RestAction(this.entity);
         }
 
