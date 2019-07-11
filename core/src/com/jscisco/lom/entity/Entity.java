@@ -6,8 +6,12 @@ import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.Inventory;
+import com.jscisco.lom.terrain.Floor;
+import com.jscisco.lom.terrain.Terrain;
+import com.jscisco.lom.terrain.Wall;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
+import squidpony.squidai.DijkstraMap;
 
 public abstract class Entity {
 
@@ -19,9 +23,12 @@ public abstract class Entity {
     protected Energy energy;
     protected Inventory inventory;
     protected TextureRegion texture;
+    protected DijkstraMap pathingMap;
 
     public Entity(Stage stage) {
         this.stage = stage;
+        this.pathingMap = new DijkstraMap();
+        this.updatePathingMap();
     }
 
     public Stage getStage() {
@@ -89,5 +96,27 @@ public abstract class Entity {
 
     public void setNextAction(Action nextAction) {
         this.nextAction = nextAction;
+    }
+
+    public DijkstraMap getPathingMap() {
+        return pathingMap;
+    }
+
+    public void updatePathingMap() {
+        if (stage != null) {
+            double[][] costs = new double[stage.getWidth()][stage.getHeight()];
+            for (int x = 0; x < stage.getWidth(); x++) {
+                for (int y = 0; y < stage.getHeight(); y++) {
+                    Terrain t = stage.getTerrainAtPosition(x, y);
+                    if (t.getClass() == Floor.class) {
+                        costs[x][y] = DijkstraMap.FLOOR;
+                    }
+                    if (t.getClass() == Wall.class) {
+                        costs[x][y] = DijkstraMap.WALL;
+                    }
+                }
+            }
+            this.pathingMap.initialize(costs);
+        }
     }
 }
