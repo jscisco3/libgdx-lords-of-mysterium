@@ -3,6 +3,7 @@ package com.jscisco.lom.ai.goap;
 import com.jscisco.lom.attributes.ai.goap.GOAPPlanner;
 import com.jscisco.lom.attributes.ai.goap.GOAPPlannerImpl;
 import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
+import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +22,12 @@ public class TestGOAPPlannerImpl {
 
     @Test
     public void oneGoalShouldBeEasy() {
-        Map<String, Object> worldState = new HashMap<>();
-        worldState.put("hasThis", true);
-        worldState.put("notHaveThis", false);
+        Map<GOAPGoal, Object> worldState = new HashMap<>();
+        worldState.put(GOAPGoal.HAS_TARGET, true);
+        worldState.put(GOAPGoal.TARGET_DESTROYED, false);
 
-        Map<String, Object> goal = new HashMap<>();
-        goal.put("complete", true);
+        Map<GOAPGoal, Object> goal = new HashMap<>();
+        goal.put(GOAPGoal.COMPLETE, true);
 
         Set<GOAPAction> availableActions = new HashSet<>();
         availableActions.add(new TestGOAPActionOne());
@@ -42,39 +43,38 @@ public class TestGOAPPlannerImpl {
 
     @Test
     public void oneGoalWithOneActionThatAchievesThatGoalReturnsAValidPlan() {
-        Map<String, Object> worldState = new HashMap<>();
-        worldState.put("hasThis", true);
-        worldState.put("hasThis", true);
+        Map<GOAPGoal, Object> worldState = new HashMap<>();
+        worldState.put(GOAPGoal.HAS_TARGET, true);
+        worldState.put(GOAPGoal.HAS_TARGET, true);
 
-        Map<String, Object> goal = new HashMap<>();
-        goal.put("hasThis", true);
+        Map<GOAPGoal, Object> goal = new HashMap<>();
+        goal.put(GOAPGoal.HAS_TARGET, true);
     }
 
     @Test
     public void oneGoalWithNoAvailableActionsReturnsNoPlan() {
-        Map<String, Object> worldState = new HashMap<>();
-        worldState.put("hasThis", true);
-        worldState.put("notHaveThis", false);
+        Map<GOAPGoal, Object> worldState = new HashMap<>();
+        worldState.put(GOAPGoal.HAS_TARGET, true);
+        worldState.put(GOAPGoal.TARGET_DESTROYED, false);
 
-        Map<String, Object> goal = new HashMap<>();
-        goal.put("hasThis", true);
+        Map<GOAPGoal, Object> goal = new HashMap<>();
+        goal.put(GOAPGoal.COMPLETE, true);
 
         Set<GOAPAction> availableActions = new HashSet<>();
-        availableActions.add(new TestGOAPActionOne());
 
         Queue<GOAPAction> queue = planner.plan(new TestEntity(), availableActions, worldState, goal);
 
-        Assertions.assertThat(queue.remove()).isInstanceOf(TestGOAPActionOne.class);
+        Assertions.assertThat(queue).isNull();
     }
 
     @Test
     public void oneGoalWithChainedActionsReturnsTheExpectedPlan() {
-        Map<String, Object> worldState = new HashMap<>();
-        worldState.put("hasThis", true);
-        worldState.put("notHaveThis", false);
+        Map<GOAPGoal, Object> worldState = new HashMap<>();
+        worldState.put(GOAPGoal.HAS_TARGET, true);
+        worldState.put(GOAPGoal.TARGET_DESTROYED, false);
 
-        Map<String, Object> goal = new HashMap<>();
-        goal.put("complete", true);
+        Map<GOAPGoal, Object> goal = new HashMap<>();
+        goal.put(GOAPGoal.COMPLETE, true);
 
         Set<GOAPAction> availableActions = new HashSet<>();
         availableActions.add(new TestGOAPActionOne());
@@ -88,12 +88,12 @@ public class TestGOAPPlannerImpl {
 
     @Test
     public void oneGoalWithMultiplePossibilitesReturnsCheapestPlan() {
-        Map<String, Object> worldState = new HashMap<>();
-        worldState.put("hasThis", true);
-        worldState.put("notHaveThis", false);
+        Map<GOAPGoal, Object> worldState = new HashMap<>();
+        worldState.put(GOAPGoal.HAS_TARGET, true);
+        worldState.put(GOAPGoal.TARGET_DESTROYED, false);
 
-        Map<String, Object> goal = new HashMap<>();
-        goal.put("complete", true);
+        Map<GOAPGoal, Object> goal = new HashMap<>();
+        goal.put(GOAPGoal.COMPLETE, true);
 
         Set<GOAPAction> availableActions = new HashSet<>();
         availableActions.add(new TestGOAPActionOne());
@@ -110,11 +110,11 @@ public class TestGOAPPlannerImpl {
         public TestGOAPActionOne() {
             super();
             // We need this
-            addPrecondition("hasThis", true);
+            addPrecondition(GOAPGoal.HAS_TARGET, true);
             // We don't have this
-            addPrecondition("notHaveThis", false);
+            addPrecondition(GOAPGoal.TARGET_DESTROYED, false);
             // We now have that
-            addEffect("notHaveThis", true);
+            addEffect(GOAPGoal.TARGET_DESTROYED, true);
             setCost(1);
         }
 
@@ -141,9 +141,9 @@ public class TestGOAPPlannerImpl {
             setCost(5);
             // We need this
             // We don't have this
-            addPrecondition("notHaveThis", true);
+            addPrecondition(GOAPGoal.TARGET_DESTROYED, true);
             // We now have that
-            addEffect("complete", true);
+            addEffect(GOAPGoal.COMPLETE, true);
         }
 
         @Override
@@ -163,9 +163,9 @@ public class TestGOAPPlannerImpl {
             setCost(4);
             // We need this
             // We don't have this
-            addPrecondition("hasThis", true);
+            addPrecondition(GOAPGoal.HAS_TARGET, true);
             // We now have that
-            addEffect("complete", true);
+            addEffect(GOAPGoal.COMPLETE, true);
         }
 
         @Override

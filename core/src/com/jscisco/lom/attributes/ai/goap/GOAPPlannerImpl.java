@@ -1,6 +1,7 @@
 package com.jscisco.lom.attributes.ai.goap;
 
 import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
+import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
 
 import java.util.*;
@@ -8,7 +9,7 @@ import java.util.*;
 public class GOAPPlannerImpl implements GOAPPlanner {
 
     @Override
-    public Queue<GOAPAction> plan(Entity entity, Set<GOAPAction> availableActions, Map<String, Object> worldState, Map<String, Object> goal) {
+    public Queue<GOAPAction> plan(Entity entity, Set<GOAPAction> availableActions, Map<GOAPGoal, Object> worldState, Map<GOAPGoal, Object> goal) {
         // Reset all the actions so they are fresh
         for (GOAPAction action : availableActions) {
             action.reset();
@@ -67,14 +68,14 @@ public class GOAPPlannerImpl implements GOAPPlanner {
      * @param goal
      * @return
      */
-    private boolean buildGraph(Node parent, List<Node> leaves, Set<GOAPAction> usableActions, Map<String, Object> goal) {
+    private boolean buildGraph(Node parent, List<Node> leaves, Set<GOAPAction> usableActions, Map<GOAPGoal, Object> goal) {
         boolean foundOne = false;
 
         for (GOAPAction action : usableActions) {
             // If the parent state has the conditions for this action's preconditions, we can use it here
-            Map<String, Object> preconditions = action.getPreconditions();
+            Map<GOAPGoal, Object> preconditions = action.getPreconditions();
             if (allInState(preconditions, parent.state)) {
-                Map<String, Object> currentState = applyStateChange(parent.state, action.getEffects());
+                Map<GOAPGoal, Object> currentState = applyStateChange(parent.state, action.getEffects());
                 Node node = new Node(parent, parent.runningCost + action.getCost(), currentState, action);
                 if (allInState(goal, currentState)) {
                     // goal is in the current state, so we have found a solution!
@@ -94,16 +95,16 @@ public class GOAPPlannerImpl implements GOAPPlanner {
         return foundOne;
     }
 
-    private boolean allInState(Map<String, Object> test, Map<String, Object> state) {
+    private boolean allInState(Map<GOAPGoal, Object> test, Map<GOAPGoal, Object> state) {
         return state.entrySet().containsAll(test.entrySet());
     }
 
-    private Map<String, Object> applyStateChange(Map<String, Object> currentState, Map<String, Object> stateChange) {
-        Map<String, Object> state = new HashMap<>();
+    private Map<GOAPGoal, Object> applyStateChange(Map<GOAPGoal, Object> currentState, Map<GOAPGoal, Object> stateChange) {
+        Map<GOAPGoal, Object> state = new HashMap<>();
 
         state.putAll(currentState);
 
-        for (String key : stateChange.keySet()) {
+        for (GOAPGoal key : stateChange.keySet()) {
             if (state.containsKey(key)) {
                 state.replace(key, stateChange.get(key));
             } else {
@@ -127,10 +128,10 @@ public class GOAPPlannerImpl implements GOAPPlanner {
     private class Node {
         private Node parent;
         private float runningCost;
-        private Map<String, Object> state;
+        private Map<GOAPGoal, Object> state;
         private GOAPAction action;
 
-        public Node(Node parent, float runningCost, Map<String, Object> state, GOAPAction action) {
+        public Node(Node parent, float runningCost, Map<GOAPGoal, Object> state, GOAPAction action) {
             this.parent = parent;
             this.runningCost = runningCost;
             this.state = state;

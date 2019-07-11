@@ -1,28 +1,31 @@
 package com.jscisco.lom.attributes.ai.goap.actions;
 
 import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.util.Position;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class GOAPAction {
 
-    private Map<String, Object> preconditions;
-    private Map<String, Object> effects;
+    private Map<GOAPGoal, Object> preconditions;
+    private Map<GOAPGoal, Object> effects;
     private int cost;
+    private Position target;
 
     public GOAPAction() {
         this.preconditions = new HashMap<>();
         this.effects = new HashMap<>();
         this.cost = 1;
+        this.target = null;
     }
 
-    public void addPrecondition(String key, Object value) {
+    public void addPrecondition(GOAPGoal key, Object value) {
         this.preconditions.put(key, value);
     }
 
-    public void addEffect(String key, Object value) {
-        this.effects.put(key, value);
+    public void addEffect(GOAPGoal goal, Object value) {
+        this.effects.put(goal, value);
     }
 
     public void setCost(int cost) {
@@ -37,19 +40,33 @@ public abstract class GOAPAction {
         return true;
     }
 
+    /**
+     * This is responsible for setting the Entity's nextAction
+     *
+     * @param entity
+     * @return
+     */
     public boolean perform(Entity entity) {
         return true;
     }
 
-    public Map<String, Object> getPreconditions() {
+    public Map<GOAPGoal, Object> getPreconditions() {
         return preconditions;
     }
 
-    public Map<String, Object> getEffects() {
+    public Map<GOAPGoal, Object> getEffects() {
         return effects;
     }
 
     public int getCost() {
         return cost;
+    }
+
+    public Position getTarget() {
+        return target;
+    }
+
+    public void setTarget(Position target) {
+        this.target = target;
     }
 }
