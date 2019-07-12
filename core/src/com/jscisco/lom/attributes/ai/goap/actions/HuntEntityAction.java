@@ -23,11 +23,6 @@ public class HuntEntityAction extends GOAPAction {
     }
 
     @Override
-    public boolean requiresInRange() {
-        return false;
-    }
-
-    @Override
     public boolean checkProceduralPreconditions(Entity entity) {
         prey = entity.getStage().getEntityAtPosition(this.target);
         return prey != null;

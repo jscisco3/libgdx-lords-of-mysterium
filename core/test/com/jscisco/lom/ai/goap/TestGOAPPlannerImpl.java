@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-public class TestGOAPPlannerImpl {
+class TestGOAPPlannerImpl {
 
-    public GOAPPlanner planner;
+    private GOAPPlanner planner;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         this.planner = new GOAPPlannerImpl();
     }
 
     @Test
-    public void oneGoalShouldBeEasy() {
+    void oneGoalShouldBeEasy() {
         Map<GOAPGoal, Object> worldState = new HashMap<>();
         worldState.put(GOAPGoal.HAS_TARGET, true);
         worldState.put(GOAPGoal.TARGET_DESTROYED, false);
@@ -42,9 +42,8 @@ public class TestGOAPPlannerImpl {
     }
 
     @Test
-    public void oneGoalWithOneActionThatAchievesThatGoalReturnsAValidPlan() {
+    void oneGoalWithOneActionThatAchievesThatGoalReturnsAValidPlan() {
         Map<GOAPGoal, Object> worldState = new HashMap<>();
-        worldState.put(GOAPGoal.HAS_TARGET, true);
         worldState.put(GOAPGoal.HAS_TARGET, true);
 
         Map<GOAPGoal, Object> goal = new HashMap<>();
@@ -52,7 +51,7 @@ public class TestGOAPPlannerImpl {
     }
 
     @Test
-    public void oneGoalWithNoAvailableActionsReturnsNoPlan() {
+    void oneGoalWithNoAvailableActionsReturnsNoPlan() {
         Map<GOAPGoal, Object> worldState = new HashMap<>();
         worldState.put(GOAPGoal.HAS_TARGET, true);
         worldState.put(GOAPGoal.TARGET_DESTROYED, false);
@@ -68,7 +67,7 @@ public class TestGOAPPlannerImpl {
     }
 
     @Test
-    public void oneGoalWithChainedActionsReturnsTheExpectedPlan() {
+    void oneGoalWithChainedActionsReturnsTheExpectedPlan() {
         Map<GOAPGoal, Object> worldState = new HashMap<>();
         worldState.put(GOAPGoal.HAS_TARGET, true);
         worldState.put(GOAPGoal.TARGET_DESTROYED, false);
@@ -87,7 +86,7 @@ public class TestGOAPPlannerImpl {
     }
 
     @Test
-    public void oneGoalWithMultiplePossibilitesReturnsCheapestPlan() {
+    void oneGoalWithMultiplePossibilitesReturnsCheapestPlan() {
         Map<GOAPGoal, Object> worldState = new HashMap<>();
         worldState.put(GOAPGoal.HAS_TARGET, true);
         worldState.put(GOAPGoal.TARGET_DESTROYED, false);
@@ -107,7 +106,7 @@ public class TestGOAPPlannerImpl {
 
     private class TestGOAPActionOne extends GOAPAction {
 
-        public TestGOAPActionOne() {
+        TestGOAPActionOne() {
             super();
             // We need this
             addPrecondition(GOAPGoal.HAS_TARGET, true);
@@ -124,11 +123,6 @@ public class TestGOAPPlannerImpl {
         }
 
         @Override
-        public boolean requiresInRange() {
-            return false;
-        }
-
-        @Override
         public boolean checkProceduralPreconditions(Entity entity) {
             return true;
         }
@@ -139,14 +133,14 @@ public class TestGOAPPlannerImpl {
     }
 
     private class TestEntity extends Entity {
-        public TestEntity() {
+        TestEntity() {
             super(null);
         }
     }
 
     private class TestGOAPActionTwo extends GOAPAction {
 
-        public TestGOAPActionTwo() {
+        TestGOAPActionTwo() {
             super();
             setCost(5);
             // We need this
@@ -162,11 +156,6 @@ public class TestGOAPPlannerImpl {
         }
 
         @Override
-        public boolean requiresInRange() {
-            return false;
-        }
-
-        @Override
         public boolean checkProceduralPreconditions(Entity entity) {
             return true;
         }
@@ -178,7 +167,7 @@ public class TestGOAPPlannerImpl {
 
     private class TestGOAPActionThree extends GOAPAction {
 
-        public TestGOAPActionThree() {
+        TestGOAPActionThree() {
             super();
             setCost(4);
             // We need this
@@ -196,11 +185,6 @@ public class TestGOAPPlannerImpl {
         @Override
         public void reset() {
 
-        }
-
-        @Override
-        public boolean requiresInRange() {
-            return false;
         }
 
         public boolean perform(Entity entity) {

@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes.ai.bt.nodes;
+package com.jscisco.lom.attic.bt.nodes;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,5 +8,6 @@ public enum GOAPGoal {
     COMPLETE,
     TARGET,
 
+    IN_POSITION,
     ENTITY_DESTROYED
 }

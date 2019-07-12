@@ -8,12 +8,12 @@ import java.util.Map;
 
 public abstract class GOAPAction {
 
-    protected Map<GOAPGoal, Object> preconditions;
-    protected Map<GOAPGoal, Object> effects;
-    protected int cost;
+    private Map<GOAPGoal, Object> preconditions;
+    private Map<GOAPGoal, Object> effects;
+    private int cost;
     protected Position target;
-    protected boolean done;
-    protected boolean inRange;
+    private boolean done;
+    private boolean inRange;
 
     protected GOAPAction() {
         this.preconditions = new HashMap<>();
@@ -24,15 +24,15 @@ public abstract class GOAPAction {
         this.inRange = false;
     }
 
-    public void addPrecondition(GOAPGoal key, Object value) {
+    protected void addPrecondition(GOAPGoal key, Object value) {
         this.preconditions.put(key, value);
     }
 
-    public void addEffect(GOAPGoal goal, Object value) {
+    protected void addEffect(GOAPGoal goal, Object value) {
         this.effects.put(goal, value);
     }
 
-    public void setCost(int cost) {
+    protected void setCost(int cost) {
         this.cost = cost;
     }
 
@@ -50,20 +50,18 @@ public abstract class GOAPAction {
     /**
      * Procedurally check if this action can run. Not all actions will need it, but some might.
      *
-     * @param entity
-     * @return
+     * @param entity The entity that this action is affecting
+     * @return true if the procedural preconditions are met
      */
     public abstract boolean checkProceduralPreconditions(Entity entity);
 
     /**
      * This is responsible for setting the Entity's nextAction
      *
-     * @param entity
-     * @return
+     * @param entity The entity that this action is affecting
+     * @return true if we can perform the action
      */
-    public boolean perform(Entity entity) {
-        return true;
-    }
+    public abstract boolean perform(Entity entity);
 
     public Map<GOAPGoal, Object> getPreconditions() {
         return preconditions;
@@ -85,7 +83,7 @@ public abstract class GOAPAction {
         this.target = target;
     }
 
-    public void finish() {
+    void finish() {
         this.done = true;
     }
 
@@ -93,20 +91,20 @@ public abstract class GOAPAction {
         return done;
     }
 
-    /**
-     * Does this action need to be within range of a target position?
-     * If not, then MoveTo state will not run for this action (e.g. drop item here)
-     * Else, MoveTo will tell the entity to move until within range
-     *
-     * @return
+    /*
+      Does this action need to be within range of a target position?
+      If not, then MoveTo state will not run for this action (e.g. drop item here)
+      Else, MoveTo will tell the entity to move until within range
+
+      @return
      */
-    public abstract boolean requiresInRange();
+//    public abstract boolean requiresInRange();
 
     /**
      * Determines if we are in range of the target.
      * The MoveTo state will set thios and it gets reset each time this action is performed
      *
-     * @return
+     * @return whether or not we are in range
      */
     public boolean isInRange() {
         return inRange;

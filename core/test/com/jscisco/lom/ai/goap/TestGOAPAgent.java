@@ -12,34 +12,49 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestGOAPAgent {
+class TestGOAPAgent {
 
     private static final Logger logger = LoggerFactory.getLogger(TestGOAPAgent.class);
 
-    Stage stage;
-    NPC TEST_NPC;
-    Player player;
+    private NPC TEST_NPC;
 
     @BeforeEach
-    public void setUp() {
-        this.stage = new StageImpl(20, 20);
+    void setUp() {
+        Stage stage = new StageImpl(20, 20);
         this.TEST_NPC = new NPC(stage, null, new Position(5, 5));
-        this.player = new Player(stage, new Position(4, 10), 10.0f);
+        Player player = new Player(stage, new Position(4, 10), 10.0f);
 
-        this.stage.addEntity(TEST_NPC);
-        this.stage.addEntity(player);
+        stage.addEntity(TEST_NPC);
+        stage.addEntity(player);
 
-        this.TEST_NPC.setGoal(GOAPGoal.ATTACK_TARGET, true);
+        // NPC needs to get in position
+        this.TEST_NPC.setGoal(GOAPGoal.IN_POSITION, true);
+        // NPC needs target
         this.TEST_NPC.updateWorldState(GOAPGoal.NEEDS_TARGET, true);
-
+        this.TEST_NPC.updateWorldState(GOAPGoal.HAS_TARGET, false);
+        // The NPC is not in position
+        this.TEST_NPC.updateWorldState(GOAPGoal.IN_POSITION, false);
     }
 
     @Test
-    public void test() {
-        for (int i = 0; i < 5; i++) {
-            Action nextAction = this.TEST_NPC.getNextAction();
-            logger.info("Next Action: {}", nextAction);
+    void test() {
+        for (int i = 0; i < 30; i++) {
+//            this.TEST_NPC.getAgent().update();
+            Action action = this.TEST_NPC.getNextAction();
+            if (action != null) {
+                action.invoke();
+            }
         }
+//        this.TEST_NPC.getAgent().update();
+//        this.TEST_NPC.getAgent().update();
+//        this.TEST_NPC.getAgent().update();
+//        this.TEST_NPC.getAgent().update();
+//        this.TEST_NPC.getAgent().update();
+
+//        for (int i = 0; i < 5; i++) {
+//            Action nextAction = this.TEST_NPC.();
+//            logger.info("Next Action: {}", nextAction);
+//        }
     }
 
 }

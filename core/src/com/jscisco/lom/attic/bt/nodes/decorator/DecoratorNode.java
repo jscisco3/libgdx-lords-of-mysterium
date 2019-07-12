@@ -1,6 +1,6 @@
-package com.jscisco.lom.attributes.ai.bt.nodes.decorator;
+package com.jscisco.lom.attic.bt.nodes.decorator;
 
-import com.jscisco.lom.attributes.ai.bt.nodes.Node;
+import com.jscisco.lom.attic.bt.nodes.Node;
 
 /**
  * Decorator nodes perform their child node and then transform the result
@@ -8,7 +8,7 @@ import com.jscisco.lom.attributes.ai.bt.nodes.Node;
 public abstract class DecoratorNode extends Node {
 
     // A decorator must have a child node!
-    public DecoratorNode(Node node) {
+    DecoratorNode(Node node) {
         super();
         this.addChild(node);
     }
