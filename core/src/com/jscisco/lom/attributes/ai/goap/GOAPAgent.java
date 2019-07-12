@@ -142,6 +142,7 @@ public class GOAPAgent {
 
                 GOAPAction action = currentActions.peek();
 
+                logger.info("{} is done? {}", action, action.isDone());
                 if (action.isDone()) {
                     // If this action is done, remove it from the current actions so we can do the next one.
                     currentActions.remove();
