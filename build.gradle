@@ -24,7 +24,7 @@ allprojects {
         gdxVersion = '1.9.9'
         roboVMVersion = '2.3.6'
         box2DLightsVersion = '1.4'
-        aiVersion = '1.8.0'
+        aiVersion = '1.8.1'
         squidLibVersion = '3.0.0-b9'
         slf4jVersion = '1.7.25'
         junitVersion = '5.3.2'
@@ -51,6 +51,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
 
@@ -70,6 +71,9 @@ project(":core") {
 
         // Freetype Font stuff
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+
+        // AI
+        compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
         testCompile "org.mockito:mockito-core:2.2.7"
         testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"

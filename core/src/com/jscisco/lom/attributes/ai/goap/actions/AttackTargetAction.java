@@ -20,11 +20,6 @@ public class AttackTargetAction extends GOAPAction {
     }
 
     @Override
-    public boolean requiresInRange() {
-        return true;
-    }
-
-    @Override
     public boolean checkProceduralPreconditions(Entity entity) {
         return true;
     }

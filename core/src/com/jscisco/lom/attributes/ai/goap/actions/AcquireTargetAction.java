@@ -14,11 +14,6 @@ public class AcquireTargetAction extends GOAPAction {
     }
 
     @Override
-    public boolean requiresInRange() {
-        return false;
-    }
-
-    @Override
     public void reset() {
 
     }

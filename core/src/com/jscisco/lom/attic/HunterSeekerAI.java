@@ -1,8 +1,9 @@
-package com.jscisco.lom.attributes.ai;
+package com.jscisco.lom.attic;
 
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.action.RestAction;
+import com.jscisco.lom.attributes.ai.AbstractAI;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.util.Position;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class HunterSeekerAI extends AbstractAI {
         this.target = null;
     }
 
-    public void findTarget() {
+    private void findTarget() {
         this.target = this.entity.getStage().getPlayer();
     }
 
@@ -52,8 +53,8 @@ public class HunterSeekerAI extends AbstractAI {
     private Position calculateDirectionToWalk() {
         Coord entityCoord = Coord.get(this.entity.getX(), this.entity.getY());
         List<Coord> path = entity.getPathingMap().findPath(1,
-                new ArrayList<Coord>(),
-                new ArrayList<Coord>(),
+                new ArrayList<>(),
+                new ArrayList<>(),
                 entityCoord,
                 Coord.get(this.target.getX(), this.target.getY()));
         if (!path.isEmpty() && !path.get(0).equals(entityCoord)) {

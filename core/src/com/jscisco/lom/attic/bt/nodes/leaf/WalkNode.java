@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes.ai.bt.nodes.leaf;
+package com.jscisco.lom.attic.bt.nodes.leaf;
 
 public class WalkNode extends LeafNode {
 

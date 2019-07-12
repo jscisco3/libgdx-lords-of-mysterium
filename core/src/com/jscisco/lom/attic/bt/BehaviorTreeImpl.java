@@ -1,6 +1,6 @@
-package com.jscisco.lom.attributes.ai.bt;
+package com.jscisco.lom.attic.bt;
 
-import com.jscisco.lom.attributes.ai.bt.nodes.Node;
+import com.jscisco.lom.attic.bt.nodes.Node;
 
 public class BehaviorTreeImpl implements BehaviorTree {
 

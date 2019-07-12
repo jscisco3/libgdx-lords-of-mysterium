@@ -1,6 +1,6 @@
-package com.jscisco.lom.attributes.ai.bt.nodes.composite;
+package com.jscisco.lom.attic.bt.nodes.composite;
 
-import com.jscisco.lom.attributes.ai.bt.nodes.Node;
+import com.jscisco.lom.attic.bt.nodes.Node;
 
 public class SequenceNode extends CompositeNode {
 
@@ -11,7 +11,7 @@ public class SequenceNode extends CompositeNode {
     @Override
     public void perform() {
         this.status = Status.RUNNING;
-        Status leafStatus = Status.RUNNING;
+        Status leafStatus;
         for (Node child : this.children) {
             child.perform();
             leafStatus = child.getStatus();

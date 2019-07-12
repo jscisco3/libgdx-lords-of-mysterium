@@ -12,7 +12,7 @@ public class FSM {
 
     private Stack<FSMState> states;
 
-    public FSM() {
+    FSM() {
         this.states = new Stack<>();
     }
 
@@ -22,16 +22,15 @@ public class FSM {
 
     public void update(Entity entity) {
         if (states.peek() != null) {
-            logger.info("Updating {}", states.peek());
             states.peek().update(this, entity);
         }
     }
 
-    public void push(FSMState state) {
+    void push(FSMState state) {
         this.states.push(state);
     }
 
-    public void pop() {
+    void pop() {
         if (!this.states.empty()) {
             this.states.pop();
         }
