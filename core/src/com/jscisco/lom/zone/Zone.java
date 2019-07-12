@@ -1,6 +1,7 @@
 package com.jscisco.lom.zone;
 
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.attributes.Equipment;
 import com.jscisco.lom.attributes.ai.HunterSeekerAI;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
@@ -62,7 +63,7 @@ public class Zone {
         this.getCurrentStage().addEntity(hunterSeeker);
 
         for (int i = 0; i < 5; i++) {
-            Item item = new Item(new ItemType("Sword", "A Cool Sword", 5), player.getPosition(), Assets.sword);
+            Item item = new Item(new ItemType("Sword", "A Cool Sword", 5, Equipment.EquipmentSlot.HAND), player.getPosition(), Assets.sword);
             this.getCurrentStage().addItem(item);
         }
 
