@@ -199,15 +199,16 @@ public class StageImpl implements Stage {
             // Handle alternatives in a loop since an alternative could have an alternative
             while (true) {
                 ActionResult result = action.invoke();
+                // Do not progress past this entity if their action failed.
                 if (!result.succeeded()) {
                     return;
                 }
+                // We do not have an alternative, so we're good!
                 if (result.getAlternative() == null) {
                     break;
                 }
                 action = result.getAlternative();
             }
-            // Do not progress past this entity if their action failed.
             // Advance the current entity
             advanceEntity();
         }

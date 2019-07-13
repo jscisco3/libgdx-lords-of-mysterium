@@ -32,12 +32,17 @@ public abstract class Entity {
     protected Map<GOAPGoal, Object> worldState;
     protected Map<GOAPGoal, Object> goals;
 
+    protected Map<String, Object> knowledge;
+
     public Entity(Stage stage) {
         this.stage = stage;
         this.pathingMap = new DijkstraMap();
         this.updatePathingMap();
+        // GOAP
         this.worldState = new HashMap<>();
         this.goals = new HashMap<>();
+        // BTree
+        this.knowledge = new HashMap<>();
     }
 
     public Stage getStage() {
@@ -131,6 +136,14 @@ public abstract class Entity {
 
     public Map<GOAPGoal, Object> getWorldState() {
         return worldState;
+    }
+
+    public Map<String, Object> getKnowledge() {
+        return knowledge;
+    }
+
+    public void learn(String topic, Object value) {
+        this.knowledge.put(topic, value);
     }
 
     public void updateWorldState(GOAPGoal goal, Object value) {

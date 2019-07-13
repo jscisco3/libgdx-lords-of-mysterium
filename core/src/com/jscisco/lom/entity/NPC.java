@@ -29,21 +29,21 @@ public class NPC extends Entity {
         this.texture = texture;
         this.position = position;
         this.health = new Health(40);
-        // Hunter Seeker actions
-        this.actions = new HashSet<>();
-        this.actions.add(new MoveToAction());
-        this.actions.add(new AcquireRandomTargetAction());
+//        // Hunter Seeker actions
+//        this.actions = new HashSet<>();
+//        this.actions.add(new MoveToAction());
+//        this.actions.add(new AcquireRandomTargetAction());
 //        this.actions.add(new AcquireTargetAction());
 //        this.actions.add(new AttackTargetAction());
-        this.agent = new GOAPAgent(this);
+//        this.agent = new GOAPAgent(this);
 
         // NPC needs to get in position
-        this.setGoal(GOAPGoal.IN_POSITION, true);
-        // NPC needs target
-        this.updateWorldState(GOAPGoal.NEEDS_TARGET, true);
-        this.updateWorldState(GOAPGoal.HAS_TARGET, false);
-        // The NPC is not in position
-        this.updateWorldState(GOAPGoal.IN_POSITION, false);
+//        this.setGoal(GOAPGoal.IN_POSITION, true);
+//        // NPC needs target
+//        this.updateWorldState(GOAPGoal.NEEDS_TARGET, true);
+//        this.updateWorldState(GOAPGoal.HAS_TARGET, false);
+//        // The NPC is not in position
+//        this.updateWorldState(GOAPGoal.IN_POSITION, false);
 
     }
 
