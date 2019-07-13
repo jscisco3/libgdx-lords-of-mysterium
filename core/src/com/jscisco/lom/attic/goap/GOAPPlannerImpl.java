@@ -1,7 +1,7 @@
-package com.jscisco.lom.attributes.ai.goap;
+package com.jscisco.lom.attic.goap;
 
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
+import com.jscisco.lom.attic.goap.actions.GOAPAction;
+import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
 
 import java.util.*;

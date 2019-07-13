@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes.ai.goap.actions;
+package com.jscisco.lom.attic.goap.actions;
 
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.util.Position;

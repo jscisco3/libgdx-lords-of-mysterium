@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes.ai.goap;
+package com.jscisco.lom.attic.goap;
 
 import com.jscisco.lom.entity.Entity;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
-package com.jscisco.lom.attributes.ai.goap;
+package com.jscisco.lom.attic.goap;
 
 import com.jscisco.lom.action.RestAction;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
+import com.jscisco.lom.attic.goap.actions.GOAPAction;
+import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.NPC;
 import org.slf4j.Logger;
