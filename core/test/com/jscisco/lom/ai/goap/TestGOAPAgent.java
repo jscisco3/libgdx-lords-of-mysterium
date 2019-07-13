@@ -8,6 +8,7 @@ import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ class TestGOAPAgent {
         this.TEST_NPC.updateWorldState(GOAPGoal.IN_POSITION, false);
     }
 
+    @Disabled
     @Test
     void test() {
         for (int i = 0; i < 30; i++) {
@@ -45,16 +47,6 @@ class TestGOAPAgent {
                 action.invoke();
             }
         }
-//        this.TEST_NPC.getAgent().update();
-//        this.TEST_NPC.getAgent().update();
-//        this.TEST_NPC.getAgent().update();
-//        this.TEST_NPC.getAgent().update();
-//        this.TEST_NPC.getAgent().update();
-
-//        for (int i = 0; i < 5; i++) {
-//            Action nextAction = this.TEST_NPC.();
-//            logger.info("Next Action: {}", nextAction);
-//        }
     }
 
 }
