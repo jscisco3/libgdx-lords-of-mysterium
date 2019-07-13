@@ -21,7 +21,7 @@ public class PickDirectionTask extends LeafTask<NPC> {
     public Status execute() {
         NPC npc = getObject();
         Position position = new Position(1, 0);
-        npc.learn("DIRECTION", position);
+        npc.learn("DIRECTION_TO_WALK", position);
         return Status.SUCCEEDED;
     }
 
