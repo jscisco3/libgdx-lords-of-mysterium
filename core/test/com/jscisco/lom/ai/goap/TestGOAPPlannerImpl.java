@@ -1,9 +1,9 @@
 package com.jscisco.lom.ai.goap;
 
-import com.jscisco.lom.attributes.ai.goap.GOAPPlanner;
-import com.jscisco.lom.attributes.ai.goap.GOAPPlannerImpl;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
+import com.jscisco.lom.attic.goap.GOAPPlanner;
+import com.jscisco.lom.attic.goap.GOAPPlannerImpl;
+import com.jscisco.lom.attic.goap.actions.GOAPAction;
+import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

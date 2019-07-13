@@ -1,7 +1,7 @@
 package com.jscisco.lom.ai.goap;
 
 import com.jscisco.lom.action.Action;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
+import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.util.Position;

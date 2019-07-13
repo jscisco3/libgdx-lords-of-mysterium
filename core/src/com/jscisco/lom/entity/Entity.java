@@ -6,7 +6,7 @@ import com.jscisco.lom.attributes.Energy;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.Inventory;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
+import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.terrain.Wall;
