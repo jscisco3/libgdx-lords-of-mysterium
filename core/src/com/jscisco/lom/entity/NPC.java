@@ -1,25 +1,24 @@
 package com.jscisco.lom.entity;
 
+import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.ai.AI;
 import com.jscisco.lom.attributes.ai.goap.GOAPAgent;
-import com.jscisco.lom.attributes.ai.goap.actions.AcquireRandomTargetAction;
 import com.jscisco.lom.attributes.ai.goap.actions.GOAPAction;
-import com.jscisco.lom.attributes.ai.goap.actions.GOAPGoal;
-import com.jscisco.lom.attributes.ai.goap.actions.MoveToAction;
+import com.jscisco.lom.config.Config;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class NPC extends Entity {
 
     private final Logger logger = LoggerFactory.getLogger(NPC.class);
+    private BehaviorTree<NPC> behaviorTree;
     private AI ai;
     private GOAPAgent agent;
     private Set<GOAPAction> actions;
@@ -29,6 +28,7 @@ public class NPC extends Entity {
         this.texture = texture;
         this.position = position;
         this.health = new Health(40);
+        this.behaviorTree = Config.repository.retrieveTree("wander", this);
 //        // Hunter Seeker actions
 //        this.actions = new HashSet<>();
 //        this.actions.add(new MoveToAction());
@@ -47,15 +47,21 @@ public class NPC extends Entity {
 
     }
 
-    @Override
-    public Action getNextAction() {
-//        return this.ai.nextAction();
-        this.agent.update();
-        return this.nextAction;
-    }
+//    @Override
+//    public Action getNextAction() {
+//////        return this.ai.nextAction();
+////        this.agent.update();
+//        return this.nextAction;
+//    }
 
     public void setAi(AI ai) {
         this.ai = ai;
+    }
+
+    @Override
+    public Action getNextAction() {
+        this.behaviorTree.step();
+        return super.getNextAction();
     }
 
     public Set<GOAPAction> getAvailableActions() {
