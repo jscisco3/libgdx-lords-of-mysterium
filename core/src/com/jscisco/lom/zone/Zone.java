@@ -1,14 +1,12 @@
 package com.jscisco.lom.zone;
 
-import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.items.Item;
-import com.jscisco.lom.items.ItemType;
+import com.jscisco.lom.items.ItemFactory;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Size3D;
-import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
+import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +34,8 @@ public class Zone {
         this.stages = new ArrayList<>();
 
         for (int z = 0; z < size.getDepth(); z++) {
-//            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new GenericStrategy()));
-            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
+            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new GenericStrategy()));
+//            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
         }
         this.currentStageIndex = 0;
 
@@ -48,11 +46,11 @@ public class Zone {
         this.getCurrentStage().setPlayer(player);
 
 
-        for (int i = 0; i < 10; i++) {
-            this.getCurrentStage().addEntity(new NPC(
-                    this.getCurrentStage(), Assets.rat, this.getCurrentStage().findEmptyPosition()
-            ));
-        }
+//        for (int i = 0; i < 10; i++) {
+//            this.getCurrentStage().addEntity(new NPC(
+//                    this.getCurrentStage(), Assets.rat, this.getCurrentStage().findEmptyPosition()
+//            ));
+//        }
 
 //        NPC hunterSeeker = new NPC(
 //                this.getCurrentStage(), Assets.player, this.getCurrentStage().findEmptyPosition()
@@ -60,8 +58,18 @@ public class Zone {
 //        hunterSeeker.setAi(new HunterSeekerAI(hunterSeeker));
 //        this.getCurrentStage().addEntity(hunterSeeker);
 
-        for (int i = 0; i < 5; i++) {
-            Item item = new Item(new ItemType("Sword", "A Cool Sword", 5), player.getPosition(), Assets.sword);
+        List<Item> createdItems = new ArrayList<>();
+        createdItems.add(ItemFactory.buildBodyArmor());
+        createdItems.add(ItemFactory.buildBoots());
+        createdItems.add(ItemFactory.buildCloak());
+        createdItems.add(ItemFactory.buildGloves());
+        createdItems.add(ItemFactory.buildHelmet());
+        createdItems.add(ItemFactory.buildRing());
+        createdItems.add(ItemFactory.buildRing());
+        createdItems.add(ItemFactory.buildSword());
+
+        for (Item item : createdItems) {
+            item.setPosition(this.getCurrentStage().findEmptyPosition());
             this.getCurrentStage().addItem(item);
         }
 

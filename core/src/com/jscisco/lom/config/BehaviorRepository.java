@@ -2,11 +2,15 @@ package com.jscisco.lom.config;
 
 import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.badlogic.gdx.ai.btree.Task;
+import com.badlogic.gdx.ai.btree.branch.DynamicGuardSelector;
 import com.badlogic.gdx.ai.btree.branch.Sequence;
+import com.badlogic.gdx.ai.btree.decorator.Invert;
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibrary;
 import com.badlogic.gdx.ai.btree.utils.BehaviorTreeLibraryManager;
 import com.jscisco.lom.attributes.ai.btree.ChooseTargetPosition;
+import com.jscisco.lom.attributes.ai.btree.GetTargetEntity;
 import com.jscisco.lom.attributes.ai.btree.MoveToTargetPosition;
+import com.jscisco.lom.attributes.ai.btree.guards.HasTargetEntityGuard;
 import com.jscisco.lom.entity.NPC;
 
 public class BehaviorRepository {
@@ -32,6 +36,29 @@ public class BehaviorRepository {
         sequence.addChild(new ChooseTargetPosition());
         sequence.addChild(new MoveToTargetPosition());
         return sequence;
+    }
+
+    private Task<NPC> createHunterSeekerBehavior() {
+        DynamicGuardSelector<NPC> hunterSeeker = new DynamicGuardSelector<>();
+
+        // Only get the target if we do not have a target entity
+        GetTargetEntity getTargetEntity = new GetTargetEntity();
+        getTargetEntity.setGuard(new Invert<>(new HasTargetEntityGuard()));
+
+        hunterSeeker.addChild(getTargetEntity);
+
+        // Only move towards the target if we have a target.
+        HasTargetEntityGuard hasTargetEntityGuard = new HasTargetEntityGuard();
+        Sequence<NPC> moveTowardsTargetEntity = new Sequence<>();
+        moveTowardsTargetEntity.setGuard(hasTargetEntityGuard);
+
+
+        hunterSeeker.addChild(moveTowardsTargetEntity);
+
+        // Fall back to wandering
+        hunterSeeker.addChild(createWanderBehavior());
+
+        return hunterSeeker;
     }
 
 }
