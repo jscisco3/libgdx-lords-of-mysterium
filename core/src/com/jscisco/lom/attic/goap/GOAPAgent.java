@@ -4,7 +4,6 @@ import com.jscisco.lom.action.RestAction;
 import com.jscisco.lom.attic.goap.actions.GOAPAction;
 import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.NPC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,7 +106,7 @@ public class GOAPAgent {
     }
 
     private void loadActions() {
-        this.availableActions = ((NPC) entity).getAvailableActions();
+//        this.availableActions = ((NPC) entity).getAvailableActions();
     }
 
 }
