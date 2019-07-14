@@ -5,6 +5,10 @@ import com.jscisco.lom.util.Position;
 
 public class Item {
 
+    private Item() {
+
+    }
+
     private ItemType itemType;
     /**
      * Items have a non-null position only if they are on the ground
@@ -14,10 +18,33 @@ public class Item {
 
     // Do items need to have a reference to the stage they are in?
 
-    public Item(ItemType itemType, Position position, TextureRegion texture) {
-        this.itemType = itemType;
-        this.position = position;
-        this.texture = texture;
+    public static class Builder {
+        private ItemType itemType;
+        private Position position;
+        private TextureRegion textureRegion;
+
+        public Builder(ItemType itemType) {
+            this.itemType = itemType;
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder withTextureRegion(TextureRegion textureRegion) {
+            this.textureRegion = textureRegion;
+            return this;
+        }
+
+        public Item build() {
+            Item item = new Item();
+            item.itemType = this.itemType;
+            item.position = this.position;
+            item.texture = this.textureRegion;
+            return item;
+        }
+
     }
 
     public ItemType getItemType() {

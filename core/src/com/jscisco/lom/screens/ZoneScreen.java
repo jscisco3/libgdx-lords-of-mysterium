@@ -85,8 +85,8 @@ public class ZoneScreen implements Screen {
 
         batch.begin();
         batch.setColor(0.5f, 0.5f, 0.5f, 1.0f);
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 80; y++) {
+        for (int x = 0; x < this.zone.getCurrentStage().getWidth(); x++) {
+            for (int y = 0; y < this.zone.getCurrentStage().getHeight(); y++) {
                 tile = tiles[x][y];
                 if (tile.isSeen()) {
                     batch.draw(tile.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
@@ -104,8 +104,8 @@ public class ZoneScreen implements Screen {
 
         batch.begin();
         batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 80; y++) {
+        for (int x = 0; x < this.zone.getCurrentStage().getWidth(); x++) {
+            for (int y = 0; y < this.zone.getCurrentStage().getHeight(); y++) {
                 tile = tiles[x][y];
                 if (tile.isInFov()) {
                     batch.draw(tile.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
@@ -190,6 +190,7 @@ public class ZoneScreen implements Screen {
     }
 
     public void updateCamera() {
+        // TODO: Figure out why this is weird with small stages
         Position position = player.getPosition();
         float maxWidth = (zone.getWidth() * 24.0f) - (Config.WINDOW_WIDTH / 2.0f);
         float maxHeight = (zone.getHeight() * 24.0f) - (Config.WINDOW_HEIGHT / 2.0f);

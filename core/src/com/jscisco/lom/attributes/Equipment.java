@@ -19,6 +19,7 @@ public class Equipment {
         this.slotTypes.add(EquipmentSlot.HAND);
         this.slotTypes.add(EquipmentSlot.HAND);
         this.slotTypes.add(EquipmentSlot.RING);
+        this.slotTypes.add(EquipmentSlot.RING);
         this.slotTypes.add(EquipmentSlot.NECKLACE);
         this.slotTypes.add(EquipmentSlot.BODY);
         this.slotTypes.add(EquipmentSlot.CLOAK);

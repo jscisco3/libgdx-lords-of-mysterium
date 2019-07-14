@@ -21,7 +21,7 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(100, 80, 1)));
+        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(25, 25, 1)));
         setScreen(zoneScreen);
 //        setScreen(new MainMenuScreen(this));
 
