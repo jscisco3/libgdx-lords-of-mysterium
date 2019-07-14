@@ -7,20 +7,39 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Assets {
 
     public static TextureAtlas atlas;
+
+    // Terrain
     public static TextureRegion floor;
     public static TextureRegion wall;
 
+    // Entities
     public static TextureRegion player;
     public static TextureRegion rat;
+
+    // Items
     public static TextureRegion sword;
+    public static TextureRegion body_armor;
+    public static TextureRegion boots;
+    public static TextureRegion cloak;
+    public static TextureRegion gloves;
+    public static TextureRegion helmet;
+    public static TextureRegion ring;
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
         floor = atlas.findRegion("floor");
         wall = atlas.findRegion("wall");
+
         player = atlas.findRegion("player");
         rat = atlas.findRegion("rat");
+
         sword = atlas.findRegion("sword");
+        body_armor = atlas.findRegion("body_armor");
+        boots = atlas.findRegion("boots");
+        cloak = atlas.findRegion("cloak");
+        gloves = atlas.findRegion("gloves");
+        helmet = atlas.findRegion("helmet");
+        ring = atlas.findRegion("ring");
     }
 
     public static void dispose() {
