@@ -2,10 +2,7 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
-import com.jscisco.lom.attributes.Energy;
-import com.jscisco.lom.attributes.FieldOfView;
-import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.attributes.Inventory;
+import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
@@ -26,6 +23,7 @@ public abstract class Entity {
     protected Health health;
     protected Energy energy;
     protected Inventory inventory;
+    protected Equipment equipment;
     protected TextureRegion texture;
     protected DijkstraMap pathingMap;
 
@@ -95,6 +93,10 @@ public abstract class Entity {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public Equipment getEquipment() {
+        return equipment;
     }
 
     public TextureRegion getTexture() {

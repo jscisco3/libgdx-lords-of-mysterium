@@ -2,6 +2,7 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.attributes.Equipment;
 import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.Inventory;
@@ -14,6 +15,7 @@ public class Player extends Entity {
         super(stage);
         this.position = position;
         this.inventory = new Inventory();
+        this.equipment = new Equipment();
         this.fieldOfView = new FieldOfView(radius);
         this.health = new Health(100);
     }
