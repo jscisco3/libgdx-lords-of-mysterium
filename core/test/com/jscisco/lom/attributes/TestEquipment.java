@@ -57,7 +57,7 @@ class TestEquipment {
                         .withName("Test")
                         .withDescription("Test Description")
                         .withValue(1)
-                        .withEquipSlot(Equipment.EquipmentSlot.HAND).build())
+                        .withEquipSlot(Equipment.EquipmentSlot.TAIL).build())
                 .withPosition(null)
                 .withTextureRegion(null)
                 .build();

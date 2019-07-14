@@ -25,6 +25,7 @@ public abstract class Entity {
     protected Inventory inventory;
     protected Equipment equipment;
     protected TextureRegion texture;
+    protected Stats stats;
     protected DijkstraMap pathingMap;
 
     protected Map<GOAPGoal, Object> worldState;
@@ -41,6 +42,8 @@ public abstract class Entity {
         this.goals = new HashMap<>();
         // BTree
         this.knowledge = new HashMap<>();
+
+        this.stats = new Stats.Builder().build();
     }
 
     public Stage getStage() {
@@ -158,5 +161,9 @@ public abstract class Entity {
 
     public void setGoal(GOAPGoal goal, Object value) {
         this.goals.put(goal, value);
+    }
+
+    public Stats getStats() {
+        return stats;
     }
 }

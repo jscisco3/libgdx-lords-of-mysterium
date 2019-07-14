@@ -3,7 +3,7 @@ package com.jscisco.lom.action;
 import com.jscisco.lom.entity.Entity;
 
 public abstract class AbstractAction implements Action {
-    protected Entity source;
+    protected final Entity source;
 
     public AbstractAction() {
         this.source = null;

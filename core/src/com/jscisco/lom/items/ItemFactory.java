@@ -6,14 +6,13 @@ import com.jscisco.lom.attributes.Equipment;
 public class ItemFactory {
 
     public static Item buildSword() {
-        Item sword = new Item.Builder(new ItemType.Builder().withName("Sword")
+        return new Item.Builder(new ItemType.Builder().withName("Sword")
                 .withDescription("A Cool Sword")
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.HAND).build()
         )
                 .withTextureRegion(Assets.sword)
                 .build();
-        return sword;
     }
 
     public static Item buildBodyArmor() {

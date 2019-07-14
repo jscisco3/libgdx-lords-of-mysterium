@@ -2,7 +2,7 @@ package com.jscisco.lom.screens.popup;
 
 import com.badlogic.gdx.Screen;
 
-public class AbstractPopup implements Popup {
+public abstract class AbstractPopup implements Popup {
 
     private Screen screen;
 

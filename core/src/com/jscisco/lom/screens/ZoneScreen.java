@@ -17,6 +17,10 @@ import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 public class ZoneScreen implements Screen {
 
     private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
@@ -140,28 +144,76 @@ public class ZoneScreen implements Screen {
     }
 
     private void drawPlayerHUD() {
-
-        // Bottom left coords for sidebar
-        float sidebarX = camera.position.x + (Config.WINDOW_WIDTH / 2 - Config.SIDEBAR_WIDTH);
-        float sidebarY = camera.position.y - (Config.WINDOW_HEIGHT / 2);
-
-        // Bottom left coords for log area
-        float logX = camera.position.x - (Config.WINDOW_WIDTH / 2);
-        float logY = camera.position.y - (Config.WINDOW_HEIGHT / 2);
-
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         // Sidebar
         shapeRenderer.setColor(Config.SIDEBAR_COLOR);
-        shapeRenderer.rect(sidebarX, sidebarY, Config.SIDEBAR_WIDTH, Config.SIDEBAR_HEIGHT);
+        shapeRenderer.rect(sidebarX(), sidebarY(), Config.SIDEBAR_WIDTH, Config.SIDEBAR_HEIGHT);
 
         // Log Area
         shapeRenderer.setColor(Config.LOG_AREA_COLOR);
-        shapeRenderer.rect(logX, logY, Config.LOG_AREA_WIDTH, Config.LOG_AREA_HEIGHT);
+        shapeRenderer.rect(logX(), logY(), Config.LOG_AREA_WIDTH, Config.LOG_AREA_HEIGHT);
 
         shapeRenderer.end();
 
+        drawPlayerStats();
+    }
+
+    /**
+     * Calculate bottom left x coordinate of log area
+     *
+     * @return bottom left x coordinate of log area
+     */
+    private float logX() {
+        return camera.position.x - (Config.WINDOW_WIDTH / 2f);
+    }
+
+    /**
+     * Calculate bottom left y coordinate of log area
+     *
+     * @return bottom left y coordinate of log area
+     */
+    private float logY() {
+        return camera.position.y - (Config.WINDOW_HEIGHT / 2f);
+    }
+
+    /**
+     * Calculate bottom left x coordinate of sidebar
+     *
+     * @return bottom right y coordinate of sidebar
+     */
+    private float sidebarX() {
+        return camera.position.x + (Config.WINDOW_WIDTH / 2f - Config.SIDEBAR_WIDTH);
+    }
+
+    /**
+     * Calculate bottom right y coordinate of sidebar
+     *
+     * @return bottom right y coordinate of sidebar
+     */
+    private float sidebarY() {
+        return camera.position.y - (Config.WINDOW_HEIGHT / 2f);
+    }
+
+    private void drawPlayerStats() {
         batch.begin();
-        font.draw(batch, String.format("HP: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()), sidebarX + 5, sidebarY + Config.SIDEBAR_HEIGHT - 5);
+
+        List<String> stats = new ArrayList<>();
+        stats.add(String.format("Health: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()));
+        stats.add(String.format("Strength: %s", player.getStats().getStrength()));
+        stats.add(String.format("Intelligence: %s", player.getStats().getIntelligence()));
+        stats.add(String.format("Dexterity: %s", player.getStats().getDexterity()));
+        stats.add(String.format("Constitution: %s", player.getStats().getConstitution()));
+
+        ListIterator<String> iterator = stats.listIterator();
+        while (iterator.hasNext()) {
+            int index = iterator.nextIndex();
+            font.draw(batch, iterator.next(), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - (5 + 20 * index));
+        }
+
+//        font.draw(batch, String.format("Strength: %s", player.getStats().getStrength()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 25);
+//        font.draw(batch, String.format("Intelligence: %s", player.getStats().getIntelligence()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 45);
+//        font.draw(batch, String.format("Dexterity: %s", player.getStats().getDexterity()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 65);
+//        font.draw(batch, String.format("Constitution: %s", player.getStats().getConstitution()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 85);
         batch.end();
     }
 
@@ -189,7 +241,7 @@ public class ZoneScreen implements Screen {
 
     }
 
-    public void updateCamera() {
+    private void updateCamera() {
         // TODO: Figure out why this is weird with small stages
         Position position = player.getPosition();
         float maxWidth = (zone.getWidth() * 24.0f) - (Config.WINDOW_WIDTH / 2.0f);
@@ -198,6 +250,6 @@ public class ZoneScreen implements Screen {
         // Set it to player X * 24.0f, then clamp it?
         camera.position.x = MathUtils.clamp((position.getX() + 2) * 24.0f, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
         camera.position.y = MathUtils.clamp(position.getY() * 24.0f, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
-        logger.trace(String.format("New camera position: %s".format(camera.position.toString())));
+        logger.trace(String.format("New camera position: %s", camera.position.toString()));
     }
 }

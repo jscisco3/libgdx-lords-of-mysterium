@@ -15,8 +15,8 @@ import java.util.List;
 
 public class AutoexploreState extends State {
 
-    private Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
-    private Stage stage;
+    private static final Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
+    private final Stage stage;
 
     public AutoexploreState(Zone zone) {
         super(zone);

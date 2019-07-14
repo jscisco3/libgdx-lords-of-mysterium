@@ -3,9 +3,9 @@ package com.jscisco.lom.action;
 public class ActionResult {
 
     // True if the action succeeded.
-    private boolean succeeded;
-    private boolean finished;
-    private Action alternative;
+    private final boolean succeeded;
+    private final boolean finished;
+    private final Action alternative;
 
     public ActionResult(boolean succeeded, boolean finished, Action alternative) {
         this.succeeded = succeeded;

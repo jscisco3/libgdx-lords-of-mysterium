@@ -8,7 +8,7 @@ public class AttackAction extends AbstractAction {
 
     private static final Logger logger = LoggerFactory.getLogger(AttackAction.class);
 
-    private Entity defender;
+    private final Entity defender;
 
     public AttackAction(Entity source, Entity defender) {
         super(source);

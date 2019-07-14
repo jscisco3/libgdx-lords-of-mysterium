@@ -32,9 +32,7 @@ public class TestStageImpl {
 
     @Test
     public void updatingTilesBasedOnFOVShouldFailIfThereIsNoPlayer() {
-        Assertions.assertThrows(AssertionError.class, () -> {
-            stage.updateTilesBasedOnFOV();
-        });
+        Assertions.assertThrows(AssertionError.class, () -> stage.updateTilesBasedOnFOV());
     }
 
     @Test
@@ -44,7 +42,7 @@ public class TestStageImpl {
         stage.addEntity(p);
         stage.updateTilesBasedOnFOV();
         Assertions.assertTrue(stage.getTileAt(position).isInFov());
-        Assertions.assertEquals(stage.getTileAt(position).isSeen(), true);
+        Assertions.assertTrue(stage.getTileAt(position).isSeen());
     }
 
     // Test processing here
