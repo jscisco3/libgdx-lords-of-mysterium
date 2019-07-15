@@ -34,8 +34,7 @@ public class TestBTree {
         library = new BehaviorTreeLibrary(BehaviorTreeParser.DEBUG_HIGH);
         registerNpcBehavior(library);
         libraryManager.setLibrary(library);
-
-        tree = libraryManager.createBehaviorTree("test", new NPC(null, null, null));
+//        tree = libraryManager.createBehaviorTree("test", new NPC(null, null, null));
     }
 
     @Test

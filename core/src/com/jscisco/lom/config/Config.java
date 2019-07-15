@@ -23,13 +23,11 @@ public class Config {
 
     public static final BehaviorRepository repository = new BehaviorRepository();
 
-    public static final BitmapFont font = createFont();
-
-    private static BitmapFont createFont() {
+//
+    public static BitmapFont createFont(float dp) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("../../fonts/consola.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (int) (24 * Gdx.graphics.getDensity());
+        parameter.size = (int) (dp * Gdx.graphics.getDensity());
         return generator.generateFont(parameter);
     }
-
 }

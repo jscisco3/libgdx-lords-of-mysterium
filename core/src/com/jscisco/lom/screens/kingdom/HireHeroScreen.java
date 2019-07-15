@@ -1,6 +1,8 @@
 package com.jscisco.lom.screens.kingdom;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,6 +22,8 @@ public class HireHeroScreen implements Screen {
     private SpriteBatch batch;
     private OrthographicCamera camera;
 
+    private int selectedHero = 0;
+
     public HireHeroScreen(Game game, List<Player> heroes) {
         this.game = game;
         this.heroes = heroes;
@@ -28,12 +32,13 @@ public class HireHeroScreen implements Screen {
         ListIterator<Player> iterator = this.heroes.listIterator();
         while (iterator.hasNext()) {
             int index = iterator.nextIndex();
-            this.infoBlocks.add(new HeroInfoBlock(iterator.next(), 25, 50 * index, Config.WINDOW_WIDTH, 100));
+            this.infoBlocks.add(new HeroInfoBlock(iterator.next(), 25, 100 * index, 300, 100));
         }
 
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
+        this.infoBlocks.get(selectedHero).select();
     }
 
     @Override
@@ -46,6 +51,31 @@ public class HireHeroScreen implements Screen {
         for (HeroInfoBlock infoBlock : this.infoBlocks) {
             infoBlock.render(batch);
         }
+        handleInput();
+    }
+
+    private void handleInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            decrementSelection();
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            incrementSelection();
+        }
+    }
+
+    private void incrementSelection() {
+        this.infoBlocks.get(this.selectedHero).deselct();
+        this.selectedHero = (this.selectedHero + 1) % this.infoBlocks.size();
+        this.infoBlocks.get(this.selectedHero).select();
+    }
+
+    private void decrementSelection() {
+        this.infoBlocks.get(this.selectedHero).deselct();
+        this.selectedHero -= 1;
+        if (this.selectedHero < 0) {
+            this.selectedHero = this.infoBlocks.size() - 1;
+        }
+        this.infoBlocks.get(this.selectedHero).select();
     }
 
     @Override

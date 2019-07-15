@@ -51,7 +51,7 @@ public class InventoryScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         shapeRenderer = new ShapeRenderer();
-        font = Config.font;
+        font = Config.createFont(16);
         font.setColor(1f, 1f, 0, 1);
     }
 
