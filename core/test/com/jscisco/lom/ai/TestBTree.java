@@ -17,6 +17,7 @@ import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +38,7 @@ public class TestBTree {
 //        tree = libraryManager.createBehaviorTree("test", new NPC(null, null, null));
     }
 
+    @Disabled
     @Test
     public void test() {
         logger.info("{}", tree.getObject());

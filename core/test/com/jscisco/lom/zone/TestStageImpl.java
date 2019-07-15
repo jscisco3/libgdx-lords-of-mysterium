@@ -37,7 +37,7 @@ public class TestStageImpl {
 
     @Test
     public void updatingTilesBasedOnFOVShouldSucceedIfThereIsAPlayer() {
-        Player p = new Player(stage, stage.findEmptyPosition(), 5.0f);
+        Player p = new Player(stage, stage.findEmptyPosition());
         Position position = p.getPosition();
         stage.addEntity(p);
         stage.updateTilesBasedOnFOV();

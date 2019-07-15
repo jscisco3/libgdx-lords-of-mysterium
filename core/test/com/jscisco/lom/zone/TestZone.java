@@ -13,7 +13,7 @@ public class TestZone {
         int HEIGHT = 20;
         int DEPTH = 1;
 
-        Zone zone = new Zone(new Size3D(WIDTH, HEIGHT, DEPTH));
+        Zone zone = new Zone(new Size3D(WIDTH, HEIGHT, DEPTH), null);
 
         Stage stage = zone.getCurrentStage();
 
