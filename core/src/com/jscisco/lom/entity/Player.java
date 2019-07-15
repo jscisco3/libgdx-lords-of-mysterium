@@ -8,12 +8,12 @@ import com.jscisco.lom.zone.Stage;
 
 public class Player extends Entity {
 
-    public Player(Stage stage, Position position, double radius) {
+    public Player(Stage stage, Position position) {
         super(stage);
         this.position = position;
         this.inventory = new Inventory();
         this.equipment = new Equipment();
-        this.fieldOfView = new FieldOfView(radius);
+        this.fieldOfView = new FieldOfView(5f);
         this.health = new Health(100);
         this.job = new Job.Builder("Warrior")
                 .withBaseStats(new Stats.Builder()

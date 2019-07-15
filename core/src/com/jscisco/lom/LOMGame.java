@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.screens.kingdom.HireHeroScreen;
 import org.slf4j.Logger;
@@ -29,9 +30,10 @@ public class LOMGame extends Game {
 //        setScreen(new MainMenuScreen(this));
 
         List<Player> heroes = new ArrayList<>();
-        heroes.add(new Player(null, null, 0f));
-        heroes.add(new Player(null, null, 0f));
-
+        heroes.add(PlayerFactory.createRandomHero());
+        heroes.add(PlayerFactory.createRandomHero());
+        heroes.add(PlayerFactory.createRandomHero());
+        heroes.add(PlayerFactory.createRandomHero());
         setScreen(new HireHeroScreen(this, heroes));
     }
 

@@ -29,7 +29,7 @@ public class Zone {
 
     private int currentStageIndex;
 
-    public Zone(Size3D size) {
+    public Zone(Size3D size, Player player) {
         this.size = size;
         this.stages = new ArrayList<>();
 
@@ -39,9 +39,14 @@ public class Zone {
         }
         this.currentStageIndex = 0;
 
-        Player player = new Player(
-                this.getCurrentStage(), this.getCurrentStage().findEmptyPosition(), 10.0
-        );
+        if (player == null) {
+            player = new Player(
+                    this.getCurrentStage(), this.getCurrentStage().findEmptyPosition()
+            );
+        } else {
+            player.setStage(this.getCurrentStage());
+            player.setPosition(this.getCurrentStage().findEmptyPosition());
+        }
         this.getCurrentStage().addEntity(player);
         this.getCurrentStage().setPlayer(player);
 

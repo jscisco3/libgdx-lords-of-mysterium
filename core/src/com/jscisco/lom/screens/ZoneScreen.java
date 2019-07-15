@@ -198,6 +198,7 @@ public class ZoneScreen implements Screen {
         batch.begin();
 
         List<String> stats = new ArrayList<>();
+        stats.add(player.getName());
         stats.add(String.format("Health: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()));
         stats.add(String.format("Strength: %s", player.getStats().getStrength()));
         stats.add(String.format("Intelligence: %s", player.getStats().getIntelligence()));

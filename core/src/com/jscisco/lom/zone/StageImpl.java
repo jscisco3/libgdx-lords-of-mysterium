@@ -57,6 +57,10 @@ public class StageImpl implements Stage {
             setPlayer((Player) e);
         }
         this.entities.add(e);
+        // Make sure the entity has the right stage
+        e.setStage(this);
+        // And that their pathing map is updated with the appropriate stage
+        e.updatePathingMap();
     }
 
     @Override

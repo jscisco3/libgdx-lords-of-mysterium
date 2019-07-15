@@ -178,4 +178,20 @@ public abstract class Entity {
     public Job getJob() {
         return job;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTexture(TextureRegion texture) {
+        this.texture = texture;
+    }
+
+    public void setStats(Stats stats) {
+        this.stats = stats;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
 }

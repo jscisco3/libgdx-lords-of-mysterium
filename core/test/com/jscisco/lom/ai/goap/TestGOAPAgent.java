@@ -23,7 +23,7 @@ class TestGOAPAgent {
     void setUp() {
         Stage stage = new StageImpl(20, 20);
         this.TEST_NPC = new NPC(stage, null, new Position(5, 5));
-        Player player = new Player(stage, new Position(4, 10), 10.0f);
+        Player player = new Player(stage, new Position(4, 10));
 
         stage.addEntity(TEST_NPC);
         stage.addEntity(player);

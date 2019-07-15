@@ -77,7 +77,7 @@ public class HeroInfoBlock {
         this.selected = true;
     }
 
-    public void deselct() {
+    public void deselect() {
         this.selected = false;
     }
 }
