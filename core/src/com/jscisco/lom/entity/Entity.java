@@ -16,6 +16,8 @@ import java.util.Map;
 
 public abstract class Entity {
 
+    protected String name;
+
     protected Stage stage;
     protected Action nextAction;
     protected FieldOfView fieldOfView;
@@ -26,6 +28,7 @@ public abstract class Entity {
     protected Equipment equipment;
     protected TextureRegion texture;
     protected Stats stats;
+    protected Job job;
     protected DijkstraMap pathingMap;
 
     protected Map<GOAPGoal, Object> worldState;
@@ -35,6 +38,7 @@ public abstract class Entity {
 
     public Entity(Stage stage) {
         this.stage = stage;
+        this.name = "No Name";
         this.pathingMap = new DijkstraMap();
         this.updatePathingMap();
         // GOAP
@@ -165,5 +169,13 @@ public abstract class Entity {
 
     public Stats getStats() {
         return stats;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Job getJob() {
+        return job;
     }
 }

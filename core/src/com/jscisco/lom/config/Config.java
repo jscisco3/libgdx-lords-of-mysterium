@@ -1,6 +1,9 @@
 package com.jscisco.lom.config;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class Config {
 
@@ -16,7 +19,17 @@ public class Config {
     public static final Color LOG_AREA_COLOR = new Color(1f, 1f, 1f, 0.75f);
 
     public static final Color SELECTED_ITEM_COLOR = new Color(1f, 0.8f, 0.25f, 1f);
+    public static final Color DEFAULT_FONT_COLOR = new Color(1f, 0.5f, 0.25f, 1f);
 
     public static final BehaviorRepository repository = new BehaviorRepository();
+
+    public static final BitmapFont font = createFont();
+
+    private static BitmapFont createFont() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("../../fonts/consola.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int) (24 * Gdx.graphics.getDensity());
+        return generator.generateFont(parameter);
+    }
 
 }

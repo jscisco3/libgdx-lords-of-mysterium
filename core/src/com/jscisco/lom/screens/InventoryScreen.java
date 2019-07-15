@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jscisco.lom.action.DropItemAction;
 import com.jscisco.lom.attributes.Equipment;
@@ -49,19 +48,13 @@ public class InventoryScreen implements Screen {
         this.inventory = this.player.getInventory();
         this.equipment = this.player.getEquipment();
         batch = new SpriteBatch();
-        shapeRenderer = new ShapeRenderer();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
-        font = createFont();
+        shapeRenderer = new ShapeRenderer();
+        font = Config.font;
         font.setColor(1f, 1f, 0, 1);
     }
 
-    private BitmapFont createFont() {
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("../../fonts/consola.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (int) (24 * Gdx.graphics.getDensity());
-        return generator.generateFont(parameter);
-    }
 
     @Override
     public void show() {

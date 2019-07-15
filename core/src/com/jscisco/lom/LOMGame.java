@@ -4,12 +4,15 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.screens.ZoneScreen;
-import com.jscisco.lom.util.Size3D;
-import com.jscisco.lom.zone.Zone;
+import com.jscisco.lom.screens.kingdom.HireHeroScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LOMGame extends Game {
 
@@ -21,10 +24,15 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
-        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(25, 25, 1)));
-        setScreen(zoneScreen);
+//        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(25, 25, 1)));
+//        setScreen(zoneScreen);
 //        setScreen(new MainMenuScreen(this));
 
+        List<Player> heroes = new ArrayList<>();
+        heroes.add(new Player(null, null, 0f));
+        heroes.add(new Player(null, null, 0f));
+
+        setScreen(new HireHeroScreen(this, heroes));
     }
 
     @Override
