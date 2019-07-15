@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.config.Config;
@@ -58,6 +59,11 @@ public class HireHeroScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
         for (HeroInfoBlock infoBlock : this.infoBlocks) {
             infoBlock.render(batch);
         }
@@ -79,14 +85,14 @@ public class HireHeroScreen implements Screen {
     }
 
     private void incrementSelection() {
-        logger.info("Selected index: {}", this.selectedHero);
+        logger.debug("Selected index: {}", this.selectedHero);
         this.infoBlocks.get(this.selectedHero).deselect();
         this.selectedHero = (this.selectedHero + 1) % this.infoBlocks.size();
         this.infoBlocks.get(this.selectedHero).select();
     }
 
     private void decrementSelection() {
-        logger.info("Selected index: {}", this.selectedHero);
+        logger.debug("Selected index: {}", this.selectedHero);
         this.infoBlocks.get(this.selectedHero).deselect();
         this.selectedHero -= 1;
         if (this.selectedHero < 0) {

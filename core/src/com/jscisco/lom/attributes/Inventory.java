@@ -13,11 +13,6 @@ public class Inventory {
         this.items = new ArrayList<>();
     }
 
-    public Inventory(List<Item> items) {
-        this();
-        this.items = items;
-    }
-
     public boolean addItem(Item item) {
         return this.items.add(item);
     }
@@ -28,5 +23,9 @@ public class Inventory {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public boolean isEmpty() {
+        return this.items.isEmpty();
     }
 }

@@ -77,6 +77,12 @@ public class Equipment {
         return unequipped;
     }
 
+    public Item unequip(int index) {
+        Item unequipped = this.slots.get(index);
+        this.slots.set(index, null);
+        return unequipped;
+    }
+
     public List<EquipmentSlot> getSlotTypes() {
         return slotTypes;
     }

@@ -80,12 +80,15 @@ public class InventoryScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             // Go ahead and drop the item here, because it should be free to do!
-            if (inventoryActive) {
+            if (inventoryActive && !this.inventory.isEmpty()) {
                 this.player.setNextAction(new DropItemAction(this.player, this.inventory.getItems().get(selectedItemIndex)));
                 this.player.getNextAction().invoke();
                 decrementSelectedItem();
-            } else {
-                // Unequip selected item;
+            } else if (!inventoryActive) {
+                Item unequipped = this.equipment.unequip(selectedEquipmentIndex);
+                if (unequipped != null) {
+                    this.inventory.addItem(unequipped);
+                }
             }
         }
 
@@ -160,13 +163,14 @@ public class InventoryScreen implements Screen {
         float spacing = 10f;
 
         batch.begin();
-        if (this.inventory.getItems().isEmpty()) {
+        if (this.inventory.isEmpty()) {
             layout.setText(font, "You have no items");
             font.draw(batch, "You have no items.", camera.position.x, camera.position.y);
-        }
-        for (int i = 0; i < this.inventory.getItems().size(); i++) {
-            layout.setText(font, this.inventory.getItems().get(i).toString());
-            font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x, camera.position.y - (i * (layout.height + spacing)));
+        } else {
+            for (int i = 0; i < this.inventory.getItems().size(); i++) {
+                layout.setText(font, this.inventory.getItems().get(i).toString());
+                font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x, camera.position.y - (i * (layout.height + spacing)));
+            }
         }
         batch.end();
 

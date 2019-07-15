@@ -29,6 +29,7 @@ public class Player extends Entity {
                         .withIntelligence(0).build())
                 .withIcon(Assets.player)
                 .build();
+        this.stats = this.job.getBaseStats();
     }
 
     @Override
