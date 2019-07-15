@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jscisco.lom.action.DropItemAction;
@@ -35,7 +36,7 @@ public class InventoryScreen implements Screen {
 
     private OrthographicCamera camera;
     private BitmapFont font;
-
+    private static final GlyphLayout layout = new GlyphLayout();
 
     private boolean inventoryActive = true;
     private int selectedItemIndex = 0;
@@ -51,7 +52,7 @@ public class InventoryScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         shapeRenderer = new ShapeRenderer();
-        font = Config.createFont(16);
+        font = Config.createFont(32);
         font.setColor(1f, 1f, 0, 1);
     }
 
@@ -79,9 +80,13 @@ public class InventoryScreen implements Screen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             // Go ahead and drop the item here, because it should be free to do!
-            this.player.setNextAction(new DropItemAction(this.player, this.inventory.getItems().get(selectedItemIndex)));
-            this.player.getNextAction().invoke();
-            decrementSelectedItem();
+            if (inventoryActive) {
+                this.player.setNextAction(new DropItemAction(this.player, this.inventory.getItems().get(selectedItemIndex)));
+                this.player.getNextAction().invoke();
+                decrementSelectedItem();
+            } else {
+                // Unequip selected item;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
@@ -130,11 +135,13 @@ public class InventoryScreen implements Screen {
     }
 
     private void renderEquipment() {
+        float spacing = 10f;
         // Selected Item Highlight
+        layout.setText(font, getNameOfEquipment(selectedEquipmentIndex));
         if (!this.inventoryActive) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Config.SELECTED_ITEM_COLOR);
-            shapeRenderer.rect(camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 0.5f), camera.position.y - ((selectedEquipmentIndex + 1) * 24f) + (Config.WINDOW_HEIGHT / 2), getNameOfEquipment(selectedEquipmentIndex).length() * 10f, 24f);
+            shapeRenderer.rect(camera.position.x - Config.WINDOW_WIDTH / 2 + spacing / 2, camera.position.y - ((selectedEquipmentIndex + 1) * (layout.height + spacing)) + (Config.WINDOW_HEIGHT / 2), layout.width + spacing, layout.height + spacing);
             shapeRenderer.end();
         }
 
@@ -142,10 +149,7 @@ public class InventoryScreen implements Screen {
         List<Equipment.EquipmentSlot> equipmentSlots = this.equipment.getSlotTypes();
         List<Item> equippedItems = this.equipment.getSlots();
         for (int i = 0; i < equipmentSlots.size(); i++) {
-            font.draw(batch, getNameOfEquipment(i), camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 1), camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * 24f));
-//            font.draw(batch, equipmentSlots.get(i).toString(), camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 1), camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * 24f));
-//            String name = equippedItems.get(i) != null ? equippedItems.get(i).getItemType().getName() : "Nothing";
-//            font.draw(batch, name, camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 4), camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * 24f));
+            font.draw(batch, getNameOfEquipment(i), camera.position.x - Config.WINDOW_WIDTH / 2 + spacing, camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * (layout.height + spacing)));
         }
 
         batch.end();
@@ -153,25 +157,30 @@ public class InventoryScreen implements Screen {
 
     private void renderInventory() {
 
+        float spacing = 10f;
+
+        batch.begin();
+        if (this.inventory.getItems().isEmpty()) {
+            layout.setText(font, "You have no items");
+            font.draw(batch, "You have no items.", camera.position.x, camera.position.y);
+        }
+        for (int i = 0; i < this.inventory.getItems().size(); i++) {
+            layout.setText(font, this.inventory.getItems().get(i).toString());
+            font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x, camera.position.y - (i * (layout.height + spacing)));
+        }
+        batch.end();
+
         if (this.inventoryActive) {
             if (!this.inventory.getItems().isEmpty()) {
                 // Selected Item Highlight
+                layout.setText(font, this.inventory.getItems().get(selectedItemIndex).toString());
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
                 shapeRenderer.setColor(Config.SELECTED_ITEM_COLOR);
-                shapeRenderer.rect(camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 14), camera.position.y - ((selectedItemIndex + 1) * 24f) + (Config.WINDOW_HEIGHT / 2), this.inventory.getItems().get(selectedItemIndex).toString().length() * 10f, 24f);
+                shapeRenderer.rect(camera.position.x - spacing / 2, camera.position.y - ((selectedItemIndex + 1) * (layout.height + spacing)), layout.width + spacing, layout.height + spacing);
                 shapeRenderer.end();
             }
         }
 
-        batch.begin();
-        if (this.inventory.getItems().isEmpty()) {
-            font.draw(batch, "You have no items.", camera.position.x, camera.position.y);
-        }
-
-        for (int i = 0; i < this.inventory.getItems().size(); i++) {
-            font.draw(batch, this.inventory.getItems().get(i).toString(), camera.position.x - Config.WINDOW_WIDTH / 2 + (24f * 15), camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * 24f));
-        }
-        batch.end();
 
     }
 
@@ -192,7 +201,7 @@ public class InventoryScreen implements Screen {
 
     private void decrementSelectedEquipment() {
         this.selectedEquipmentIndex -= 1;
-        logger.info("Selected Equipment Index: {}", this.selectedEquipmentIndex);
+        logger.debug("Selected Equipment Index: {}", this.selectedEquipmentIndex);
         if (this.selectedEquipmentIndex < 0) {
             this.selectedEquipmentIndex = this.equipment.getSlotTypes().size() - 1;
         }
