@@ -122,4 +122,21 @@ public class Zone {
     public List<Stage> getStages() {
         return stages;
     }
+
+    public void incrementStage() {
+        assert this.currentStageIndex + 1 < this.stages.size();
+        Player player = this.getCurrentStage().getPlayer();
+        this.getCurrentStage().removeEntity(player);
+        this.currentStageIndex += 1;
+        this.getCurrentStage().addEntity(player);
+        logger.info("Current stage: {}", currentStageIndex);
+    }
+
+    public void decrementStage() {
+        assert this.currentStageIndex - 1 >= 0;
+        Player player = this.getCurrentStage().getPlayer();
+        this.getCurrentStage().removeEntity(player);
+        this.currentStageIndex -= 1;
+        this.getCurrentStage().addEntity(player);
+    }
 }
