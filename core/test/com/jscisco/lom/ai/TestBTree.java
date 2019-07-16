@@ -55,15 +55,19 @@ public class TestBTree {
     @Test
     public void testWanderBehavior() {
         Stage stage = new StageImpl(10, 10);
-        NPC npc = new NPC(stage, null, new Position(5, 5));
-        BehaviorTree<NPC> wanderTree = library.createBehaviorTree("wander", npc);
+        NPC npc = new NPC.Builder("NPC")
+                .withStage(stage)
+                .withPosition(new Position(5, 5))
+                .withBehaviorTree(library.createBehaviorTree("wander"))
+                .build();
+        npc.updatePathingMap();
         for (int i = 0; i < 10; i++) {
-            wanderTree.step();
+            npc.getBehaviorTree().step();
             Action action = npc.getNextAction();
             if (action != null) {
                 action.invoke();
             }
-            logger.info("Status: {}", wanderTree.getStatus());
+            logger.info("Status: {}", npc.getBehaviorTree().getStatus());
         }
 
     }

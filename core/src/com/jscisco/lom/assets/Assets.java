@@ -12,8 +12,13 @@ public class Assets {
     public static TextureRegion floor;
     public static TextureRegion wall;
 
-    // Entities
+    // Jobs
     public static TextureRegion player;
+    public static TextureRegion warrior;
+    public static TextureRegion wizard;
+    public static TextureRegion rogue;
+
+    // NPCs
     public static TextureRegion rat;
 
     // Items
@@ -30,9 +35,16 @@ public class Assets {
         floor = atlas.findRegion("floor");
         wall = atlas.findRegion("wall");
 
+        // Jobs
         player = atlas.findRegion("player");
+        warrior = atlas.findRegion("warrior");
+        wizard = atlas.findRegion("wizard");
+        rogue = atlas.findRegion("rogue");
+
+        // Characters
         rat = atlas.findRegion("rat");
 
+        // Items
         sword = atlas.findRegion("sword");
         body_armor = atlas.findRegion("body_armor");
         boots = atlas.findRegion("boots");

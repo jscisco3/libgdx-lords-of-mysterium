@@ -30,10 +30,9 @@ public class LOMGame extends Game {
 //        setScreen(new MainMenuScreen(this));
 
         List<Player> heroes = new ArrayList<>();
-        heroes.add(PlayerFactory.createRandomHero());
-        heroes.add(PlayerFactory.createRandomHero());
-        heroes.add(PlayerFactory.createRandomHero());
-        heroes.add(PlayerFactory.createRandomHero());
+        for (int i = 0; i < 9; i++) {
+            heroes.add(PlayerFactory.createRandomHero());
+        }
         setScreen(new HireHeroScreen(this, heroes));
     }
 

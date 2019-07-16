@@ -1,6 +1,7 @@
 package com.jscisco.lom.zone;
 
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
 import com.jscisco.lom.states.PlayerTurnState;
@@ -40,9 +41,9 @@ public class Zone {
         this.currentStageIndex = 0;
 
         if (player == null) {
-            player = new Player(
-                    this.getCurrentStage(), this.getCurrentStage().findEmptyPosition()
-            );
+            player = PlayerFactory.createRandomHero();
+            player.setStage(this.getCurrentStage());
+            player.setPosition(this.getCurrentStage().findEmptyPosition());
         } else {
             player.setStage(this.getCurrentStage());
             player.setPosition(this.getCurrentStage().findEmptyPosition());

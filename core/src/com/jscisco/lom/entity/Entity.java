@@ -2,7 +2,6 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
-import com.jscisco.lom.attic.goap.actions.GOAPGoal;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
@@ -10,9 +9,6 @@ import com.jscisco.lom.terrain.Wall;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Entity {
 
@@ -31,23 +27,9 @@ public abstract class Entity {
     protected Job job;
     protected DijkstraMap pathingMap;
 
-    protected Map<GOAPGoal, Object> worldState;
-    protected Map<GOAPGoal, Object> goals;
-
-    protected Map<String, Object> knowledge;
-
-    public Entity(Stage stage) {
-        this.stage = stage;
-        this.name = "No Name";
+    protected Entity() {
         this.pathingMap = new DijkstraMap();
         this.updatePathingMap();
-        // GOAP
-        this.worldState = new HashMap<>();
-        this.goals = new HashMap<>();
-        // BTree
-        this.knowledge = new HashMap<>();
-
-        this.stats = new Stats.Builder().build();
     }
 
     public Stage getStage() {
@@ -107,6 +89,9 @@ public abstract class Entity {
     }
 
     public TextureRegion getTexture() {
+        if (this.job != null) {
+            return this.job.getIcon();
+        }
         return texture;
     }
 
@@ -141,30 +126,6 @@ public abstract class Entity {
             }
             this.pathingMap.initialize(costs);
         }
-    }
-
-    public Map<GOAPGoal, Object> getWorldState() {
-        return worldState;
-    }
-
-    public Map<String, Object> getKnowledge() {
-        return knowledge;
-    }
-
-    public void learn(String topic, Object value) {
-        this.knowledge.put(topic, value);
-    }
-
-    public void updateWorldState(GOAPGoal goal, Object value) {
-        this.worldState.put(goal, value);
-    }
-
-    public Map<GOAPGoal, Object> getGoals() {
-        return goals;
-    }
-
-    public void setGoal(GOAPGoal goal, Object value) {
-        this.goals.put(goal, value);
     }
 
     public Stats getStats() {

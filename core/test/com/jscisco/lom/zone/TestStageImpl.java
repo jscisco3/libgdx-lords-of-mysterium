@@ -1,5 +1,6 @@
 package com.jscisco.lom.zone;
 
+import com.jscisco.lom.attributes.FieldOfView;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.util.Position;
 import org.junit.jupiter.api.Assertions;
@@ -37,7 +38,11 @@ public class TestStageImpl {
 
     @Test
     public void updatingTilesBasedOnFOVShouldSucceedIfThereIsAPlayer() {
-        Player p = new Player(stage, stage.findEmptyPosition());
+        Player p = new Player.Builder("HERO")
+                .withStage(stage)
+                .withPosition(stage.findEmptyPosition())
+                .withFieldOfView(new FieldOfView(10f))
+                .build();
         Position position = p.getPosition();
         stage.addEntity(p);
         stage.updateTilesBasedOnFOV();

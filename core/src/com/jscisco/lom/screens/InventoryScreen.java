@@ -106,6 +106,11 @@ public class InventoryScreen implements Screen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
             this.inventoryActive = !this.inventoryActive;
+            if (this.inventoryActive) {
+                this.selectedItemIndex = 0;
+            } else {
+                this.selectedEquipmentIndex = 0;
+            }
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {

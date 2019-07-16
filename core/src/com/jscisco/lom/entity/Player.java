@@ -1,39 +1,97 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 
 public class Player extends Entity {
 
-    public Player(Stage stage, Position position) {
-        super(stage);
-        this.position = position;
-        this.inventory = new Inventory();
-        this.equipment = new Equipment();
-        this.fieldOfView = new FieldOfView(5f);
-        this.health = new Health(100);
-        this.job = new Job.Builder("Warrior")
-                .withBaseStats(new Stats.Builder()
-                        .withStrength(14)
-                        .withConstitution(12)
-                        .withDexterity(10)
-                        .withIntelligence(8)
-                        .build())
-                .withStatsPerLevel(new Stats.Builder()
-                        .withStrength(2)
-                        .withConstitution(1)
-                        .withDexterity(1)
-                        .withIntelligence(0).build())
-                .withIcon(Assets.player)
-                .build();
-        this.stats = this.job.getBaseStats();
+    public static class Builder {
+        private String name;
+
+        private Stage stage;
+        private FieldOfView fieldOfView;
+        private Position position;
+        private Health health;
+        private Energy energy;
+        private Inventory inventory;
+        private Equipment equipment;
+        private TextureRegion texture;
+        private Stats stats;
+        private Job job;
+
+        public Builder(String name) {
+            this.name = name;
+        }
+
+        public Builder withStage(Stage stage) {
+            this.stage = stage;
+            return this;
+        }
+
+        public Builder withFieldOfView(FieldOfView fov) {
+            this.fieldOfView = fov;
+            return this;
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder withHealth(Health health) {
+            this.health = health;
+            return this;
+        }
+
+        public Builder withEnergy(Energy energy) {
+            this.energy = energy;
+            return this;
+        }
+
+        public Builder withInventory(Inventory inventory) {
+            this.inventory = inventory;
+            return this;
+        }
+
+        public Builder withEquipment(Equipment equipment) {
+            this.equipment = equipment;
+            return this;
+        }
+
+        public Builder withTexture(TextureRegion texture) {
+            this.texture = texture;
+            return this;
+        }
+
+        public Builder withStats(Stats stats) {
+            this.stats = stats;
+            return this;
+        }
+
+        public Builder withJob(Job job) {
+            this.job = job;
+            return this;
+        }
+
+        public Player build() {
+            Player player = new Player();
+            player.name = name;
+            player.stage = stage;
+            player.fieldOfView = fieldOfView;
+            player.position = position;
+            player.health = health;
+            player.energy = energy;
+            player.inventory = inventory;
+            player.equipment = equipment;
+            player.texture = texture;
+            player.job = job;
+            player.stats = stats;
+            return player;
+        }
     }
 
-    @Override
-    public TextureRegion getTexture() {
-        return Assets.player;
+    private Player() {
     }
 }
