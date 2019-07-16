@@ -49,13 +49,15 @@ public class PlayerTurnState extends State {
 
         if (input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)) {
             if (new DescendStairs(player).invoke().succeeded()) {
-                zone.incrementStage();
+                zone.incrementStage(player);
+                player.setPosition(player.getStage().getPositionOfStairsUp());
             }
         }
 
         if (input.isKeyJustPressed(Input.Keys.LEFT_BRACKET)) {
             if (new AscendStairs(player).invoke().succeeded()) {
-                zone.decrementStage();
+                zone.decrementStage(player);
+                player.setPosition(player.getStage().getPositionOfStairsDown());
             }
         }
 

@@ -1,5 +1,6 @@
 package com.jscisco.lom.zone;
 
+import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.items.Item;
@@ -123,20 +124,17 @@ public class Zone {
         return stages;
     }
 
-    public void incrementStage() {
+    public void incrementStage(Entity entity) {
         assert this.currentStageIndex + 1 < this.stages.size();
-        Player player = this.getCurrentStage().getPlayer();
-        this.getCurrentStage().removeEntity(player);
+        this.getCurrentStage().removeEntity(entity);
         this.currentStageIndex += 1;
-        this.getCurrentStage().addEntity(player);
-        logger.info("Current stage: {}", currentStageIndex);
+        this.getCurrentStage().addEntity(entity);
     }
 
-    public void decrementStage() {
+    public void decrementStage(Entity entity) {
         assert this.currentStageIndex - 1 >= 0;
-        Player player = this.getCurrentStage().getPlayer();
-        this.getCurrentStage().removeEntity(player);
+        this.getCurrentStage().removeEntity(entity);
         this.currentStageIndex -= 1;
-        this.getCurrentStage().addEntity(player);
+        this.getCurrentStage().addEntity(entity);
     }
 }

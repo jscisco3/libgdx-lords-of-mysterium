@@ -36,12 +36,6 @@ public class AutoexploreState extends State {
                 playerCoord,
                 goals);
 
-        logger.info("Path is empty: {}", path.isEmpty());
-        logger.info("# goals remaining: {}", goals.length);
-        if (!path.isEmpty()) {
-            logger.info("Next Step: {}, Player Coord: {}", path.get(0), playerCoord);
-        }
-
         if (path.isEmpty()) {
             Position stairsDownPosition = stage.getPositionOfStairsDown();
             if (stairsDownPosition != null && stage.getPlayer().getPosition() != stairsDownPosition) {
@@ -92,7 +86,6 @@ public class AutoexploreState extends State {
                 }
             }
         }
-        logger.info("# unseen blocks: {}", goals.size());
         return goals;
     }
 }

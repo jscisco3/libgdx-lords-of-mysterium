@@ -17,7 +17,7 @@ public class DescendStairs extends AbstractAction {
         assert source != null;
 
         if (source.getPosition().equals(source.getStage().getPositionOfStairsDown())) {
-            logger.info("trying to descend stairs");
+            logger.debug("trying to descend stairs");
             return ActionResult.success();
         }
         return ActionResult.failure();
