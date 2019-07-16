@@ -3,6 +3,7 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
+import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -27,14 +28,26 @@ public class AutoexploreState extends State {
     public void update() {
         Coord playerCoord = Coord.get(stage.getPlayer().getPosition().getX(), stage.getPlayer().getPosition().getY());
 
-        List<Coord> goalList = getCoordsOfUnseenBlocks();
-        Coord[] goals = getCoordsOfUnseenBlocks().toArray(new Coord[goalList.size()]);
+        Coord[] goals = getGoals();
 
         List<Coord> path = stage.getPlayer().getPathingMap().findPath(1,
                 new ArrayList<Coord>(),
                 new ArrayList<Coord>(),
                 playerCoord,
                 goals);
+
+        logger.info("Path is empty: {}", path.isEmpty());
+        logger.info("# goals remaining: {}", goals.length);
+        if (!path.isEmpty()) {
+            logger.info("Next Step: {}, Player Coord: {}", path.get(0), playerCoord);
+        }
+
+        if (path.isEmpty()) {
+            Position stairsDownPosition = stage.getPositionOfStairsDown();
+            if (stairsDownPosition != null && stage.getPlayer().getPosition() != stairsDownPosition) {
+                path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, Coord.get(stairsDownPosition.getX(), stairsDownPosition.getY()));
+            }
+        }
 
         if (!path.isEmpty() && !path.get(0).equals(playerCoord)) {
             Action action = new MoveAction(stage.getPlayer(),
@@ -63,6 +76,12 @@ public class AutoexploreState extends State {
 
     }
 
+    private Coord[] getGoals() {
+        List<Coord> goalList = getCoordsOfUnseenBlocks();
+        Coord[] goals = goalList.toArray(new Coord[goalList.size()]);
+        return goals;
+    }
+
     private List<Coord> getCoordsOfUnseenBlocks() {
         List<Coord> goals = new ArrayList<>();
         Tile[][] tiles = stage.getTiles();
@@ -73,6 +92,7 @@ public class AutoexploreState extends State {
                 }
             }
         }
+        logger.info("# unseen blocks: {}", goals.size());
         return goals;
     }
 }

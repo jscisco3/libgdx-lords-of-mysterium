@@ -3,9 +3,7 @@ package com.jscisco.lom.entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.*;
-import com.jscisco.lom.terrain.Floor;
 import com.jscisco.lom.terrain.Terrain;
-import com.jscisco.lom.terrain.Wall;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
@@ -116,10 +114,9 @@ public abstract class Entity {
             for (int x = 0; x < stage.getWidth(); x++) {
                 for (int y = 0; y < stage.getHeight(); y++) {
                     Terrain t = stage.getTerrainAtPosition(x, y);
-                    if (t.getClass() == Floor.class) {
+                    if (t.isWalkable()) {
                         costs[x][y] = DijkstraMap.FLOOR;
-                    }
-                    if (t.getClass() == Wall.class) {
+                    } else {
                         costs[x][y] = DijkstraMap.WALL;
                     }
                 }

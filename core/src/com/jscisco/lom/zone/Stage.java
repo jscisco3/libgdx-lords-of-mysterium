@@ -61,4 +61,8 @@ public interface Stage {
      */
     int getWidth();
 
+    Position getPositionOfStairsDown();
+
+    Position getPositionOfStairsUp();
+
 }

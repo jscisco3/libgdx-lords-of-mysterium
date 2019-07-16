@@ -6,11 +6,12 @@ import com.jscisco.lom.zone.Tile;
 import squidpony.squidgrid.mapping.DungeonGenerator;
 import squidpony.squidgrid.mapping.DungeonUtility;
 import squidpony.squidgrid.mapping.SerpentMapGenerator;
+import squidpony.squidmath.Coord;
 
 public class GenericStrategy implements GenerationStrategy {
 
     @Override
-    public Tile[][] generate(int width, int height) {
+    public Tile[][] generate(int width, int height, boolean stairsUp, boolean stairsDown) {
         Tile[][] tiles = new Tile[width][height];
         char[][] map;
 
@@ -25,13 +26,28 @@ public class GenericStrategy implements GenerationStrategy {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (map[x][y] == '#') {
-                    tiles[x][y] = new Tile(TerrainRepository.WALL);
-                } else {
-                    tiles[x][y] = new Tile(TerrainRepository.FLOOR);
+                switch (map[x][y]) {
+                    case '#':
+                        tiles[x][y] = new Tile(TerrainRepository.WALL);
+                        break;
+                    case '+':
+                    case '/':
+                    default:
+                        tiles[x][y] = new Tile(TerrainRepository.FLOOR);
+                        break;
                 }
             }
         }
+
+        if (stairsDown) {
+            Coord coordStairsDown = generator.stairsDown;
+            tiles[coordStairsDown.x][coordStairsDown.y] = new Tile(TerrainRepository.STAIRS_DOWN);
+        }
+        if (stairsUp) {
+            Coord coordStairsUp = generator.stairsUp;
+            tiles[coordStairsUp.x][coordStairsUp.y] = new Tile(TerrainRepository.STAIRS_UP);
+        }
+
         return tiles;
     }
 }

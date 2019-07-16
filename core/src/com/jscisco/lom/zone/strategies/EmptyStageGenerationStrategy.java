@@ -6,7 +6,7 @@ import com.jscisco.lom.zone.Tile;
 public class EmptyStageGenerationStrategy implements GenerationStrategy {
 
     @Override
-    public Tile[][] generate(int width, int height) {
+    public Tile[][] generate(int width, int height, boolean stairsUp, boolean stairsDown) {
         Tile[][] tiles = new Tile[width][height];
 
         for (int x = 0; x < width; x++) {
@@ -30,4 +30,5 @@ public class EmptyStageGenerationStrategy implements GenerationStrategy {
             tiles[width - 1][y].setTerrain(TerrainRepository.WALL);
         }
     }
+
 }

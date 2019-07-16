@@ -35,7 +35,17 @@ public class Zone {
         this.stages = new ArrayList<>();
 
         for (int z = 0; z < size.getDepth(); z++) {
-            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new GenericStrategy()));
+            // Top of dungeon, so only stairs down
+            if (z == 0) {
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), false, true, new GenericStrategy()));
+            } else if (z == size.getDepth() - 1) {
+                // Bottom of dungeon, so only stairs up
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, false, new GenericStrategy()));
+            } else {
+                // Otherwise, both stairs
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, true, new GenericStrategy()));
+            }
+//            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), z, new GenericStrategy()));
 //            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
         }
         this.currentStageIndex = 0;

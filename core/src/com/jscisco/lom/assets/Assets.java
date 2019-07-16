@@ -11,6 +11,8 @@ public class Assets {
     // Terrain
     public static TextureRegion floor;
     public static TextureRegion wall;
+    public static TextureRegion stairsUp;
+    public static TextureRegion stairsDown;
 
     // Jobs
     public static TextureRegion player;
@@ -32,8 +34,12 @@ public class Assets {
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
+
+        // Terrain
         floor = atlas.findRegion("floor");
         wall = atlas.findRegion("wall");
+        stairsUp = atlas.findRegion("stairs_up");
+        stairsDown = atlas.findRegion("stairs_down");
 
         // Jobs
         player = atlas.findRegion("player");

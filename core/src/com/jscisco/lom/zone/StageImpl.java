@@ -6,6 +6,8 @@ import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.terrain.StairsDown;
+import com.jscisco.lom.terrain.StairsUp;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.FOVCalculator;
 import com.jscisco.lom.util.Position;
@@ -27,6 +29,7 @@ public class StageImpl implements Stage {
     private Tile[][] tiles;
     private int width;
     private int height;
+    private int level;
     private Player player;
 
     private List<Entity> entities;
@@ -36,17 +39,24 @@ public class StageImpl implements Stage {
     // Do I need to store this? Maybe, for saving and loading the stage.
     private GenerationStrategy strategy;
 
+    private Position stairsUpPosition;
+    private Position stairsDownPosition;
+
     public StageImpl(int width, int height) {
-        this(width, height, new EmptyStageGenerationStrategy());
+        this(width, height, false, false, new EmptyStageGenerationStrategy());
     }
 
-    public StageImpl(int width, int height, GenerationStrategy strategy) {
+    public StageImpl(int width, int height, boolean stairsUp, boolean stairsDown, GenerationStrategy strategy) {
         this.width = width;
         this.height = height;
+        this.level = level;
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
         this.strategy = strategy;
-        this.tiles = this.strategy.generate(this.width, this.height);
+        this.tiles = this.strategy.generate(this.width, this.height, stairsUp, stairsDown);
+
+        this.stairsDownPosition = getPositionOfStairsDown();
+        this.stairsUpPosition = getPositionOfStairsUp();
 
         this.currentEntityIndex = 0;
     }
@@ -224,6 +234,28 @@ public class StageImpl implements Stage {
 
     private void advanceEntity() {
         this.currentEntityIndex = (this.currentEntityIndex + 1) % this.entities.size();
+    }
+
+    public Position getPositionOfStairsUp() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (tiles[x][y].getTerrain() instanceof StairsUp) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        return null;
+    }
+
+    public Position getPositionOfStairsDown() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (tiles[x][y].getTerrain() instanceof StairsDown) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        return null;
     }
 
 }

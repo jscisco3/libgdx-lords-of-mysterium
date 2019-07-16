@@ -14,14 +14,20 @@ public class TestEmptyStageGenerationStrategy {
 
     @Test
     public void emptyGenerationStrategyShouldReturnCorrectDimensions() {
-        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT);
+        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT, false, false);
         Assertions.assertThat(tiles.length).isEqualTo(WIDTH);
         Assertions.assertThat(tiles[0].length).isEqualTo(HEIGHT);
     }
 
+
+    /**
+     * Given an empty generation strategy
+     * When we generate a stage without stairs up or down
+     * Then we should only have walls and floors
+     */
     @Test
     public void emptyGenerationStrategyShouldYieldOnlyFloorAndWalls() {
-        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT);
+        Tile[][] tiles = this.strategy.generate(WIDTH, HEIGHT, false, false);
         int nonFloor = 0;
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {

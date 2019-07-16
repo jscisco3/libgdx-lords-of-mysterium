@@ -27,6 +27,6 @@ public class FOVCalculator {
 
     public static void calculateFOV(Entity entity, Stage stage) {
         double[][] resistanceMap = calculateResistanceMap(entity, stage);
-        entity.getFieldOfView().setFov(fov.calculateFOV(resistanceMap, entity.getPosition().getX(), entity.getPosition().getY(), entity.getFieldOfView().getRadius(), Radius.DIAMOND));
+        entity.getFieldOfView().setFov(fov.calculateFOV(resistanceMap, entity.getPosition().getX(), entity.getPosition().getY(), entity.getFieldOfView().getRadius(), Radius.CUBE));
     }
 }
