@@ -12,6 +12,7 @@ import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,16 @@ class TestSaving {
 
         String json = new Gson().toJson(zone);
         writeToFile(json, "zone.json");
+    }
+
+    @Test
+    void shouldBeAbleToDeserializeZone() {
+        Zone zone = new Zone(new Size3D(50, 50, 5), PlayerFactory.createRandomHero());
+        String json = new Gson().toJson(zone);
+
+        Zone zone2 = new Gson().fromJson(json, Zone.class);
+
+        Assertions.assertThat(zone.getHeight()).isEqualTo(zone2.getHeight());
     }
 
     private void writeToFile(String json, String filename) {

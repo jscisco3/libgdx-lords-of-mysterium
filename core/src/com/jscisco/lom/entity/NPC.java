@@ -16,7 +16,8 @@ public class NPC extends Entity {
 
     private final Logger logger = LoggerFactory.getLogger(NPC.class);
 
-    private BehaviorTree<NPC> behaviorTree;
+    // Don't save this for now?
+    private transient BehaviorTree<NPC> behaviorTree;
     private Map<String, Object> knowledge = new HashMap<>();
 
 

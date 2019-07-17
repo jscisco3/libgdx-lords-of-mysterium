@@ -41,6 +41,10 @@ public class StageImpl implements Stage {
     private Position stairsUpPosition;
     private Position stairsDownPosition;
 
+    public StageImpl() {
+
+    }
+
     public StageImpl(int width, int height) {
         this(width, height, false, false, new EmptyStageGenerationStrategy());
     }
@@ -255,5 +259,4 @@ public class StageImpl implements Stage {
         }
         return null;
     }
-
 }

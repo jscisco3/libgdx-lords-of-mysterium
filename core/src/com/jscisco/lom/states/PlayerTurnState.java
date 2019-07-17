@@ -17,7 +17,7 @@ import java.util.List;
 
 public class PlayerTurnState extends State {
 
-    private Logger logger = LoggerFactory.getLogger(PlayerTurnState.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlayerTurnState.class);
     private Entity player;
 
     public PlayerTurnState(Zone zone) {
