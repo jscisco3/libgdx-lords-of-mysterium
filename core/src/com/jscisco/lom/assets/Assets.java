@@ -22,6 +22,7 @@ public class Assets {
 
     // NPCs
     public static TextureRegion rat;
+    public static TextureRegion snuugz;
 
     // Items
     public static TextureRegion sword;
@@ -49,6 +50,7 @@ public class Assets {
 
         // Characters
         rat = atlas.findRegion("rat");
+        snuugz = atlas.findRegion("snuugz");
 
         // Items
         sword = atlas.findRegion("sword");

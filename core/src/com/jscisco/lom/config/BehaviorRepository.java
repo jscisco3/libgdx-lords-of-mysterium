@@ -23,6 +23,10 @@ public class BehaviorRepository {
         libraryManager.setLibrary(library);
     }
 
+    public BehaviorTree<NPC> retrieveTree(String identifier) {
+        return library.createBehaviorTree(identifier);
+    }
+
     public BehaviorTree<NPC> retrieveTree(String identifier, NPC npc) {
         return library.createBehaviorTree(identifier, npc);
     }
