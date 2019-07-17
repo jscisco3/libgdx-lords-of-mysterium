@@ -30,7 +30,7 @@ public class Zone {
     private static final Logger logger = LoggerFactory.getLogger(Zone.class);
 
     private Size3D size;
-    private List<Stage> stages;
+    private transient List<Stage> stages;
     private Deque<State> states = new ArrayDeque<>();
 
     private int currentStageIndex;

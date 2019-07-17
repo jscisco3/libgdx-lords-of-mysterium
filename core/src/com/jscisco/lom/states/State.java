@@ -5,7 +5,7 @@ import com.jscisco.lom.zone.Zone;
 
 public abstract class State {
 
-    protected Zone zone;
+    protected transient Zone zone;
 
     public State(Zone zone) {
         this.zone = zone;

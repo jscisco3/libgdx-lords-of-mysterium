@@ -7,8 +7,10 @@ import com.jscisco.lom.attributes.Inventory;
 import com.jscisco.lom.attributes.Job;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
+import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
+import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -74,6 +76,19 @@ class TestSaving {
         writeToFile(new Gson().toJson(player), player.getName());
         Player loaded = readFromFile(player.getName(), Player.class);
         writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
+    }
+
+    /**
+     * Given a Zone
+     * When we serialize it
+     * Then we should have valid json
+     */
+    @Test
+    void shouldBeAbleToSerializeZone() {
+        Zone zone = new Zone(new Size3D(30, 30, 2), PlayerFactory.createRandomHero());
+
+        String json = new Gson().toJson(zone);
+        writeToFile(json, "zone.json");
     }
 
     private void writeToFile(String json, String filename) {
