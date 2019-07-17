@@ -39,7 +39,7 @@ class TestEquipment {
                         .withValue(1)
                         .withEquipSlot(Equipment.EquipmentSlot.HAND).build())
                 .withPosition(null)
-                .withTextureRegion(null)
+                .withGlyph(null)
                 .build();
 
         Assertions.assertThat(this.equipment.canEquip(item)).isTrue();
@@ -59,7 +59,7 @@ class TestEquipment {
                         .withValue(1)
                         .withEquipSlot(Equipment.EquipmentSlot.TAIL).build())
                 .withPosition(null)
-                .withTextureRegion(null)
+                .withGlyph(null)
                 .build();
         Assertions.assertThat(this.equipment.canEquip(item)).isFalse();
     }

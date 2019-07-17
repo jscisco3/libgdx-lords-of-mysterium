@@ -1,6 +1,7 @@
 package com.jscisco.lom.items;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.util.Position;
 
 public class Item {
@@ -14,14 +15,14 @@ public class Item {
      * Items have a non-null position only if they are on the ground
      */
     private Position position;
-    private TextureRegion texture;
+    private Assets.Glyphs glyph;
 
     // Do items need to have a reference to the stage they are in?
 
     public static class Builder {
         private ItemType itemType;
         private Position position;
-        private TextureRegion textureRegion;
+        private Assets.Glyphs glyph;
 
         public Builder(ItemType itemType) {
             this.itemType = itemType;
@@ -32,8 +33,8 @@ public class Item {
             return this;
         }
 
-        public Builder withTextureRegion(TextureRegion textureRegion) {
-            this.textureRegion = textureRegion;
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
             return this;
         }
 
@@ -41,7 +42,7 @@ public class Item {
             Item item = new Item();
             item.itemType = this.itemType;
             item.position = this.position;
-            item.texture = this.textureRegion;
+            item.glyph = this.glyph;
             return item;
         }
 
@@ -60,7 +61,19 @@ public class Item {
     }
 
     public TextureRegion getTexture() {
-        return texture;
+        return Assets.textureMap.get(this.glyph);
+    }
+
+    public Assets.Glyphs getGlyph() {
+        return glyph;
+    }
+
+    public void setGlyph(Assets.Glyphs glyph) {
+        this.glyph = glyph;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
     }
 
     @Override

@@ -5,7 +5,7 @@ import com.jscisco.lom.assets.Assets;
 public class StairsDown extends Terrain {
 
     public StairsDown() {
-        super(Assets.stairsDown, true, true);
+        super(Assets.Glyphs.STAIRS_DOWN, true, true);
     }
 
 }

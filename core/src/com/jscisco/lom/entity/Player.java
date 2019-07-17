@@ -1,5 +1,6 @@
 package com.jscisco.lom.entity;
 
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
@@ -16,7 +17,7 @@ public class Player extends Entity {
         private Energy energy;
         private Inventory inventory;
         private Equipment equipment;
-        private String textureMapLookup;
+        private Assets.Glyphs glyph;
         private Stats stats;
         private Job job;
 
@@ -59,8 +60,8 @@ public class Player extends Entity {
             return this;
         }
 
-        public Builder withTexture(String textureMapLookup) {
-            this.textureMapLookup = textureMapLookup;
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
             return this;
         }
 
@@ -84,7 +85,7 @@ public class Player extends Entity {
             player.energy = energy;
             player.inventory = inventory;
             player.equipment = equipment;
-            player.textureMapLookup = textureMapLookup;
+            player.glyph = glyph;
             player.job = job;
             player.stats = stats;
             return player;

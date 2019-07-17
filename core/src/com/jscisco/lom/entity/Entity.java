@@ -20,7 +20,7 @@ public abstract class Entity {
     protected Equipment equipment;
     protected Stats stats;
     protected Job job;
-    protected String textureMapLookup;
+    protected Assets.Glyphs glyph;
 
     protected transient Stage stage;
     protected transient Action nextAction;
@@ -91,15 +91,15 @@ public abstract class Entity {
         if (this.job != null) {
             return this.job.getIcon();
         }
-        return Assets.textureMap.get(textureMapLookup);
+        return Assets.textureMap.get(glyph);
     }
 
-    public String getTextureMapLookup() {
-        return textureMapLookup;
+    public Assets.Glyphs getGlyph() {
+        return glyph;
     }
 
-    public void setTextureMapLookup(String textureMapLookup) {
-        this.textureMapLookup = textureMapLookup;
+    public void setGlyph(Assets.Glyphs glyph) {
+        this.glyph = glyph;
     }
 
     public Action getNextAction() {

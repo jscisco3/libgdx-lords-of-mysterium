@@ -4,76 +4,63 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class Assets {
 
+    public enum Glyphs {
+        FLOOR,
+        WALL,
+        STAIRS_UP,
+        STAIRS_DOWN,
+
+        WARRIOR,
+        WIZARD,
+        ROGUE,
+
+        RAT,
+        SNUUGZ,
+
+        SWORD,
+        BODY_ARMOR,
+        CLOAK,
+        BOOTS,
+        GLOVES,
+        HELMET,
+        RING
+    }
+
     public static TextureAtlas atlas;
 
-    // Terrain
-    public static TextureRegion floor;
-    public static TextureRegion wall;
-    public static TextureRegion stairsUp;
-    public static TextureRegion stairsDown;
-
-    // Jobs
-    public static TextureRegion player;
-    public static TextureRegion warrior;
-    public static TextureRegion wizard;
-    public static TextureRegion rogue;
-
-    // NPCs
-    public static TextureRegion rat;
-    public static TextureRegion snuugz;
-
-    // Items
-    public static TextureRegion sword;
-    public static TextureRegion body_armor;
-    public static TextureRegion boots;
-    public static TextureRegion cloak;
-    public static TextureRegion gloves;
-    public static TextureRegion helmet;
-    public static TextureRegion ring;
-
-    public static Map<String, TextureRegion> textureMap = new HashMap<>();
-
+    public static final Map<Glyphs, TextureRegion> textureMap = new EnumMap<>(Glyphs.class);
 
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
 
         // Terrain
-        floor = atlas.findRegion("floor");
-        textureMap.put("floor", floor);
-        wall = atlas.findRegion("wall");
-        textureMap.put("wall", wall);
-        stairsUp = atlas.findRegion("stairs_up");
-        textureMap.put("stairs_up", stairsUp);
-        stairsDown = atlas.findRegion("stairs_down");
-        textureMap.put("stairs_down", stairsDown);
+        textureMap.put(Glyphs.FLOOR, atlas.findRegion("floor"));
+        textureMap.put(Glyphs.WALL, atlas.findRegion("wall"));
+        textureMap.put(Glyphs.STAIRS_UP, atlas.findRegion("stairsUp"));
+        textureMap.put(Glyphs.STAIRS_DOWN, atlas.findRegion("stairsDown"));
 
         // Jobs
-        player = atlas.findRegion("player");
-        textureMap.put("player", player);
-        warrior = atlas.findRegion("warrior");
-        textureMap.put("warrior", warrior);
-        wizard = atlas.findRegion("wizard");
-        textureMap.put("wizard", wizard);
-        rogue = atlas.findRegion("rogue");
-        textureMap.put("rogue", rogue);
+        textureMap.put(Glyphs.WARRIOR, atlas.findRegion("warrior"));
+        textureMap.put(Glyphs.WIZARD, atlas.findRegion("wizard"));
+        textureMap.put(Glyphs.ROGUE, atlas.findRegion("rogue"));
 
         // Characters
-        rat = atlas.findRegion("rat");
-        snuugz = atlas.findRegion("snuugz");
+        textureMap.put(Glyphs.RAT, atlas.findRegion("rat"));
+        textureMap.put(Glyphs.SNUUGZ, atlas.findRegion("snuugz"));
 
         // Items
-        sword = atlas.findRegion("sword");
-        body_armor = atlas.findRegion("body_armor");
-        boots = atlas.findRegion("boots");
-        cloak = atlas.findRegion("cloak");
-        gloves = atlas.findRegion("gloves");
-        helmet = atlas.findRegion("helmet");
-        ring = atlas.findRegion("ring");
+        textureMap.put(Glyphs.SWORD, atlas.findRegion("sword"));
+        textureMap.put(Glyphs.BODY_ARMOR, atlas.findRegion("body_armor"));
+        textureMap.put(Glyphs.CLOAK, atlas.findRegion("cloak"));
+        textureMap.put(Glyphs.BOOTS, atlas.findRegion("boots"));
+        textureMap.put(Glyphs.GLOVES, atlas.findRegion("gloves"));
+        textureMap.put(Glyphs.HELMET, atlas.findRegion("helmet"));
+        textureMap.put(Glyphs.RING, atlas.findRegion("ring"));
     }
 
     public static void dispose() {

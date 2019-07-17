@@ -6,6 +6,7 @@ import com.jscisco.lom.attributes.Equipment;
 import com.jscisco.lom.attributes.Inventory;
 import com.jscisco.lom.attributes.Job;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
@@ -13,9 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 class TestSaving {
 
@@ -64,6 +63,18 @@ class TestSaving {
         writeToFile(json, "save_stage.json");
     }
 
+    /**
+     * Given a random player
+     * When we save it
+     * Then we can load it
+     */
+    @Test
+    void testSaveAndLoadRandomPlayer() {
+        Player player = PlayerFactory.createRandomHero();
+        writeToFile(new Gson().toJson(player), player.getName());
+        Player loaded = readFromFile(player.getName(), Player.class);
+        writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
+    }
 
     private void writeToFile(String json, String filename) {
         try {
@@ -73,6 +84,21 @@ class TestSaving {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private <T> T readFromFile(String filename, Class<T> classOf) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String json = reader.readLine();
+            reader.close();
+            Gson gson = new Gson();
+            return gson.fromJson(json, classOf);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

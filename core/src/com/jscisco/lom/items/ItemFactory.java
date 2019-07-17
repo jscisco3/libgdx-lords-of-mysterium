@@ -11,7 +11,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.HAND).build()
         )
-                .withTextureRegion(Assets.sword)
+                .withGlyph(Assets.Glyphs.SWORD)
                 .build();
     }
 
@@ -21,7 +21,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.BODY).build()
         )
-                .withTextureRegion(Assets.body_armor)
+                .withGlyph(Assets.Glyphs.BODY_ARMOR)
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.BOOTS).build()
         )
-                .withTextureRegion(Assets.boots)
+                .withGlyph(Assets.Glyphs.BOOTS)
                 .build();
     }
 
@@ -41,7 +41,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.CLOAK).build()
         )
-                .withTextureRegion(Assets.cloak)
+                .withGlyph(Assets.Glyphs.CLOAK)
                 .build();
     }
 
@@ -51,7 +51,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.GLOVES).build()
         )
-                .withTextureRegion(Assets.gloves)
+                .withGlyph(Assets.Glyphs.GLOVES)
                 .build();
     }
 
@@ -61,7 +61,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.HELM).build()
         )
-                .withTextureRegion(Assets.helmet)
+                .withGlyph(Assets.Glyphs.HELMET)
                 .build();
     }
 
@@ -71,7 +71,7 @@ public class ItemFactory {
                 .withValue(5)
                 .withEquipSlot(Equipment.EquipmentSlot.RING).build()
         )
-                .withTextureRegion(Assets.ring)
+                .withGlyph(Assets.Glyphs.RING)
                 .build();
     }
 

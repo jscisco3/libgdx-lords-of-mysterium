@@ -8,7 +8,7 @@ public class Job {
     private String name;
     private Stats baseStats;
     private Stats statsPerLevel;
-    private String textureMapLookup;
+    private Assets.Glyphs glyph;
 
     private Job() {
 
@@ -19,7 +19,7 @@ public class Job {
     }
 
     public TextureRegion getIcon() {
-        return Assets.textureMap.get(this.textureMapLookup);
+        return Assets.textureMap.get(this.glyph);
     }
 
     public Stats getBaseStats() {
@@ -32,7 +32,7 @@ public class Job {
 
     public static class Builder {
         private String name;
-        private String textureMapLookup;
+        private Assets.Glyphs glyph;
         private Stats baseStats;
         private Stats statsPerLevel;
 
@@ -40,8 +40,8 @@ public class Job {
             this.name = name;
         }
 
-        public Builder withIcon(String textureMapLookup) {
-            this.textureMapLookup = textureMapLookup;
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
             return this;
         }
 
@@ -58,7 +58,7 @@ public class Job {
         public Job build() {
             Job job = new Job();
             job.name = this.name;
-            job.textureMapLookup = this.textureMapLookup;
+            job.glyph = this.glyph;
             job.baseStats = this.baseStats;
             job.statsPerLevel = this.statsPerLevel;
             return job;
@@ -80,7 +80,7 @@ public class Job {
                         .withIntelligence(0)
                         .build()
                 )
-                .withIcon("warrior")
+                .withGlyph(Assets.Glyphs.WARRIOR)
                 .build();
     }
 
@@ -99,7 +99,7 @@ public class Job {
                         .withIntelligence(2)
                         .build()
                 )
-                .withIcon("wizard")
+                .withGlyph(Assets.Glyphs.WIZARD)
                 .build();
     }
 
@@ -118,7 +118,7 @@ public class Job {
                         .withIntelligence(1)
                         .build()
                 )
-                .withIcon("rogue")
+                .withGlyph(Assets.Glyphs.ROGUE)
                 .build();
     }
 }

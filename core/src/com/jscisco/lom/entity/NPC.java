@@ -2,6 +2,7 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.jscisco.lom.action.Action;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
@@ -29,7 +30,7 @@ public class NPC extends Entity {
         private Energy energy;
         private Inventory inventory;
         private Equipment equipment;
-        private String textureMapLookup;
+        private Assets.Glyphs glyph;
         private Stats stats;
         private Job job;
 
@@ -75,8 +76,8 @@ public class NPC extends Entity {
             return this;
         }
 
-        public Builder withTexture(String textureMapLookup) {
-            this.textureMapLookup = textureMapLookup;
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
             return this;
         }
 
@@ -105,7 +106,7 @@ public class NPC extends Entity {
             npc.energy = energy;
             npc.inventory = inventory;
             npc.equipment = equipment;
-            npc.textureMapLookup = textureMapLookup;
+            npc.glyph = glyph;
             npc.job = job;
             npc.stats = stats;
             npc.behaviorTree = behaviorTree;

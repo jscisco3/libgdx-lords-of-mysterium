@@ -5,6 +5,6 @@ import com.jscisco.lom.assets.Assets;
 public class Wall extends Terrain {
 
     public Wall() {
-        super(Assets.wall, false, false);
+        super(Assets.Glyphs.WALL, false, false);
     }
 }
