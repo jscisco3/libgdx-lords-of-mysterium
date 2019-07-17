@@ -2,6 +2,7 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
@@ -11,19 +12,19 @@ import squidpony.squidai.DijkstraMap;
 public abstract class Entity {
 
     protected String name;
-
-    protected Stage stage;
-    protected Action nextAction;
     protected FieldOfView fieldOfView;
     protected Position position;
     protected Health health;
     protected Energy energy;
     protected Inventory inventory;
     protected Equipment equipment;
-    protected TextureRegion texture;
     protected Stats stats;
     protected Job job;
-    protected DijkstraMap pathingMap;
+    protected String textureMapLookup;
+
+    protected transient Stage stage;
+    protected transient Action nextAction;
+    protected transient DijkstraMap pathingMap;
 
     protected Entity() {
         this.pathingMap = new DijkstraMap();
@@ -90,7 +91,15 @@ public abstract class Entity {
         if (this.job != null) {
             return this.job.getIcon();
         }
-        return texture;
+        return Assets.textureMap.get(textureMapLookup);
+    }
+
+    public String getTextureMapLookup() {
+        return textureMapLookup;
+    }
+
+    public void setTextureMapLookup(String textureMapLookup) {
+        this.textureMapLookup = textureMapLookup;
     }
 
     public Action getNextAction() {
@@ -139,10 +148,6 @@ public abstract class Entity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setTexture(TextureRegion texture) {
-        this.texture = texture;
     }
 
     public void setStats(Stats stats) {

@@ -1,7 +1,6 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.ai.btree.BehaviorTree;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
@@ -15,6 +14,7 @@ import java.util.Map;
 public class NPC extends Entity {
 
     private final Logger logger = LoggerFactory.getLogger(NPC.class);
+
     private BehaviorTree<NPC> behaviorTree;
     private Map<String, Object> knowledge = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class NPC extends Entity {
         private Energy energy;
         private Inventory inventory;
         private Equipment equipment;
-        private TextureRegion texture;
+        private String textureMapLookup;
         private Stats stats;
         private Job job;
 
@@ -75,8 +75,8 @@ public class NPC extends Entity {
             return this;
         }
 
-        public Builder withTexture(TextureRegion texture) {
-            this.texture = texture;
+        public Builder withTexture(String textureMapLookup) {
+            this.textureMapLookup = textureMapLookup;
             return this;
         }
 
@@ -105,7 +105,7 @@ public class NPC extends Entity {
             npc.energy = energy;
             npc.inventory = inventory;
             npc.equipment = equipment;
-            npc.texture = texture;
+            npc.textureMapLookup = textureMapLookup;
             npc.job = job;
             npc.stats = stats;
             npc.behaviorTree = behaviorTree;

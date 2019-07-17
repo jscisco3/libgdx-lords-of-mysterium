@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Assets {
 
     public static TextureAtlas atlas;
@@ -33,20 +36,31 @@ public class Assets {
     public static TextureRegion helmet;
     public static TextureRegion ring;
 
+    public static Map<String, TextureRegion> textureMap = new HashMap<>();
+
+
     public static void load() {
         atlas = new TextureAtlas(Gdx.files.internal("../out/images/images.atlas"));
 
         // Terrain
         floor = atlas.findRegion("floor");
+        textureMap.put("floor", floor);
         wall = atlas.findRegion("wall");
+        textureMap.put("wall", wall);
         stairsUp = atlas.findRegion("stairs_up");
+        textureMap.put("stairs_up", stairsUp);
         stairsDown = atlas.findRegion("stairs_down");
+        textureMap.put("stairs_down", stairsDown);
 
         // Jobs
         player = atlas.findRegion("player");
+        textureMap.put("player", player);
         warrior = atlas.findRegion("warrior");
+        textureMap.put("warrior", warrior);
         wizard = atlas.findRegion("wizard");
+        textureMap.put("wizard", wizard);
         rogue = atlas.findRegion("rogue");
+        textureMap.put("rogue", rogue);
 
         // Characters
         rat = atlas.findRegion("rat");

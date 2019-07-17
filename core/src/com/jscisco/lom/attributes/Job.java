@@ -6,9 +6,9 @@ import com.jscisco.lom.assets.Assets;
 public class Job {
 
     private String name;
-    private TextureRegion icon;
     private Stats baseStats;
     private Stats statsPerLevel;
+    private String textureMapLookup;
 
     private Job() {
 
@@ -19,7 +19,7 @@ public class Job {
     }
 
     public TextureRegion getIcon() {
-        return icon;
+        return Assets.textureMap.get(this.textureMapLookup);
     }
 
     public Stats getBaseStats() {
@@ -32,7 +32,7 @@ public class Job {
 
     public static class Builder {
         private String name;
-        private TextureRegion icon;
+        private String textureMapLookup;
         private Stats baseStats;
         private Stats statsPerLevel;
 
@@ -40,8 +40,8 @@ public class Job {
             this.name = name;
         }
 
-        public Builder withIcon(TextureRegion icon) {
-            this.icon = icon;
+        public Builder withIcon(String textureMapLookup) {
+            this.textureMapLookup = textureMapLookup;
             return this;
         }
 
@@ -56,12 +56,12 @@ public class Job {
         }
 
         public Job build() {
-            Job clazz = new Job();
-            clazz.name = this.name;
-            clazz.icon = this.icon;
-            clazz.baseStats = this.baseStats;
-            clazz.statsPerLevel = this.statsPerLevel;
-            return clazz;
+            Job job = new Job();
+            job.name = this.name;
+            job.textureMapLookup = this.textureMapLookup;
+            job.baseStats = this.baseStats;
+            job.statsPerLevel = this.statsPerLevel;
+            return job;
         }
     }
 
@@ -80,7 +80,7 @@ public class Job {
                         .withIntelligence(0)
                         .build()
                 )
-                .withIcon(Assets.warrior)
+                .withIcon("warrior")
                 .build();
     }
 
@@ -99,7 +99,7 @@ public class Job {
                         .withIntelligence(2)
                         .build()
                 )
-                .withIcon(Assets.wizard)
+                .withIcon("wizard")
                 .build();
     }
 
@@ -118,7 +118,7 @@ public class Job {
                         .withIntelligence(1)
                         .build()
                 )
-                .withIcon(Assets.rogue)
+                .withIcon("rogue")
                 .build();
     }
 }

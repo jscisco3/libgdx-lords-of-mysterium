@@ -1,5 +1,6 @@
 package com.jscisco.lom.attributes;
 
+import com.google.gson.annotations.Expose;
 import com.jscisco.lom.items.Item;
 
 import java.util.ArrayList;

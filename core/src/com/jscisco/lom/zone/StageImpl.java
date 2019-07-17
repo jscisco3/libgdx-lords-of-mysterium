@@ -29,9 +29,8 @@ public class StageImpl implements Stage {
     private Tile[][] tiles;
     private int width;
     private int height;
-    private int level;
-    private Player player;
 
+    private Player player;
     private List<Entity> entities;
     private List<Item> items;
     private int currentEntityIndex;
@@ -49,7 +48,6 @@ public class StageImpl implements Stage {
     public StageImpl(int width, int height, boolean stairsUp, boolean stairsDown, GenerationStrategy strategy) {
         this.width = width;
         this.height = height;
-        this.level = level;
         this.entities = new ArrayList<>();
         this.items = new ArrayList<>();
         this.strategy = strategy;

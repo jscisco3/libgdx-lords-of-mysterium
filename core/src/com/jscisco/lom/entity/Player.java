@@ -1,6 +1,5 @@
 package com.jscisco.lom.entity;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
@@ -17,7 +16,7 @@ public class Player extends Entity {
         private Energy energy;
         private Inventory inventory;
         private Equipment equipment;
-        private TextureRegion texture;
+        private String textureMapLookup;
         private Stats stats;
         private Job job;
 
@@ -60,8 +59,8 @@ public class Player extends Entity {
             return this;
         }
 
-        public Builder withTexture(TextureRegion texture) {
-            this.texture = texture;
+        public Builder withTexture(String textureMapLookup) {
+            this.textureMapLookup = textureMapLookup;
             return this;
         }
 
@@ -85,7 +84,7 @@ public class Player extends Entity {
             player.energy = energy;
             player.inventory = inventory;
             player.equipment = equipment;
-            player.texture = texture;
+            player.textureMapLookup = textureMapLookup;
             player.job = job;
             player.stats = stats;
             return player;

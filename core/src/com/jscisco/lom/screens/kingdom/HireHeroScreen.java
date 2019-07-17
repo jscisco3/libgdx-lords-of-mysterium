@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.google.gson.Gson;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.screens.ZoneScreen;
@@ -16,6 +17,9 @@ import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -79,6 +83,15 @@ public class HireHeroScreen implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            String json = new Gson().toJson(getSelectedHero());
+            try {
+                BufferedWriter writer = new BufferedWriter(new FileWriter("testsave.json", false));
+                writer.append(json);
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             Zone zone = new Zone(new Size3D(50, 50, 3), getSelectedHero());
             this.game.setScreen(new ZoneScreen(this.game, zone));
         }

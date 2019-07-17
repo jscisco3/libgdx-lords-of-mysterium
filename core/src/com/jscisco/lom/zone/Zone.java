@@ -73,7 +73,7 @@ public class Zone {
                     .withPosition(stage.findEmptyPosition())
                     .withBehaviorTree(Config.repository.retrieveTree("wander"))
                     .withHealth(new Health(50))
-                    .withTexture(Assets.snuugz)
+                    .withTexture("player")
                     .build();
             stage.addEntity(npc);
         }

@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Terrain {
 
-    protected TextureRegion texture;
     protected boolean walkable;
     protected boolean transparent;
+    protected transient TextureRegion texture;
 
     public Terrain(TextureRegion texture, boolean walkable, boolean transparent) {
         this.texture = texture;

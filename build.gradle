@@ -75,6 +75,8 @@ project(":core") {
         // AI
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
+        compile 'com.google.code.gson:gson:2.8.5'
+        
         testCompile "org.mockito:mockito-core:2.2.7"
         testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
         testCompile "org.junit.jupiter:junit-jupiter-params:$junitVersion"
