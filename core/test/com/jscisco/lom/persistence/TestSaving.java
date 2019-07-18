@@ -1,16 +1,26 @@
 package com.jscisco.lom.persistence;
 
+import com.badlogic.gdx.ai.btree.BehaviorTree;
+import com.badlogic.gdx.ai.btree.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.Equipment;
+import com.jscisco.lom.attributes.Health;
 import com.jscisco.lom.attributes.Inventory;
 import com.jscisco.lom.attributes.Job;
+import com.jscisco.lom.config.Config;
+import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
+import com.jscisco.lom.persistence.serializer.CustomBehaviorTreeSerializer;
+import com.jscisco.lom.persistence.serializer.CustomTaskSerializer;
+import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import com.jscisco.lom.zone.Zone;
+import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -100,6 +110,83 @@ class TestSaving {
         Zone zone2 = new Gson().fromJson(json, Zone.class);
 
         Assertions.assertThat(zone.getHeight()).isEqualTo(zone2.getHeight());
+    }
+
+    /**
+     * Given an NPC with a BehaviorTree
+     * When I serialize it
+     * Then I should have valid JSON
+     */
+    @Test
+    void shouldBeAbleToSerializeNPCWithoutBehaviorTree() {
+        NPC npc = new NPC.Builder("NPC")
+                .withGlyph(Assets.Glyphs.RAT)
+                .withHealth(new Health(50))
+                .withPosition(new Position(20, 20))
+                .withEquipment(new Equipment())
+                .withJob(Job.rogue())
+                .build();
+
+        String json = new Gson().toJson(npc);
+        Assertions.assertThat(json.isEmpty()).isFalse();
+    }
+
+    /**
+     * Given an NPC with a behavior tree
+     * When I serialize it
+     * Then I should have valid json
+     */
+    @Test
+    void shouldBeAbleToSerializeNPCWithBehaviorTree() {
+        NPC npc = new NPC.Builder("NPC")
+                .withGlyph(Assets.Glyphs.RAT)
+                .withHealth(new Health(50))
+                .withPosition(new Position(20, 20))
+                .withEquipment(new Equipment())
+                .withJob(Job.rogue())
+                .withBehaviorTree(Config.repository.retrieveTree("wander"))
+                .build();
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(BehaviorTree.class, new CustomBehaviorTreeSerializer())
+                .create();
+
+        String json = gson.toJson(npc);
+        Assertions.assertThat(json.isEmpty()).isFalse();
+    }
+
+    /**
+     * Given an NPC with a behavior tree
+     *  that has taken a step
+     * When I serialize it
+     * Then I should have valid json
+     */
+    @Test
+    void shouldBeAbleToSerializeNPCWithBehaviorTreeThatTookStep() {
+
+        Stage stage = new StageImpl(50, 50, true, false, new EmptyStageGenerationStrategy());
+
+        NPC npc = new NPC.Builder("NPC")
+                .withGlyph(Assets.Glyphs.RAT)
+                .withHealth(new Health(50))
+                .withPosition(new Position(20, 20))
+                .withEquipment(new Equipment())
+                .withJob(Job.rogue())
+                .withBehaviorTree(Config.repository.retrieveTree("wander"))
+                .withStage(stage)
+                .build();
+
+        stage.addEntity(npc);
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(BehaviorTree.class, new CustomBehaviorTreeSerializer())
+                .registerTypeAdapter(Task.class, new CustomTaskSerializer())
+                .create();
+
+        npc.getNextAction();
+        String json = gson.toJson(npc);
+        logger.info(json);
+        Assertions.assertThat(json.isEmpty()).isFalse();
     }
 
     private void writeToFile(String json, String filename) {

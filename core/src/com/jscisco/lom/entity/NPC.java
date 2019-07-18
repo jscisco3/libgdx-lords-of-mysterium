@@ -14,9 +14,8 @@ import java.util.Map;
 
 public class NPC extends Entity {
 
-    private final Logger logger = LoggerFactory.getLogger(NPC.class);
+    private static final Logger logger = LoggerFactory.getLogger(NPC.class);
 
-    // Don't save this for now?
     private transient BehaviorTree<NPC> behaviorTree;
     private Map<String, Object> knowledge = new HashMap<>();
 
