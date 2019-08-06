@@ -2,7 +2,6 @@ package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.google.gson.Gson;
 import com.jscisco.lom.action.*;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.items.Item;
@@ -10,9 +9,6 @@ import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class PlayerTurnState extends State {
@@ -77,14 +73,6 @@ public class PlayerTurnState extends State {
             }
         }
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            String filename = Gdx.files.internal("zone.json").path();
-            try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(filename, false));
-                writer.append(new Gson().toJson(zone));
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             Gdx.app.exit();
         }
         this.player.setNextAction(action);

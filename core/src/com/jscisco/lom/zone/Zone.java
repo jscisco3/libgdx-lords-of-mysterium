@@ -1,10 +1,6 @@
 package com.jscisco.lom.zone;
 
-import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.items.Item;
@@ -65,17 +61,17 @@ public class Zone {
         }
         this.getCurrentStage().addEntity(player);
 
-        for (int z = 0; z < this.size.getDepth(); z++) {
-            Stage stage = this.stages.get(z);
-            NPC npc = new NPC.Builder("Snuugz")
-                    .withStage(stage)
-                    .withPosition(stage.findEmptyPosition())
-                    .withBehaviorTree(Config.repository.retrieveTree("wander"))
-                    .withHealth(new Health(50))
-                    .withGlyph(Assets.Glyphs.SNUUGZ)
-                    .build();
-            stage.addEntity(npc);
-        }
+//        for (int z = 0; z < this.size.getDepth(); z++) {
+//            Stage stage = this.stages.get(z);
+//            NPC npc = new NPC.Builder("Snuugz")
+//                    .withStage(stage)
+//                    .withPosition(stage.findEmptyPosition())
+//                    .withBehaviorTree(Config.repository.retrieveTree("wander"))
+//                    .withHealth(new Health(50))
+//                    .withGlyph(Assets.Glyphs.SNUUGZ)
+//                    .build();
+//            stage.addEntity(npc);
+//        }
 
 
 //        for (int i = 0; i < 10; i++) {

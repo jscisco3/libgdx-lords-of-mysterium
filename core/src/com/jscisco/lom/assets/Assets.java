@@ -41,8 +41,8 @@ public class Assets {
         // Terrain
         textureMap.put(Glyphs.FLOOR, atlas.findRegion("floor"));
         textureMap.put(Glyphs.WALL, atlas.findRegion("wall"));
-        textureMap.put(Glyphs.STAIRS_UP, atlas.findRegion("stairsUp"));
-        textureMap.put(Glyphs.STAIRS_DOWN, atlas.findRegion("stairsDown"));
+        textureMap.put(Glyphs.STAIRS_UP, atlas.findRegion("stairs_up"));
+        textureMap.put(Glyphs.STAIRS_DOWN, atlas.findRegion("stairs_down"));
 
         // Jobs
         textureMap.put(Glyphs.WARRIOR, atlas.findRegion("warrior"));
@@ -66,5 +66,4 @@ public class Assets {
     public static void dispose() {
         atlas.dispose();
     }
-
 }

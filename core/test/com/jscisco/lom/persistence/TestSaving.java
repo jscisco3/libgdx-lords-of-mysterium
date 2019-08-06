@@ -23,6 +23,7 @@ import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ class TestSaving {
 
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(player);
-        writeToFile(json, "save_player.json");
+//        writeToFile(json, "save_player.json");
     }
 
     /**
@@ -73,7 +74,7 @@ class TestSaving {
 //        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         Gson gson = new GsonBuilder().create();
         String json = gson.toJson(stage);
-        writeToFile(json, "save_stage.json");
+//        writeToFile(json, "save_stage.json");
     }
 
     /**
@@ -86,7 +87,7 @@ class TestSaving {
         Player player = PlayerFactory.createRandomHero();
         writeToFile(new Gson().toJson(player), player.getName());
         Player loaded = readFromFile(player.getName(), Player.class);
-        writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
+//        writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
     }
 
     /**
@@ -99,9 +100,11 @@ class TestSaving {
         Zone zone = new Zone(new Size3D(30, 30, 2), PlayerFactory.createRandomHero());
 
         String json = new Gson().toJson(zone);
-        writeToFile(json, "zone.json");
+//        writeToFile(json, "zone.json");
     }
 
+
+    @Disabled
     @Test
     void shouldBeAbleToDeserializeZone() {
         Zone zone = new Zone(new Size3D(50, 50, 5), PlayerFactory.createRandomHero());

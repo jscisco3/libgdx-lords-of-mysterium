@@ -3,8 +3,6 @@ package com.jscisco.lom;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
@@ -15,10 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,23 +28,9 @@ public class LOMGame extends Game {
         Assets.load();
 
         Zone zone = null;
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(Gdx.files.internal("zone.json").path()));
-            String json = reader.readLine();
-            reader.close();
-            Gson gson = new Gson();
-            zone = gson.fromJson(json, Zone.class);
-        } catch (IOException | RuntimeException e) {
-            logger.error(e.toString());
-        }
         if (zone != null) {
             setScreen(new ZoneScreen(this, zone));
         } else {
-
-//        zoneScreen = new ZoneScreen(this, new Zone(new Size3D(25, 25, 1)));
-//        setScreen(zoneScreen);
-//        setScreen(new MainMenuScreen(this));
-
             List<Player> heroes = new ArrayList<>();
             for (int i = 0; i < 9; i++) {
                 heroes.add(PlayerFactory.createRandomHero());
