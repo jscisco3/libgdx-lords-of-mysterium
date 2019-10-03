@@ -2,6 +2,7 @@ package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.jscisco.lom.action.Action;
+import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class NPC extends Entity {
 
@@ -123,7 +125,7 @@ public class NPC extends Entity {
 
     @Override
     public Action getNextAction() {
-        this.behaviorTree.step();
+        this.nextAction = new MoveAction(this, ThreadLocalRandom.current().nextInt(-1, 2), ThreadLocalRandom.current().nextInt(-1, 2));
         return super.getNextAction();
     }
 
