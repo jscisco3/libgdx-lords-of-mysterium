@@ -5,6 +5,8 @@ import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.util.Position;
 
+import java.util.Optional;
+
 public class Item {
 
     private Item() {
@@ -17,11 +19,11 @@ public class Item {
      */
     private Position position;
     private Assets.Glyphs glyph;
-    private Attack attack;
+    private Optional<Attack> attack;
 
     // Do items need to have a reference to the stage they are in?
 
-    public Attack getAttack() {
+    public Optional<Attack> getAttack() {
         return attack;
     }
 
@@ -75,7 +77,7 @@ public class Item {
             item.itemType = this.itemType;
             item.position = this.position;
             item.glyph = this.glyph;
-            item.attack = this.attack;
+            item.attack = Optional.of(this.attack);
             return item;
         }
 

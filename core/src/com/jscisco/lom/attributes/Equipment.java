@@ -1,11 +1,11 @@
 package com.jscisco.lom.attributes;
 
-import com.google.gson.annotations.Expose;
 import com.jscisco.lom.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Equipment {
 
@@ -90,6 +90,10 @@ public class Equipment {
 
     public List<Item> getSlots() {
         return slots;
+    }
+
+    public List<Item> getWeapons() {
+        return slots.stream().filter(i -> i != null && i.getAttack().isPresent()).collect(Collectors.toList());
     }
 
     public enum EquipmentSlot {
