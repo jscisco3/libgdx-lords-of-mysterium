@@ -51,7 +51,7 @@ public class Item {
         private ItemType itemType;
         private Position position;
         private Assets.Glyphs glyph;
-        private Attack attack;
+        private Optional<Attack> attack = Optional.empty();
 
         public Builder(ItemType itemType) {
             this.itemType = itemType;
@@ -68,7 +68,7 @@ public class Item {
         }
 
         public Builder withAttack(Attack attack) {
-            this.attack = attack;
+            this.attack = Optional.of(attack);
             return this;
         }
 
@@ -77,7 +77,7 @@ public class Item {
             item.itemType = this.itemType;
             item.position = this.position;
             item.glyph = this.glyph;
-            item.attack = Optional.of(this.attack);
+            item.attack = this.attack;
             return item;
         }
 

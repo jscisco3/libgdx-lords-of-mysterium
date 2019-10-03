@@ -4,13 +4,13 @@ import com.jscisco.lom.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Equipment {
 
     private List<EquipmentSlot> slotTypes;
-    private List<Item> slots;
+    private List<Optional<Item>> slots;
 
     public Equipment() {
         this.slots = new ArrayList<>();
@@ -29,13 +29,13 @@ public class Equipment {
         this.slotTypes.add(EquipmentSlot.BOOTS);
 
         for (int i = 0; i < this.slotTypes.size(); i++) {
-            this.slots.add(null);
+            this.slots.add(Optional.empty());
         }
     }
 
     public int getNumberOfEquippedItems() {
         return (int) this.slots.stream()
-                .filter(Objects::nonNull).count();
+                .filter(Optional::isPresent).count();
     }
 
     public boolean canEquip(Item item) {
@@ -60,9 +60,9 @@ public class Equipment {
         int usedSlot = -1;
         for (int i = 0; i < slotTypes.size(); i++) {
             if (slotTypes.get(i).equals(item.getItemType().getEquipSlot())) {
-                if (slots.get(i) == null) {
+                if (!slots.get(i).isPresent()) {
                     // This is an empty slot, so put the item here.
-                    slots.set(i, item);
+                    slots.set(i, Optional.of(item));
                     return unequipped;
                 } else {
                     // Found suitable slot, but it is occupied
@@ -73,14 +73,14 @@ public class Equipment {
 
         // If we get here, all matching slots are full. So swap out an item.
         assert (usedSlot != -1);
-        unequipped.add(this.slots.get(usedSlot));
-        this.slots.set(usedSlot, item);
+        unequipped.add(this.slots.get(usedSlot).get());
+        this.slots.set(usedSlot, Optional.of(item));
         return unequipped;
     }
 
     public Item unequip(int index) {
-        Item unequipped = this.slots.get(index);
-        this.slots.set(index, null);
+        Item unequipped = this.slots.get(index).get();
+        this.slots.set(index, Optional.empty());
         return unequipped;
     }
 
@@ -88,12 +88,17 @@ public class Equipment {
         return slotTypes;
     }
 
-    public List<Item> getSlots() {
+    public List<Optional<Item>> getSlots() {
         return slots;
     }
 
-    public List<Item> getWeapons() {
-        return slots.stream().filter(i -> i != null && i.getAttack().isPresent()).collect(Collectors.toList());
+    public List<Optional<Item>> getWeapons() {
+        return slots.stream()
+                .filter(Optional::isPresent)
+                .collect(Collectors.toList())
+                .stream()
+                .filter(item -> item.flatMap(Item::getAttack).isPresent())
+                .collect(Collectors.toList());
     }
 
     public enum EquipmentSlot {
