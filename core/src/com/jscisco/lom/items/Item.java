@@ -2,6 +2,7 @@ package com.jscisco.lom.items;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.util.Position;
 
 public class Item {
@@ -16,36 +17,12 @@ public class Item {
      */
     private Position position;
     private Assets.Glyphs glyph;
+    private Attack attack;
 
     // Do items need to have a reference to the stage they are in?
 
-    public static class Builder {
-        private ItemType itemType;
-        private Position position;
-        private Assets.Glyphs glyph;
-
-        public Builder(ItemType itemType) {
-            this.itemType = itemType;
-        }
-
-        public Builder withPosition(Position position) {
-            this.position = position;
-            return this;
-        }
-
-        public Builder withGlyph(Assets.Glyphs glyph) {
-            this.glyph = glyph;
-            return this;
-        }
-
-        public Item build() {
-            Item item = new Item();
-            item.itemType = this.itemType;
-            item.position = this.position;
-            item.glyph = this.glyph;
-            return item;
-        }
-
+    public Attack getAttack() {
+        return attack;
     }
 
     public ItemType getItemType() {
@@ -68,12 +45,40 @@ public class Item {
         return glyph;
     }
 
-    public void setGlyph(Assets.Glyphs glyph) {
-        this.glyph = glyph;
-    }
+    public static class Builder {
+        private ItemType itemType;
+        private Position position;
+        private Assets.Glyphs glyph;
+        private Attack attack;
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+        public Builder(ItemType itemType) {
+            this.itemType = itemType;
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
+            return this;
+        }
+
+        public Builder withAttack(Attack attack) {
+            this.attack = attack;
+            return this;
+        }
+
+        public Item build() {
+            Item item = new Item();
+            item.itemType = this.itemType;
+            item.position = this.position;
+            item.glyph = this.glyph;
+            item.attack = this.attack;
+            return item;
+        }
+
     }
 
     @Override

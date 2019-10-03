@@ -63,9 +63,4 @@ class TestEquipment {
                 .build();
         Assertions.assertThat(this.equipment.canEquip(item)).isFalse();
     }
-
-    /**
-     *
-     */
-
 }

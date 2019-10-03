@@ -2,6 +2,10 @@ package com.jscisco.lom.items;
 
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.Equipment;
+import com.jscisco.lom.combat.Attack;
+import com.jscisco.lom.combat.Damage;
+
+import static com.jscisco.lom.combat.DamageType.SLASHING;
 
 public class ItemFactory {
 
@@ -9,9 +13,11 @@ public class ItemFactory {
         return new Item.Builder(new ItemType.Builder().withName("Sword")
                 .withDescription("A Cool Sword")
                 .withValue(5)
-                .withEquipSlot(Equipment.EquipmentSlot.HAND).build()
+                .withEquipSlot(Equipment.EquipmentSlot.HAND)
+                .build()
         )
                 .withGlyph(Assets.Glyphs.SWORD)
+                .withAttack(new Attack(5, new Damage(SLASHING, 10)))
                 .build();
     }
 

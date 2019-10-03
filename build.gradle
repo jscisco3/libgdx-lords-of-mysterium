@@ -29,6 +29,8 @@ allprojects {
         slf4jVersion = '1.7.25'
         junitVersion = '5.3.2'
         assertjVersion = '3.11.1'
+        guavaVersion = '21.0'
+        guiceVersion = '4.2.2'
     }
 
     repositories {
@@ -55,6 +57,9 @@ project(":desktop") {
 
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
 
+        compile "com.google.guava:guava:$guavaVersion"
+        compile "com.google.inject:guice:$guiceVersion"
+
     }
 }
 
@@ -76,6 +81,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 
         compile 'com.google.code.gson:gson:2.8.5'
+        compile "com.google.guava:guava:$guavaVersion"
+        compile "com.google.inject:guice:$guiceVersion"
         
         testCompile "org.mockito:mockito-core:2.2.7"
         testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"

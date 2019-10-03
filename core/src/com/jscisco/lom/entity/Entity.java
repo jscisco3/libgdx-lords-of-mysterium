@@ -1,13 +1,19 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.google.common.eventbus.EventBus;
+import com.google.inject.Inject;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
+import com.jscisco.lom.combat.Attack;
+import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
+
+import static com.jscisco.lom.combat.DamageType.BLUNT;
 
 public abstract class Entity {
 
@@ -25,6 +31,9 @@ public abstract class Entity {
     protected transient Stage stage;
     protected transient Action nextAction;
     protected transient DijkstraMap pathingMap;
+
+    @Inject
+    protected EventBus eventBus;
 
     protected Entity() {
         this.pathingMap = new DijkstraMap();
@@ -157,4 +166,11 @@ public abstract class Entity {
     public void setJob(Job job) {
         this.job = job;
     }
+
+    public Attack getAttack() {
+
+        // Default unarmed attack
+        return new Attack(0, new Damage(BLUNT, 5));
+    }
+
 }

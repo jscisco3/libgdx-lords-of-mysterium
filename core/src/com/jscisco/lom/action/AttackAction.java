@@ -1,5 +1,6 @@
 package com.jscisco.lom.action;
 
+import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +18,12 @@ public class AttackAction extends AbstractAction {
 
     @Override
     public ActionResult invoke() {
-        this.defender.getHealth().damage(1000);
-
+        Attack attack = source.getAttack();
+        attack.getDamages().forEach(d -> this.defender.getHealth().damage(d.getMagnitude()));
         if (this.defender.getHealth().shouldBeDestroyed()) {
             logger.info("{} has been destroyed!", this.defender);
             defender.getStage().removeEntity(defender);
         }
-
         return ActionResult.success();
     }
 }

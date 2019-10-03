@@ -1,0 +1,20 @@
+How should combat work?
+
+First, an attack can deal multiple types of damage, each one with it's own magnitude (amount of damage, before resistance)
+Can damage have a subtype?
+    e.g. PHYSICAL -> SLASHING, PIERCING, BLUNT .
+    These are all PHYSICAL types of damage, so we just enumerate them some how
+
+Second, a weapon (for example) will have a reference to the base Attack it does.
+    e.g. Sword { Attack(<Slashing, 10>, 5 }; Flaming Sword { Attack<Slashing, 10; Fire, 5>, 5 };
+
+When we do default bump attack,
+    1. get the attack
+        a. If has weapon:
+            return weapon.getAttack()
+        b. else:
+            return unarmedAttack()
+    2. get the defence of the defender
+    3. calculate if attack hits
+    4. if hit, calculate damage that will be done
+    5. apply damage
