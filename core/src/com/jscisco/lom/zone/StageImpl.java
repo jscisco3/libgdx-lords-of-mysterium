@@ -42,7 +42,7 @@ public class StageImpl implements Stage {
     private Position stairsDownPosition;
 
     public StageImpl() {
-
+        this(20, 20);
     }
 
     public StageImpl(int width, int height) {

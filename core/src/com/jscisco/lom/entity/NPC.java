@@ -102,6 +102,9 @@ public class NPC extends Entity {
             NPC npc = new NPC();
             npc.name = name;
             npc.stage = stage;
+            if (stage != null) {
+                this.stage.addEntity(npc);
+            }
             npc.fieldOfView = fieldOfView;
             npc.position = position;
             npc.health = health;

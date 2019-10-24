@@ -21,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
 
 public class InventoryScreen implements Screen {
 
@@ -135,11 +134,11 @@ public class InventoryScreen implements Screen {
     }
 
     private String getNameOfEquipment(int index) {
-        List<Optional<Item>> equippedItems = this.equipment.getSlots();
+        List<Item> equippedItems = this.equipment.getSlots();
         StringBuilder sb = new StringBuilder();
         sb.append(this.equipment.getSlotTypes().get(index));
         sb.append(" - ");
-        sb.append(equippedItems.get(index).isPresent() ? equippedItems.get(index).get().getItemType().getName() : "Nothing");
+        sb.append(equippedItems.get(index) != null ? equippedItems.get(index).getItemType().getName() : "Nothing");
         return sb.toString();
     }
 
@@ -156,7 +155,7 @@ public class InventoryScreen implements Screen {
 
         batch.begin();
         List<Equipment.EquipmentSlot> equipmentSlots = this.equipment.getSlotTypes();
-        List<Optional<Item>> equippedItems = this.equipment.getSlots();
+        List<Item> equippedItems = this.equipment.getSlots();
         for (int i = 0; i < equipmentSlots.size(); i++) {
             font.draw(batch, getNameOfEquipment(i), camera.position.x - Config.WINDOW_WIDTH / 2 + spacing, camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * (layout.height + spacing)));
         }

@@ -16,7 +16,5 @@ public class TestPlayer {
 
         Attack attack = player.getAttack();
         Assertions.assertThat(attack.getDamages()).isNotEmpty();
-
     }
-
 }

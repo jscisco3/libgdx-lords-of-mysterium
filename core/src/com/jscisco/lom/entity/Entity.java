@@ -8,10 +8,13 @@ import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Damage;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
+
+import java.util.List;
 
 import static com.jscisco.lom.combat.DamageType.BLUNT;
 
@@ -168,8 +171,20 @@ public abstract class Entity {
     }
 
     public Attack getAttack() {
+        // First, try to get any attack from the equipped weapons
+        if (this.equipment == null) {
+            return unarmedAttack();
+        }
+        List<Item> weapons = this.equipment.getWeapons();
+        if (weapons.isEmpty()) {
+            // Default unarmed attack
+            return unarmedAttack();
+        }
+        // Otherwise, return the first attack and we will handle multiple weapons later.
+        return weapons.get(0).getAttack();
+    }
 
-        // Default unarmed attack
+    private Attack unarmedAttack() {
         return new Attack(0, new Damage(BLUNT, 5));
     }
 
