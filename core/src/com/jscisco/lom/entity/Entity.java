@@ -26,7 +26,7 @@ public abstract class Entity {
     protected Energy energy;
     protected Inventory inventory;
     protected Equipment equipment;
-    protected Stats stats;
+    protected Statistics statistics;
     protected Job job;
     protected Assets.Glyphs glyph;
 
@@ -145,8 +145,8 @@ public abstract class Entity {
         }
     }
 
-    public Stats getStats() {
-        return stats;
+    public Statistics getStatistics() {
+        return statistics;
     }
 
     public EntityName getName() {
@@ -161,8 +161,8 @@ public abstract class Entity {
         this.name = name;
     }
 
-    public void setStats(Stats stats) {
-        this.stats = stats;
+    public void setStatistics(Statistics statistics) {
+        this.statistics = statistics;
     }
 
     public void setJob(Job job) {

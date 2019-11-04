@@ -200,10 +200,10 @@ public class ZoneScreen implements Screen {
         List<String> stats = new ArrayList<>();
         stats.add(player.getName().get());
         stats.add(String.format("Health: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()));
-        stats.add(String.format("Strength: %s", player.getStats().getStrength()));
-        stats.add(String.format("Intelligence: %s", player.getStats().getIntelligence()));
-        stats.add(String.format("Dexterity: %s", player.getStats().getDexterity()));
-        stats.add(String.format("Constitution: %s", player.getStats().getConstitution()));
+        stats.add(String.format("Strength: %s", player.getStatistics().getStrength()));
+        stats.add(String.format("Intelligence: %s", player.getStatistics().getIntelligence()));
+        stats.add(String.format("Dexterity: %s", player.getStatistics().getDexterity()));
+        stats.add(String.format("Constitution: %s", player.getStatistics().getConstitution()));
 
         ListIterator<String> iterator = stats.listIterator();
         while (iterator.hasNext()) {

@@ -6,8 +6,8 @@ import com.jscisco.lom.assets.Assets;
 public class Job {
 
     private String name;
-    private Stats baseStats;
-    private Stats statsPerLevel;
+    private Statistics baseStatistics;
+    private Statistics statisticsPerLevel;
     private Assets.Glyphs glyph;
 
     private Job() {
@@ -22,19 +22,19 @@ public class Job {
         return Assets.textureMap.get(this.glyph);
     }
 
-    public Stats getBaseStats() {
-        return baseStats;
+    public Statistics getBaseStatistics() {
+        return baseStatistics;
     }
 
-    public Stats getStatsPerLevel() {
-        return statsPerLevel;
+    public Statistics getStatisticsPerLevel() {
+        return statisticsPerLevel;
     }
 
     public static class Builder {
         private String name;
         private Assets.Glyphs glyph;
-        private Stats baseStats;
-        private Stats statsPerLevel;
+        private Statistics baseStatistics;
+        private Statistics statisticsPerLevel;
 
         public Builder(String name) {
             this.name = name;
@@ -45,13 +45,13 @@ public class Job {
             return this;
         }
 
-        public Builder withBaseStats(Stats baseStats) {
-            this.baseStats = baseStats;
+        public Builder withBaseStats(Statistics baseStatistics) {
+            this.baseStatistics = baseStatistics;
             return this;
         }
 
-        public Builder withStatsPerLevel(Stats statsPerLevel) {
-            this.statsPerLevel = statsPerLevel;
+        public Builder withStatsPerLevel(Statistics statisticsPerLevel) {
+            this.statisticsPerLevel = statisticsPerLevel;
             return this;
         }
 
@@ -59,25 +59,25 @@ public class Job {
             Job job = new Job();
             job.name = this.name;
             job.glyph = this.glyph;
-            job.baseStats = this.baseStats;
-            job.statsPerLevel = this.statsPerLevel;
+            job.baseStatistics = this.baseStatistics;
+            job.statisticsPerLevel = this.statisticsPerLevel;
             return job;
         }
     }
 
     public static Job warrior() {
         return new Builder("Warrior")
-                .withBaseStats(new Stats.Builder()
-                        .withStrength(14)
-                        .withConstitution(14)
-                        .withDexterity(12)
-                        .withIntelligence(8)
+                .withBaseStats(new Statistics.Builder()
+                        .withStrength(new Strength(14))
+                        .withConstitution(new Constitution(14))
+                        .withDexterity(new Dexterity(12))
+                        .withIntelligence(new Intelligence(8))
                         .build())
-                .withStatsPerLevel(new Stats.Builder()
-                        .withStrength(2)
-                        .withConstitution(2)
-                        .withDexterity(1)
-                        .withIntelligence(0)
+                .withStatsPerLevel(new Statistics.Builder()
+                        .withStrength(new Strength(2))
+                        .withConstitution(new Constitution(2))
+                        .withDexterity(new Dexterity(1))
+                        .withIntelligence(new Intelligence(0))
                         .build()
                 )
                 .withGlyph(Assets.Glyphs.WARRIOR)
@@ -86,17 +86,17 @@ public class Job {
 
     public static Job wizard() {
         return new Builder("Wizard")
-                .withBaseStats(new Stats.Builder()
-                        .withStrength(8)
-                        .withConstitution(8)
-                        .withDexterity(10)
-                        .withIntelligence(16)
+                .withBaseStats(new Statistics.Builder()
+                        .withStrength(new Strength(8))
+                        .withConstitution(new Constitution(8))
+                        .withDexterity(new Dexterity(10))
+                        .withIntelligence(new Intelligence(16))
                         .build())
-                .withStatsPerLevel(new Stats.Builder()
-                        .withStrength(0)
-                        .withConstitution(0)
-                        .withDexterity(1)
-                        .withIntelligence(2)
+                .withStatsPerLevel(new Statistics.Builder()
+                        .withStrength(new Strength(0))
+                        .withConstitution(new Constitution(0))
+                        .withDexterity(new Dexterity(1))
+                        .withIntelligence(new Intelligence(2))
                         .build()
                 )
                 .withGlyph(Assets.Glyphs.WIZARD)
@@ -105,17 +105,17 @@ public class Job {
 
     public static Job rogue() {
         return new Builder("Rogue")
-                .withBaseStats(new Stats.Builder()
-                        .withStrength(10)
-                        .withConstitution(12)
-                        .withDexterity(14)
-                        .withIntelligence(10)
+                .withBaseStats(new Statistics.Builder()
+                        .withStrength(new Strength(10))
+                        .withConstitution(new Constitution(12))
+                        .withDexterity(new Dexterity(14))
+                        .withIntelligence(new Intelligence(10))
                         .build())
-                .withStatsPerLevel(new Stats.Builder()
-                        .withStrength(1)
-                        .withConstitution(1)
-                        .withDexterity(1)
-                        .withIntelligence(1)
+                .withStatsPerLevel(new Statistics.Builder()
+                        .withStrength(new Strength(1))
+                        .withConstitution(new Constitution(1))
+                        .withDexterity(new Dexterity(1))
+                        .withIntelligence(new Intelligence(1))
                         .build()
                 )
                 .withGlyph(Assets.Glyphs.ROGUE)

@@ -36,7 +36,7 @@ class TestSaving {
         Job job = Job.warrior();
         Player player = new Player.Builder(new EntityName("Saved"))
                 .withJob(job)
-                .withStats(job.getBaseStats())
+                .withStats(job.getBaseStatistics())
                 .withInventory(new Inventory())
                 .withEquipment(new Equipment())
                 .build();
@@ -57,7 +57,7 @@ class TestSaving {
         Job job = Job.warrior();
         Player player = new Player.Builder(new EntityName("Saved"))
                 .withJob(job)
-                .withStats(job.getBaseStats())
+                .withStats(job.getBaseStatistics())
                 .withInventory(new Inventory())
                 .withEquipment(new Equipment())
                 .withPosition(stage.findEmptyPosition())

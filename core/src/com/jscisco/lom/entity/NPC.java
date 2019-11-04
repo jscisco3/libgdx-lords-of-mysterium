@@ -32,7 +32,7 @@ public class NPC extends Entity {
         private Inventory inventory;
         private Equipment equipment;
         private Assets.Glyphs glyph;
-        private Stats stats;
+        private Statistics statistics;
         private Job job;
 
         private BehaviorTree<NPC> behaviorTree;
@@ -82,8 +82,8 @@ public class NPC extends Entity {
             return this;
         }
 
-        public Builder withStats(Stats stats) {
-            this.stats = stats;
+        public Builder withStats(Statistics statistics) {
+            this.statistics = statistics;
             return this;
         }
 
@@ -112,7 +112,7 @@ public class NPC extends Entity {
             npc.equipment = equipment;
             npc.glyph = glyph;
             npc.job = job;
-            npc.stats = stats;
+            npc.statistics = statistics;
             npc.behaviorTree = behaviorTree;
             if (npc.behaviorTree != null) {
                 npc.behaviorTree.setObject(npc);

@@ -16,7 +16,7 @@ public class PlayerFactory {
                 .withEquipment(new Equipment())
                 .withHealth(new Health(150))
                 .withJob(job)
-                .withStats(job.getBaseStats())
+                .withStats(job.getBaseStatistics())
                 .withFieldOfView(new FieldOfView(10f))
                 .build();
         return player;

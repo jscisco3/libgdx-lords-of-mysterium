@@ -17,7 +17,7 @@ public class Player extends Entity {
         private Inventory inventory;
         private Equipment equipment;
         private Assets.Glyphs glyph;
-        private Stats stats;
+        private Statistics statistics;
         private Job job;
 
         public Builder(EntityName name) {
@@ -64,8 +64,8 @@ public class Player extends Entity {
             return this;
         }
 
-        public Builder withStats(Stats stats) {
-            this.stats = stats;
+        public Builder withStats(Statistics statistics) {
+            this.statistics = statistics;
             return this;
         }
 
@@ -86,7 +86,7 @@ public class Player extends Entity {
             player.equipment = equipment;
             player.glyph = glyph;
             player.job = job;
-            player.stats = stats;
+            player.statistics = statistics;
             return player;
         }
     }
