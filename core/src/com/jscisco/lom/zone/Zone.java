@@ -1,11 +1,7 @@
 package com.jscisco.lom.zone;
 
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.entity.PlayerFactory;
+import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
 import com.jscisco.lom.states.PlayerTurnState;
@@ -66,7 +62,7 @@ public class Zone {
 
         for (int z = 0; z < this.size.getDepth(); z++) {
             Stage stage = this.stages.get(z);
-            NPC npc = new NPC.Builder("Snuugz")
+            NPC npc = new NPC.Builder(new EntityName("Snuugz"))
                     .withStage(stage)
                     .withPosition(stage.findEmptyPosition())
                     .withHealth(new Health(50))

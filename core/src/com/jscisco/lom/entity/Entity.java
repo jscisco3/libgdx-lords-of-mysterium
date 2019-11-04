@@ -5,7 +5,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.inject.Inject;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.items.Item;
@@ -20,7 +19,7 @@ import static com.jscisco.lom.combat.DamageType.BLUNT;
 
 public abstract class Entity {
 
-    protected String name;
+    protected EntityName name;
     protected FieldOfView fieldOfView;
     protected Position position;
     protected Health health;
@@ -150,7 +149,7 @@ public abstract class Entity {
         return stats;
     }
 
-    public String getName() {
+    public EntityName getName() {
         return name;
     }
 
@@ -158,7 +157,7 @@ public abstract class Entity {
         return job;
     }
 
-    public void setName(String name) {
+    public void setName(EntityName name) {
         this.name = name;
     }
 

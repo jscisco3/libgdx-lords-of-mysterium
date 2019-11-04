@@ -12,6 +12,7 @@ import com.jscisco.lom.attributes.ai.btree.ChooseTargetPosition;
 import com.jscisco.lom.attributes.ai.btree.MoveToTargetPosition;
 import com.jscisco.lom.attributes.ai.btree.PickDirectionTask;
 import com.jscisco.lom.attributes.ai.btree.WalkTask;
+import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
@@ -55,7 +56,7 @@ public class TestBTree {
     @Test
     public void testWanderBehavior() {
         Stage stage = new StageImpl(10, 10);
-        NPC npc = new NPC.Builder("NPC")
+        NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withStage(stage)
                 .withPosition(new Position(5, 5))
                 .withBehaviorTree(library.createBehaviorTree("wander"))

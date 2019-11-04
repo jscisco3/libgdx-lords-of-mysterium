@@ -1,14 +1,13 @@
 package com.jscisco.lom.entity;
 
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.attributes.*;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 
 public class Player extends Entity {
 
     public static class Builder {
-        private String name;
+        private EntityName name;
 
         private Stage stage;
         private FieldOfView fieldOfView;
@@ -21,7 +20,7 @@ public class Player extends Entity {
         private Stats stats;
         private Job job;
 
-        public Builder(String name) {
+        public Builder(EntityName name) {
             this.name = name;
         }
 

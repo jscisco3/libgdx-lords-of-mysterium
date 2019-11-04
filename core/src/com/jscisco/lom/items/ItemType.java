@@ -1,6 +1,6 @@
 package com.jscisco.lom.items;
 
-import com.jscisco.lom.attributes.Equipment;
+import com.jscisco.lom.entity.Equipment;
 
 public class ItemType {
 

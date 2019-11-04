@@ -5,14 +5,8 @@ import com.badlogic.gdx.ai.btree.Task;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.attributes.Equipment;
-import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.attributes.Inventory;
-import com.jscisco.lom.attributes.Job;
 import com.jscisco.lom.config.Config;
-import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.entity.PlayerFactory;
+import com.jscisco.lom.entity.*;
 import com.jscisco.lom.persistence.serializer.CustomBehaviorTreeSerializer;
 import com.jscisco.lom.persistence.serializer.CustomTaskSerializer;
 import com.jscisco.lom.util.Position;
@@ -40,7 +34,7 @@ class TestSaving {
     @Test
     void shouldSavePlayerWithoutAStageReference() {
         Job job = Job.warrior();
-        Player player = new Player.Builder("Saved")
+        Player player = new Player.Builder(new EntityName("Saved"))
                 .withJob(job)
                 .withStats(job.getBaseStats())
                 .withInventory(new Inventory())
@@ -61,7 +55,7 @@ class TestSaving {
     void saveAStage() {
         Stage stage = new StageImpl(25, 25, true, true, new GenericStrategy());
         Job job = Job.warrior();
-        Player player = new Player.Builder("Saved")
+        Player player = new Player.Builder(new EntityName("Saved"))
                 .withJob(job)
                 .withStats(job.getBaseStats())
                 .withInventory(new Inventory())
@@ -86,7 +80,7 @@ class TestSaving {
     void testSaveAndLoadRandomPlayer() {
         Player player = PlayerFactory.createRandomHero();
 //        writeToFile(new Gson().toJson(player), player.getName());
-        Player loaded = readFromFile(player.getName(), Player.class);
+        Player loaded = readFromFile(player.getName().get(), Player.class);
 //        writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
     }
 
@@ -122,7 +116,7 @@ class TestSaving {
      */
     @Test
     void shouldBeAbleToSerializeNPCWithoutBehaviorTree() {
-        NPC npc = new NPC.Builder("NPC")
+        NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withGlyph(Assets.Glyphs.RAT)
                 .withHealth(new Health(50))
                 .withPosition(new Position(20, 20))
@@ -141,7 +135,7 @@ class TestSaving {
      */
     @Test
     void shouldBeAbleToSerializeNPCWithBehaviorTree() {
-        NPC npc = new NPC.Builder("NPC")
+        NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withGlyph(Assets.Glyphs.RAT)
                 .withHealth(new Health(50))
                 .withPosition(new Position(20, 20))
@@ -160,7 +154,7 @@ class TestSaving {
 
     /**
      * Given an NPC with a behavior tree
-     *  that has taken a step
+     * that has taken a step
      * When I serialize it
      * Then I should have valid json
      */
@@ -169,7 +163,7 @@ class TestSaving {
 
         Stage stage = new StageImpl(50, 50, true, false, new EmptyStageGenerationStrategy());
 
-        NPC npc = new NPC.Builder("NPC")
+        NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withGlyph(Assets.Glyphs.RAT)
                 .withHealth(new Health(50))
                 .withPosition(new Position(20, 20))

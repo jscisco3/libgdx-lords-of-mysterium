@@ -1,7 +1,6 @@
 package com.jscisco.lom.entity;
 
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.attributes.*;
 import squidpony.FakeLanguageGen;
 
 public class PlayerFactory {
@@ -12,7 +11,7 @@ public class PlayerFactory {
 
         Job job = chooseJob();
 
-        Player player = new Player.Builder(generator.word(true))
+        Player player = new Player.Builder(new EntityName(generator.word(true)))
                 .withInventory(new Inventory())
                 .withEquipment(new Equipment())
                 .withHealth(new Health(150))

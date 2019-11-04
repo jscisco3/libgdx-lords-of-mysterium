@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes;
+package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;

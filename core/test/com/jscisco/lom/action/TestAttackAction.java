@@ -1,9 +1,6 @@
 package com.jscisco.lom.action;
 
-import com.jscisco.lom.attributes.Health;
-import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.entity.*;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.StageImpl;
 import org.assertj.core.api.Assertions;
@@ -16,11 +13,11 @@ public class TestAttackAction {
 
     @Test
     public void attackActionShouldDealDamage() {
-        this.attacker = new Player.Builder("attacker")
+        this.attacker = new Player.Builder(new EntityName("attacker"))
                 .withHealth(new Health(100))
                 .build();
 
-        this.defender = new NPC.Builder("defender")
+        this.defender = new NPC.Builder(new EntityName("defender"))
                 .withHealth(new Health(100))
                 .build();
 
@@ -32,9 +29,9 @@ public class TestAttackAction {
     public void attackActionShouldRemoveDefenderFromStageIfDestroyed() {
         Stage stage = new StageImpl();
 
-        this.attacker = new Player.Builder("attacker")
+        this.attacker = new Player.Builder(new EntityName("attacker"))
                 .build();
-        this.defender = new NPC.Builder("defender")
+        this.defender = new NPC.Builder(new EntityName("defender"))
                 .withHealth(new Health(1))
                 .withStage(stage)
                 .build();

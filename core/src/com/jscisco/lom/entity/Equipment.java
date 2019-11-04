@@ -1,4 +1,4 @@
-package com.jscisco.lom.attributes;
+package com.jscisco.lom.entity;
 
 import com.jscisco.lom.items.Item;
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jscisco.lom.config.Config;
+import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.Player;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class HeroInfoBlock {
     private float height;
 
     private TextureRegion icon;
-    private String name;
+    private EntityName name;
     private boolean selected;
 
     private static final BitmapFont font = Config.createFont(36);
@@ -56,7 +57,7 @@ public class HeroInfoBlock {
 
         batch.begin();
         batch.draw(this.icon, x, y + height - icon.getRegionHeight());
-        font.draw(batch, name, x + icon.getRegionWidth() + 5, y + height);
+        font.draw(batch, name.get(), x + icon.getRegionWidth() + 5, y + height);
         renderStats(batch);
         batch.end();
     }
