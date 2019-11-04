@@ -93,6 +93,14 @@ public abstract class Entity {
         return equipment;
     }
 
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setEquipment(Equipment equipment) {
+        this.equipment = equipment;
+    }
+
     public TextureRegion getTexture() {
         if (this.job != null) {
             return this.job.getIcon();
@@ -180,6 +188,16 @@ public abstract class Entity {
 
     private Attack unarmedAttack() {
         return new Attack(0, new Damage(BLUNT, 5));
+    }
+
+    public boolean drop(Item item) {
+        // Can only drop items in your inventory
+        if (this.inventory.removeItem(item)) {
+            item.setPosition(this.position);
+            this.getStage().addItem(item);
+            return true;
+        }
+        return false;
     }
 
 }

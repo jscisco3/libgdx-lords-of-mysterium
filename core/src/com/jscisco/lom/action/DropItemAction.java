@@ -14,9 +14,9 @@ public class DropItemAction extends AbstractAction {
 
     @Override
     public ActionResult invoke() {
-        this.source.getInventory().removeItem(item);
-        item.setPosition(this.source.getPosition());
-        this.source.getStage().addItem(item);
-        return ActionResult.success();
+        if (this.source.drop(item)) {
+            return ActionResult.success();
+        }
+        return ActionResult.failure();
     }
 }
