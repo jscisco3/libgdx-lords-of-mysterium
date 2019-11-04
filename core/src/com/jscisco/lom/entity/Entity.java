@@ -1,8 +1,6 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.google.common.eventbus.EventBus;
-import com.google.inject.Inject;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
@@ -33,9 +31,6 @@ public abstract class Entity {
     protected transient Stage stage;
     protected transient Action nextAction;
     protected transient DijkstraMap pathingMap;
-
-    @Inject
-    protected EventBus eventBus;
 
     protected Entity() {
         this.pathingMap = new DijkstraMap();
