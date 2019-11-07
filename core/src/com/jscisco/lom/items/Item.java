@@ -7,17 +7,21 @@ import com.jscisco.lom.util.Position;
 
 public class Item {
 
-    private Item() {
-
-    }
-
-    private ItemType itemType;
     /**
      * Items have a non-null position only if they are on the ground
      */
     private Position position;
     private Assets.Glyphs glyph;
     private Attack attack;
+    private ItemType itemType;
+
+    private ItemValue value;
+    private Rarity rarity;
+    private ItemLevel itemLevel;
+    private ItemName itemName;
+
+    public Item() {
+    }
 
     // Do items need to have a reference to the stage they are in?
 
@@ -45,40 +49,16 @@ public class Item {
         return glyph;
     }
 
-    public static class Builder {
-        private ItemType itemType;
-        private Position position;
-        private Assets.Glyphs glyph;
-        private Attack attack;
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
 
-        public Builder(ItemType itemType) {
-            this.itemType = itemType;
-        }
+    public void setGlyph(Assets.Glyphs glyph) {
+        this.glyph = glyph;
+    }
 
-        public Builder withPosition(Position position) {
-            this.position = position;
-            return this;
-        }
-
-        public Builder withGlyph(Assets.Glyphs glyph) {
-            this.glyph = glyph;
-            return this;
-        }
-
-        public Builder withAttack(Attack attack) {
-            this.attack = attack;
-            return this;
-        }
-
-        public Item build() {
-            Item item = new Item();
-            item.itemType = this.itemType;
-            item.position = this.position;
-            item.glyph = this.glyph;
-            item.attack = this.attack;
-            return item;
-        }
-
+    public void setAttack(Attack attack) {
+        this.attack = attack;
     }
 
     @Override
