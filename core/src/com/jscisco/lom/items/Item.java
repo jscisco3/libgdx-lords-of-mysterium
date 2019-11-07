@@ -23,6 +23,26 @@ public class Item {
     public Item() {
     }
 
+    public Item withName(ItemName name) {
+        this.itemName = name;
+        return this;
+    }
+
+    public Item withRarity(Rarity rarity) {
+        this.rarity = rarity;
+        return this;
+    }
+
+    public Item withValue(ItemValue value) {
+        this.value = value;
+        return this;
+    }
+
+    public Item withGlyph(Assets.Glyphs glyph) {
+        this.glyph = glyph;
+        return this;
+    }
+
     // Do items need to have a reference to the stage they are in?
 
     public Attack getAttack() {

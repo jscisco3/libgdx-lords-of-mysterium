@@ -3,7 +3,7 @@ package com.jscisco.lom.entities;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Inventory;
 import com.jscisco.lom.items.Item;
-import com.jscisco.lom.items.ItemType;
+import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,17 +25,16 @@ public class TestEntity {
 
     @Test
     void entityCanDropItemIfInInventory() {
-        Item item = new Item.Builder(new ItemType.Builder()
-                .withValue(5)
-                .withName("Test Item").build()
-        ).build();
+        Item item = new Item()
+                .withName(new ItemName("Test Item"));
         entity.getInventory().addItem(item);
         assertTrue(entity.drop(item));
     }
 
     @Test
     void entityCannotDropItemsNotInInventory() {
-        Item item = new Item.Builder(new ItemType.Builder().build()).build();
+        Item item = new Item()
+                .withName(new ItemName("Test Item"));
         assertFalse(entity.drop(item));
     }
 }

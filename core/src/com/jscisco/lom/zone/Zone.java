@@ -79,13 +79,13 @@ public class Zone {
 //        this.getCurrentStage().addEntity(hunterSeeker);
 
         List<Item> createdItems = new ArrayList<>();
-        createdItems.add(ItemFactory.buildBodyArmor());
-        createdItems.add(ItemFactory.buildBoots());
-        createdItems.add(ItemFactory.buildCloak());
-        createdItems.add(ItemFactory.buildGloves());
-        createdItems.add(ItemFactory.buildHelmet());
-        createdItems.add(ItemFactory.buildRing());
-        createdItems.add(ItemFactory.buildRing());
+//        createdItems.add(ItemFactory.buildBodyArmor());
+//        createdItems.add(ItemFactory.buildBoots());
+//        createdItems.add(ItemFactory.buildCloak());
+//        createdItems.add(ItemFactory.buildGloves());
+//        createdItems.add(ItemFactory.buildHelmet());
+//        createdItems.add(ItemFactory.buildRing());
+//        createdItems.add(ItemFactory.buildRing());
         createdItems.add(ItemFactory.buildSword());
 
         for (Item item : createdItems) {
