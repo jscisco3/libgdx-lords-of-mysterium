@@ -7,6 +7,8 @@ import com.jscisco.lom.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 public class ChooseTargetPosition extends LeafTask<NPC> {
 
     private static final Logger logger = LoggerFactory.getLogger(ChooseTargetPosition.class);
@@ -21,7 +23,7 @@ public class ChooseTargetPosition extends LeafTask<NPC> {
     public Status execute() {
         logger.debug("{} is running", this);
         NPC npc = getObject();
-        Position target = npc.getStage().findEmptyPosition();
+        Optional<Position> target = npc.getStage().findEmptyPosition();
         if (target == null) {
             logger.info("{} failed!.", this);
             return Status.FAILED;

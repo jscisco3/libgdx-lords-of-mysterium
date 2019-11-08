@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.items.Item;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -122,11 +121,18 @@ public class ZoneScreen implements Screen {
     private void drawItems() {
         batch.begin();
 
-        for (Item item : this.zone.getCurrentStage().getItems()) {
-            if (this.zone.getCurrentStage().getTileAt(item.getPosition()).isInFov()) {
-                batch.draw(item.getTexture(), item.getPosition().getX() * 24.0f, item.getPosition().getY() * 24.0f);
-            }
-        }
+        this.zone.getCurrentStage().getItems().stream()
+                .filter(item -> item.getPosition().isPresent())
+                .forEach(item -> {
+                    if (this.zone.getCurrentStage().getTileAt(item.getPosition().get()).isInFov()) {
+                        batch.draw(item.getTexture(), item.getPosition().get().getX() * 24.0f, item.getPosition().get().getY() * 24.0f);
+                    }
+                });
+//        for (Item item : this.zone.getCurrentStage().getItems()) {
+//            if (this.zone.getCurrentStage().getTileAt(item.getPosition()).isInFov()) {
+//                batch.draw(item.getTexture(), item.getPosition().getX() * 24.0f, item.getPosition().getY() * 24.0f);
+//            }
+//        }
 
         batch.end();
     }

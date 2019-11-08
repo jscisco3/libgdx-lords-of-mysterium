@@ -138,7 +138,7 @@ public class InventoryScreen implements Screen {
         StringBuilder sb = new StringBuilder();
         sb.append(this.equipment.getSlotTypes().get(index));
         sb.append(" - ");
-        sb.append(equippedItems.get(index) != null ? equippedItems.get(index).getItemType().getName() : "Nothing");
+        sb.append(equippedItems.get(index) != null ? equippedItems.get(index).getItemName().getName() : "Nothing");
         return sb.toString();
     }
 

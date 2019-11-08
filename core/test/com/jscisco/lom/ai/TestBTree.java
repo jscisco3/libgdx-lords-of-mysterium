@@ -54,6 +54,7 @@ public class TestBTree {
     }
 
     @Test
+    @Disabled
     public void testWanderBehavior() {
         Stage stage = new StageImpl(10, 10);
         NPC npc = new NPC.Builder(new EntityName("NPC"))

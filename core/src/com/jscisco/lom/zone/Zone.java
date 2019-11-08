@@ -53,22 +53,24 @@ public class Zone {
         if (player == null) {
             player = PlayerFactory.createRandomHero();
             player.setStage(this.getCurrentStage());
-            player.setPosition(this.getCurrentStage().findEmptyPosition());
+            this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
         } else {
             player.setStage(this.getCurrentStage());
-            player.setPosition(this.getCurrentStage().findEmptyPosition());
+            this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
         }
         this.getCurrentStage().addEntity(player);
 
         for (int z = 0; z < this.size.getDepth(); z++) {
             Stage stage = this.stages.get(z);
-            NPC npc = new NPC.Builder(new EntityName("Snuugz"))
-                    .withStage(stage)
-                    .withPosition(stage.findEmptyPosition())
-                    .withHealth(new Health(50))
-                    .withGlyph(Assets.Glyphs.SNUUGZ)
-                    .build();
-            stage.addEntity(npc);
+            stage.findEmptyPosition().ifPresent(pos -> {
+                NPC npc = new NPC.Builder(new EntityName("Snuugz"))
+                        .withStage(stage)
+                        .withPosition(pos)
+                        .withHealth(new Health(50))
+                        .withGlyph(Assets.Glyphs.SNUUGZ)
+                        .build();
+                stage.addEntity(npc);
+            });
         }
 
 
@@ -89,7 +91,7 @@ public class Zone {
         createdItems.add(ItemFactory.buildSword());
 
         for (Item item : createdItems) {
-            item.setPosition(this.getCurrentStage().findEmptyPosition());
+            this.getCurrentStage().findEmptyPosition().ifPresent(item::setPosition);
             this.getCurrentStage().addItem(item);
         }
 

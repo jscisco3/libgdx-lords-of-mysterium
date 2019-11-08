@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 public class TestStageImpl {
 
     private int WIDTH = 100;
@@ -22,7 +24,7 @@ public class TestStageImpl {
 
     @Test
     public void findingAnEmptyPositionShouldFindAPosition() {
-        Position p = this.stage.findEmptyPosition();
+        Optional<Position> p = this.stage.findEmptyPosition();
         Assertions.assertNotNull(p);
     }
 
@@ -39,11 +41,16 @@ public class TestStageImpl {
 
     @Test
     public void updatingTilesBasedOnFOVShouldSucceedIfThereIsAPlayer() {
-        Player p = new Player.Builder(new EntityName("HERO"))
-                .withStage(stage)
-                .withPosition(stage.findEmptyPosition())
-                .withFieldOfView(new FieldOfView(10f))
-                .build();
+        stage.findEmptyPosition().ifPresent(pos -> {
+            Player p = new Player.Builder(new EntityName("HERO"))
+                    .withStage(stage)
+                    .withPosition(pos)
+                    .withFieldOfView(new FieldOfView(10f))
+                    .build();
+            stage.addEntity(p);
+            stage.updateTilesBasedOnFOV();
+        });
+        Player p = stage.getPlayer();
         Position position = p.getPosition();
         stage.addEntity(p);
         stage.updateTilesBasedOnFOV();

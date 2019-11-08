@@ -25,16 +25,18 @@ public class TestEntity {
 
     @Test
     void entityCanDropItemIfInInventory() {
-        Item item = new Item()
-                .withName(new ItemName("Test Item"));
+        Item item = new Item.Builder()
+                .withName(new ItemName("Test Item"))
+                .build();
         entity.getInventory().addItem(item);
         assertTrue(entity.drop(item));
     }
 
     @Test
     void entityCannotDropItemsNotInInventory() {
-        Item item = new Item()
-                .withName(new ItemName("Test Item"));
+        Item item = new Item.Builder()
+                .withName(new ItemName("Test Item"))
+                .build();
         assertFalse(entity.drop(item));
     }
 }

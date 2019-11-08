@@ -1,11 +1,6 @@
 package com.jscisco.lom.attributes;
 
-import com.jscisco.lom.combat.Attack;
-import com.jscisco.lom.combat.Damage;
-import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.Equipment;
-import com.jscisco.lom.items.Item;
-import com.jscisco.lom.items.ItemType;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

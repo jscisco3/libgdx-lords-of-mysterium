@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This represents a stage of the zone. Zones can 1 - n Stages.
@@ -38,8 +39,8 @@ public class StageImpl implements Stage {
     // Do I need to store this? Maybe, for saving and loading the stage.
     private GenerationStrategy strategy;
 
-    private Position stairsUpPosition;
-    private Position stairsDownPosition;
+    private Optional<Position> stairsUpPosition;
+    private Optional<Position> stairsDownPosition;
 
     public StageImpl() {
         this(20, 20);
@@ -93,27 +94,30 @@ public class StageImpl implements Stage {
     @Override
     public List<Item> getItemsAtPosition(Position position) {
         List<Item> foundItems = new ArrayList<>();
-        for (Item item : this.items) {
-            if (item.getPosition().equals(position)) {
-                foundItems.add(item);
-            }
-        }
+        this.items.stream()
+                .filter(item -> item.getPosition().isPresent())
+                .findFirst().ifPresent(foundItems::add);
+//        for (Item item : this.items) {
+//            if (item.getPosition().equals(position)) {
+//                foundItems.add(item);
+//            }
+//        }
         return foundItems;
     }
 
     @Override
-    public Position findEmptyPosition() {
+    public Optional<Position> findEmptyPosition() {
         int attempt = 0;
         int maxAttempts = 100;
         while (attempt < maxAttempts) {
             int x = LOMGame.rng.between(0, width);
             int y = LOMGame.rng.between(0, height);
             if (this.tiles[x][y].getTerrain().isWalkable()) {
-                return new Position(x, y);
+                return Optional.of(new Position(x, y));
             }
             attempt += 1;
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -238,25 +242,25 @@ public class StageImpl implements Stage {
         this.currentEntityIndex = (this.currentEntityIndex + 1) % this.entities.size();
     }
 
-    public Position getPositionOfStairsUp() {
+    public Optional<Position> getPositionOfStairsUp() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (tiles[x][y].getTerrain() instanceof StairsUp) {
-                    return new Position(x, y);
+                    return Optional.of(new Position(x, y));
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 
-    public Position getPositionOfStairsDown() {
+    public Optional<Position> getPositionOfStairsDown() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (tiles[x][y].getTerrain() instanceof StairsDown) {
-                    return new Position(x, y);
+                    return Optional.of(new Position(x, y));
                 }
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

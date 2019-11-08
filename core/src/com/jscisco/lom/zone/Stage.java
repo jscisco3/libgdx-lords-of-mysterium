@@ -7,6 +7,7 @@ import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Stage {
 
@@ -30,7 +31,7 @@ public interface Stage {
 
     List<Item> getItemsAtPosition(Position position);
 
-    Position findEmptyPosition();
+    Optional<Position> findEmptyPosition();
 
     boolean terrainIsWalkableAtPosition(Position position);
 
@@ -51,18 +52,20 @@ public interface Stage {
 
     /**
      * All Stage implementations should have a height
+     *
      * @return height of the stage
      */
     int getHeight();
 
     /**
      * All Stage implementations should have a width
+     *
      * @return width of the stage
      */
     int getWidth();
 
-    Position getPositionOfStairsDown();
+    Optional<Position> getPositionOfStairsDown();
 
-    Position getPositionOfStairsUp();
+    Optional<Position> getPositionOfStairsUp();
 
 }

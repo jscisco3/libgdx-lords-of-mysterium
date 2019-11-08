@@ -60,7 +60,7 @@ class TestSaving {
                 .withStats(job.getBaseStatistics())
                 .withInventory(new Inventory())
                 .withEquipment(new Equipment())
-                .withPosition(stage.findEmptyPosition())
+                .withPosition(stage.findEmptyPosition().get())
                 .build();
 
         stage.addEntity(player);

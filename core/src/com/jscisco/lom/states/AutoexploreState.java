@@ -13,6 +13,7 @@ import squidpony.squidmath.Coord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class AutoexploreState extends State {
 
@@ -37,9 +38,9 @@ public class AutoexploreState extends State {
                 goals);
 
         if (path.isEmpty()) {
-            Position stairsDownPosition = stage.getPositionOfStairsDown();
-            if (stairsDownPosition != null && stage.getPlayer().getPosition() != stairsDownPosition) {
-                path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, Coord.get(stairsDownPosition.getX(), stairsDownPosition.getY()));
+            Optional<Position> stairsDownPosition = stage.getPositionOfStairsDown();
+            if (stairsDownPosition.isPresent() && stage.getPlayer().getPosition() != stairsDownPosition.get()) {
+                path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, Coord.get(stairsDownPosition.get().getX(), stairsDownPosition.get().getY()));
             }
         }
 

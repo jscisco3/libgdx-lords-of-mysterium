@@ -183,7 +183,7 @@ public abstract class Entity {
             return unarmedAttack();
         }
         // Otherwise, return the first attack and we will handle multiple weapons later.
-        return weapons.get(0).getAttack();
+        return unarmedAttack();
     }
 
     private Attack unarmedAttack() {

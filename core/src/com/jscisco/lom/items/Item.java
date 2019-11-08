@@ -2,25 +2,70 @@ package com.jscisco.lom.items;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.util.Position;
+
+import java.util.Optional;
 
 public class Item {
 
     /**
-     * Items have a non-null position only if they are on the ground
+     * If position is present, then it is on the ground.
      */
-    private Position position;
+    private Optional<Position> position;
     private Assets.Glyphs glyph;
-    private Attack attack;
-    private ItemType itemType;
-
     private ItemValue value;
     private Rarity rarity;
     private ItemLevel itemLevel;
     private ItemName itemName;
 
-    public Item() {
+    private ItemType itemType;
+
+    private Item() {
+    }
+
+    public static class Builder {
+        private ItemName name;
+        private ItemValue value;
+        private Position position;
+        private Assets.Glyphs glyph;
+        private Rarity rarity;
+
+        public Builder() {
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder withValue(ItemValue value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder withName(ItemName name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
+            return this;
+        }
+
+        public Builder withRarity(Rarity rarity) {
+            this.rarity = rarity;
+            return this;
+        }
+
+        public Item build() {
+            Item item = new Item();
+            item.position = this.position != null ? Optional.of(this.position) : Optional.empty();
+            item.itemName = this.name;
+            item.glyph = this.glyph;
+            item.rarity = rarity;
+            return item;
+        }
     }
 
     public Item withName(ItemName name) {
@@ -43,22 +88,8 @@ public class Item {
         return this;
     }
 
-    // Do items need to have a reference to the stage they are in?
-
-    public Attack getAttack() {
-        return attack;
-    }
-
-    public ItemType getItemType() {
-        return itemType;
-    }
-
-    public Position getPosition() {
+    public Optional<Position> getPosition() {
         return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public TextureRegion getTexture() {
@@ -69,20 +100,36 @@ public class Item {
         return glyph;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public ItemValue getValue() {
+        return value;
     }
 
-    public void setGlyph(Assets.Glyphs glyph) {
-        this.glyph = glyph;
+    public Rarity getRarity() {
+        return rarity;
     }
 
-    public void setAttack(Attack attack) {
-        this.attack = attack;
+    public ItemLevel getItemLevel() {
+        return itemLevel;
+    }
+
+    public ItemName getItemName() {
+        return itemName;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setPosition(Position position) {
+        if (position == null) {
+            this.position = Optional.empty();
+        } else {
+            this.position = Optional.of(position);
+        }
     }
 
     @Override
     public String toString() {
-        return String.format("%s - %s   | $%s", this.itemType.getName(), this.itemType.getDescription(), this.itemType.getValue());
+        return String.format("%s | $%s", this.itemName.getName(), this.value.getValue());
     }
 }

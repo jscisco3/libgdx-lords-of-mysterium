@@ -1,19 +1,16 @@
 package com.jscisco.lom.items;
 
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.combat.Attack;
-import com.jscisco.lom.combat.Damage;
-import com.jscisco.lom.entity.Equipment;
-
-import static com.jscisco.lom.combat.DamageType.SLASHING;
 
 public class ItemFactory {
 
     public static Item buildSword() {
-        return new Item().withName(new ItemName("Sword"))
+        return new Item.Builder()
+                .withName(new ItemName("Sword"))
+                .withGlyph(Assets.Glyphs.SWORD)
                 .withRarity(Rarity.NORMAL)
                 .withValue(new ItemValue(5))
-                .withGlyph(Assets.Glyphs.SWORD);
+                .build();
 
 //        return new Item.Builder(new ItemType.Builder().withName("Sword")
 //                .withDescription("A Cool Sword")
