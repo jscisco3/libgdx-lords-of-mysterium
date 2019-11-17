@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NPC extends Entity {
@@ -35,6 +34,7 @@ public class NPC extends Entity {
         private Assets.Glyphs glyph;
         private Statistics statistics;
         private Job job;
+        private DeathStrategy deathStrategy;
 
         private BehaviorTree<NPC> behaviorTree;
 
@@ -98,6 +98,11 @@ public class NPC extends Entity {
             return this;
         }
 
+        public Builder withDeathStrategy(DeathStrategy strategy) {
+            this.deathStrategy = strategy;
+            return this;
+        }
+
         public NPC build() {
             NPC npc = new NPC();
             npc.name = name;
@@ -117,6 +122,11 @@ public class NPC extends Entity {
             npc.behaviorTree = behaviorTree;
             if (npc.behaviorTree != null) {
                 npc.behaviorTree.setObject(npc);
+            }
+            if (deathStrategy != null) {
+                npc.deathStrategy = deathStrategy;
+            } else {
+                npc.deathStrategy = new RegularDeath();
             }
             return npc;
         }

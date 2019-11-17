@@ -27,6 +27,7 @@ public abstract class Entity {
     protected Statistics statistics;
     protected Job job;
     protected Assets.Glyphs glyph;
+    protected DeathStrategy deathStrategy;
 
     protected transient Stage stage;
     protected transient Action nextAction;
@@ -198,6 +199,10 @@ public abstract class Entity {
             return true;
         }
         return false;
+    }
+
+    public void die() {
+        this.deathStrategy.die(this);
     }
 
 }
