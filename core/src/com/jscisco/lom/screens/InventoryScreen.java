@@ -15,7 +15,9 @@ import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Equipment;
 import com.jscisco.lom.entity.Inventory;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,12 +97,16 @@ public class InventoryScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             if (!this.inventory.getItems().isEmpty()) {
                 Item itemToEquip = this.inventory.getItems().get(selectedItemIndex);
-                this.inventory.removeItem(itemToEquip);
-                List<Item> itemsUnequipped = this.player.getEquipment().equip(itemToEquip);
-                for (Item item : itemsUnequipped) {
-                    this.inventory.addItem(item);
+                try {
+                    List<Item> itemsUnequipped = this.player.getEquipment().equip(itemToEquip);
+                    this.inventory.removeItem(itemToEquip);
+                    for (Item item : itemsUnequipped) {
+                        this.inventory.addItem(item);
+                    }
+                    decrementSelectedItem();
+                } catch (ItemCannotBeEquippedException e) {
+                    logger.error("Item {} cannot be equipped!", itemToEquip.getItemName().getName(), e);
                 }
-                decrementSelectedItem();
             }
         }
 
@@ -154,7 +160,7 @@ public class InventoryScreen implements Screen {
         }
 
         batch.begin();
-        List<Equipment.EquipmentSlot> equipmentSlots = this.equipment.getSlotTypes();
+        List<EquipmentSlot> equipmentSlots = this.equipment.getSlotTypes();
         List<Item> equippedItems = this.equipment.getSlots();
         for (int i = 0; i < equipmentSlots.size(); i++) {
             font.draw(batch, getNameOfEquipment(i), camera.position.x - Config.WINDOW_WIDTH / 2 + spacing, camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * (layout.height + spacing)));

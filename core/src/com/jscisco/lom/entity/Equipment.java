@@ -1,6 +1,8 @@
 package com.jscisco.lom.entity;
 
+import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.items.ItemCannotBeEquippedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,10 @@ public class Equipment {
     }
 
     public boolean canEquip(Item item) {
-        return slotTypes.stream().anyMatch(slot -> item.getItemType().getEquipSlot() == slot);
+        if (!item.getEquipmentSlot().isPresent()) {
+            return false;
+        }
+        return slotTypes.stream().anyMatch(slot -> item.getEquipmentSlot().get() == slot);
     }
 
     /**
@@ -48,18 +53,22 @@ public class Equipment {
      * @param item The item being equipped
      * @return Any items that had to be unequipped to make room for it. This is usually nothing or a single item.
      */
-    public List<Item> equip(Item item) {
+    public List<Item> equip(Item item) throws ItemCannotBeEquippedException {
+        if (!item.getEquipmentSlot().isPresent()) {
+            throw new ItemCannotBeEquippedException();
+        }
+        EquipmentSlot slotToBeFilled = item.getEquipmentSlot().get();
         List<Item> unequipped = new ArrayList<>();
         // Handle hands and multi-handed items specially. We MAY need to preserve an invariant that
         // you can never hold a two-handed item and something else.
         // TODO: Feat that let's you hold two handed item in one hand
-        if (item.getItemType().getEquipSlot() == EquipmentSlot.HAND) {
+        if (slotToBeFilled == EquipmentSlot.HAND) {
 
         }
 
         int usedSlot = -1;
         for (int i = 0; i < slotTypes.size(); i++) {
-            if (slotTypes.get(i).equals(item.getItemType().getEquipSlot())) {
+            if (slotTypes.get(i).equals(slotToBeFilled)) {
                 if (slots.get(i) == null) {
                     // This is an empty slot, so put the item here.
                     slots.set(i, item);
@@ -98,15 +107,4 @@ public class Equipment {
                 .collect(Collectors.toList());
     }
 
-    public enum EquipmentSlot {
-        HAND,
-        RING,
-        NECKLACE,
-        BODY,
-        CLOAK,
-        HELM,
-        GLOVES,
-        BOOTS,
-        TAIL
-    }
 }

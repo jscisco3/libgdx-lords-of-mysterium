@@ -1,18 +1,16 @@
 package com.jscisco.lom.items;
 
-import com.jscisco.lom.entity.Equipment;
-
 public class ItemType {
 
     private String name;
     private String description;
     private int value;
-    private Equipment.EquipmentSlot equipSlot;
+    private EquipmentSlot equipSlot;
 
     private ItemType() {
     }
 
-    public Equipment.EquipmentSlot getEquipSlot() {
+    public EquipmentSlot getEquipSlot() {
         return equipSlot;
     }
 
@@ -32,7 +30,7 @@ public class ItemType {
         private String name;
         private String description;
         private int value;
-        private Equipment.EquipmentSlot equipSlot;
+        private EquipmentSlot equipSlot;
 
         public Builder() {
 
@@ -53,7 +51,7 @@ public class ItemType {
             return this;
         }
 
-        public Builder withEquipSlot(Equipment.EquipmentSlot equipSlot) {
+        public Builder withEquipSlot(EquipmentSlot equipSlot) {
             this.equipSlot = equipSlot;
             return this;
         }
