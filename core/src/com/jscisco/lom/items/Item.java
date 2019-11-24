@@ -20,7 +20,7 @@ public class Item {
      * If present, the equipment slot this item requires to be equipped.
      * Must be present to be equipped!
      */
-    private Optional<EquipmentSlot> equipmentSlot;
+    private Optional<Slot> slot;
     /**
      * If position is present, then it is on the ground.
      */
@@ -74,13 +74,18 @@ public class Item {
         return attack;
     }
 
-    public Optional<EquipmentSlot> getEquipmentSlot() {
-        return equipmentSlot;
+    public Optional<Slot> getSlot() {
+        return slot;
     }
 
     @Override
     public String toString() {
-        return String.format("%s | $%s", this.itemName.getName(), this.value.getValue());
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.itemName.getName());
+        if (this.value != null) {
+            sb.append(String.format(" | %s", this.value.getValue()));
+        }
+        return sb.toString();
     }
 
     public static class Builder {
@@ -88,7 +93,7 @@ public class Item {
         private ItemValue value;
         private Rarity rarity;
         private Attack attack;
-        private EquipmentSlot equipmentSlot;
+        private Slot slot;
         private Position position;
         private Assets.Glyphs glyph;
 
@@ -115,8 +120,8 @@ public class Item {
             return this;
         }
 
-        public Builder withEquipmentSlot(EquipmentSlot equipmentSlot) {
-            this.equipmentSlot = equipmentSlot;
+        public Builder withEquipmentSlot(Slot slot) {
+            this.slot = slot;
             return this;
         }
 
@@ -136,7 +141,7 @@ public class Item {
             item.value = this.value;
             item.rarity = this.rarity;
             item.attack = this.attack != null ? Optional.of(this.attack) : Optional.empty();
-            item.equipmentSlot = this.equipmentSlot != null ? Optional.of(this.equipmentSlot) : Optional.empty();
+            item.slot = this.slot != null ? Optional.of(this.slot) : Optional.empty();
             item.position = this.position != null ? Optional.of(this.position) : Optional.empty();
             item.glyph = this.glyph;
             return item;

@@ -5,6 +5,8 @@ import com.jscisco.lom.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 public class AttackAction extends AbstractAction {
 
     private static final Logger logger = LoggerFactory.getLogger(AttackAction.class);
@@ -18,8 +20,8 @@ public class AttackAction extends AbstractAction {
 
     @Override
     public ActionResult invoke() {
-        Attack attack = source.getAttack();
-        attack.getDamages().forEach(d -> this.defender.getHealth().damage(d.getMagnitude()));
+        List<Attack> attacks = source.getAttacks();
+        attacks.forEach(a -> a.getDamages().forEach(d -> this.defender.getHealth().damage(d.getMagnitude())));
         if (this.defender.getHealth().shouldBeDestroyed()) {
             logger.info("{} has been destroyed!", this.defender);
             defender.getStage().removeEntity(defender);

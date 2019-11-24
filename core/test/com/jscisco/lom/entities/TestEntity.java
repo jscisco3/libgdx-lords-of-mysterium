@@ -1,16 +1,23 @@
 package com.jscisco.lom.entities;
 
+import com.jscisco.lom.combat.Attack;
+import com.jscisco.lom.combat.Damage;
+import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.entity.Equipment;
 import com.jscisco.lom.entity.Inventory;
+import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEntity {
 
@@ -38,5 +45,32 @@ public class TestEntity {
                 .withName(new ItemName("Test Item"))
                 .build();
         assertFalse(entity.drop(item));
+    }
+
+    @Test
+    void getAttackReturnsAListOfAttacksIfNothingEquipped() {
+        List<Attack> attacks = entity.getAttacks();
+        assertFalse(attacks.isEmpty());
+    }
+
+    @Test
+    void getAttackReturnsAListOfAttacksIfSomethingIsEquipped() throws ItemCannotBeEquippedException {
+        Equipment equipment = new Equipment();
+        entity.setEquipment(equipment);
+
+        Attack expectedAttack = new Attack(
+                100, new Damage(DamageType.PHYSICAL, 1, 20)
+        );
+
+        Item item = new Item.Builder()
+                .withAttack(expectedAttack)
+                .withEquipmentSlot(Slot.HAND)
+                .build();
+
+        equipment.equip(item);
+
+        List<Attack> attacks = entity.getAttacks();
+        assertFalse(attacks.isEmpty());
+        assertEquals(expectedAttack, attacks.get(0));
     }
 }

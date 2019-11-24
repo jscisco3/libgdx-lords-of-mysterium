@@ -4,9 +4,10 @@ import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.Equipment;
-import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemCannotBeEquippedException;
+import com.jscisco.lom.items.ItemName;
+import com.jscisco.lom.items.Slot;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,11 +28,6 @@ class TestEquipment {
         Assertions.assertThat(this.equipment.getNumberOfEquippedItems()).isEqualTo(0);
     }
 
-    @Test
-    void numberOfSlotsIsEqualToNumberOfSlotTypes() {
-        Assertions.assertThat(this.equipment.getSlots().size()).isEqualTo(this.equipment.getSlotTypes().size());
-    }
-
     /**
      * Given an item
      * With an EquipmentSlot that is in the equipment's slotTypes
@@ -40,10 +36,25 @@ class TestEquipment {
     @Test
     void canEquipItemIfSlotIsAvailable() {
         Item item = new Item.Builder()
-                .withEquipmentSlot(EquipmentSlot.BODY)
+                .withEquipmentSlot(Slot.BODY)
                 .build();
 
         Assertions.assertThat(this.equipment.canEquip(item)).isTrue();
+    }
+
+    /**
+     * Given an item
+     * With multiple available slots
+     * It should be equipped
+     */
+    @Test
+    void equipAnItemWithMultipleOptions() throws ItemCannotBeEquippedException {
+        Item item = new Item.Builder()
+                .withEquipmentSlot(Slot.HAND)
+                .build();
+        this.equipment.equip(item);
+
+        Assertions.assertThat(1).isEqualTo(this.equipment.getNumberOfEquippedItems());
     }
 
     /**
@@ -54,7 +65,7 @@ class TestEquipment {
     @Test
     void cannotEquipItemIfSlotNotAvailable() {
         Item item = new Item.Builder()
-                .withEquipmentSlot(EquipmentSlot.TAIL)
+                .withEquipmentSlot(Slot.TAIL)
                 .withPosition(null)
                 .withGlyph(null)
                 .build();
@@ -69,8 +80,9 @@ class TestEquipment {
     @Test
     void getWeaponsFromEquipment() throws ItemCannotBeEquippedException {
         Item item = new Item.Builder()
-                .withEquipmentSlot(EquipmentSlot.HAND)
-                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 5)))
+                .withName(new ItemName("Sword"))
+                .withEquipmentSlot(Slot.HAND)
+                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 5, 25)))
                 .build();
         equipment.equip(item);
         Assertions.assertThat(equipment.getWeapons()).isNotEmpty();

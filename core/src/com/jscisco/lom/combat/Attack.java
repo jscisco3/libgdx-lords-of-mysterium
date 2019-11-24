@@ -8,13 +8,6 @@ public class Attack {
     private Set<Damage> damages = new HashSet<>();
     private int accuracy;
 
-    public Attack() {
-    }
-
-    public Attack(int accuracy) {
-        this.accuracy = accuracy;
-    }
-
     public Attack(int accuracy, Damage... damages) {
         this.accuracy = accuracy;
         this.damages.addAll(Arrays.asList(damages));

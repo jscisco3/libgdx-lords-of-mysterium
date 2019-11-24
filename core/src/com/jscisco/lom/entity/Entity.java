@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
-import com.jscisco.lom.combat.Damage;
+import com.jscisco.lom.combat.UnarmedAttackFactory;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
@@ -12,8 +12,6 @@ import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
 
 import java.util.List;
-
-import static com.jscisco.lom.combat.DamageType.BLUNT;
 
 public abstract class Entity {
 
@@ -173,22 +171,12 @@ public abstract class Entity {
         this.job = job;
     }
 
-    public Attack getAttack() {
-        // First, try to get any attack from the equipped weapons
-        if (this.equipment == null) {
-            return unarmedAttack();
-        }
-        List<Item> weapons = this.equipment.getWeapons();
-        if (weapons.isEmpty()) {
-            // Default unarmed attack
-            return unarmedAttack();
-        }
-        // Otherwise, return the first attack and we will handle multiple weapons later.
-        return unarmedAttack();
-    }
+    public List<Attack> getAttacks() {
+        if (equipment != null) {
+            List<Item> weapons = equipment.getWeapons();
 
-    private Attack unarmedAttack() {
-        return new Attack(0, new Damage(BLUNT, 5));
+        }
+        return UnarmedAttackFactory.getUnarmedAttacks();
     }
 
     public boolean drop(Item item) {

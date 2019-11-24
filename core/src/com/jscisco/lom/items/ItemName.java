@@ -11,4 +11,8 @@ public class ItemName {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

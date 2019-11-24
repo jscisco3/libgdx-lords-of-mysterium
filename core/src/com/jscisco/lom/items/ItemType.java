@@ -5,12 +5,12 @@ public class ItemType {
     private String name;
     private String description;
     private int value;
-    private EquipmentSlot equipSlot;
+    private Slot equipSlot;
 
     private ItemType() {
     }
 
-    public EquipmentSlot getEquipSlot() {
+    public Slot getEquipSlot() {
         return equipSlot;
     }
 
@@ -30,7 +30,7 @@ public class ItemType {
         private String name;
         private String description;
         private int value;
-        private EquipmentSlot equipSlot;
+        private Slot equipSlot;
 
         public Builder() {
 
@@ -51,7 +51,7 @@ public class ItemType {
             return this;
         }
 
-        public Builder withEquipSlot(EquipmentSlot equipSlot) {
+        public Builder withEquipSlot(Slot equipSlot) {
             this.equipSlot = equipSlot;
             return this;
         }

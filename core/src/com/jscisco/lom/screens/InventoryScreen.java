@@ -15,7 +15,6 @@ import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Equipment;
 import com.jscisco.lom.entity.Inventory;
 import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.zone.Zone;
@@ -87,7 +86,7 @@ public class InventoryScreen implements Screen {
                 this.player.getNextAction().invoke();
                 decrementSelectedItem();
             } else if (!inventoryActive) {
-                Item unequipped = this.equipment.unequip(selectedEquipmentIndex);
+                Item unequipped = this.equipment.unequip(this.equipment.getSlots().get(selectedEquipmentIndex));
                 if (unequipped != null) {
                     this.inventory.addItem(unequipped);
                 }
@@ -139,19 +138,10 @@ public class InventoryScreen implements Screen {
         }
     }
 
-    private String getNameOfEquipment(int index) {
-        List<Item> equippedItems = this.equipment.getSlots();
-        StringBuilder sb = new StringBuilder();
-        sb.append(this.equipment.getSlotTypes().get(index));
-        sb.append(" - ");
-        sb.append(equippedItems.get(index) != null ? equippedItems.get(index).getItemName().getName() : "Nothing");
-        return sb.toString();
-    }
-
     private void renderEquipment() {
         float spacing = 10f;
         // Selected Item Highlight
-        layout.setText(font, getNameOfEquipment(selectedEquipmentIndex));
+        layout.setText(font, this.equipment.getSlotByIndex(selectedEquipmentIndex).toString());
         if (!this.inventoryActive) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
             shapeRenderer.setColor(Config.SELECTED_ITEM_COLOR);
@@ -160,10 +150,8 @@ public class InventoryScreen implements Screen {
         }
 
         batch.begin();
-        List<EquipmentSlot> equipmentSlots = this.equipment.getSlotTypes();
-        List<Item> equippedItems = this.equipment.getSlots();
-        for (int i = 0; i < equipmentSlots.size(); i++) {
-            font.draw(batch, getNameOfEquipment(i), camera.position.x - Config.WINDOW_WIDTH / 2 + spacing, camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * (layout.height + spacing)));
+        for (int i = 0; i < this.equipment.getSlots().size(); i++) {
+            font.draw(batch, this.equipment.getSlotByIndex(i).toString(), camera.position.x - Config.WINDOW_WIDTH / 2 + spacing, camera.position.y + Config.WINDOW_HEIGHT / 2 - (i * (layout.height + spacing)));
         }
 
         batch.end();
@@ -218,7 +206,7 @@ public class InventoryScreen implements Screen {
         this.selectedEquipmentIndex -= 1;
         logger.debug("Selected Equipment Index: {}", this.selectedEquipmentIndex);
         if (this.selectedEquipmentIndex < 0) {
-            this.selectedEquipmentIndex = this.equipment.getSlotTypes().size() - 1;
+            this.selectedEquipmentIndex = this.equipment.getSlots().size() - 1;
         }
     }
 

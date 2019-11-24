@@ -3,48 +3,47 @@ package com.jscisco.lom.entity;
 import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemCannotBeEquippedException;
+import com.jscisco.lom.items.Slot;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Equipment {
 
-    private List<EquipmentSlot> slotTypes;
-    private List<Item> slots;
+    private static final Logger logger = LoggerFactory.getLogger(Equipment.class);
+
+    private List<EquipmentSlot> slots;
 
     public Equipment() {
         this.slots = new ArrayList<>();
         // The available slots for this equipment.
         // Certain bodies might have more availabe!?
-        this.slotTypes = new ArrayList<>();
-        this.slotTypes.add(EquipmentSlot.HAND);
-        this.slotTypes.add(EquipmentSlot.HAND);
-        this.slotTypes.add(EquipmentSlot.RING);
-        this.slotTypes.add(EquipmentSlot.RING);
-        this.slotTypes.add(EquipmentSlot.NECKLACE);
-        this.slotTypes.add(EquipmentSlot.BODY);
-        this.slotTypes.add(EquipmentSlot.CLOAK);
-        this.slotTypes.add(EquipmentSlot.HELM);
-        this.slotTypes.add(EquipmentSlot.GLOVES);
-        this.slotTypes.add(EquipmentSlot.BOOTS);
-
-        for (int i = 0; i < this.slotTypes.size(); i++) {
-            this.slots.add(null);
-        }
+        this.slots.add(new EquipmentSlot(Slot.HAND));
+        this.slots.add(new EquipmentSlot(Slot.HAND));
+        this.slots.add(new EquipmentSlot(Slot.RING));
+        this.slots.add(new EquipmentSlot(Slot.RING));
+        this.slots.add(new EquipmentSlot(Slot.NECKLACE));
+        this.slots.add(new EquipmentSlot(Slot.BODY));
+        this.slots.add(new EquipmentSlot(Slot.CLOAK));
+        this.slots.add(new EquipmentSlot(Slot.HELM));
+        this.slots.add(new EquipmentSlot(Slot.BOOTS));
     }
 
     public int getNumberOfEquippedItems() {
         return (int) this.slots.stream()
-                .filter(Objects::nonNull).count();
+                .filter(EquipmentSlot::hasItem)
+                .count();
     }
 
     public boolean canEquip(Item item) {
-        if (!item.getEquipmentSlot().isPresent()) {
+        if (!item.getSlot().isPresent()) {
             return false;
         }
-        return slotTypes.stream().anyMatch(slot -> item.getEquipmentSlot().get() == slot);
+        return slots.stream().anyMatch(slot -> slot.getSlot() == item.getSlot().get());
     }
 
     /**
@@ -54,57 +53,67 @@ public class Equipment {
      * @return Any items that had to be unequipped to make room for it. This is usually nothing or a single item.
      */
     public List<Item> equip(Item item) throws ItemCannotBeEquippedException {
-        if (!item.getEquipmentSlot().isPresent()) {
+        if (!item.getSlot().isPresent()) {
             throw new ItemCannotBeEquippedException();
         }
-        EquipmentSlot slotToBeFilled = item.getEquipmentSlot().get();
+        Slot slotToBeFilled = item.getSlot().get();
         List<Item> unequipped = new ArrayList<>();
         // Handle hands and multi-handed items specially. We MAY need to preserve an invariant that
         // you can never hold a two-handed item and something else.
         // TODO: Feat that let's you hold two handed item in one hand
-        if (slotToBeFilled == EquipmentSlot.HAND) {
-
+        if (slotToBeFilled == Slot.HAND) {
         }
 
-        int usedSlot = -1;
-        for (int i = 0; i < slotTypes.size(); i++) {
-            if (slotTypes.get(i).equals(slotToBeFilled)) {
-                if (slots.get(i) == null) {
-                    // This is an empty slot, so put the item here.
-                    slots.set(i, item);
-                    return unequipped;
-                } else {
-                    // Found suitable slot, but it is occupied
-                    usedSlot = i;
-                }
+        List<EquipmentSlot> validSlots = getSlotsByType(slotToBeFilled);
+        for (EquipmentSlot s : validSlots) {
+            // If we don't have an item, equip it.
+            if (!s.hasItem()) {
+                s.equip(item);
+                return unequipped;
             }
         }
-
-        // If we get here, all matching slots are full. So swap out an item.
-        assert (usedSlot != -1);
-        unequipped.add(this.slots.get(usedSlot));
-        this.slots.set(usedSlot, item);
+        // Otherwise, every slot has an item equipped, so lets
+        // replace the first one with this new item.
+        Optional<Item> replacedItem = validSlots.get(0).equip(item);
+        replacedItem.ifPresent(unequipped::add);
         return unequipped;
     }
 
-    public Item unequip(int index) {
-        Item unequipped = this.slots.get(index);
-        this.slots.set(index, null);
-        return unequipped;
+    public Item unequip(EquipmentSlot slot) {
+        return slot.unequip();
     }
 
-    public List<EquipmentSlot> getSlotTypes() {
-        return slotTypes;
-    }
-
-    public List<Item> getSlots() {
+    public List<EquipmentSlot> getSlots() {
         return slots;
     }
 
     public List<Item> getWeapons() {
-        return slots.stream()
-                .filter(Objects::nonNull)
+        List<EquipmentSlot> possibleSlots = this.slots.stream()
+                .filter(slot -> slot.getSlot().equals(Slot.HAND))
                 .collect(Collectors.toList());
+
+        List<Item> items = new ArrayList<>();
+        for (EquipmentSlot s : possibleSlots) {
+            if (s.getItem().isPresent()) {
+                Item item = s.getItem().get();
+                if (item.getAttack().isPresent()) {
+                    items.add(item);
+                }
+            }
+        }
+        return items;
+    }
+
+    public List<EquipmentSlot> getSlotsByType(Slot slot) {
+        return slots.stream().filter(s -> s.getSlot().equals(slot)).collect(Collectors.toList());
+    }
+
+    public EquipmentSlot getSlotByIndex(int index) {
+        if (index > slots.size()) {
+            logger.error("The provided index: {} is out of range for the equipment slots.", index);
+            throw new IndexOutOfBoundsException();
+        }
+        return slots.get(index);
     }
 
 }
