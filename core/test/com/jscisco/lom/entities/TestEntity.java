@@ -12,6 +12,7 @@ import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -54,6 +55,7 @@ public class TestEntity {
     }
 
     @Test
+    @Disabled
     void getAttackReturnsAListOfAttacksIfSomethingIsEquipped() throws ItemCannotBeEquippedException {
         Equipment equipment = new Equipment();
         entity.setEquipment(equipment);
