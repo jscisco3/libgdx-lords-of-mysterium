@@ -1,6 +1,6 @@
 package com.jscisco.lom.zone;
 
-import com.jscisco.lom.repositories.TerrainRepository;
+import com.jscisco.lom.terrain.TerrainRepository;
 import com.jscisco.lom.terrain.Terrain;
 
 public class Tile {

@@ -1,17 +1,22 @@
 package com.jscisco.lom.items;
 
-import com.jscisco.lom.assets.Assets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ItemFactory {
 
+    private static final Logger logger = LoggerFactory.getLogger(ItemFactory.class);
+
     public static Item buildSword() {
-        return new Item.Builder()
-                .withName(new ItemName("Sword"))
-                .withEquipmentSlot(Slot.HAND)
-                .withGlyph(Assets.Glyphs.SWORD)
-                .withRarity(Rarity.NORMAL)
-                .withValue(new ItemValue(5))
-                .build();
+        Item item = ItemRepository.items.get(new ItemName("sword"));
+        return new Item(item);
+//        return new Item.Builder()
+//                .withName(new ItemName("Sword"))
+//                .withEquipmentSlot(Slot.HAND)
+//                .withGlyph(Assets.Glyphs.SWORD)
+//                .withRarity(Rarity.NORMAL)
+//                .withValue(new ItemValue(5))
+//                .build();
 
 //        return new Item.Builder(new ItemType.Builder().withName("Sword")
 //                .withDescription("A Cool Sword")

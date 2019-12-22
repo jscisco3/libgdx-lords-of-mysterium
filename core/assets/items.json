@@ -1,0 +1,13 @@
+[
+  {
+    "itemName": {
+      "name": "sword"
+    },
+    "itemValue": {
+      "value": 50
+    },
+    "rarity": "COMMON",
+    "slot": "HAND",
+    "glyph": "SWORD"
+  }
+]

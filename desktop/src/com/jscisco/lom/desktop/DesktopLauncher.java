@@ -19,10 +19,9 @@ public class DesktopLauncher {
         config.height = Config.WINDOW_HEIGHT;
         config.forceExit = true;
 
-        TexturePacker.process(settings, ".", "../out/images", "images");
+        TexturePacker.process(settings, "./img/", "../out/images", "images");
 
         System.setProperty(ContextInitializer.CONFIG_FILE_PROPERTY, "../../logback.xml");
-
         new LwjglApplication(new LOMGame(), config);
     }
 }

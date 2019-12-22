@@ -31,6 +31,17 @@ public class Item {
     private Assets.Glyphs glyph;
     private ItemLevel itemLevel;
 
+    public Item(Item other) {
+        this.itemName = other.itemName;
+        this.value = other.value;
+        this.rarity = other.rarity;
+        this.attack = other.attack;
+        this.slot = other.slot;
+        this.position = other.position;
+        this.glyph = other.glyph;
+        this.itemLevel = other.itemLevel;
+    }
+
     private Item() {
     }
 

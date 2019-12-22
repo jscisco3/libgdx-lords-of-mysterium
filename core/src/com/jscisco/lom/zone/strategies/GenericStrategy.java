@@ -1,7 +1,7 @@
 package com.jscisco.lom.zone.strategies;
 
 import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.repositories.TerrainRepository;
+import com.jscisco.lom.terrain.TerrainRepository;
 import com.jscisco.lom.zone.Tile;
 import squidpony.squidgrid.mapping.DungeonGenerator;
 import squidpony.squidgrid.mapping.DungeonUtility;

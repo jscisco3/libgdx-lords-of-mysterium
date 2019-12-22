@@ -1,5 +1,7 @@
 package com.jscisco.lom.items;
 
+import java.util.Objects;
+
 public class ItemName {
     private String name;
 
@@ -14,5 +16,18 @@ public class ItemName {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemName)) return false;
+        ItemName itemName = (ItemName) o;
+        return name.equals(itemName.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

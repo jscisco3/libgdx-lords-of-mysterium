@@ -1,6 +1,4 @@
-package com.jscisco.lom.repositories;
-
-import com.jscisco.lom.terrain.*;
+package com.jscisco.lom.terrain;
 
 public class TerrainRepository {
 

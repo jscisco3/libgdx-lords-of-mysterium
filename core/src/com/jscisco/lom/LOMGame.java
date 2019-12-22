@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
+import com.jscisco.lom.items.ItemRepository;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.screens.kingdom.HireHeroScreen;
 import com.jscisco.lom.zone.Zone;
@@ -26,6 +27,7 @@ public class LOMGame extends Game {
     @Override
     public void create() {
         Assets.load();
+        ItemRepository.load();
 
         Zone zone = null;
         if (zone != null) {
