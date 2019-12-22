@@ -7,6 +7,7 @@ public class ItemFactory {
     public static Item buildSword() {
         return new Item.Builder()
                 .withName(new ItemName("Sword"))
+                .withEquipmentSlot(Slot.HAND)
                 .withGlyph(Assets.Glyphs.SWORD)
                 .withRarity(Rarity.NORMAL)
                 .withValue(new ItemValue(5))

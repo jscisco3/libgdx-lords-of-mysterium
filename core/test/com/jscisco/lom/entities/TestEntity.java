@@ -6,19 +6,19 @@ import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Equipment;
 import com.jscisco.lom.entity.Inventory;
-import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.items.ItemName;
+import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 public class TestEntity {
 
@@ -28,7 +28,7 @@ public class TestEntity {
     @BeforeEach
     public void setUp() {
         entity.setInventory(new Inventory());
-        entity.setStage(Mockito.mock(Stage.class));
+        entity.setStage(mock(Stage.class));
     }
 
     @Test
@@ -74,5 +74,21 @@ public class TestEntity {
         List<Attack> attacks = entity.getAttacks();
         assertFalse(attacks.isEmpty());
         assertEquals(expectedAttack, attacks.get(0));
+    }
+
+    @Test
+    void entityCannotEquipIfEquipmentIsNull() {
+        entity.setEquipment(null);
+        assertThrows(IllegalStateException.class, () -> {
+            entity.equip(mock(Item.class));
+        });
+    }
+
+    @Test
+    void entityCannotEquipItemIfItemIsUnequippable() {
+        entity.setEquipment(new Equipment());
+        assertThrows(ItemCannotBeEquippedException.class, () -> {
+            entity.equip(new Item.Builder().build());
+        });
     }
 }

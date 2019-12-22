@@ -5,13 +5,18 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.UnarmedAttackFactory;
+import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.items.ItemCannotBeEquippedException;
+import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.DijkstraMap;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Entity {
 
@@ -187,6 +192,29 @@ public abstract class Entity {
             return true;
         }
         return false;
+    }
+
+    public List<Item> equip(Item item) throws ItemCannotBeEquippedException {
+        if (Objects.isNull(equipment)) {
+            throw new IllegalStateException("Entity cannot equip if they don't have an equipment component");
+        }
+        if (!item.equippable()) {
+            throw new ItemCannotBeEquippedException();
+        }
+        Slot slot = item.getSlot().orElseThrow(ItemCannotBeEquippedException::new);
+        List<Item> unequipped = new ArrayList<>();
+        List<EquipmentSlot> validSlots = this.equipment.getSlotsByType(slot);
+        for (EquipmentSlot es : validSlots) {
+            // We found a valid slot that is empty, so add this item to it
+            // and return an empty list of unequipped items.
+            if (!es.hasItem()) {
+                es.equip(item);
+                return unequipped;
+            }
+        }
+        // We have to replace something. So we'll use the first
+        validSlots.get(0).equip(item).ifPresent(unequipped::add);
+        return unequipped;
     }
 
     public void die() {

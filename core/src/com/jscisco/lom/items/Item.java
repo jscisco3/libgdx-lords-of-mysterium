@@ -78,6 +78,10 @@ public class Item {
         return slot;
     }
 
+    public boolean equippable() {
+        return this.slot.isPresent();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
