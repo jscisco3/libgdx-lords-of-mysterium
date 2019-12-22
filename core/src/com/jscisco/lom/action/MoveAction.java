@@ -34,10 +34,10 @@ public class MoveAction extends AbstractAction {
 
         if (source.getStage().terrainIsWalkableAtPosition(newPosition)) {
             source.setPosition(newPosition);
-            logger.info("{} tried to move to {}, and succeeded!.", source, direction);
+            logger.debug("{} tried to move to {}, and succeeded!.", source, direction);
             return ActionResult.success();
         } else {
-            logger.info("{} tried to move to {}, but failed.", source, direction);
+            logger.debug("{} tried to move to {}, but failed.", source, direction);
             return ActionResult.alternate(new RestAction(source));
         }
     }

@@ -68,6 +68,7 @@ public class ZoneScreen implements Screen {
         drawItems();
         drawEntities();
         drawPlayerHUD();
+        drawDebug();
 
         zone.getCurrentStage().process();
         zone.getCurrentState().handleInput(Gdx.input);
@@ -80,6 +81,13 @@ public class ZoneScreen implements Screen {
         zone.getCurrentStage().updateTilesBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+    }
+
+    private void drawDebug() {
+        batch.begin();
+        font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
+        font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().getX(), zone.getCurrentStage().getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
+        batch.end();
     }
 
     private void drawSeenTiles() {
@@ -96,8 +104,6 @@ public class ZoneScreen implements Screen {
                 }
             }
         }
-        font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
-        font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().getX(), zone.getCurrentStage().getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
         batch.end();
     }
 
@@ -216,11 +222,6 @@ public class ZoneScreen implements Screen {
             int index = iterator.nextIndex();
             font.draw(batch, iterator.next(), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - (5 + 20 * index));
         }
-
-//        font.draw(batch, String.format("Strength: %s", player.getStats().getStrength()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 25);
-//        font.draw(batch, String.format("Intelligence: %s", player.getStats().getIntelligence()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 45);
-//        font.draw(batch, String.format("Dexterity: %s", player.getStats().getDexterity()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 65);
-//        font.draw(batch, String.format("Constitution: %s", player.getStats().getConstitution()), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - 85);
         batch.end();
     }
 

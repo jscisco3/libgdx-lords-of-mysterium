@@ -9,7 +9,9 @@ import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -138,7 +140,17 @@ public class NPC extends Entity {
 
     @Override
     public Action getNextAction() {
-        this.nextAction = new MoveAction(this, ThreadLocalRandom.current().nextInt(-1, 2), ThreadLocalRandom.current().nextInt(-1, 2));
+        List<Position> possibleMoves = new ArrayList<>();
+        possibleMoves.add(new Position(-1, 1));
+        possibleMoves.add(new Position(-1, 0));
+        possibleMoves.add(new Position(-1, -1));
+        possibleMoves.add(new Position(0, -1));
+        possibleMoves.add(new Position(0, 1));
+        possibleMoves.add(new Position(1, 1));
+        possibleMoves.add(new Position(1, 0));
+        possibleMoves.add(new Position(1, -1));
+        Position nextMove = possibleMoves.get(ThreadLocalRandom.current().nextInt(0, possibleMoves.size()));
+        this.nextAction = new MoveAction(this, nextMove.getX(), nextMove.getY());
         return super.getNextAction();
     }
 
