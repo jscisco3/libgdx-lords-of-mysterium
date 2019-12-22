@@ -10,9 +10,10 @@ import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.items.Slot;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.Optional;
 
 class TestEquipment {
 
@@ -43,21 +44,6 @@ class TestEquipment {
     }
 
     /**
-     * Given an item
-     * With multiple available slots
-     * It should be equipped
-     */
-    @Test
-    void equipAnItemWithMultipleOptions() throws ItemCannotBeEquippedException {
-        Item item = new Item.Builder()
-                .withEquipmentSlot(Slot.HAND)
-                .build();
-        this.equipment.equip(item);
-
-        Assertions.assertThat(1).isEqualTo(this.equipment.getNumberOfEquippedItems());
-    }
-
-    /**
      * Given an Item
      * With an EquipmentSlot that is not in the equipment's SlotTypes
      * It should not be equippable
@@ -84,20 +70,7 @@ class TestEquipment {
                 .withEquipmentSlot(Slot.HAND)
                 .withAttack(new Attack(10, new Damage(DamageType.FIRE, 5, 25)))
                 .build();
-        equipment.equip(item);
+        equipment.getSlotsByType(Slot.HAND).get(0).equip(item);
         Assertions.assertThat(equipment.getWeapons()).isNotEmpty();
-    }
-
-    /**
-     * Given an item that does not have an EquipmentSlot
-     * When I try to equip that item
-     * An exception is thrown.
-     */
-    @Test
-    void itemCannotBeEquippedExceptionThrownIfItemIsUnequippable() {
-        Item item = new Item.Builder().build();
-        assertThrows(ItemCannotBeEquippedException.class, () -> {
-            equipment.equip(item);
-        });
     }
 }

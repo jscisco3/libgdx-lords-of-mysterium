@@ -11,6 +11,7 @@ import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.zone.Stage;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -69,7 +70,7 @@ public class TestEntity {
                 .withEquipmentSlot(Slot.HAND)
                 .build();
 
-        equipment.equip(item);
+        entity.equip(item);
 
         List<Attack> attacks = entity.getAttacks();
         assertFalse(attacks.isEmpty());
@@ -90,5 +91,21 @@ public class TestEntity {
         assertThrows(ItemCannotBeEquippedException.class, () -> {
             entity.equip(new Item.Builder().build());
         });
+    }
+
+    /**
+     * Given an item
+     * With multiple available slots
+     * It should be equipped
+     */
+    @Test
+    void equipAnItemWithMultipleOptions() throws ItemCannotBeEquippedException {
+        this.entity.setEquipment(new Equipment());
+        Item item = new Item.Builder()
+                .withEquipmentSlot(Slot.HAND)
+                .build();
+        this.entity.equip(item);
+
+        Assertions.assertThat(1).isEqualTo(this.entity.getEquipment().getNumberOfEquippedItems());
     }
 }

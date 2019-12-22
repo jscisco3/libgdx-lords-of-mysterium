@@ -86,7 +86,7 @@ public class InventoryScreen implements Screen {
                 this.player.getNextAction().invoke();
                 decrementSelectedItem();
             } else if (!inventoryActive) {
-                Item unequipped = this.equipment.unequip(this.equipment.getSlots().get(selectedEquipmentIndex));
+                Item unequipped = this.player.unequip(this.equipment.getSlots().get(selectedEquipmentIndex));
                 if (unequipped != null) {
                     this.inventory.addItem(unequipped);
                 }
@@ -97,7 +97,7 @@ public class InventoryScreen implements Screen {
             if (!this.inventory.getItems().isEmpty()) {
                 Item itemToEquip = this.inventory.getItems().get(selectedItemIndex);
                 try {
-                    List<Item> itemsUnequipped = this.player.getEquipment().equip(itemToEquip);
+                    List<Item> itemsUnequipped = this.player.equip(itemToEquip);
                     this.inventory.removeItem(itemToEquip);
                     for (Item item : itemsUnequipped) {
                         this.inventory.addItem(item);

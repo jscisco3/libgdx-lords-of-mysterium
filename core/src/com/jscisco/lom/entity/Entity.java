@@ -217,6 +217,10 @@ public abstract class Entity {
         return unequipped;
     }
 
+    public Item unequip(EquipmentSlot slot) {
+        return slot.unequip();
+    }
+
     public void die() {
         this.deathStrategy.die(this);
     }

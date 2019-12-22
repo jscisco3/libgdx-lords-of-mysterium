@@ -46,43 +46,6 @@ public class Equipment {
         return slots.stream().anyMatch(slot -> slot.getSlot() == item.getSlot().get());
     }
 
-    /**
-     * Equips [Item]
-     *
-     * @param item The item being equipped
-     * @return Any items that had to be unequipped to make room for it. This is usually nothing or a single item.
-     */
-    public List<Item> equip(Item item) throws ItemCannotBeEquippedException {
-        if (!item.getSlot().isPresent()) {
-            throw new ItemCannotBeEquippedException();
-        }
-        Slot slotToBeFilled = item.getSlot().get();
-        List<Item> unequipped = new ArrayList<>();
-        // Handle hands and multi-handed items specially. We MAY need to preserve an invariant that
-        // you can never hold a two-handed item and something else.
-        // TODO: Feat that let's you hold two handed item in one hand
-        if (slotToBeFilled == Slot.HAND) {
-        }
-
-        List<EquipmentSlot> validSlots = getSlotsByType(slotToBeFilled);
-        for (EquipmentSlot s : validSlots) {
-            // If we don't have an item, equip it.
-            if (!s.hasItem()) {
-                s.equip(item);
-                return unequipped;
-            }
-        }
-        // Otherwise, every slot has an item equipped, so lets
-        // replace the first one with this new item.
-        Optional<Item> replacedItem = validSlots.get(0).equip(item);
-        replacedItem.ifPresent(unequipped::add);
-        return unequipped;
-    }
-
-    public Item unequip(EquipmentSlot slot) {
-        return slot.unequip();
-    }
-
     public List<EquipmentSlot> getSlots() {
         return slots;
     }
