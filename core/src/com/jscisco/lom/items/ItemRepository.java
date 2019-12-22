@@ -22,9 +22,7 @@ public class ItemRepository {
             List<Item> parsedItems = gson.fromJson(new FileReader("items.json"), new TypeToken<List<Item>>() {
             }.getType());
             parsedItems.forEach(x -> items.put(x.getItemName(), x));
-        } catch (JsonSyntaxException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (JsonSyntaxException | FileNotFoundException e) {
             e.printStackTrace();
         }
     }

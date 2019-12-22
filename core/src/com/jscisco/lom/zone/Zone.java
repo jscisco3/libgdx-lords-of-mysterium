@@ -89,8 +89,13 @@ public class Zone {
 //        createdItems.add(ItemFactory.buildRing());
 //        createdItems.add(ItemFactory.buildRing());
         createdItems.add(ItemFactory.buildSword());
+        createdItems.add(ItemFactory.buildSword());
+        createdItems.add(ItemFactory.buildSword());
+        createdItems.add(ItemFactory.buildSword());
+        createdItems.add(ItemFactory.buildSword());
 
         for (Item item : createdItems) {
+            logger.info(item.toString());
             this.getCurrentStage().findEmptyPosition().ifPresent(item::setPosition);
             this.getCurrentStage().addItem(item);
         }
