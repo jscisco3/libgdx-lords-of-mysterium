@@ -38,7 +38,7 @@ public class TestAttackAction {
 
 
         List<Attack> attacks = new ArrayList<>();
-        attacks.add(new Attack(10, new Damage(DamageType.PHYSICAL, 5, 25)));
+        attacks.add(new Attack(10, new Damage(DamageType.PHYSICAL, 20)));
         Mockito.doReturn(attacks).when(attacker).getAttacks();
     }
 

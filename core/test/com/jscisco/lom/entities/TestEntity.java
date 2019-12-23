@@ -3,6 +3,7 @@ package com.jscisco.lom.entities;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
+import com.jscisco.lom.effect.TimedEffect;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Equipment;
 import com.jscisco.lom.entity.Inventory;
@@ -15,6 +16,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class TestEntity {
         entity.setEquipment(equipment);
 
         Attack expectedAttack = new Attack(
-                100, new Damage(DamageType.PHYSICAL, 1, 20)
+                100, new Damage(DamageType.PHYSICAL, 20)
         );
 
         Item item = new Item.Builder()
@@ -107,5 +109,26 @@ public class TestEntity {
         this.entity.equip(item);
 
         Assertions.assertThat(1).isEqualTo(this.entity.getEquipment().getNumberOfEquippedItems());
+    }
+
+    @Test
+    void applyingAnEffectToAnEntityShouldAttachIt() {
+        TimedEffect effect = new TimedEffect(5) {};
+        this.entity.applyEffect(effect);
+
+        Assertions.assertThat(effect).isEqualTo(this.entity.getEffects().get(0));
+    }
+
+    @Test
+    void whenTimedEffectTimerHits0ItIsRemovedFromAttachedEntity() {
+        TimedEffect effect = Mockito.spy(new TimedEffect(2) {});
+
+        this.entity.applyEffect(effect);
+        effect.tick();
+        Assertions.assertThat(effect.timeRemaining()).isEqualTo(1);
+        effect.tick();
+        Mockito.verify(effect).destroy();
+        Assertions.assertThat(this.entity.getEffects().isEmpty()).isTrue();
+
     }
 }

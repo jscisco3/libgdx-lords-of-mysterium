@@ -1,3 +1,28 @@
+Notes:
+    - Abilities. What kinds are there? What do they do?
+        Activated Abilities. Have an optional Cost, optional Cooldown
+            e.g.
+                Fireball
+                    AOE: Blast
+                    Cost: 10 mana
+                    Cooldown: 4 // Can be cast every 4 turns
+                    Effect: 10d6 fire damage
+                        DamageEffect(10d6, Fire)
+                MageArmor
+                    AOE: Self
+                    Cost: 10 manage
+                    Cooldown: 10
+                    Effect:
+                        BuffEffect (Buff - 10 ac, 5 turns)
+        Passive Abilities - different here with feats? Maybe nothing. I think these can be separate.
+        Toggled Abilities - abilities that consume some cost and then give a benefit while active
+            e.g.
+                Quickness
+                    AOE: Self
+                    Cost: 10 mana
+                    Effect:
+                        BuffEffect (Buff - +10 agility)
+
 General
 - Add Main menu
     - New Game

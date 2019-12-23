@@ -68,7 +68,7 @@ class TestEquipment {
         Item item = new Item.Builder()
                 .withName(new ItemName("Sword"))
                 .withEquipmentSlot(Slot.HAND)
-                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 5, 25)))
+                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 20)))
                 .build();
         equipment.getSlotsByType(Slot.HAND).get(0).equip(item);
         Assertions.assertThat(equipment.getWeapons()).isNotEmpty();

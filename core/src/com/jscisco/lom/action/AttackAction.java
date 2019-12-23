@@ -21,7 +21,7 @@ public class AttackAction extends AbstractAction {
     @Override
     public ActionResult invoke() {
         List<Attack> attacks = source.getAttacks();
-        attacks.forEach(a -> a.getDamages().forEach(d -> this.defender.getHealth().damage(d.getMagnitude())));
+        attacks.forEach(a -> a.getDamages().forEach(d -> this.defender.getHealth().damage(d.getDamage())));
         if (this.defender.getHealth().shouldBeDestroyed()) {
             logger.info("{} has been destroyed!", this.defender);
             defender.getStage().removeEntity(defender);

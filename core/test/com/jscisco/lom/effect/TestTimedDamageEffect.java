@@ -1,0 +1,35 @@
+package com.jscisco.lom.effect;
+
+import com.jscisco.lom.combat.Damage;
+import com.jscisco.lom.combat.DamageType;
+import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.entity.Health;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+
+public class TestTimedDamageEffect {
+
+    @Spy
+    Entity entity = new Entity() {};
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    void damageEffectShouldDealDamageToAttachedEntity() {
+        this.entity.setHealth(new Health(100));
+        TimedDamageEffect tde = new TimedDamageEffect(2, new Damage(DamageType.PHYSICAL, 20));
+        tde.attach(this.entity);
+        tde.tick();
+        Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(80);
+        tde.tick();
+        Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(60);
+        Assertions.assertThat(this.entity.getEffects().isEmpty()).isTrue();
+    }
+
+}

@@ -90,6 +90,7 @@ class TestSaving {
      * Then we should have valid json
      */
     @Test
+    @Disabled
     void shouldBeAbleToSerializeZone() {
         Zone zone = new Zone(new Size3D(30, 30, 2), PlayerFactory.createRandomHero());
 
