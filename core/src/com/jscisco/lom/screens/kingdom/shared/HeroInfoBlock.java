@@ -41,10 +41,10 @@ public class HeroInfoBlock {
         this.name = player.getName();
         this.selected = false;
 
-        this.statsStrings.add(String.format("S: %s  ", this.player.getStatistics().getStrength().getValue()));
-        this.statsStrings.add(String.format("C: %s  ", this.player.getStatistics().getConstitution().getValue()));
-        this.statsStrings.add(String.format("D: %s  ", this.player.getStatistics().getDexterity().getValue()));
-        this.statsStrings.add(String.format("I: %s  ", this.player.getStatistics().getIntelligence().getValue()));
+        this.statsStrings.add(String.format("S: %s  ", this.player.getStatistics().getStrength().value()));
+        this.statsStrings.add(String.format("C: %s  ", this.player.getStatistics().getConstitution().value()));
+        this.statsStrings.add(String.format("D: %s  ", this.player.getStatistics().getDexterity().value()));
+        this.statsStrings.add(String.format("I: %s  ", this.player.getStatistics().getIntelligence().value()));
 
     }
 
