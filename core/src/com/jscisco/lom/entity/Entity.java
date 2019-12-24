@@ -5,6 +5,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.UnarmedAttackFactory;
+import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.effect.TimedEffect;
 import com.jscisco.lom.items.EquipmentSlot;
 import com.jscisco.lom.items.Item;
@@ -29,7 +30,7 @@ public abstract class Entity {
     protected Inventory inventory;
     protected Equipment equipment;
     protected Statistics statistics;
-    protected List<TimedEffect> effects = new ArrayList<>();
+    protected List<Effect> effects = new ArrayList<>();
     protected Job job;
     protected Assets.Glyphs glyph;
     protected DeathStrategy deathStrategy;
@@ -227,13 +228,12 @@ public abstract class Entity {
         this.deathStrategy.die(this);
     }
 
-    public List<TimedEffect> getEffects() {
+    public List<Effect> getEffects() {
         return effects;
     }
 
-    public boolean applyEffect(TimedEffect effect) {
+    public void applyEffect(Effect effect) {
         effect.apply(this);
-        return this.effects.add(effect);
     }
 
     public void removeEffect(TimedEffect effect) {

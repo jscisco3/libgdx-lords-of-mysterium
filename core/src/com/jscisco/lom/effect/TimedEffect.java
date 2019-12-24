@@ -27,6 +27,7 @@ public abstract class TimedEffect extends Effect {
 
     public void apply(Entity entity) {
         this.entity = Optional.of(entity);
+        entity.getEffects().add(this);
     }
 
     public int timeRemaining() {
