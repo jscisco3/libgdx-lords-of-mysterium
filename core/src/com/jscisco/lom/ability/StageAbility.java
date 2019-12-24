@@ -1,6 +1,5 @@
 package com.jscisco.lom.ability;
 
-import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import squidpony.squidai.AOE;
 import squidpony.squidmath.Coord;
@@ -17,7 +16,7 @@ public class StageAbility extends Ability {
     }
 
     public OrderedMap<Coord, Double> area() {
-        return null;
+        return this.aoe.findArea();
     }
 
     public Stage getStage() {
