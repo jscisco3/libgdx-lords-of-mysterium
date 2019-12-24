@@ -17,11 +17,59 @@ public class Ability {
     // Effect(s) that are wrought by this ability
     private List<Effect> effects = new ArrayList<>();
     private AOE aoe;
+    private AbilityName name;
+    private AbilityDescription description;
 
-    public Ability(int cooldown, List<Effect> effects, AOE aoe) {
-        this.cooldown = cooldown;
-        this.effects = effects;
-        this.aoe = aoe;
+    private Ability() {
+    }
+
+    public static class Builder {
+        private int cooldown = 0;
+        private List<Effect> effects = new ArrayList<>();
+        private AOE aoe;
+        private AbilityName name;
+        private AbilityDescription description;
+
+        public Builder() {
+        }
+
+        public Builder withCooldown(int cooldown) {
+            this.cooldown = cooldown;
+            return this;
+        }
+
+        public Builder withEffect(Effect effect) {
+            this.effects.add(effect);
+            return this;
+        }
+
+        public Builder withAOE(AOE aoe) {
+            this.aoe = aoe;
+            return this;
+        }
+
+        public Builder withName(AbilityName name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withDescription(AbilityDescription description) {
+            this.description = description;
+            return this;
+        }
+
+        public Ability build() {
+            assert this.aoe != null;
+            Ability ability = new Ability();
+            ability.name = this.name;
+            ability.description = this.description;
+            ability.effects = this.effects;
+            ability.aoe = this.aoe;
+            ability.cooldown = this.cooldown;
+            return ability;
+        }
+
+
     }
 
 //    public Ability(Ability other) {

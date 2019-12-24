@@ -3,7 +3,6 @@ package com.jscisco.lom.ability;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.effect.DamageEffect;
-import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.effect.TimedDamageEffect;
 import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.Health;
@@ -18,9 +17,6 @@ import squidpony.squidai.BlastAOE;
 import squidpony.squidgrid.Radius;
 import squidpony.squidmath.Coord;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TestAbility {
 
     Ability ability;
@@ -29,9 +25,11 @@ public class TestAbility {
     @Test
     void stageAbilityShouldAffectAllEntitiesInAffectedArea() {
         AOE aoe = new BlastAOE(Coord.get(5, 5), 2, Radius.SQUARE);
-        List<Effect> effects = new ArrayList<>();
-        effects.add(new DamageEffect(new Damage(DamageType.FIRE, 10)));
-        ability = new Ability(0, effects, aoe);
+        ability = new Ability.Builder()
+                .withCooldown(0)
+                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
+                .withAOE(aoe)
+                .build();
 
         NPC npc = new NPC.Builder(new EntityName("Snuugz"))
                 .withStage(stage)
@@ -46,11 +44,12 @@ public class TestAbility {
     @Test
     void stageAbilityCanApplyTimedEffects() {
         AOE aoe = new BlastAOE(Coord.get(5, 5), 2, Radius.SQUARE);
-        List<Effect> effects = new ArrayList<>();
         TimedDamageEffect tde = new TimedDamageEffect(1, new DamageEffect(new Damage(DamageType.FIRE, 20)));
-        effects.add(tde);
-//        effects.add(new DamageEffect(new Damage(DamageType.FIRE, 10)));
-        ability = new Ability(0, effects, aoe);
+        ability = new Ability.Builder()
+                .withCooldown(0)
+                .withEffect(tde)
+                .withAOE(aoe)
+                .build();
 
         NPC npc = new NPC.Builder(new EntityName("Snuugz"))
                 .withStage(stage)
