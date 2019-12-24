@@ -1,12 +1,10 @@
 package com.jscisco.lom.effect;
 
-import com.jscisco.lom.combat.Damage;
-
 public class TimedDamageEffect extends TimedEffect {
 
-    private Damage damage;
+    private DamageEffect damage;
 
-    public TimedDamageEffect(int timer, Damage damage) {
+    public TimedDamageEffect(int timer, DamageEffect damage) {
         super(timer);
         this.damage = damage;
     }
@@ -14,6 +12,6 @@ public class TimedDamageEffect extends TimedEffect {
     @Override
     public void tick() {
         super.tick();
-        this.entity.ifPresent(e -> e.getHealth().damage(this.damage.getDamage()));
+        this.entity.ifPresent(e -> this.damage.apply(e));
     }
 }
