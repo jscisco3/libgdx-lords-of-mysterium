@@ -68,4 +68,11 @@ public interface Stage {
 
     Optional<Position> getPositionOfStairsUp();
 
+    /**
+     * Convert this Stage to a a squidlib map implementation
+     *
+     * @return The squidlib map representation of this stage's tiles.
+     */
+    char[][] toSquidlibMap();
+
 }

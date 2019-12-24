@@ -3,7 +3,7 @@ package com.jscisco.lom.effect;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.entity.Entity;
 
-public class DamageEffect {
+public class DamageEffect extends Effect {
 
     private Damage damage;
 

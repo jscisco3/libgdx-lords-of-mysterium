@@ -263,4 +263,20 @@ public class StageImpl implements Stage {
         }
         return Optional.empty();
     }
+
+    @Override
+    public char[][] toSquidlibMap() {
+        char[][] map = new char[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Terrain t = tiles[x][y].getTerrain();
+                if (t.isWalkable()) {
+                    map[x][y] = '.';
+                } else {
+                    map[x][y] = '#';
+                }
+            }
+        }
+        return map;
+    }
 }

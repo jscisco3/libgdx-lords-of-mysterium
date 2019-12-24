@@ -2,7 +2,14 @@ Notes:
     - Abilities. What kinds are there? What do they do?
         Activated Abilities. Have an optional Cost, optional Cooldown
             e.g.
-                Fireball
+                Fireball :: LevelAbility
+                    Cooldown: 4
+                    Effects = [DamageEffect(10d6, Fire)]
+                    Target: Position(x, y)
+                    AOE: BlastAbility
+                    ignoreCaster: false
+
+
                     AOE: Blast
                     Cost: 10 mana
                     Cooldown: 4 // Can be cast every 4 turns

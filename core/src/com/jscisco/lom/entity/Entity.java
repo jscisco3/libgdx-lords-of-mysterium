@@ -232,7 +232,7 @@ public abstract class Entity {
     }
 
     public boolean applyEffect(TimedEffect effect) {
-        effect.attach(this);
+        effect.apply(this);
         return this.effects.add(effect);
     }
 

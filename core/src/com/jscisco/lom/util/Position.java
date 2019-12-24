@@ -45,6 +45,10 @@ public class Position {
                 '}';
     }
 
+    public static Position get(int x, int y) {
+        return new Position(x, y);
+    }
+
     @Override
     public boolean equals(Object obj) {
 

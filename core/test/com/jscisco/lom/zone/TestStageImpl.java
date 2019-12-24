@@ -4,7 +4,7 @@ import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.FieldOfView;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.util.Position;
-import org.junit.jupiter.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ public class TestStageImpl {
     @Test
     public void findingAnEmptyPositionShouldFindAPosition() {
         Optional<Position> p = this.stage.findEmptyPosition();
-        Assertions.assertNotNull(p);
+        Assertions.assertThat(p).isNotNull();
     }
 
     @Disabled
@@ -36,7 +36,9 @@ public class TestStageImpl {
 
     @Test
     public void updatingTilesBasedOnFOVShouldFailIfThereIsNoPlayer() {
-        Assertions.assertThrows(AssertionError.class, () -> stage.updateTilesBasedOnFOV());
+        Assertions.assertThatThrownBy(() -> {
+            stage.updateTilesBasedOnFOV();
+        }).isInstanceOf(AssertionError.class);
     }
 
     @Test
@@ -54,10 +56,35 @@ public class TestStageImpl {
         Position position = p.getPosition();
         stage.addEntity(p);
         stage.updateTilesBasedOnFOV();
-        Assertions.assertTrue(stage.getTileAt(position).isInFov());
-        Assertions.assertTrue(stage.getTileAt(position).isSeen());
+        Assertions.assertThat(stage.getTileAt(position).isInFov()).isTrue();
+        Assertions.assertThat(stage.getTileAt(position).isSeen()).isTrue();
     }
 
     // Test processing here
+
+    @Test
+    void convertingStageToSquidlibMapPutsDotInWalkableTiles() {
+        char[][] map = stage.toSquidlibMap();
+        for (int x = 0; x < stage.getWidth(); x++) {
+            for (int y = 0; y < stage.getHeight(); y++) {
+                if (stage.getTileAt(Position.get(x, y)).getTerrain().isWalkable()) {
+                    Assertions.assertThat(map[x][y]).isEqualTo('.');
+                }
+            }
+        }
+    }
+
+
+    @Test
+    void convertingStageToSquidlibMapPutsHashInNonWalkableTiles() {
+        char[][] map = stage.toSquidlibMap();
+        for (int x = 0; x < stage.getWidth(); x++) {
+            for (int y = 0; y < stage.getHeight(); y++) {
+                if (!stage.getTileAt(Position.get(x, y)).getTerrain().isWalkable()) {
+                    Assertions.assertThat(map[x][y]).isEqualTo('#');
+                }
+            }
+        }
+    }
 
 }

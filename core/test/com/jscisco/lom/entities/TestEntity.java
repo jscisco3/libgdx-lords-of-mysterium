@@ -113,7 +113,8 @@ public class TestEntity {
 
     @Test
     void applyingAnEffectToAnEntityShouldAttachIt() {
-        TimedEffect effect = new TimedEffect(5) {};
+        TimedEffect effect = new TimedEffect(5) {
+        };
         this.entity.applyEffect(effect);
 
         Assertions.assertThat(effect).isEqualTo(this.entity.getEffects().get(0));
@@ -121,7 +122,8 @@ public class TestEntity {
 
     @Test
     void whenTimedEffectTimerHits0ItIsRemovedFromAttachedEntity() {
-        TimedEffect effect = Mockito.spy(new TimedEffect(2) {});
+        TimedEffect effect = Mockito.spy(new TimedEffect(2) {
+        });
 
         this.entity.applyEffect(effect);
         effect.tick();
@@ -129,6 +131,5 @@ public class TestEntity {
         effect.tick();
         Mockito.verify(effect).destroy();
         Assertions.assertThat(this.entity.getEffects().isEmpty()).isTrue();
-
     }
 }

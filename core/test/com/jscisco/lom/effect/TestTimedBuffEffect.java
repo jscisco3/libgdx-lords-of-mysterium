@@ -29,7 +29,7 @@ public class TestTimedBuffEffect {
         Constitution constitution = entity.getStatistics().getConstitution();
         Assertions.assertThat(constitution.value()).isEqualTo(5);
         TimedBuffEffect tbe = new TimedBuffEffect(5, constitution, new StatBonus(15));
-        tbe.attach(entity);
+        tbe.apply(entity);
         Assertions.assertThat(constitution.value()).isEqualTo(20);
     }
 
@@ -38,7 +38,7 @@ public class TestTimedBuffEffect {
         Constitution constitution = entity.getStatistics().getConstitution();
         Assertions.assertThat(constitution.value()).isEqualTo(5);
         TimedBuffEffect tbe = new TimedBuffEffect(5, constitution, new StatBonus(15));
-        tbe.attach(entity);
+        tbe.apply(entity);
         Assertions.assertThat(constitution.value()).isEqualTo(20);
         while (tbe.timeRemaining() > 0) {
             tbe.tick();

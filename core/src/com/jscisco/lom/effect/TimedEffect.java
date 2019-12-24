@@ -4,7 +4,7 @@ import com.jscisco.lom.entity.Entity;
 
 import java.util.Optional;
 
-public abstract class TimedEffect {
+public abstract class TimedEffect extends Effect {
 
     // The entity affected by this effect
     protected Optional<Entity> entity = Optional.empty();
@@ -25,7 +25,7 @@ public abstract class TimedEffect {
         this.entity.ifPresent(e -> e.removeEffect(this));
     }
 
-    public void attach(Entity entity) {
+    public void apply(Entity entity) {
         this.entity = Optional.of(entity);
     }
 

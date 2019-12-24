@@ -22,8 +22,8 @@ public class TimedBuffEffect extends TimedEffect {
     }
 
     @Override
-    public void attach(Entity entity) {
-        super.attach(entity);
+    public void apply(Entity entity) {
+        super.apply(entity);
         stat.applyBonus(bonus);
     }
 }

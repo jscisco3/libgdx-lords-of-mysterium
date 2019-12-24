@@ -24,7 +24,7 @@ public class TestTimedDamageEffect {
     void damageEffectShouldDealDamageToAttachedEntity() {
         this.entity.setHealth(new Health(100));
         TimedDamageEffect tde = new TimedDamageEffect(2, new DamageEffect(new Damage(DamageType.PHYSICAL, 20)));
-        tde.attach(this.entity);
+        tde.apply(this.entity);
         tde.tick();
         Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(80);
         tde.tick();
