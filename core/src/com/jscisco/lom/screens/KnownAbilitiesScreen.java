@@ -2,6 +2,7 @@ package com.jscisco.lom.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
@@ -17,7 +19,7 @@ import java.util.ListIterator;
 
 public class KnownAbilitiesScreen implements Screen {
 
-    private Game game;
+    private LOMGame game;
     private Entity entity;
 
     private SpriteBatch batch;
@@ -27,7 +29,7 @@ public class KnownAbilitiesScreen implements Screen {
     private BitmapFont font;
     private static final GlyphLayout layout = new GlyphLayout();
 
-    public KnownAbilitiesScreen(Game game, Entity entity) {
+    public KnownAbilitiesScreen(LOMGame game, Entity entity) {
         this.game = game;
         this.entity = entity;
         batch = new SpriteBatch();
@@ -54,6 +56,11 @@ public class KnownAbilitiesScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         renderKnownAbilities();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            // Should end up back at the zone screen in most cases
+            this.game.getScreenManager().popScreen();
+        }
 
     }
 

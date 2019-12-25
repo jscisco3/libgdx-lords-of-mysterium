@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
@@ -29,7 +30,7 @@ public class ZoneScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
 
     private Zone zone;
-    private Game game;
+    private LOMGame game;
     private Player player;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
@@ -37,7 +38,7 @@ public class ZoneScreen implements Screen {
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public ZoneScreen(Game game, Zone zone) {
+    public ZoneScreen(LOMGame game, Zone zone) {
         this.game = game;
         this.zone = zone;
         this.player = zone.getCurrentStage().getPlayer();
@@ -79,10 +80,10 @@ public class ZoneScreen implements Screen {
         zone.getCurrentState().handleInput(Gdx.input);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            this.game.setScreen(new InventoryScreen(this.game, this.zone));
+            this.game.getScreenManager().pushScreen(new InventoryScreen(this.game, this.zone));
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
-            this.game.setScreen(new KnownAbilitiesScreen(this.game, this.player));
+            this.game.getScreenManager().pushScreen(new KnownAbilitiesScreen(this.game, this.player));
         }
 
         zone.getCurrentState().update();

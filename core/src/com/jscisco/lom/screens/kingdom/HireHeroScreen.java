@@ -1,12 +1,12 @@
 package com.jscisco.lom.screens.kingdom;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.screens.ZoneScreen;
@@ -24,7 +24,7 @@ public class HireHeroScreen implements Screen {
 
     private static final Logger logger = LoggerFactory.getLogger(HireHeroScreen.class);
 
-    private Game game;
+    private LOMGame game;
     private List<Player> heroes;
     private List<HeroInfoBlock> infoBlocks;
     private SpriteBatch batch;
@@ -32,7 +32,7 @@ public class HireHeroScreen implements Screen {
 
     private int selectedHero;
 
-    public HireHeroScreen(Game game, List<Player> heroes) {
+    public HireHeroScreen(LOMGame game, List<Player> heroes) {
         this.game = game;
         this.heroes = heroes;
 
@@ -89,7 +89,7 @@ public class HireHeroScreen implements Screen {
 //            }
 
             Zone zone = new Zone(new Size3D(50, 50, 3), getSelectedHero());
-            this.game.setScreen(new ZoneScreen(this.game, zone));
+            this.game.getScreenManager().setScreen(new ZoneScreen(this.game, zone));
         }
     }
 

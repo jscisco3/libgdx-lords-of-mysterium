@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.action.DropItemAction;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Equipment;
@@ -28,7 +29,7 @@ public class InventoryScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(InventoryScreen.class);
 
     private Zone zone;
-    private Game game;
+    private LOMGame game;
     private Player player;
     private Inventory inventory;
     private Equipment equipment;
@@ -43,7 +44,7 @@ public class InventoryScreen implements Screen {
     private int selectedItemIndex = 0;
     private int selectedEquipmentIndex = 0;
 
-    public InventoryScreen(Game game, Zone zone) {
+    public InventoryScreen(LOMGame game, Zone zone) {
         this.game = game;
         this.zone = zone;
         this.player = zone.getCurrentStage().getPlayer();
@@ -77,7 +78,8 @@ public class InventoryScreen implements Screen {
         renderEquipment();
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-            this.game.setScreen(new ZoneScreen(this.game, this.zone));
+            // Should end up back at the zone screen in most cases
+            this.game.getScreenManager().popScreen();
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             // Go ahead and drop the item here, because it should be free to do!

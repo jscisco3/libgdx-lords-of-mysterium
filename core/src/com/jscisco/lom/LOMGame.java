@@ -7,6 +7,7 @@ import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.items.ItemRepository;
+import com.jscisco.lom.screens.ScreenManager;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.screens.kingdom.HireHeroScreen;
 import com.jscisco.lom.zone.Zone;
@@ -21,8 +22,13 @@ public class LOMGame extends Game {
 
     private Logger logger = LoggerFactory.getLogger(LOMGame.class);
     private ZoneScreen zoneScreen;
+    private ScreenManager screenManager;
 
     public static final RNG rng = new RNG(0xDEADBEEF);
+
+    public LOMGame() {
+        this.screenManager = new ScreenManager(this);
+    }
 
     @Override
     public void create() {
@@ -31,13 +37,13 @@ public class LOMGame extends Game {
 
         Zone zone = null;
         if (zone != null) {
-            setScreen(new ZoneScreen(this, zone));
+            this.screenManager.pushScreen(new ZoneScreen(this, zone));
         } else {
             List<Player> heroes = new ArrayList<>();
             for (int i = 0; i < 9; i++) {
                 heroes.add(PlayerFactory.createRandomHero());
             }
-            setScreen(new HireHeroScreen(this, heroes));
+            this.screenManager.pushScreen(new HireHeroScreen(this, heroes));
         }
 
     }
@@ -53,5 +59,9 @@ public class LOMGame extends Game {
     public void dispose() {
         super.dispose();
         Assets.dispose();
+    }
+
+    public ScreenManager getScreenManager() {
+        return screenManager;
     }
 }
