@@ -2,9 +2,13 @@ package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.jscisco.lom.action.*;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.items.Item;
+import com.jscisco.lom.log.Message;
+import com.jscisco.lom.log.MessageElement;
+import com.jscisco.lom.log.MessageLog;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +49,10 @@ public class PlayerTurnState extends State {
         }
         if (input.isKeyJustPressed(Input.Keys.R)) {
             action = new RestAction(player);
+        }
+
+        if (input.isKeyJustPressed(Input.Keys.SPACE)) {
+            MessageLog.get().add(new Message().withElement(new MessageElement("Log message!", Color.GREEN)));
         }
 
         if (input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)) {

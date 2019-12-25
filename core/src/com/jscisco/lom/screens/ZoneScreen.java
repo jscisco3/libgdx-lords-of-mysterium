@@ -1,6 +1,7 @@
 package com.jscisco.lom.screens;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -10,6 +11,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.log.Message;
+import com.jscisco.lom.log.MessageElement;
+import com.jscisco.lom.log.MessageLog;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -67,7 +71,8 @@ public class ZoneScreen implements Screen {
         drawFOVTiles();
         drawItems();
         drawEntities();
-        drawPlayerHUD();
+        drawPlayerStats();
+        drawMessageLog();
         drawDebug();
 
         zone.getCurrentStage().process();
@@ -83,8 +88,29 @@ public class ZoneScreen implements Screen {
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
     }
 
+    private void drawMessageLog() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Config.LOG_AREA_COLOR);
+        shapeRenderer.rect(logX(), logY(), Config.LOG_AREA_WIDTH, Config.LOG_AREA_HEIGHT);
+        shapeRenderer.end();
+
+        List<Message> recentMessages = MessageLog.get().recentMessages();
+        ListIterator<Message> iterator = recentMessages.listIterator();
+        batch.begin();
+        while (iterator.hasNext()) {
+            int index = iterator.nextIndex();
+            Message m = iterator.next();
+            for (MessageElement e : m.getElements()) {
+                font.setColor(e.getColor());
+                font.draw(batch, String.format("%s: %s", index, e.getText()), logX(), logY() + font.getLineHeight() * (index + 1));
+            }
+        }
+        batch.end();
+    }
+
     private void drawDebug() {
         batch.begin();
+        font.setColor(Color.RED);
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
         font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().getX(), zone.getCurrentStage().getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
         batch.end();
@@ -155,21 +181,6 @@ public class ZoneScreen implements Screen {
         batch.end();
     }
 
-    private void drawPlayerHUD() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        // Sidebar
-        shapeRenderer.setColor(Config.SIDEBAR_COLOR);
-        shapeRenderer.rect(sidebarX(), sidebarY(), Config.SIDEBAR_WIDTH, Config.SIDEBAR_HEIGHT);
-
-        // Log Area
-        shapeRenderer.setColor(Config.LOG_AREA_COLOR);
-        shapeRenderer.rect(logX(), logY(), Config.LOG_AREA_WIDTH, Config.LOG_AREA_HEIGHT);
-
-        shapeRenderer.end();
-
-        drawPlayerStats();
-    }
-
     /**
      * Calculate bottom left x coordinate of log area
      *
@@ -207,6 +218,12 @@ public class ZoneScreen implements Screen {
     }
 
     private void drawPlayerStats() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        // Sidebar
+        shapeRenderer.setColor(Config.SIDEBAR_COLOR);
+        shapeRenderer.rect(sidebarX(), sidebarY(), Config.SIDEBAR_WIDTH, Config.SIDEBAR_HEIGHT);
+        shapeRenderer.end();
+
         batch.begin();
 
         List<String> stats = new ArrayList<>();
@@ -218,6 +235,7 @@ public class ZoneScreen implements Screen {
         stats.add(String.format("Constitution: %s", player.getStatistics().getConstitution().value()));
 
         ListIterator<String> iterator = stats.listIterator();
+        font.setColor(Color.WHITE);
         while (iterator.hasNext()) {
             int index = iterator.nextIndex();
             font.draw(batch, iterator.next(), sidebarX() + 5, sidebarY() + Config.SIDEBAR_HEIGHT - (5 + 20 * index));
