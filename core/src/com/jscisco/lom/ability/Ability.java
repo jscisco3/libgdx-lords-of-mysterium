@@ -100,4 +100,12 @@ public class Ability {
             }
         });
     }
+
+    public AbilityName getName() {
+        return name;
+    }
+
+    public AbilityDescription getDescription() {
+        return description;
+    }
 }

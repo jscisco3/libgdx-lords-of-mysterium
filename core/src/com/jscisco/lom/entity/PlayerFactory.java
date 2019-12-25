@@ -1,7 +1,16 @@
 package com.jscisco.lom.entity;
 
 import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.ability.Ability;
+import com.jscisco.lom.ability.AbilityDescription;
+import com.jscisco.lom.ability.AbilityName;
+import com.jscisco.lom.combat.Damage;
+import com.jscisco.lom.combat.DamageType;
+import com.jscisco.lom.effect.DamageEffect;
 import squidpony.FakeLanguageGen;
+import squidpony.squidai.BlastAOE;
+import squidpony.squidgrid.Radius;
+import squidpony.squidmath.Coord;
 
 public class PlayerFactory {
 
@@ -19,6 +28,14 @@ public class PlayerFactory {
                 .withStats(job.getBaseStatistics())
                 .withFieldOfView(new FieldOfView(10f))
                 .build();
+        player.learnAbility(new Ability.Builder()
+                .withName(new AbilityName("Fireball"))
+                .withDescription(new AbilityDescription("Burn a bunch of people"))
+                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
+                .withCooldown(0)
+                .withAOE(new BlastAOE(Coord.get(0, 0), 2, Radius.SQUARE))
+                .build()
+        );
         return player;
     }
 

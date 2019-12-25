@@ -81,6 +81,9 @@ public class ZoneScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             this.game.setScreen(new InventoryScreen(this.game, this.zone));
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+            this.game.setScreen(new KnownAbilitiesScreen(this.game, this.player));
+        }
 
         zone.getCurrentState().update();
         zone.getCurrentStage().updateTilesBasedOnFOV();

@@ -1,6 +1,7 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
@@ -33,6 +34,9 @@ public abstract class Entity {
     protected List<Effect> effects = new ArrayList<>();
     protected Job job;
     protected Assets.Glyphs glyph;
+
+    protected List<Ability> knownAbilities = new ArrayList<>();
+
     protected DeathStrategy deathStrategy;
 
     protected transient Stage stage;
@@ -238,5 +242,13 @@ public abstract class Entity {
 
     public void removeEffect(TimedEffect effect) {
         this.effects.remove(effect);
+    }
+
+    public List<Ability> getKnownAbilities() {
+        return knownAbilities;
+    }
+
+    public void learnAbility(Ability ability) {
+        this.knownAbilities.add(ability);
     }
 }
