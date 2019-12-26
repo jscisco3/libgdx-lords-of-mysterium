@@ -1,6 +1,9 @@
 package com.jscisco.lom.screens;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -123,6 +126,8 @@ public class ZoneScreen implements Screen {
         font.setColor(Color.RED);
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
         font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().getX(), zone.getCurrentStage().getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
+        font.draw(batch, String.format("Camera Position: %s", camera.position.toString()), camera.position.x - 300, camera.position.y + 150);
+        font.draw(batch, String.format("Mouse Position: {%s, %s}", Gdx.input.getX(), Gdx.input.getY()), camera.position.x - 300, camera.position.y + 100);
         batch.end();
     }
 
@@ -290,15 +295,23 @@ public class ZoneScreen implements Screen {
     }
 
     private Tile getTileFromMousePosition(Position pos) {
-        logger.info("Camera position: {}", camera.position);
-        logger.info("Mouse position: {}", pos);
         // Calculate raw tile position
         // Calculate camera offset
-        Position raw = Position.get(pos.getX() / 32, pos.getY() / 32);
-        int tileY = (int) camera.position.y;
-        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH/2) / 32, ((int)(camera.position.y - (Config.WINDOW_HEIGHT/2 - Config.LOG_AREA_HEIGHT))) / 32);
+        Position raw = Position.get(pos.getX() / 24, pos.getY() / 24);
+//        pos.getY() - ()
+//        int tileY = ((int) camera.position.y) // 350.f
+        int totalHeight = zone.getCurrentStage().getHeight() * 24;
+//        int tileY = (totalHeight - (int) camera.position.y - Config.LOG_AREA_HEIGHT);
+//        int tileY = (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2; --> 350;
+
+
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / 24, ((int) (800 - camera.position.y)) / 24);
+        batch.begin();
+        font.draw(batch, String.format("Tile Position: %s", raw.add(offset)), camera.position.x - 300, camera.position.y + 75);
+        font.draw(batch, String.format("Offset Position: %s", offset), camera.position.x - 300, camera.position.y + 50);
+        font.draw(batch, String.format("Raw Position: %s", raw), camera.position.x - 300, camera.position.y + 25);
+        batch.end();
         Position tilePosition = raw.add(offset);
-        logger.info("Tile position: {}", tilePosition);
         return new Tile();
     }
 
