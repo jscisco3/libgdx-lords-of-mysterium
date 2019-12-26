@@ -295,8 +295,8 @@ public class ZoneScreen implements Screen {
         // Calculate raw tile position
         // Calculate camera offset
         Position raw = Position.get(pos.getX() / 32, pos.getY() / 32);
-        logger.info("Logger height: {}", Config.LOG_AREA_HEIGHT);
-        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH/2) / 32, ((int)(camera.position.y * 2)) / 32);
+        int tileY = (int) camera.position.y;
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH/2) / 32, ((int)(camera.position.y - (Config.WINDOW_HEIGHT/2 - Config.LOG_AREA_HEIGHT))) / 32);
         Position tilePosition = raw.add(offset);
         logger.info("Tile position: {}", tilePosition);
         return new Tile();
