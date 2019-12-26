@@ -86,6 +86,12 @@ public class ZoneScreen implements Screen {
             this.game.getScreenManager().pushScreen(new KnownAbilitiesScreen(this.game, this.player));
         }
 
+        // Mouse
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            // Convert mouse position to tile
+            getTileFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+        }
+
         zone.getCurrentState().update();
         zone.getCurrentStage().updateTilesBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
@@ -282,4 +288,18 @@ public class ZoneScreen implements Screen {
         camera.position.y = MathUtils.clamp(position.getY() * 24.0f, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
         logger.trace(String.format("New camera position: %s", camera.position.toString()));
     }
+
+    private Tile getTileFromMousePosition(Position pos) {
+        logger.info("Camera position: {}", camera.position);
+        logger.info("Mouse position: {}", pos);
+        // Calculate raw tile position
+        // Calculate camera offset
+        Position raw = Position.get(pos.getX() / 32, pos.getY() / 32);
+        logger.info("Logger height: {}", Config.LOG_AREA_HEIGHT);
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH/2) / 32, ((int)(camera.position.y * 2)) / 32);
+        Position tilePosition = raw.add(offset);
+        logger.info("Tile position: {}", tilePosition);
+        return new Tile();
+    }
+
 }

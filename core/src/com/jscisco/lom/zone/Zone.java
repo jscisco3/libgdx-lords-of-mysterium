@@ -6,8 +6,9 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
+import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
-import com.jscisco.lom.zone.strategies.GenericStrategy;
+import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,13 +38,13 @@ public class Zone {
         for (int z = 0; z < size.getDepth(); z++) {
             // Top of dungeon, so only stairs down
             if (z == 0) {
-                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), false, true, new GenericStrategy()));
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), false, true, new EmptyStageGenerationStrategy()));
             } else if (z == size.getDepth() - 1) {
                 // Bottom of dungeon, so only stairs up
-                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, false, new GenericStrategy()));
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, false, new EmptyStageGenerationStrategy()));
             } else {
                 // Otherwise, both stairs
-                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, true, new GenericStrategy()));
+                this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), true, true, new EmptyStageGenerationStrategy()));
             }
 //            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), z, new GenericStrategy()));
 //            this.stages.add(new StageImpl(size.getWidth(), size.getHeight(), new EmptyStageGenerationStrategy()));
@@ -53,10 +54,18 @@ public class Zone {
         if (player == null) {
             player = PlayerFactory.createRandomHero();
             player.setStage(this.getCurrentStage());
-            this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
+            if (this.getCurrentStage().getTileAt(Position.get(1, 1)).getTerrain().isWalkable()) {
+                player.setPosition(Position.get(1, 1));
+            } else {
+                this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
+            }
         } else {
             player.setStage(this.getCurrentStage());
-            this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
+            if (this.getCurrentStage().getTileAt(Position.get(1, 1)).getTerrain().isWalkable()) {
+                player.setPosition(Position.get(1, 1));
+            } else {
+                this.getCurrentStage().findEmptyPosition().ifPresent(player::setPosition);
+            }
         }
         this.getCurrentStage().addEntity(player);
 
