@@ -293,18 +293,23 @@ public class ZoneScreen implements Screen {
     private Tile getTileFromMousePosition(Position pos) {
         // Calculate raw tile position
         // Calculate camera offset
-        Position raw = Position.get(pos.getX() / Config.TILE_WIDTH, pos.getY() / Config.TILE_HEIGHT);
+        Position raw = Position.get(pos.getX() / Config.TILE_WIDTH, -1 * pos.getY() / Config.TILE_HEIGHT);
 //        pos.getY() - ()
 //        int tileY = ((int) camera.position.y) // 350.f
         int totalHeight = zone.getCurrentStage().getHeight() * 24;
 //        int tileY = (totalHeight - (int) camera.position.y - Config.LOG_AREA_HEIGHT);
 //        int tileY = (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2; --> 350;
 
-        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / Config.TILE_WIDTH, ((int) (800 - camera.position.y)) / Config.TILE_WIDTH);
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / Config.TILE_WIDTH, (int) camera.position.y + (Config.LOG_AREA_HEIGHT/2) / Config.TILE_HEIGHT);
+        Position test = raw.add(offset);
+        test.setY(pos.getY() - (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2);
+        test.setY((int) ((-1 * test.getY()) + camera.position.y + Config.LOG_AREA_HEIGHT/2));
+
         batch.begin();
         font.draw(batch, String.format("Tile Position: %s", raw.add(offset)), camera.position.x - 300, camera.position.y + 75);
         font.draw(batch, String.format("Offset Position: %s", offset), camera.position.x - 300, camera.position.y + 50);
         font.draw(batch, String.format("Raw Position: %s", raw), camera.position.x - 300, camera.position.y + 25);
+        font.draw(batch, String.format("Test: %s", test), camera.position.x - 300, camera.position.y);
         batch.end();
         Position tilePosition = raw.add(offset);
         return new Tile();
