@@ -7,8 +7,10 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
@@ -141,7 +143,7 @@ public class ZoneScreen implements Screen {
             for (int y = 0; y < this.zone.getCurrentStage().getHeight(); y++) {
                 tile = tiles[x][y];
                 if (tile.isSeen()) {
-                    batch.draw(tile.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
+                    drawTileAtPosition(batch, tile.getTerrain().getTexture(), Position.get(x, y));
                 }
             }
         }
@@ -158,7 +160,7 @@ public class ZoneScreen implements Screen {
             for (int y = 0; y < this.zone.getCurrentStage().getHeight(); y++) {
                 tile = tiles[x][y];
                 if (tile.isInFov()) {
-                    batch.draw(tile.getTerrain().getTexture(), x * 24.0f, y * 24.0f);
+                    drawTileAtPosition(batch, tile.getTerrain().getTexture(), Position.get(x, y));
                 }
             }
         }
@@ -172,15 +174,9 @@ public class ZoneScreen implements Screen {
                 .filter(item -> item.getPosition().isPresent())
                 .forEach(item -> {
                     if (this.zone.getCurrentStage().getTileAt(item.getPosition().get()).isInFov()) {
-                        batch.draw(item.getTexture(), item.getPosition().get().getX() * 24.0f, item.getPosition().get().getY() * 24.0f);
+                        drawTileAtPosition(batch, item.getTexture(), item.getPosition().get());
                     }
                 });
-//        for (Item item : this.zone.getCurrentStage().getItems()) {
-//            if (this.zone.getCurrentStage().getTileAt(item.getPosition()).isInFov()) {
-//                batch.draw(item.getTexture(), item.getPosition().getX() * 24.0f, item.getPosition().getY() * 24.0f);
-//            }
-//        }
-
         batch.end();
     }
 
@@ -189,7 +185,7 @@ public class ZoneScreen implements Screen {
 
         for (Entity entity : this.zone.getCurrentStage().getEntities()) {
             if (this.zone.getCurrentStage().getTileAt(entity.getPosition()).isInFov()) {
-                batch.draw(entity.getTexture(), entity.getX() * 24.0f, entity.getY() * 24.0f);
+                drawTileAtPosition(batch, entity.getTexture(), entity.getPosition());
             }
         }
 
@@ -285,27 +281,26 @@ public class ZoneScreen implements Screen {
     private void updateCamera() {
         // TODO: Figure out why this is weird with small stages
         Position position = player.getPosition();
-        float maxWidth = (zone.getWidth() * 24.0f) - (Config.WINDOW_WIDTH / 2.0f);
-        float maxHeight = (zone.getHeight() * 24.0f) - (Config.WINDOW_HEIGHT / 2.0f);
+        float maxWidth = (zone.getWidth() * Config.TILE_WIDTH) - (Config.WINDOW_WIDTH / 2.0f);
+        float maxHeight = (zone.getHeight() * Config.TILE_HEIGHT) - (Config.WINDOW_HEIGHT / 2.0f);
 
         // Set it to player X * 24.0f, then clamp it?
-        camera.position.x = MathUtils.clamp((position.getX() + 2) * 24.0f, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
-        camera.position.y = MathUtils.clamp(position.getY() * 24.0f, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
+        camera.position.x = MathUtils.clamp((position.getX() + 2) * Config.TILE_WIDTH, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
+        camera.position.y = MathUtils.clamp(position.getY() * Config.TILE_WIDTH, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
         logger.trace(String.format("New camera position: %s", camera.position.toString()));
     }
 
     private Tile getTileFromMousePosition(Position pos) {
         // Calculate raw tile position
         // Calculate camera offset
-        Position raw = Position.get(pos.getX() / 24, pos.getY() / 24);
+        Position raw = Position.get(pos.getX() / Config.TILE_WIDTH, pos.getY() / Config.TILE_HEIGHT);
 //        pos.getY() - ()
 //        int tileY = ((int) camera.position.y) // 350.f
         int totalHeight = zone.getCurrentStage().getHeight() * 24;
 //        int tileY = (totalHeight - (int) camera.position.y - Config.LOG_AREA_HEIGHT);
 //        int tileY = (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2; --> 350;
 
-
-        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / 24, ((int) (800 - camera.position.y)) / 24);
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / Config.TILE_WIDTH, ((int) (800 - camera.position.y)) / Config.TILE_WIDTH);
         batch.begin();
         font.draw(batch, String.format("Tile Position: %s", raw.add(offset)), camera.position.x - 300, camera.position.y + 75);
         font.draw(batch, String.format("Offset Position: %s", offset), camera.position.x - 300, camera.position.y + 50);
@@ -313,6 +308,10 @@ public class ZoneScreen implements Screen {
         batch.end();
         Position tilePosition = raw.add(offset);
         return new Tile();
+    }
+
+    private void drawTileAtPosition(Batch batch, TextureRegion region, Position position) {
+        batch.draw(region, position.getX() * Config.TILE_WIDTH, position.getY() * Config.TILE_HEIGHT, Config.TILE_WIDTH, Config.TILE_HEIGHT);
     }
 
 }

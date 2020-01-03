@@ -19,10 +19,6 @@ import java.util.List;
 
 public class Zone {
 
-    // TODO: Configuration file
-    private float DEFAULT_TILE_WIDTH = 24.0f;
-    private float DEFAULT_TILE_HEIGHT = 24.0f;
-
     private static final Logger logger = LoggerFactory.getLogger(Zone.class);
 
     private Size3D size;
