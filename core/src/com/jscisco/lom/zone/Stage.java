@@ -90,13 +90,8 @@ public class Stage {
     public List<Item> getItemsAtPosition(Position position) {
         List<Item> foundItems = new ArrayList<>();
         this.items.stream()
-                .filter(item -> item.getPosition().isPresent())
+                .filter(item -> item.getPosition().isPresent() && item.getPosition().get().equals(position))
                 .findFirst().ifPresent(foundItems::add);
-//        for (Item item : this.items) {
-//            if (item.getPosition().equals(position)) {
-//                foundItems.add(item);
-//            }
-//        }
         return foundItems;
     }
 

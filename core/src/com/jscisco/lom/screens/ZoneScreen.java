@@ -18,6 +18,7 @@ import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
+import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
@@ -82,6 +83,8 @@ public class ZoneScreen implements Screen {
         drawEntities();
         drawPlayerStats();
         drawMessageLog();
+        // TODO: Can this be renamed?
+        drawInfoBox();
         drawDebug();
 
         zone.getCurrentStage().process();
@@ -108,6 +111,36 @@ public class ZoneScreen implements Screen {
         zone.getCurrentStage().updateTilesBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
+    }
+
+    private void drawInfoBox() {
+        // We want to draw what is under the cursor.
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.BLUE);
+        shapeRenderer.rect(infoX(), infoY(), Config.INFO_BOX_WIDTH, Config.INFO_BOX_HEIGHT);
+        shapeRenderer.end();
+
+        batch.begin();
+        // Get the tile the cursor is on
+        Position p = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+        // If there is an entity in the position, put the name in the box
+        Entity e = zone.getCurrentStage().getEntityAtPosition(p);
+        font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+        if (e != null) {
+            font.draw(batch, e.getName().get(), infoX(), infoY() + Config.INFO_BOX_HEIGHT);
+        }
+        // if there are items in the position, let the user know
+        List<Item> items = zone.getCurrentStage().getItemsAtPosition(p);
+        if (items.size() > 1) {
+            font.draw(batch, "There are several items lying on the ground there.", infoX(), infoY() + Config.INFO_BOX_HEIGHT - 50);
+        } else if (items.size() == 1) {
+            font.draw(batch, String.format("You see a %s lying on the ground.", items.get(0).getItemName().getName()), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 50);
+        }
+
+        // The terrain
+        font.draw(batch, zone.getCurrentStage().getTileAt(p).getTerrain().toString(), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 150);
+        batch.end();
     }
 
     private void drawMessageLog() {
@@ -238,6 +271,23 @@ public class ZoneScreen implements Screen {
      * @return bottom right y coordinate of sidebar
      */
     private float sidebarY() {
+        return camera.position.y - (Config.WINDOW_HEIGHT / 2f);
+    }
+
+    /**
+     * Calculate bottom left X coordinate of info block
+     */
+    private float infoX() {
+        return camera.position.x + (Config.WINDOW_WIDTH / 2f - Config.SIDEBAR_WIDTH);
+    }
+
+    /**
+     * Calculate bottom Y coordinate of info block
+     *
+     * @return
+     */
+
+    private float infoY() {
         return camera.position.y - (Config.WINDOW_HEIGHT / 2f);
     }
 

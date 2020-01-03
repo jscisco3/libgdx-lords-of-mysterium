@@ -12,8 +12,13 @@ public class Config {
 
     public static final int SIDEBAR_HEIGHT = WINDOW_HEIGHT;
     public static final int SIDEBAR_WIDTH = 200;
+
+
     public static final int LOG_AREA_HEIGHT = 100;
     public static final int LOG_AREA_WIDTH = WINDOW_WIDTH - SIDEBAR_WIDTH;
+
+    public static final int INFO_BOX_HEIGHT = 200;
+    public static final int INFO_BOX_WIDTH = SIDEBAR_WIDTH;
 
     public static final int TILE_HEIGHT = 24;
     public static final int TILE_WIDTH = 24;
@@ -26,7 +31,7 @@ public class Config {
 
     public static final BehaviorRepository repository = new BehaviorRepository();
 
-//
+    //
     public static BitmapFont createFont(float dp) {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("../../fonts/consola.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
