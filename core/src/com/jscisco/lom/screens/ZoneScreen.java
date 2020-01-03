@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
@@ -75,6 +76,7 @@ public class ZoneScreen implements Screen {
 
         drawSeenTiles();
         drawFOVTiles();
+        drawMouseHoverOverlay();
         drawItems();
         drawEntities();
         drawPlayerStats();
@@ -94,7 +96,7 @@ public class ZoneScreen implements Screen {
         // Mouse
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             // Convert mouse position to tile
-            getTileFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+            getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
         }
 
         zone.getCurrentState().update();
@@ -120,6 +122,12 @@ public class ZoneScreen implements Screen {
                 font.draw(batch, String.format("%s: %s", index, e.getText()), logX(), logY() + font.getLineHeight() * (index + 1));
             }
         }
+        batch.end();
+    }
+
+    private void drawMouseHoverOverlay() {
+        batch.begin();
+        drawTileAtPosition(batch, Assets.textureMap.get(Assets.Glyphs.MOUSE_TARGET), getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY())));
         batch.end();
     }
 
@@ -290,29 +298,18 @@ public class ZoneScreen implements Screen {
         logger.trace(String.format("New camera position: %s", camera.position.toString()));
     }
 
-    private Tile getTileFromMousePosition(Position pos) {
+    private Position getStagePositionFromMousePosition(Position pos) {
         // Calculate raw tile position
         // Calculate camera offset
-        Position raw = Position.get(pos.getX() / Config.TILE_WIDTH, -1 * pos.getY() / Config.TILE_HEIGHT);
-//        pos.getY() - ()
-//        int tileY = ((int) camera.position.y) // 350.f
-        int totalHeight = zone.getCurrentStage().getHeight() * 24;
-//        int tileY = (totalHeight - (int) camera.position.y - Config.LOG_AREA_HEIGHT);
-//        int tileY = (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2; --> 350;
+        Position raw = Position.get(pos.getX(), ((-1 * pos.getY() + ((Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2))));
 
-        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2) / Config.TILE_WIDTH, (int) camera.position.y + (Config.LOG_AREA_HEIGHT/2) / Config.TILE_HEIGHT);
-        Position test = raw.add(offset);
-        test.setY(pos.getY() - (Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2);
-        test.setY((int) ((-1 * test.getY()) + camera.position.y + Config.LOG_AREA_HEIGHT/2));
+        Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2), (int) ((camera.position.y + (Config.LOG_AREA_HEIGHT / 2))));
 
-        batch.begin();
-        font.draw(batch, String.format("Tile Position: %s", raw.add(offset)), camera.position.x - 300, camera.position.y + 75);
-        font.draw(batch, String.format("Offset Position: %s", offset), camera.position.x - 300, camera.position.y + 50);
-        font.draw(batch, String.format("Raw Position: %s", raw), camera.position.x - 300, camera.position.y + 25);
-        font.draw(batch, String.format("Test: %s", test), camera.position.x - 300, camera.position.y);
-        batch.end();
         Position tilePosition = raw.add(offset);
-        return new Tile();
+        tilePosition.setX(tilePosition.getX() / Config.TILE_WIDTH);
+        tilePosition.setY(tilePosition.getY() / Config.TILE_HEIGHT);
+
+        return tilePosition;
     }
 
     private void drawTileAtPosition(Batch batch, TextureRegion region, Position position) {

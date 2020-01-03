@@ -15,6 +15,8 @@ public class Assets {
         STAIRS_UP,
         STAIRS_DOWN,
 
+        MOUSE_TARGET,
+
         WARRIOR,
         WIZARD,
         ROGUE,
@@ -43,6 +45,9 @@ public class Assets {
         textureMap.put(Glyphs.WALL, atlas.findRegion("wall"));
         textureMap.put(Glyphs.STAIRS_UP, atlas.findRegion("stairs_up"));
         textureMap.put(Glyphs.STAIRS_DOWN, atlas.findRegion("stairs_down"));
+
+        // Utility
+        textureMap.put(Glyphs.MOUSE_TARGET, atlas.findRegion("mouse_target"));
 
         // Jobs
         textureMap.put(Glyphs.WARRIOR, atlas.findRegion("warrior"));
