@@ -88,7 +88,7 @@ public class HireHeroScreen implements Screen {
 //                e.printStackTrace();
 //            }
 
-            Zone zone = new Zone(new Size3D(50, 50, 3), getSelectedHero());
+            Zone zone = new Zone(new Size3D(50, 120, 3), getSelectedHero());
             this.game.getScreenManager().setScreen(new ZoneScreen(this.game, zone));
         }
     }

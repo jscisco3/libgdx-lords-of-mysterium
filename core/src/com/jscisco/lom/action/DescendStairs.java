@@ -1,8 +1,11 @@
 package com.jscisco.lom.action;
 
 import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.util.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class DescendStairs extends AbstractAction {
 
@@ -16,8 +19,10 @@ public class DescendStairs extends AbstractAction {
     public ActionResult invoke() {
         assert source != null;
 
-        if (source.getPosition().equals(source.getStage().getPositionOfStairsDown())) {
-            logger.debug("trying to descend stairs");
+        logger.info("Trying to descend!");
+
+        Optional<Position> stairsDown = source.getStage().getStairsDownPosition();
+        if (stairsDown.isPresent() && stairsDown.get().equals(source.getPosition())) {
             return ActionResult.success();
         }
         return ActionResult.failure();

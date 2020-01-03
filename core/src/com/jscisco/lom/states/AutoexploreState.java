@@ -38,7 +38,7 @@ public class AutoexploreState extends State {
                 goals);
 
         if (path.isEmpty()) {
-            Optional<Position> stairsDownPosition = stage.getPositionOfStairsDown();
+            Optional<Position> stairsDownPosition = stage.getStairsDownPosition();
             if (stairsDownPosition.isPresent() && stage.getPlayer().getPosition() != stairsDownPosition.get()) {
                 path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, Coord.get(stairsDownPosition.get().getX(), stairsDownPosition.get().getY()));
             }

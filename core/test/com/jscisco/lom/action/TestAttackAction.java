@@ -5,7 +5,6 @@ import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.zone.Stage;
-import com.jscisco.lom.zone.StageImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -50,7 +49,7 @@ public class TestAttackAction {
 
     @Test
     public void attackActionShouldRemoveDefenderFromStageIfDestroyed() {
-        Stage stage = new StageImpl();
+        Stage stage = new Stage();
 
         this.attacker = new Player.Builder(new EntityName("attacker"))
                 .build();

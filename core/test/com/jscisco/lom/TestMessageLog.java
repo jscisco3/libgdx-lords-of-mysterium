@@ -5,11 +5,17 @@ import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 public class TestMessageLog {
+
+    @AfterEach
+    void cleanUp() {
+        MessageLog.get().clear();
+    }
 
     @Test
     void addingMessageToLogAddsItToTheLog() {

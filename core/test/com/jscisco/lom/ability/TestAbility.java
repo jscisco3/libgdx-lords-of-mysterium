@@ -9,7 +9,6 @@ import com.jscisco.lom.entity.Health;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
-import com.jscisco.lom.zone.StageImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import squidpony.squidai.AOE;
@@ -20,7 +19,7 @@ import squidpony.squidmath.Coord;
 public class TestAbility {
 
     Ability ability;
-    Stage stage = new StageImpl(20, 20);
+    Stage stage = new Stage(20, 20);
 
     @Test
     void stageAbilityShouldAffectAllEntitiesInAffectedArea() {

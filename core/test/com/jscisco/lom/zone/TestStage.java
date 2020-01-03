@@ -11,15 +11,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
-public class TestStageImpl {
+public class TestStage {
 
     private int WIDTH = 100;
     private int HEIGHT = 50;
-    private StageImpl stage;
+    private Stage stage;
 
     @BeforeEach
     public void setUp() {
-        this.stage = new StageImpl(WIDTH, HEIGHT);
+        this.stage = new Stage(WIDTH, HEIGHT);
     }
 
     @Test

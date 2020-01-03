@@ -16,7 +16,6 @@ import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.NPC;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
-import com.jscisco.lom.zone.StageImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -56,7 +55,7 @@ public class TestBTree {
     @Test
     @Disabled
     public void testWanderBehavior() {
-        Stage stage = new StageImpl(10, 10);
+        Stage stage = new Stage(10, 10);
         NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withStage(stage)
                 .withPosition(new Position(5, 5))

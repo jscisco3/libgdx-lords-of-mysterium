@@ -12,7 +12,6 @@ import com.jscisco.lom.persistence.serializer.CustomTaskSerializer;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.Stage;
-import com.jscisco.lom.zone.StageImpl;
 import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
@@ -53,7 +52,7 @@ class TestSaving {
      */
     @Test
     void saveAStage() {
-        Stage stage = new StageImpl(25, 25, true, true, new GenericStrategy());
+        Stage stage = new Stage(25, 25, true, true, new GenericStrategy());
         Job job = Job.warrior();
         Player player = new Player.Builder(new EntityName("Saved"))
                 .withJob(job)
@@ -162,7 +161,7 @@ class TestSaving {
     @Test
     void shouldBeAbleToSerializeNPCWithBehaviorTreeThatTookStep() {
 
-        Stage stage = new StageImpl(50, 50, true, false, new EmptyStageGenerationStrategy());
+        Stage stage = new Stage(50, 50, true, false, new EmptyStageGenerationStrategy());
 
         NPC npc = new NPC.Builder(new EntityName("NPC"))
                 .withGlyph(Assets.Glyphs.RAT)

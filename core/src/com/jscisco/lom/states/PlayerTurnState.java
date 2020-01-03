@@ -55,18 +55,18 @@ public class PlayerTurnState extends State {
             MessageLog.get().add(new Message().withElement(new MessageElement("Log message!", Color.GREEN)));
         }
 
-        if (input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)) {
+        if (input.isKeyJustPressed(Input.Keys.PERIOD) && shift(input)) {
             if (new DescendStairs(player).invoke().succeeded()) {
                 zone.incrementStage(player);
-                player.getStage().getPositionOfStairsUp().ifPresent(pos ->
+                player.getStage().getStairsUpPosition().ifPresent(pos ->
                         player.setPosition(pos));
             }
         }
 
-        if (input.isKeyJustPressed(Input.Keys.LEFT_BRACKET)) {
+        if (input.isKeyJustPressed(Input.Keys.COMMA) && shift(input)) {
             if (new AscendStairs(player).invoke().succeeded()) {
                 zone.decrementStage(player);
-                player.getStage().getPositionOfStairsDown().ifPresent(pos ->
+                player.getStage().getStairsDownPosition().ifPresent(pos ->
                         player.setPosition(pos));
             }
         }
@@ -86,6 +86,10 @@ public class PlayerTurnState extends State {
             Gdx.app.exit();
         }
         this.player.setNextAction(action);
+    }
+
+    public boolean shift(Input input) {
+        return input.isKeyPressed(Input.Keys.SHIFT_RIGHT) || input.isKeyPressed(Input.Keys.SHIFT_LEFT);
     }
 
     @Override

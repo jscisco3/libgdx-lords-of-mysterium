@@ -30,4 +30,8 @@ public class MessageLog {
         Singleton.instance.log.add(0, message);
     }
 
+    public void clear() {
+        log = new ArrayList<>();
+    }
+
 }

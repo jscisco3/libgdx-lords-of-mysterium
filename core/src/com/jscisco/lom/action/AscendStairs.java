@@ -1,6 +1,9 @@
 package com.jscisco.lom.action;
 
 import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.util.Position;
+
+import java.util.Optional;
 
 public class AscendStairs extends AbstractAction {
 
@@ -11,10 +14,12 @@ public class AscendStairs extends AbstractAction {
     @Override
     public ActionResult invoke() {
         assert source != null;
-        if (source.getPosition().equals(source.getStage().getPositionOfStairsUp())) {
+
+        Optional<Position> stairsUp = source.getStage().getStairsUpPosition();
+
+        if (stairsUp.isPresent() && stairsUp.get().equals(source.getPosition())) {
             return ActionResult.success();
         }
-        // Fail when trying to ascend stairs that don't exist
         return ActionResult.failure();
     }
 }
