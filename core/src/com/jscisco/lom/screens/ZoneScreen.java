@@ -21,6 +21,7 @@ import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
+import com.jscisco.lom.states.MoveToState;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -92,11 +93,15 @@ public class ZoneScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
             this.game.getScreenManager().pushScreen(new KnownAbilitiesScreen(this.game, this.player));
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            logger.info(zone.getCurrentState().toString());
+        }
 
         // Mouse
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             // Convert mouse position to tile
-            getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+            Position goal = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+            this.zone.pushState(new MoveToState(this.zone, goal));
         }
 
         zone.getCurrentState().update();

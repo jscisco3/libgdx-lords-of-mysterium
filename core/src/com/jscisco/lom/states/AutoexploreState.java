@@ -23,6 +23,7 @@ public class AutoexploreState extends State {
     public AutoexploreState(Zone zone) {
         super(zone);
         this.stage = zone.getCurrentStage();
+        this.stage.getPlayer().getPathingMap().reset();
     }
 
     @Override
