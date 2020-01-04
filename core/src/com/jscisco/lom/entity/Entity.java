@@ -43,6 +43,26 @@ public abstract class Entity {
     protected transient Action nextAction;
     protected transient DijkstraMap pathingMap;
 
+    public Entity(Entity other) {
+        this.name = other.name;
+        this.fieldOfView = other.fieldOfView;
+        this.position = other.position;
+        this.health = other.health;
+        this.energy = other.energy;
+        this.inventory = other.inventory;
+        this.equipment = other.equipment;
+        this.statistics = other.statistics;
+        this.effects = new ArrayList<>(other.effects);
+        this.job = other.job;
+        this.glyph = other.glyph;
+        this.knownAbilities = new ArrayList<>(other.knownAbilities);
+
+        this.stage = other.stage;
+        this.nextAction = other.nextAction;
+        this.pathingMap = other.pathingMap;
+
+    }
+
     protected Entity() {
         this.pathingMap = new DijkstraMap();
         this.updatePathingMap();

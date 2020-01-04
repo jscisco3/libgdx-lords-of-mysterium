@@ -129,6 +129,7 @@ public class ZoneScreen implements Screen {
 
         if (e != null) {
             font.draw(batch, e.getName().get(), infoX(), infoY() + Config.INFO_BOX_HEIGHT);
+            font.draw(batch, String.format("%s/%s", e.getHealth().getHp(), e.getHealth().getMaxHP()), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 16);
         }
         // if there are items in the position, let the user know
         List<Item> items = zone.getCurrentStage().getItemsAtPosition(p);
@@ -139,7 +140,11 @@ public class ZoneScreen implements Screen {
         }
 
         // The terrain
-        font.draw(batch, zone.getCurrentStage().getTileAt(p).getTerrain().toString(), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 150);
+        try {
+            font.draw(batch, zone.getCurrentStage().getTileAt(p).getTerrain().toString(), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 150);
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            // TODO: Gracefully handle bounds for mouse support!
+        }
         batch.end();
     }
 

@@ -22,6 +22,9 @@ public class NPC extends Entity {
     private transient BehaviorTree<NPC> behaviorTree;
     private Map<String, Object> knowledge = new HashMap<>();
 
+    public NPC(NPC other) {
+        super(other);
+    }
 
     public static class Builder {
         private EntityName name;

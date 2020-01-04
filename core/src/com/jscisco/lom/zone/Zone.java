@@ -1,6 +1,5 @@
 package com.jscisco.lom.zone;
 
-import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
@@ -8,7 +7,6 @@ import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
-import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,16 +65,19 @@ public class Zone {
         this.getCurrentStage().addEntity(player);
 
         for (int z = 0; z < this.size.getDepth(); z++) {
-            Stage stage = this.stages.get(z);
-            stage.findEmptyPosition().ifPresent(pos -> {
-                NPC npc = new NPC.Builder(new EntityName("Snuugz"))
-                        .withStage(stage)
-                        .withPosition(pos)
-                        .withHealth(new Health(50))
-                        .withGlyph(Assets.Glyphs.SNUUGZ)
-                        .build();
+            for (int n = 0; n < 10; n++) {
+                Stage stage = this.stages.get(z);
+                Position pos = stage.findEmptyPosition().get();
+                NPC npc;
+                if (n % 2 == 0) {
+                    npc = new NPC(NPCRepository.npcs.get("Rat"));
+                } else {
+                    npc = new NPC(NPCRepository.npcs.get("Snuugz"));
+                }
+                npc.setPosition(pos);
+                npc.setStage(stage);
                 stage.addEntity(npc);
-            });
+            }
         }
 
 

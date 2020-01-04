@@ -1,0 +1,21 @@
+[
+  {
+    "name": {
+      "value": "Snuugz"
+    },
+    "health": {
+      "maxHp": 150
+    },
+    "glyph": "SNUUGZ"
+  },
+  {
+    "name": {
+      "value": "Rat"
+    },
+    "health": {
+      "maxHp": 10
+    },
+    "glyph": "RAT",
+    "behavior": "wander"
+  }
+]

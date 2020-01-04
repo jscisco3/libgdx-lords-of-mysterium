@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.jscisco.lom.assets.Assets;
+import com.jscisco.lom.entity.NPCRepository;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.items.ItemRepository;
@@ -34,6 +35,7 @@ public class LOMGame extends Game {
     public void create() {
         Assets.load();
         ItemRepository.load();
+        NPCRepository.load();
 
         Zone zone = null;
         if (zone != null) {
