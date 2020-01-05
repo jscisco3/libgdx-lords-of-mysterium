@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
 
 public class ZoneScreen implements Screen {
 
@@ -43,6 +44,9 @@ public class ZoneScreen implements Screen {
     private Player player;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
+
+    private boolean requiresTarget = false;
+    private boolean requiresConfirmation = false;
 
     private OrthographicCamera camera;
     private BitmapFont font;
@@ -89,8 +93,10 @@ public class ZoneScreen implements Screen {
         drawInfoBox();
         drawDebug();
 
-        zone.getCurrentStage().process();
-        this.game.getCurrentState().handleInput(Gdx.input);
+        if (!requiresConfirmation && !requiresTarget) {
+            zone.getCurrentStage().process();
+            this.game.getCurrentState().handleInput(Gdx.input);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             this.game.getScreenManager().pushScreen(new InventoryScreen(this.game, this.zone));
@@ -107,6 +113,25 @@ public class ZoneScreen implements Screen {
             // Convert mouse position to tile
             Position goal = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
             this.game.pushState(new MoveToState(this.game, this.zone.getCurrentStage(), goal));
+        }
+
+        if (requiresTarget) {
+            drawMouseHoverOverlay();
+            Optional<Position> target = handleTargetingInput();
+            target.ifPresent(pos -> {
+                requiresTarget = false;
+                logger.info("We targeted {}", pos);
+            });
+        }
+        if (requiresConfirmation) {
+            drawConfirmationDialog();
+            Optional<Boolean> confirmation = handleConfirmationInput();
+            confirmation.ifPresent(choice -> {
+                requiresConfirmation = false;
+                if (!choice) {
+                    player.setNextAction(null);
+                }
+            });
         }
 
         game.getCurrentState().update();
@@ -245,6 +270,12 @@ public class ZoneScreen implements Screen {
         batch.end();
     }
 
+    private void drawConfirmationDialog() {
+        batch.begin();
+        font.draw(batch, "Confirm action? (Y/N)", camera.position.x - 400, camera.position.y + 50);
+        batch.end();
+    }
+
     /**
      * Calculate bottom left x coordinate of log area
      *
@@ -376,6 +407,33 @@ public class ZoneScreen implements Screen {
 
     private void drawTileAtPosition(Batch batch, TextureRegion region, Position position) {
         batch.draw(region, position.getX() * Config.TILE_WIDTH, position.getY() * Config.TILE_HEIGHT, Config.TILE_WIDTH, Config.TILE_HEIGHT);
+    }
+
+    public Optional<Position> handleTargetingInput() {
+        Input input = Gdx.input;
+        if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isButtonPressed(Input.Buttons.LEFT)) {
+            return Optional.of(getStagePositionFromMousePosition(Position.get(input.getX(), input.getY())));
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Boolean> handleConfirmationInput() {
+        Input input = Gdx.input;
+        if (input.isKeyJustPressed(Input.Keys.Y) || input.isKeyJustPressed(Input.Keys.ENTER)) {
+            return Optional.of(Boolean.TRUE);
+        }
+        if (input.isKeyJustPressed(Input.Keys.N) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            return Optional.of(Boolean.FALSE);
+        }
+        return Optional.empty();
+    }
+
+    public void requireTarget() {
+        this.requiresTarget = true;
+    }
+
+    public void requireConfirmation() {
+        this.requiresConfirmation = true;
     }
 
 }

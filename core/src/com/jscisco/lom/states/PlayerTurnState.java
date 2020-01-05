@@ -10,12 +10,15 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
+import com.jscisco.lom.screens.ZoneScreen;
+import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PlayerTurnState extends State {
 
@@ -59,8 +62,14 @@ public class PlayerTurnState extends State {
         }
         if (input.isKeyJustPressed(Input.Keys.T)) {
             // Get confirmation
-            game.pushState(new ConfirmationState(game));
             // If confirmed, teleport!
+            Optional<Position> pos = stage.findEmptyPosition();
+            while (!pos.isPresent()) {
+                pos = stage.findEmptyPosition();
+            }
+            Position p = pos.get();
+            action = new MoveAction(player, p.getX() - player.getX(), p.getY() - player.getY());
+            ((ZoneScreen) game.getScreen()).requireConfirmation();
         }
 
         if (input.isKeyJustPressed(Input.Keys.SPACE)) {
