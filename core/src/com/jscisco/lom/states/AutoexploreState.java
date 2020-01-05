@@ -1,6 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.util.Position;
@@ -20,9 +21,9 @@ public class AutoexploreState extends State {
     private static final Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
     private final Stage stage;
 
-    public AutoexploreState(Zone zone) {
-        super(zone);
-        this.stage = zone.getCurrentStage();
+    public AutoexploreState(LOMGame game, Stage stage) {
+        super(game);
+        this.stage = stage;
         this.stage.getPlayer().getPathingMap().reset();
     }
 
@@ -51,14 +52,14 @@ public class AutoexploreState extends State {
                     path.get(0).y - playerCoord.y);
             stage.getPlayer().setNextAction(action);
         } else {
-            zone.popState();
+            game.popState();
         }
     }
 
     @Override
     public void handleInput(Input input) {
         if (input.isKeyPressed(Input.Keys.ESCAPE)) {
-            zone.popState();
+            game.popState();
         }
     }
 

@@ -3,7 +3,6 @@ package com.jscisco.lom.zone;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
-import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.states.State;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
@@ -99,23 +98,6 @@ public class Zone {
             this.getCurrentStage().findEmptyPosition().ifPresent(item::setPosition);
             this.getCurrentStage().addItem(item);
         }
-
-        states.add(new PlayerTurnState(this));
-    }
-
-
-    public void popState() {
-        if (states.size() > 1) {
-            states.removeFirst();
-        }
-    }
-
-    public void pushState(State state) {
-        states.addFirst(state);
-    }
-
-    public State getCurrentState() {
-        return states.peekFirst();
     }
 
     public int getHeight() {

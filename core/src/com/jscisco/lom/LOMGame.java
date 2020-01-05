@@ -11,12 +11,15 @@ import com.jscisco.lom.items.ItemRepository;
 import com.jscisco.lom.screens.ScreenManager;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.screens.kingdom.HireHeroScreen;
+import com.jscisco.lom.states.State;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class LOMGame extends Game {
@@ -24,11 +27,13 @@ public class LOMGame extends Game {
     private Logger logger = LoggerFactory.getLogger(LOMGame.class);
     private ZoneScreen zoneScreen;
     private ScreenManager screenManager;
+    private Deque<State> stateManager;
 
     public static final RNG rng = new RNG(0xDEADBEEF);
 
     public LOMGame() {
         this.screenManager = new ScreenManager(this);
+        this.stateManager = new ArrayDeque<>();
     }
 
     @Override
@@ -65,5 +70,24 @@ public class LOMGame extends Game {
 
     public ScreenManager getScreenManager() {
         return screenManager;
+    }
+
+    public void popState() {
+        if (stateManager.size() > 1) {
+            this.stateManager.removeFirst();
+        }
+    }
+
+    public void pushState(State state) {
+        this.stateManager.push(state);
+    }
+
+    public State getCurrentState() {
+        return stateManager.peekFirst();
+    }
+
+
+    public Deque<State> getStateManager() {
+        return stateManager;
     }
 }

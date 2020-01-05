@@ -1,14 +1,14 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.zone.Zone;
+import com.jscisco.lom.LOMGame;
 
 public abstract class State {
 
-    protected transient Zone zone;
+    protected transient LOMGame game;
 
-    public State(Zone zone) {
-        this.zone = zone;
+    public State(LOMGame game) {
+        this.game = game;
     }
 
     public abstract void update();

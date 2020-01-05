@@ -3,12 +3,14 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.action.*;
-import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
+import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +20,16 @@ import java.util.List;
 public class PlayerTurnState extends State {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerTurnState.class);
-    private Entity player;
+    private Player player;
+    private Stage stage;
+    private Zone zone;
 
-    public PlayerTurnState(Zone zone) {
-        super(zone);
-        this.player = zone.getCurrentStage().getPlayer();
+    public PlayerTurnState(LOMGame game, Player player, Zone zone) {
+        super(game);
+        this.game = game;
+        this.player = player;
+        this.zone = zone;
+        this.stage = player.getStage();
     }
 
     @Override
@@ -45,10 +52,15 @@ public class PlayerTurnState extends State {
             action = new MoveAction(player, -1, 0);
         }
         if (input.isKeyJustPressed(Input.Keys.Z)) {
-            zone.pushState(new AutoexploreState(zone));
+            game.pushState(new AutoexploreState(this.game, this.stage));
         }
         if (input.isKeyJustPressed(Input.Keys.R)) {
             action = new RestAction(player);
+        }
+        if (input.isKeyJustPressed(Input.Keys.T)) {
+            // Get confirmation
+            game.pushState(new ConfirmationState(game));
+            // If confirmed, teleport!
         }
 
         if (input.isKeyJustPressed(Input.Keys.SPACE)) {
@@ -72,7 +84,7 @@ public class PlayerTurnState extends State {
         }
 
         if (input.isKeyJustPressed(Input.Keys.COMMA)) {
-            List<Item> items = zone.getCurrentStage().getItemsAtPosition(player.getPosition());
+            List<Item> items = stage.getItemsAtPosition(player.getPosition());
             if (!items.isEmpty()) {
                 action = new PickupItemAction(player, items.get(0));
             }
@@ -100,9 +112,5 @@ public class PlayerTurnState extends State {
     @Override
     public void stop() {
 
-    }
-
-    private void endTurn() {
-        zone.popState();
     }
 }

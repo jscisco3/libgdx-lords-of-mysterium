@@ -1,4 +1,23 @@
+
+
 Notes:
+    - Some actions require confirmation or a target. Therefore, we need to determine how we do that.
+    * Example:
+        Player chooses to use ability Fireball, which has a BlastAOE and requires a target.
+        We let the user select the position with the mouse or arrows keys, using enter or clicking to determine
+        the spot.
+        Once the spot is selected, we set the player's next action to AbilityAction(..., Fireball(target, ...))
+
+        In order to do this, we need
+        - Input Handler to handle the appropriate mouse movement, arrow keys, enter, and click
+        - View of the Zone
+        - View of the targeting reticule.
+    * Example:
+        Player must confirm a choice (e.g. walk through a portal)
+        User must use Yy (enter) / Nn to confirm or cancel
+        In order to do this, we need
+        - Input handler to handle confirmation (ConfirmationState)
+        - Text prompt added to current view to confirm.
     - Abilities. What kinds are there? What do they do?
         Activated Abilities. Have an optional Cost, optional Cooldown
             e.g.

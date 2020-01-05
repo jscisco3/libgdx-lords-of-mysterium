@@ -23,6 +23,7 @@ import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
 import com.jscisco.lom.states.MoveToState;
+import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
@@ -56,6 +57,7 @@ public class ZoneScreen implements Screen {
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
         font = new BitmapFont();
         font.setColor(255, 0, 0, 1);
+        this.game.getStateManager().add(new PlayerTurnState(this.game, this.player, this.zone));
     }
 
     @Override
@@ -88,7 +90,7 @@ public class ZoneScreen implements Screen {
         drawDebug();
 
         zone.getCurrentStage().process();
-        zone.getCurrentState().handleInput(Gdx.input);
+        this.game.getCurrentState().handleInput(Gdx.input);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
             this.game.getScreenManager().pushScreen(new InventoryScreen(this.game, this.zone));
@@ -97,17 +99,17 @@ public class ZoneScreen implements Screen {
             this.game.getScreenManager().pushScreen(new KnownAbilitiesScreen(this.game, this.player));
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            logger.info(zone.getCurrentState().toString());
+            logger.info(game.getCurrentState().toString());
         }
 
         // Mouse
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             // Convert mouse position to tile
             Position goal = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
-            this.zone.pushState(new MoveToState(this.zone, goal));
+            this.game.pushState(new MoveToState(this.game, this.zone.getCurrentStage(), goal));
         }
 
-        zone.getCurrentState().update();
+        game.getCurrentState().update();
         zone.getCurrentStage().updateTilesBasedOnFOV();
         logger.debug("Render calls: " + batch.renderCalls);
         logger.debug("Frames per second: " + Gdx.graphics.getFramesPerSecond());
