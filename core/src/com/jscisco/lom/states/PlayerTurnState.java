@@ -69,7 +69,7 @@ public class PlayerTurnState extends State {
             }
             Position p = pos.get();
             action = new MoveAction(player, p.getX() - player.getX(), p.getY() - player.getY());
-            ((ZoneScreen) game.getScreen()).requireConfirmation();
+            game.requireConfirmation();
         }
 
         if (input.isKeyJustPressed(Input.Keys.SPACE)) {

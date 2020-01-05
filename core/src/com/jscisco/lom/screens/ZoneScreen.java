@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.action.AbilityAction;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Entity;
@@ -44,9 +45,6 @@ public class ZoneScreen implements Screen {
     private Player player;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
-
-    private boolean requiresTarget = false;
-    private boolean requiresConfirmation = false;
 
     private OrthographicCamera camera;
     private BitmapFont font;
@@ -93,7 +91,7 @@ public class ZoneScreen implements Screen {
         drawInfoBox();
         drawDebug();
 
-        if (!requiresConfirmation && !requiresTarget) {
+        if (!game.isConfirmationRequired() && !game.isTargetRequired()) {
             zone.getCurrentStage().process();
             this.game.getCurrentState().handleInput(Gdx.input);
         }
@@ -108,27 +106,32 @@ public class ZoneScreen implements Screen {
             logger.info(game.getCurrentState().toString());
         }
 
-        // Mouse
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            // Convert mouse position to tile
-            Position goal = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
-            this.game.pushState(new MoveToState(this.game, this.zone.getCurrentStage(), goal));
-        }
+//        // Mouse
+//        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+//            // Convert mouse position to tile
+//            Position goal = getStagePositionFromMousePosition(Position.get(Gdx.input.getX(), Gdx.input.getY()));
+//            this.game.pushState(new MoveToState(this.game, this.zone.getCurrentStage(), goal));
+//        }
 
-        if (requiresTarget) {
+        if (game.isTargetRequired()) {
             drawMouseHoverOverlay();
             Optional<Position> target = handleTargetingInput();
             target.ifPresent(pos -> {
-                requiresTarget = false;
+                game.targetNoLongerRequired();
+                AbilityAction a = (AbilityAction) player.getNextAction();
+                logger.info("Ability Action: {}", a);
+                logger.info("Ability Action Ability: {}", a.getAbility());
+                a.getAbility().setTarget(pos);
+                player.setNextAction(a);
                 logger.info("We targeted {}", pos);
             });
         }
-        if (requiresConfirmation) {
+        if (game.isConfirmationRequired()) {
             drawConfirmationDialog();
             Optional<Boolean> confirmation = handleConfirmationInput();
             confirmation.ifPresent(choice -> {
-                requiresConfirmation = false;
-                if (!choice) {
+                game.confirmationNoLongerRequired();
+                if (Boolean.FALSE.equals(choice)) {
                     player.setNextAction(null);
                 }
             });
@@ -427,13 +430,4 @@ public class ZoneScreen implements Screen {
         }
         return Optional.empty();
     }
-
-    public void requireTarget() {
-        this.requiresTarget = true;
-    }
-
-    public void requireConfirmation() {
-        this.requiresConfirmation = true;
-    }
-
 }

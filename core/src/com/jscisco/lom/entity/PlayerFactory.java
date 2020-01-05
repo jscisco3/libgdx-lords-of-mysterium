@@ -34,6 +34,7 @@ public class PlayerFactory {
                 .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
                 .withCooldown(0)
                 .withAOE(new BlastAOE(Coord.get(0, 0), 2, Radius.SQUARE))
+                .withTargetRequired()
                 .build()
         );
         return player;

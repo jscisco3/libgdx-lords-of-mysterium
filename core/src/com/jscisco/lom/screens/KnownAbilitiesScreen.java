@@ -1,37 +1,35 @@
 package com.jscisco.lom.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.ability.Ability;
+import com.jscisco.lom.action.AbilityAction;
 import com.jscisco.lom.config.Config;
-import com.jscisco.lom.entity.Entity;
+import com.jscisco.lom.entity.Player;
 
 import java.util.ListIterator;
 
 public class KnownAbilitiesScreen implements Screen {
 
     private LOMGame game;
-    private Entity entity;
+    private Player player;
 
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
 
     private OrthographicCamera camera;
     private BitmapFont font;
-    private static final GlyphLayout layout = new GlyphLayout();
 
-    public KnownAbilitiesScreen(LOMGame game, Entity entity) {
+    public KnownAbilitiesScreen(LOMGame game, Player player) {
         this.game = game;
-        this.entity = entity;
+        this.player = player;
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
@@ -67,10 +65,10 @@ public class KnownAbilitiesScreen implements Screen {
     private void renderKnownAbilities() {
         batch.begin();
 
-        if (this.entity.getKnownAbilities().isEmpty()) {
+        if (this.player.getKnownAbilities().isEmpty()) {
             font.draw(batch, "You have no abilities", camera.position.x, camera.position.y);
         }
-        ListIterator<Ability> iterator = this.entity.getKnownAbilities().listIterator();
+        ListIterator<Ability> iterator = this.player.getKnownAbilities().listIterator();
         while (iterator.hasNext()) {
             int index = iterator.nextIndex();
             Ability ability = iterator.next();
@@ -78,6 +76,15 @@ public class KnownAbilitiesScreen implements Screen {
             font.draw(batch, ability.getDescription().getDescription(), camera.position.x, camera.position.y + font.getLineHeight() * (index + 1));
         }
         batch.end();
+
+        // Handle input
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            player.setNextAction(new AbilityAction(this.player, this.player.getKnownAbilities().get(0)));
+            game.requireTarget();
+            // Pop back to ZoneScreen
+            game.getScreenManager().popScreen();
+        }
+
     }
 
     @Override

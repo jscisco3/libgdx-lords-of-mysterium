@@ -4,10 +4,15 @@ import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import squidpony.squidai.AOE;
+import squidpony.squidai.BlastAOE;
+import squidpony.squidmath.Coord;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Ability {
     // Optional Cost
@@ -19,6 +24,10 @@ public class Ability {
     private AOE aoe;
     private AbilityName name;
     private AbilityDescription description;
+    private boolean requireTarget;
+    private Optional<Position> target;
+
+    private static final Logger logger = LoggerFactory.getLogger(Ability.class);
 
     private Ability() {
     }
@@ -29,6 +38,7 @@ public class Ability {
         private AOE aoe;
         private AbilityName name;
         private AbilityDescription description;
+        private boolean requireTarget;
 
         public Builder() {
         }
@@ -58,6 +68,11 @@ public class Ability {
             return this;
         }
 
+        public Builder withTargetRequired() {
+            this.requireTarget = true;
+            return this;
+        }
+
         public Ability build() {
             assert this.aoe != null;
             Ability ability = new Ability();
@@ -66,19 +81,12 @@ public class Ability {
             ability.effects = this.effects;
             ability.aoe = this.aoe;
             ability.cooldown = this.cooldown;
+            ability.requireTarget = this.requireTarget;
             return ability;
         }
 
 
     }
-
-//    public Ability(Ability other) {
-//        this.cooldown = other.cooldown;
-//        this.effects = other.effects;
-//        this.stage = other.stage;
-//        this.aoe = other.aoe;
-//        this.aoe.setMap(this.stage.toSquidlibMap());
-//    }
 
     public void tick() {
         if (turnsUntilCanUseAgain > 0) {
@@ -93,9 +101,15 @@ public class Ability {
     public void applyEffects(Stage stage) {
         // Get affected entities
         this.aoe.setMap(stage.toSquidlibMap());
+        logger.info("Apply effects!");
+        if (this.aoe instanceof BlastAOE) {
+            logger.info("Center: {}", ((BlastAOE) this.aoe).getCenter());
+        }
         this.aoe.findArea().keySet().forEach(coord -> {
             Entity e = stage.getEntityAtPosition(Position.get(coord.x, coord.y));
+            logger.info("Affecting: {}", coord);
             if (e != null) {
+                logger.info("Ability: {} has effected {}", this.name.getName(), e.getName().get());
                 this.effects.forEach(e::applyEffect);
             }
         });
@@ -107,5 +121,26 @@ public class Ability {
 
     public AbilityDescription getDescription() {
         return description;
+    }
+
+    public void setTarget(Position position) {
+        this.target = Optional.of(position);
+        if (this.aoe instanceof BlastAOE) {
+            logger.info("Setting center to {}", position);
+            this.aoe = new BlastAOE(Coord.get(position.getX(), position.getY()), ((BlastAOE) this.aoe).getRadius(), ((BlastAOE) this.aoe).getRadiusType());
+//            ((BlastAOE) this.aoe).setCenter(Coord.get(position.getX(), position.getY()));
+        }
+    }
+
+    public boolean isTargetRequired() {
+        return requireTarget;
+    }
+
+    public Optional<Position> getTarget() {
+        return target;
+    }
+
+    public AOE getAoe() {
+        return aoe;
     }
 }

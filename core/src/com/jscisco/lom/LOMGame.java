@@ -31,6 +31,10 @@ public class LOMGame extends Game {
 
     public static final RNG rng = new RNG(0xDEADBEEF);
 
+    // State needed for various reasons
+    private boolean targetRequired = false;
+    private boolean confirmationRequired = false;
+
     public LOMGame() {
         this.screenManager = new ScreenManager(this);
         this.stateManager = new ArrayDeque<>();
@@ -90,4 +94,29 @@ public class LOMGame extends Game {
     public Deque<State> getStateManager() {
         return stateManager;
     }
+
+    public void requireConfirmation() {
+        this.confirmationRequired = true;
+    }
+
+    public void requireTarget() {
+        this.targetRequired = true;
+    }
+
+    public boolean isTargetRequired() {
+        return this.targetRequired;
+    }
+
+    public boolean isConfirmationRequired() {
+        return this.confirmationRequired;
+    }
+
+    public void confirmationNoLongerRequired() {
+        this.confirmationRequired = false;
+    }
+
+    public void targetNoLongerRequired() {
+        this.targetRequired = false;
+    }
+
 }
