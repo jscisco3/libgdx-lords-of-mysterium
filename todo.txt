@@ -51,6 +51,8 @@ Triggers
         Effect -> DamageEffect(Damage(5, Physical))
         source.ifPresent(e -> effect.apply(e))
 
+        TODO: Triggers that change the effect based on something else, like the Elemental Shield
+
 Notes:
     - Some actions require confirmation or a target. Therefore, we need to determine how we do that.
     * Example:
