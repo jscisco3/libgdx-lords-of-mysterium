@@ -13,6 +13,10 @@ public class StatBonus {
         return value;
     }
 
+    public static StatBonus of(int value) {
+        return new StatBonus(value);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

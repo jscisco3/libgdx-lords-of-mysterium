@@ -28,7 +28,7 @@ public class TestTimedBuffEffect {
     void applyingATimedBuffModifiesTheStatItShould() {
         Constitution constitution = entity.getStatistics().getConstitution();
         Assertions.assertThat(constitution.value()).isEqualTo(5);
-        TimedBuffEffect tbe = new TimedBuffEffect(5, constitution, new StatBonus(15));
+        TimedBuffEffect tbe = new TimedBuffEffect(5, new BuffEffect(constitution, new StatBonus(15)));
         tbe.apply(entity);
         Assertions.assertThat(constitution.value()).isEqualTo(20);
     }
@@ -37,7 +37,7 @@ public class TestTimedBuffEffect {
     void buffThatRunsOutOfTimeShouldFallOff() {
         Constitution constitution = entity.getStatistics().getConstitution();
         Assertions.assertThat(constitution.value()).isEqualTo(5);
-        TimedBuffEffect tbe = new TimedBuffEffect(5, constitution, new StatBonus(15));
+        TimedBuffEffect tbe = new TimedBuffEffect(5, new BuffEffect(constitution, new StatBonus(15)));
         tbe.apply(entity);
         Assertions.assertThat(constitution.value()).isEqualTo(20);
         while (tbe.timeRemaining() > 0) {

@@ -1,29 +1,25 @@
 package com.jscisco.lom.effect;
 
-import com.jscisco.lom.entity.AbstractStat;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.StatBonus;
 
 public class TimedBuffEffect extends TimedEffect {
 
-    private AbstractStat stat;
-    private StatBonus bonus;
+    private BuffEffect effect;
 
-    public TimedBuffEffect(int timer, AbstractStat stat, StatBonus bonus) {
+    public TimedBuffEffect(int timer, BuffEffect effect) {
         super(timer);
-        this.stat = stat;
-        this.bonus = bonus;
+        this.effect = effect;
     }
 
     @Override
     public void destroy() {
-        stat.removeBonus(bonus);
         super.destroy();
+        this.effect.destroy();
     }
 
     @Override
     public void apply(Entity entity) {
         super.apply(entity);
-        stat.applyBonus(bonus);
+        this.effect.apply(entity);
     }
 }
