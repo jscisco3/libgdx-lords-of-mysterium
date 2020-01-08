@@ -1,4 +1,37 @@
+TODO:
+UI Work
+    - Shared screens that are similar
+        HeroSelect, Inventory, Ability -- Option select screens
+        * Shared Behavior:
+            - Draw selected item with a square around it
+            - Arrow keys navigate the list
+            - Could have pagination
+            - Pg Up & Pg Down change pages
+            - Enter key does something with selection
 
+General game stuff:
+    - Main Menu
+    - Kingdom Management Screen
+    - Choose Dungeon Screen
+    -> Choose Hero Screen
+
+Triggers
+    - Trigger
+        Trigger(Optional<Entity> source, Optional<Entity> receiver) // Source and Receiver could be null, so optional
+    - WhenAttacked, WhenAttacking, WhenHit, WhenDamaged, WhenHitByAttack (TODO: Should this include things like Mighty Blow??)
+    * When equipping an item with triggers, add them to the entity. Then remove them from the entity?
+
+    abstract void trigger();
+
+    Examples:
+        -> Elemental Shield: When dealt damage by an elemental attack, receive a shield of that type for X turns that protects against the next Y damage
+        WhenDamaged(Entity source, Entity receiver, Damage damage, Effect effect)
+        Effect -> TimedEffect(ShieldEffect(DamageType type (damage.getType()), Amount amount), ticks=5, receiver)
+
+        -> Thorns: When successfully hit by an attack, deal 5 damage to the attacker
+        WhenHitByAttack(Entity source, EntityReceiver, Effect effect)
+        Effect -> DamageEffect(Damage(5, Physical))
+        source.ifPresent(e -> effect.apply(e))
 
 Notes:
     - Some actions require confirmation or a target. Therefore, we need to determine how we do that.
