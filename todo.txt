@@ -17,7 +17,13 @@ General game stuff:
 
 Triggers
     - Trigger
-        Trigger(Optional<Entity> source, Optional<Entity> receiver) // Source and Receiver could be null, so optional
+        Trigger(Optional<Entity> source, Optional<Entity> receiver, Optional<Stage> stage)
+        SourceTrigger()
+            -> trigger() { effect.apply(source) }
+        ReceiverTrigger()
+            -> trigger() { effect.apply(receiver) }
+        StageTrigger()
+            -> trigger() { //TODO }
     - WhenAttacked, WhenAttacking, WhenHit, WhenDamaged, WhenHitByAttack (TODO: Should this include things like Mighty Blow??)
     * When equipping an item with triggers, add them to the entity. Then remove them from the entity?
 
@@ -27,6 +33,18 @@ Triggers
         -> Elemental Shield: When dealt damage by an elemental attack, receive a shield of that type for X turns that protects against the next Y damage
         WhenDamaged(Entity source, Entity receiver, Damage damage, Effect effect)
         Effect -> TimedEffect(ShieldEffect(DamageType type (damage.getType()), Amount amount), ticks=5, receiver)
+        receiver.ifPresent(e -> effect.apply(e))
+
+        -> ThornyElementalShield: Combination of thorns and elemental shield
+        WhenDamaged(List<Effect> sourceEffects, List<Effect> receiverEffects) {
+            trigger(source, receiver, stage, damage) {
+                sourceEffects.forEach(effect -> effect.apply(source);
+                receiverEffects.forEach(effect -> effect.apply(receiver);
+            }
+        }
+            sourceEffects -> [DamageEffect(10, PHYSICAL)]
+            receiverEffects -> [ShieldEffect(...)]
+
 
         -> Thorns: When successfully hit by an attack, deal 5 damage to the attacker
         WhenHitByAttack(Entity source, EntityReceiver, Effect effect)
