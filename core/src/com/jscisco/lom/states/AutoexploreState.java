@@ -29,7 +29,7 @@ public class AutoexploreState extends State {
 
     @Override
     public void update() {
-        Coord playerCoord = Coord.get(stage.getPlayer().getPosition().getX(), stage.getPlayer().getPosition().getY());
+        Coord playerCoord = stage.getPlayer().getPosition().asCoord();
 
         Coord[] goals = getGoals();
 
@@ -42,7 +42,7 @@ public class AutoexploreState extends State {
         if (path.isEmpty()) {
             Optional<Position> stairsDownPosition = stage.getStairsDownPosition();
             if (stairsDownPosition.isPresent() && stage.getPlayer().getPosition() != stairsDownPosition.get()) {
-                path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, Coord.get(stairsDownPosition.get().getX(), stairsDownPosition.get().getY()));
+                path = stage.getPlayer().getPathingMap().findPath(1, new ArrayList<Coord>(), new ArrayList<Coord>(), playerCoord, stairsDownPosition.get().asCoord());
             }
         }
 

@@ -25,6 +25,7 @@ public class TestAbility {
     void stageAbilityShouldAffectAllEntitiesInAffectedArea() {
         AOE aoe = new BlastAOE(Coord.get(5, 5), 2, Radius.SQUARE);
         ability = new Ability.Builder()
+                .withName(new AbilityName("Test Ability"))
                 .withCooldown(0)
                 .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
                 .withAOE(aoe)
@@ -45,6 +46,7 @@ public class TestAbility {
         AOE aoe = new BlastAOE(Coord.get(5, 5), 2, Radius.SQUARE);
         TimedDamageEffect tde = new TimedDamageEffect(1, new DamageEffect(new Damage(DamageType.FIRE, 20)));
         ability = new Ability.Builder()
+                .withName(AbilityName.of("Test Ability"))
                 .withCooldown(0)
                 .withEffect(tde)
                 .withAOE(aoe)

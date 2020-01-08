@@ -23,7 +23,7 @@ public class AbilityAction extends AbstractAction {
             return ActionResult.failure();
         }
         logger.info("Applying action centered at position {}", this.ability.getTarget().get());
-        this.ability.getAoe().setOrigin(Coord.get(source.getX(), source.getY()));
+        this.ability.getAoe().setOrigin(source.getPosition().asCoord());
         this.ability.applyEffects(source.getStage());
         return ActionResult.success();
     }

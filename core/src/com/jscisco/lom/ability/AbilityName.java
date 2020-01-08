@@ -7,6 +7,10 @@ public class AbilityName {
         this.name = name;
     }
 
+    public static AbilityName of(String name) {
+        return new AbilityName(name);
+    }
+
     public String getName() {
         return this.name;
     }

@@ -1,7 +1,8 @@
 package com.jscisco.lom.util;
 
+import squidpony.squidmath.Coord;
+
 import java.util.Objects;
-import java.util.Optional;
 
 public class Position {
 
@@ -34,6 +35,10 @@ public class Position {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Coord asCoord() {
+        return Coord.get(x, y);
     }
 
 

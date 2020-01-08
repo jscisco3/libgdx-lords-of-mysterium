@@ -31,13 +31,13 @@ public class MoveToState extends State {
 
     @Override
     public void update() {
-        Coord playerCoord = Coord.get(stage.getPlayer().getPosition().getX(), stage.getPlayer().getPosition().getY());
+        Coord playerCoord = stage.getPlayer().getPosition().asCoord();
 
         List<Coord> path = stage.getPlayer().getPathingMap().findPath(1,
                 new ArrayList<Coord>(),
                 new ArrayList<Coord>(),
                 playerCoord,
-                Coord.get(goal.getX(), goal.getY()));
+                goal.asCoord());
 
         if (path.isEmpty()) {
             logger.info("No path found from {} to {}", stage.getPlayer().getPosition(), goal);

@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.AOE;
 import squidpony.squidai.BlastAOE;
-import squidpony.squidmath.Coord;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,8 +126,7 @@ public class Ability {
         this.target = Optional.of(position);
         if (this.aoe instanceof BlastAOE) {
             logger.info("Setting center to {}", position);
-            this.aoe = new BlastAOE(Coord.get(position.getX(), position.getY()), ((BlastAOE) this.aoe).getRadius(), ((BlastAOE) this.aoe).getRadiusType());
-//            ((BlastAOE) this.aoe).setCenter(Coord.get(position.getX(), position.getY()));
+            this.aoe = new BlastAOE(position.asCoord(), ((BlastAOE) this.aoe).getRadius(), ((BlastAOE) this.aoe).getRadiusType());
         }
     }
 
