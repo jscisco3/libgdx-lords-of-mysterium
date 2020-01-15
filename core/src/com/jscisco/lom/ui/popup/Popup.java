@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens.popup;
+package com.jscisco.lom.ui.popup;
 
 public interface Popup {
 

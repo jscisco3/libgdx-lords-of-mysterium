@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens.shared;
+package com.jscisco.lom.ui.shared;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

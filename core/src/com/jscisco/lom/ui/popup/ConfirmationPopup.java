@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens.popup;
+package com.jscisco.lom.ui.popup;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

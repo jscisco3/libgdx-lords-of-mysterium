@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens;
+package com.jscisco.lom.ui.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -23,7 +23,6 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
-import com.jscisco.lom.states.MoveToState;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;

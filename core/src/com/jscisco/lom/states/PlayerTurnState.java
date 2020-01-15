@@ -10,7 +10,6 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
-import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Zone;

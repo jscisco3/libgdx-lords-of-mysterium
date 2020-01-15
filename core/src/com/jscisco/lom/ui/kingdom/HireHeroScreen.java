@@ -1,16 +1,15 @@
-package com.jscisco.lom.screens.kingdom;
+package com.jscisco.lom.ui.kingdom;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.screens.ZoneScreen;
-import com.jscisco.lom.screens.kingdom.shared.HeroInfoBlock;
+import com.jscisco.lom.ui.kingdom.shared.HeroInfoBlock;
+import com.jscisco.lom.ui.screens.AbstractSelectionScreen;
+import com.jscisco.lom.ui.screens.ZoneScreen;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
-public class HireHeroScreen implements Screen {
+public class HireHeroScreen extends AbstractSelectionScreen<HeroInfoBlock> {
 
     private static final Logger logger = LoggerFactory.getLogger(HireHeroScreen.class);
 
@@ -67,51 +66,10 @@ public class HireHeroScreen implements Screen {
         for (HeroInfoBlock infoBlock : this.infoBlocks) {
             infoBlock.render(batch);
         }
-        handleInput();
-    }
-
-    private void handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            incrementSelection();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            decrementSelection();
-        }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-//            String json = new Gson().toJson(getSelectedHero());
-//            try {
-//                BufferedWriter writer = new BufferedWriter(new FileWriter("testsave.json", false));
-//                writer.append(json);
-//                writer.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-            Zone zone = new Zone(new Size3D(50, 120, 3), getSelectedHero());
-            this.game.getScreenManager().setScreen(new ZoneScreen(this.game, zone));
-        }
-    }
-
-    private void incrementSelection() {
-        logger.debug("Selected index: {}", this.selectedHero);
-        this.infoBlocks.get(this.selectedHero).deselect();
-        this.selectedHero = (this.selectedHero + 1) % this.infoBlocks.size();
-        this.infoBlocks.get(this.selectedHero).select();
-    }
-
-    private void decrementSelection() {
-        logger.debug("Selected index: {}", this.selectedHero);
-        this.infoBlocks.get(this.selectedHero).deselect();
-        this.selectedHero -= 1;
-        if (this.selectedHero < 0) {
-            this.selectedHero = this.infoBlocks.size() - 1;
-        }
-        this.infoBlocks.get(this.selectedHero).select();
     }
 
     private Player getSelectedHero() {
-        return this.heroes.get(this.selectedHero);
+        return this.choices.get(this.currentSelectionIdx).getValue();
     }
 
     @Override
@@ -137,5 +95,11 @@ public class HireHeroScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    @Override
+    public void handleSelection() {
+        Zone zone = new Zone(new Size3D(50, 120, 3), getSelectedHero());
+        this.game.getScreenManager().setScreen(new ZoneScreen(this.game, zone));
     }
 }

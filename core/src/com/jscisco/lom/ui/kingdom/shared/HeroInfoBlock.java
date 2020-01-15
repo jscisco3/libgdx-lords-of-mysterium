@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens.kingdom.shared;
+package com.jscisco.lom.ui.kingdom.shared;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -81,4 +81,5 @@ public class HeroInfoBlock {
     public void deselect() {
         this.selected = false;
     }
+
 }

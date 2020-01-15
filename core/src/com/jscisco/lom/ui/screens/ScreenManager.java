@@ -1,6 +1,5 @@
-package com.jscisco.lom.screens;
+package com.jscisco.lom.ui.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.LOMGame;
 

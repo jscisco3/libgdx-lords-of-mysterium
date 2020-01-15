@@ -1,4 +1,4 @@
-package com.jscisco.lom.screens;
+package com.jscisco.lom.ui.screens;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
