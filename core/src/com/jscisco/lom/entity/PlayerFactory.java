@@ -31,7 +31,7 @@ public class PlayerFactory {
         player.learnAbility(new Ability.Builder()
                 .withName(new AbilityName("Fireball"))
                 .withDescription(new AbilityDescription("Burn a bunch of people"))
-                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
+                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10, 30)))
                 .withCooldown(0)
                 .withAOE(new BlastAOE(Coord.get(0, 0), 2, Radius.SQUARE))
                 .withTargetRequired()

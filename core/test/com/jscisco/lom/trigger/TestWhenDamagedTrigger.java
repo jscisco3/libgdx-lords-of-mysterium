@@ -15,7 +15,7 @@ public class TestWhenDamagedTrigger {
 
     @BeforeEach
     void setUp() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> sourceEffects = new ArrayList<>();
         sourceEffects.add(damageEffect);
         thorns = new WhenDamagedTrigger(sourceEffects, new ArrayList<>());

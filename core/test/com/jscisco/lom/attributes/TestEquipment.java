@@ -10,10 +10,7 @@ import com.jscisco.lom.items.ItemName;
 import com.jscisco.lom.items.Slot;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 class TestEquipment {
 
@@ -68,7 +65,7 @@ class TestEquipment {
         Item item = new Item.Builder()
                 .withName(new ItemName("Sword"))
                 .withEquipmentSlot(Slot.HAND)
-                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 20)))
+                .withAttack(new Attack(10, new Damage(DamageType.FIRE, 20, 20)))
                 .build();
         equipment.getSlotsByType(Slot.HAND).get(0).equip(item);
         Assertions.assertThat(equipment.getWeapons()).isNotEmpty();

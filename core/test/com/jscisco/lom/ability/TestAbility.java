@@ -27,7 +27,7 @@ public class TestAbility {
         ability = new Ability.Builder()
                 .withName(new AbilityName("Test Ability"))
                 .withCooldown(0)
-                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10)))
+                .withEffect(new DamageEffect(new Damage(DamageType.FIRE, 10, 10)))
                 .withAOE(aoe)
                 .build();
 
@@ -44,7 +44,7 @@ public class TestAbility {
     @Test
     void stageAbilityCanApplyTimedEffects() {
         AOE aoe = new BlastAOE(Coord.get(5, 5), 2, Radius.SQUARE);
-        TimedDamageEffect tde = new TimedDamageEffect(1, new DamageEffect(new Damage(DamageType.FIRE, 20)));
+        TimedDamageEffect tde = new TimedDamageEffect(1, new DamageEffect(new Damage(DamageType.FIRE, 20, 20)));
         ability = new Ability.Builder()
                 .withName(AbilityName.of("Test Ability"))
                 .withCooldown(0)

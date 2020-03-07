@@ -25,5 +25,4 @@ public class Attack {
         this.damages.add(damage);
         return this;
     }
-
 }

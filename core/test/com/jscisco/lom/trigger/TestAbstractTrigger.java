@@ -30,7 +30,7 @@ public class TestAbstractTrigger {
 
     @Test
     void testTriggerWithSourceEffects() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> sourceEffects = new ArrayList<>();
         sourceEffects.add(damageEffect);
         AbstractTrigger trigger = new AbstractTrigger(sourceEffects, new ArrayList<>()) {
@@ -44,7 +44,7 @@ public class TestAbstractTrigger {
 
     @Test
     void testTriggerWithReceiverEffects() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> receiverEffects = new ArrayList<>();
         receiverEffects.add(damageEffect);
         AbstractTrigger trigger = new AbstractTrigger(new ArrayList<>(), receiverEffects) {
@@ -57,7 +57,7 @@ public class TestAbstractTrigger {
 
     @Test
     void testTriggerWithSourceAndReceiverEffects() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> sourceEffects = new ArrayList<>();
         sourceEffects.add(damageEffect);
         AbstractTrigger trigger = new AbstractTrigger(sourceEffects, new ArrayList<>(sourceEffects)) {
@@ -71,7 +71,7 @@ public class TestAbstractTrigger {
 
     @Test
     void testTriggerWithNullSourceAndSourceEffects() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> sourceEffects = new ArrayList<>();
         sourceEffects.add(damageEffect);
         AbstractTrigger trigger = new AbstractTrigger(sourceEffects, new ArrayList<>()) {
@@ -84,7 +84,7 @@ public class TestAbstractTrigger {
 
     @Test
     void testTriggerWithNullReceiverAndReceiverEffects() {
-        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50));
+        DamageEffect damageEffect = new DamageEffect(new Damage(DamageType.PHYSICAL, 50, 50));
         List<Effect> receiverEffects = new ArrayList<>();
         receiverEffects.add(damageEffect);
         AbstractTrigger trigger = new AbstractTrigger(new ArrayList<>(), receiverEffects) {

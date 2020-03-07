@@ -15,7 +15,7 @@ public class TestDamageEffect {
     @Test
     void damageEffectShouldReduceHealthOfEntityItIsAppliedTo() {
         this.entity.setHealth(new Health(100));
-        DamageEffect effect = new DamageEffect(new Damage(DamageType.PHYSICAL, 10));
+        DamageEffect effect = new DamageEffect(new Damage(DamageType.PHYSICAL, 10, 10));
         effect.apply(this.entity);
         Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(90);
     }

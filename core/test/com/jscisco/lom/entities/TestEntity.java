@@ -52,19 +52,13 @@ public class TestEntity {
     }
 
     @Test
-    void getAttackReturnsAListOfAttacksIfNothingEquipped() {
-        List<Attack> attacks = entity.getAttacks();
-        assertFalse(attacks.isEmpty());
-    }
-
-    @Test
     @Disabled
     void getAttackReturnsAListOfAttacksIfSomethingIsEquipped() throws ItemCannotBeEquippedException {
         Equipment equipment = new Equipment();
         entity.setEquipment(equipment);
 
         Attack expectedAttack = new Attack(
-                100, new Damage(DamageType.PHYSICAL, 20)
+                100, new Damage(DamageType.PHYSICAL, 20, 25)
         );
 
         Item item = new Item.Builder()

@@ -5,7 +5,6 @@ import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
-import com.jscisco.lom.combat.UnarmedAttackFactory;
 import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.effect.TimedEffect;
 import com.jscisco.lom.items.EquipmentSlot;
@@ -34,6 +33,7 @@ public abstract class Entity {
     protected List<Effect> effects = new ArrayList<>();
     protected Job job;
     protected Assets.Glyphs glyph;
+    protected List<Attack> unarmedAttacks;
 
     protected List<Ability> knownAbilities = new ArrayList<>();
 
@@ -56,6 +56,7 @@ public abstract class Entity {
         this.job = other.job;
         this.glyph = other.glyph;
         this.knownAbilities = new ArrayList<>(other.knownAbilities);
+        this.unarmedAttacks = new ArrayList<>(other.unarmedAttacks);
 
         this.stage = other.stage;
         this.nextAction = other.nextAction;
@@ -206,9 +207,8 @@ public abstract class Entity {
     public List<Attack> getAttacks() {
         if (equipment != null) {
             List<Item> weapons = equipment.getWeapons();
-
         }
-        return UnarmedAttackFactory.getUnarmedAttacks();
+        return unarmedAttacks;
     }
 
     public boolean drop(Item item) {

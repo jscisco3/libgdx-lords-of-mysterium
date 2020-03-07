@@ -1,12 +1,16 @@
 package com.jscisco.lom.combat;
 
+import java.util.Random;
+
 public class Damage {
     private DamageType type;
-    private int damage;
+    private int min;
+    private int max;
 
-    public Damage(DamageType type, int damage) {
+    public Damage(DamageType type, int min, int max) {
         this.type = type;
-        this.damage = damage;
+        this.min = min;
+        this.max = max;
     }
 
     public DamageType getType() {
@@ -14,7 +18,7 @@ public class Damage {
     }
 
     public int getDamage() {
-        return damage;
+        return new Random().nextInt(max - min + 1) + min;
     }
 
 }

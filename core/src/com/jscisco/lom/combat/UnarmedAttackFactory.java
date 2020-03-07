@@ -9,7 +9,7 @@ public final class UnarmedAttackFactory {
         List<Attack> attacks = new ArrayList<>();
         attacks.add(new Attack(
                 100,
-                new Damage(DamageType.PHYSICAL, 5)
+                new Damage(DamageType.PHYSICAL, 5, 10)
         ));
         return attacks;
     }
