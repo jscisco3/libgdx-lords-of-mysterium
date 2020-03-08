@@ -23,7 +23,6 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
-import com.jscisco.lom.states.MoveToState;
 import com.jscisco.lom.states.PlayerTurnState;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
@@ -158,7 +157,7 @@ public class ZoneScreen implements Screen {
         font.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 
         if (e != null) {
-            font.draw(batch, e.getName().get(), infoX(), infoY() + Config.INFO_BOX_HEIGHT);
+            font.draw(batch, e.getName().name(), infoX(), infoY() + Config.INFO_BOX_HEIGHT);
             font.draw(batch, String.format("%s/%s", e.getHealth().getHp(), e.getHealth().getMaxHP()), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 16);
         }
         // if there are items in the position, let the user know
@@ -342,7 +341,7 @@ public class ZoneScreen implements Screen {
         batch.begin();
 
         List<String> stats = new ArrayList<>();
-        stats.add(player.getName().get());
+        stats.add(player.getName().name());
         stats.add(String.format("Health: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()));
         stats.add(String.format("Strength: %s", player.getStatistics().getStrength().value()));
         stats.add(String.format("Intelligence: %s", player.getStatistics().getIntelligence().value()));

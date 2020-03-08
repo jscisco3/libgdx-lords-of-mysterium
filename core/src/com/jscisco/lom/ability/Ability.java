@@ -108,7 +108,7 @@ public class Ability {
             Entity e = stage.getEntityAtPosition(Position.get(coord.x, coord.y));
             logger.info("Affecting: {}", coord);
             if (e != null) {
-                logger.info("Ability: {} has effected {}", this.name.getName(), e.getName().get());
+                logger.info("Ability: {} has effected {}", this.name.getName(), e.getName().name());
                 this.effects.forEach(e::applyEffect);
             }
         });

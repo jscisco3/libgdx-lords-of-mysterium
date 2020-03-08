@@ -5,6 +5,7 @@ import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
+import com.jscisco.lom.combat.Defense;
 import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.effect.TimedEffect;
 import com.jscisco.lom.items.EquipmentSlot;
@@ -14,13 +15,18 @@ import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public abstract class Entity {
+
+    private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
     protected EntityName name;
     protected FieldOfView fieldOfView;
@@ -34,6 +40,7 @@ public abstract class Entity {
     protected Job job;
     protected Assets.Glyphs glyph;
     protected List<Attack> unarmedAttacks;
+    protected Defense defense;
 
     protected List<Ability> knownAbilities = new ArrayList<>();
 
@@ -57,6 +64,7 @@ public abstract class Entity {
         this.glyph = other.glyph;
         this.knownAbilities = new ArrayList<>(other.knownAbilities);
         this.unarmedAttacks = new ArrayList<>(other.unarmedAttacks);
+        this.defense = other.defense;
 
         this.stage = other.stage;
         this.nextAction = other.nextAction;
@@ -270,5 +278,36 @@ public abstract class Entity {
 
     public void learnAbility(Ability ability) {
         this.knownAbilities.add(ability);
+    }
+
+    public void setDefense(Defense defense) {
+        this.defense = defense;
+    }
+
+    public Defense getDefense() {
+        return this.defense;
+    }
+
+    public void attack(Entity defender) {
+        List<Attack> attacks = this.getAttacks();
+        Defense defense = defender.getDefense();
+        // Modify attack & defense based on Attackers OnAttack triggers and Defenders OnDefend triggers
+        // Determine if hit via random(accuracy) >= defense.ev
+        attacks.forEach(a -> {
+            if (new Random().nextInt(a.getAccuracy()) > defense.getEv().getEv()) {
+                a.getDamages().forEach(d -> {
+                    int damageDealt = Math.max(d.getDamage(), defense.getAc().getAc());
+                    logger.info("Attacker: {} dealt {} damage to Defender: {}", this, damageDealt, defender);
+                    defender.health.damage(Math.max(d.getDamage(), defense.getAc().getAc()));
+                });
+            }
+        });
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "name=" + name +
+                '}';
     }
 }

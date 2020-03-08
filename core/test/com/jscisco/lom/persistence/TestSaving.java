@@ -79,7 +79,7 @@ class TestSaving {
     void testSaveAndLoadRandomPlayer() {
         Player player = PlayerFactory.createRandomHero();
 //        writeToFile(new Gson().toJson(player), player.getName());
-        Player loaded = readFromFile(player.getName().get(), Player.class);
+        Player loaded = readFromFile(player.getName().name(), Player.class);
 //        writeToFile(new Gson().toJson(loaded), loaded.getName() + "loaded");
     }
 

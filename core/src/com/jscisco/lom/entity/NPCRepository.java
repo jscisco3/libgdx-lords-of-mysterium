@@ -25,7 +25,7 @@ public class NPCRepository {
         try {
             List<NPC> parsedNpcs = gson.fromJson(new FileReader("npcs.json"), new TypeToken<List<NPC>>() {
             }.getType());
-            parsedNpcs.forEach(npc -> npcs.put(npc.getName().get(), npc));
+            parsedNpcs.forEach(npc -> npcs.put(npc.getName().name(), npc));
 
         } catch (JsonSyntaxException | FileNotFoundException e) {
             e.printStackTrace();

@@ -2,13 +2,20 @@ package com.jscisco.lom.entity;
 
 public class EntityName {
 
-    private String value;
+    private String name;
 
-    public EntityName(String value) {
-        this.value = value;
+    public EntityName(String name) {
+        this.name = name;
     }
 
-    public String get() {
-        return value;
+    public String name() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "EntityName{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

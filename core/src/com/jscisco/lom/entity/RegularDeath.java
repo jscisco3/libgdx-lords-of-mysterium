@@ -9,7 +9,7 @@ public class RegularDeath implements DeathStrategy {
 
     @Override
     public void die(Entity entity) {
-        logger.info("{} has died.", entity.getName().get());
+        logger.info("{} has died.", entity.getName().name());
         entity.getStage().removeEntity(entity);
     }
 }

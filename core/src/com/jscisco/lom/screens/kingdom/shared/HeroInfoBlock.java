@@ -57,7 +57,7 @@ public class HeroInfoBlock {
 
         batch.begin();
         batch.draw(this.icon, x, y + height - icon.getRegionHeight());
-        font.draw(batch, name.get(), x + icon.getRegionWidth() + 5, y + height);
+        font.draw(batch, name.name(), x + icon.getRegionWidth() + 5, y + height);
         renderStats(batch);
         batch.end();
     }
