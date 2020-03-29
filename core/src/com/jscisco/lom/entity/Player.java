@@ -1,7 +1,8 @@
 package com.jscisco.lom.entity;
 
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Health;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 
 public class Player extends Entity {

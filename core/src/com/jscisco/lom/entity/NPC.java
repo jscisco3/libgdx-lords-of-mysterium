@@ -4,7 +4,8 @@ import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.assets.Assets;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Health;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,7 +154,7 @@ public class NPC extends Entity {
         possibleMoves.add(new Position(1, 0));
         possibleMoves.add(new Position(1, -1));
         Position nextMove = possibleMoves.get(ThreadLocalRandom.current().nextInt(0, possibleMoves.size()));
-        this.nextAction = new MoveAction(this, nextMove.getX(), nextMove.getY());
+        this.nextAction = new MoveAction(this, nextMove.x(), nextMove.y());
         return super.getNextAction();
     }
 

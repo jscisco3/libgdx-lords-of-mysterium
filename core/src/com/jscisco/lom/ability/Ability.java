@@ -2,7 +2,7 @@ package com.jscisco.lom.ability;
 
 import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

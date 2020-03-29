@@ -10,7 +10,7 @@ import com.jscisco.lom.terrain.StairsDown;
 import com.jscisco.lom.terrain.StairsUp;
 import com.jscisco.lom.terrain.Terrain;
 import com.jscisco.lom.util.FOVCalculator;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;
 import com.jscisco.lom.zone.strategies.GenerationStrategy;
 import org.slf4j.Logger;
@@ -110,11 +110,11 @@ public class Stage {
     }
 
     public boolean terrainIsWalkableAtPosition(Position position) {
-        return tiles[position.getX()][position.getY()].getTerrain().isWalkable();
+        return tiles[position.x()][position.y()].getTerrain().isWalkable();
     }
 
     public Terrain getTerrainAtPosition(Position position) {
-        return getTerrainAtPosition(position.getX(), position.getY());
+        return getTerrainAtPosition(position.x(), position.y());
     }
 
 
@@ -139,7 +139,7 @@ public class Stage {
     }
 
     public Tile getTileAt(Position position) {
-        return this.tiles[position.getX()][position.getY()];
+        return this.tiles[position.x()][position.y()];
     }
 
     public Player getPlayer() {

@@ -3,7 +3,7 @@ package com.jscisco.lom.attributes.ai.btree;
 import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import squidpony.squidmath.Coord;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class CalculatePath extends LeafTask<NPC> {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 entityCoord,
-                Coord.get(target.getX(), target.getY()));
+                Coord.get(target.x(), target.y()));
         if (!path.isEmpty()) {
             return path;
         }

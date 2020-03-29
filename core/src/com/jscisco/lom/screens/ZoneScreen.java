@@ -17,6 +17,7 @@ import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.action.AbilityAction;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.Config;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.entity.Entity;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.items.Item;
@@ -24,7 +25,6 @@ import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
 import com.jscisco.lom.states.PlayerTurnState;
-import com.jscisco.lom.util.Position;
 import com.jscisco.lom.zone.Tile;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
@@ -158,7 +158,7 @@ public class ZoneScreen implements Screen {
 
         if (e != null) {
             font.draw(batch, e.getName().name(), infoX(), infoY() + Config.INFO_BOX_HEIGHT);
-            font.draw(batch, String.format("%s/%s", e.getHealth().getHp(), e.getHealth().getMaxHP()), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 16);
+            font.draw(batch, String.format("%s/%s", e.getHealth().hp(), e.getHealth().maxHp()), infoX(), infoY() + Config.INFO_BOX_HEIGHT - 16);
         }
         // if there are items in the position, let the user know
         List<Item> items = zone.getCurrentStage().getItemsAtPosition(p);
@@ -207,7 +207,7 @@ public class ZoneScreen implements Screen {
         batch.begin();
         font.setColor(Color.RED);
         font.draw(batch, String.format("FPS: %s", Gdx.graphics.getFramesPerSecond()), camera.position.x - 300, camera.position.y + 200);
-        font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().getX(), zone.getCurrentStage().getPlayer().getPosition().getY()), camera.position.x - 300, camera.position.y + 250);
+        font.draw(batch, String.format("Position: {%s, %s}", zone.getCurrentStage().getPlayer().getPosition().x(), zone.getCurrentStage().getPlayer().getPosition().y()), camera.position.x - 300, camera.position.y + 250);
         font.draw(batch, String.format("Camera Position: %s", camera.position.toString()), camera.position.x - 300, camera.position.y + 150);
         font.draw(batch, String.format("Mouse Position: {%s, %s}", Gdx.input.getX(), Gdx.input.getY()), camera.position.x - 300, camera.position.y + 100);
         batch.end();
@@ -342,7 +342,7 @@ public class ZoneScreen implements Screen {
 
         List<String> stats = new ArrayList<>();
         stats.add(player.getName().name());
-        stats.add(String.format("Health: %s/%s", player.getHealth().getHp(), player.getHealth().getMaxHP()));
+        stats.add(String.format("Health: %s/%s", player.getHealth().hp(), player.getHealth().maxHp()));
         stats.add(String.format("Strength: %s", player.getStatistics().getStrength().value()));
         stats.add(String.format("Intelligence: %s", player.getStatistics().getIntelligence().value()));
         stats.add(String.format("Dexterity: %s", player.getStatistics().getDexterity().value()));
@@ -388,27 +388,25 @@ public class ZoneScreen implements Screen {
         float maxHeight = (zone.getHeight() * Config.TILE_HEIGHT) - (Config.WINDOW_HEIGHT / 2.0f);
 
         // Set it to player X * 24.0f, then clamp it?
-        camera.position.x = MathUtils.clamp((position.getX() + 2) * Config.TILE_WIDTH, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
-        camera.position.y = MathUtils.clamp(position.getY() * Config.TILE_WIDTH, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
+        camera.position.x = MathUtils.clamp((position.x() + 2) * Config.TILE_WIDTH, Config.WINDOW_WIDTH / 2.0f, maxWidth + Config.SIDEBAR_WIDTH);
+        camera.position.y = MathUtils.clamp(position.y() * Config.TILE_WIDTH, Config.WINDOW_HEIGHT / 2.0f - Config.LOG_AREA_HEIGHT, maxHeight);
         logger.trace(String.format("New camera position: %s", camera.position.toString()));
     }
 
     private Position getStagePositionFromMousePosition(Position pos) {
         // Calculate raw tile position
         // Calculate camera offset
-        Position raw = Position.get(pos.getX(), ((-1 * pos.getY() + ((Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2))));
+        Position raw = Position.get(pos.x(), ((-1 * pos.y() + ((Config.WINDOW_HEIGHT - Config.LOG_AREA_HEIGHT) / 2))));
 
         Position offset = Position.get((int) (camera.position.x - Config.WINDOW_WIDTH / 2), (int) ((camera.position.y + (Config.LOG_AREA_HEIGHT / 2))));
 
-        Position tilePosition = raw.add(offset);
-        tilePosition.setX(tilePosition.getX() / Config.TILE_WIDTH);
-        tilePosition.setY(tilePosition.getY() / Config.TILE_HEIGHT);
+        Position tilePosition = new Position(raw.add(offset).x() / Config.TILE_WIDTH, raw.add(offset).y() / Config.TILE_HEIGHT);
 
         return tilePosition;
     }
 
     private void drawTileAtPosition(Batch batch, TextureRegion region, Position position) {
-        batch.draw(region, position.getX() * Config.TILE_WIDTH, position.getY() * Config.TILE_HEIGHT, Config.TILE_WIDTH, Config.TILE_HEIGHT);
+        batch.draw(region, position.x() * Config.TILE_WIDTH, position.y() * Config.TILE_HEIGHT, Config.TILE_WIDTH, Config.TILE_HEIGHT);
     }
 
     public Optional<Position> handleTargetingInput() {

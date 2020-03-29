@@ -5,9 +5,9 @@ import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.effect.DamageEffect;
 import com.jscisco.lom.effect.TimedDamageEffect;
 import com.jscisco.lom.entity.EntityName;
-import com.jscisco.lom.entity.Health;
+import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ public class TestAbility {
                 .build();
 
         ability.applyEffects(stage);
-        Assertions.assertThat(npc.getHealth().getHp()).isEqualTo(40);
+        Assertions.assertThat(npc.getHealth().hp()).isEqualTo(40);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TestAbility {
         Assertions.assertThat(npc.getEffects().isEmpty()).isFalse();
         Assertions.assertThat(npc.getEffects().get(0)).isEqualTo(tde);
         tde.tick();
-        Assertions.assertThat(npc.getHealth().getHp()).isEqualTo(30);
+        Assertions.assertThat(npc.getHealth().hp()).isEqualTo(30);
         Assertions.assertThat(npc.getEffects().isEmpty()).isTrue();
     }
 }

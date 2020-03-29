@@ -1,10 +1,10 @@
-package com.jscisco.lom.util;
+package com.jscisco.lom.domain;
 
 import squidpony.squidmath.Coord;
 
 import java.util.Objects;
 
-public class Position {
+public final class Position {
 
     private int x;
     private int y;
@@ -16,25 +16,17 @@ public class Position {
 
     public Position add(Position other) {
         return new Position(
-                this.x + other.getX(),
-                this.y + other.getY()
+                this.x + other.x(),
+                this.y + other.y()
         );
     }
 
-    public int getX() {
+    public int x() {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
+    public int y() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public Coord asCoord() {
@@ -65,7 +57,7 @@ public class Position {
         }
 
         Position other = (Position) obj;
-        return this.x == other.getX() && this.y == other.getY();
+        return this.x == other.x() && this.y == other.y();
     }
 
     @Override

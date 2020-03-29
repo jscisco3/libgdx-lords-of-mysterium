@@ -3,6 +3,7 @@ package com.jscisco.lom.entity;
 import com.google.gson.*;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.BehaviorRepository;
+import com.jscisco.lom.domain.Health;
 
 import java.lang.reflect.Type;
 

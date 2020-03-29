@@ -1,7 +1,7 @@
 package com.jscisco.lom.action;
 
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

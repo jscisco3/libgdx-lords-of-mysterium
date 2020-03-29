@@ -3,7 +3,7 @@ package com.jscisco.lom.effect;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.Health;
+import com.jscisco.lom.domain.Health;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +26,9 @@ public class TestTimedDamageEffect {
         TimedDamageEffect tde = new TimedDamageEffect(2, new DamageEffect(new Damage(DamageType.PHYSICAL, 20, 20)));
         tde.apply(this.entity);
         tde.tick();
-        Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(80);
+        Assertions.assertThat(this.entity.getHealth().hp()).isEqualTo(80);
         tde.tick();
-        Assertions.assertThat(this.entity.getHealth().getHp()).isEqualTo(60);
+        Assertions.assertThat(this.entity.getHealth().hp()).isEqualTo(60);
         Assertions.assertThat(this.entity.getEffects().isEmpty()).isTrue();
     }
 

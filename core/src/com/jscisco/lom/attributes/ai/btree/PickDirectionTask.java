@@ -3,7 +3,7 @@ package com.jscisco.lom.attributes.ai.btree;
 import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

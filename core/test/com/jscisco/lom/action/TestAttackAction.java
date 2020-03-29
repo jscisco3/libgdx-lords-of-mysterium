@@ -3,6 +3,7 @@ package com.jscisco.lom.action;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
+import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.zone.Stage;
 import org.assertj.core.api.Assertions;
@@ -44,7 +45,7 @@ public class TestAttackAction {
     @Test
     public void attackActionShouldDealDamage() {
         new AttackAction(attacker, defender).invoke();
-        Assertions.assertThat(defender.getHealth().getHp()).isLessThan(100);
+        Assertions.assertThat(defender.getHealth().hp()).isLessThan(100);
     }
 
     @Test

@@ -1,10 +1,14 @@
 package com.jscisco.lom.entity;
 
+
 public class EntityName {
 
     private String name;
 
     public EntityName(String name) {
+        if (name != null && name.isEmpty()) {
+            throw new IllegalArgumentException("Entity Name cannot be empty");
+        }
         this.name = name;
     }
 

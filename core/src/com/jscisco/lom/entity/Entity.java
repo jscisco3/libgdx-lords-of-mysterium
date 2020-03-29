@@ -7,6 +7,7 @@ import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
 import com.jscisco.lom.combat.Defense;
+import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.effect.TimedEffect;
 import com.jscisco.lom.items.EquipmentSlot;
@@ -14,7 +15,7 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemCannotBeEquippedException;
 import com.jscisco.lom.items.Slot;
 import com.jscisco.lom.terrain.Terrain;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@Deprecated
 public abstract class Entity {
 
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
@@ -118,11 +120,11 @@ public abstract class Entity {
     }
 
     public int getX() {
-        return position.getX();
+        return position.x();
     }
 
     public int getY() {
-        return position.getY();
+        return position.y();
     }
 
     public Inventory getInventory() {

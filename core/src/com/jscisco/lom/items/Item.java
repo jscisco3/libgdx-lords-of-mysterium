@@ -3,7 +3,7 @@ package com.jscisco.lom.items;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.combat.Attack;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 
 import java.util.Optional;
 

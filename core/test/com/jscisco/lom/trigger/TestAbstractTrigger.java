@@ -5,7 +5,7 @@ import com.jscisco.lom.combat.DamageType;
 import com.jscisco.lom.effect.DamageEffect;
 import com.jscisco.lom.effect.Effect;
 import com.jscisco.lom.entity.Entity;
-import com.jscisco.lom.entity.Health;
+import com.jscisco.lom.domain.Health;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +37,8 @@ public class TestAbstractTrigger {
         };
 
         trigger.trigger(source, receiver, null);
-        Assertions.assertThat(source.getHealth().getHp()).isEqualTo(50);
-        Assertions.assertThat(receiver.getHealth().getHp()).isEqualTo(100);
+        Assertions.assertThat(source.getHealth().hp()).isEqualTo(50);
+        Assertions.assertThat(receiver.getHealth().hp()).isEqualTo(100);
 
     }
 
@@ -51,8 +51,8 @@ public class TestAbstractTrigger {
         };
 
         trigger.trigger(source, receiver, null);
-        Assertions.assertThat(source.getHealth().getHp()).isEqualTo(100);
-        Assertions.assertThat(receiver.getHealth().getHp()).isEqualTo(50);
+        Assertions.assertThat(source.getHealth().hp()).isEqualTo(100);
+        Assertions.assertThat(receiver.getHealth().hp()).isEqualTo(50);
     }
 
     @Test
@@ -65,8 +65,8 @@ public class TestAbstractTrigger {
 
         trigger.trigger(source, receiver, null);
 
-        Assertions.assertThat(source.getHealth().getHp()).isEqualTo(50);
-        Assertions.assertThat(receiver.getHealth().getHp()).isEqualTo(50);
+        Assertions.assertThat(source.getHealth().hp()).isEqualTo(50);
+        Assertions.assertThat(receiver.getHealth().hp()).isEqualTo(50);
     }
 
     @Test
@@ -78,8 +78,8 @@ public class TestAbstractTrigger {
         };
 
         trigger.trigger(null, receiver, null);
-        Assertions.assertThat(source.getHealth().getHp()).isEqualTo(100);
-        Assertions.assertThat(receiver.getHealth().getHp()).isEqualTo(100);
+        Assertions.assertThat(source.getHealth().hp()).isEqualTo(100);
+        Assertions.assertThat(receiver.getHealth().hp()).isEqualTo(100);
     }
 
     @Test
@@ -91,8 +91,8 @@ public class TestAbstractTrigger {
         };
 
         trigger.trigger(null, null, null);
-        Assertions.assertThat(source.getHealth().getHp()).isEqualTo(100);
-        Assertions.assertThat(receiver.getHealth().getHp()).isEqualTo(100);
+        Assertions.assertThat(source.getHealth().hp()).isEqualTo(100);
+        Assertions.assertThat(receiver.getHealth().hp()).isEqualTo(100);
 
     }
 

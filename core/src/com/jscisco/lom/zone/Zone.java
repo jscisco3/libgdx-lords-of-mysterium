@@ -1,18 +1,15 @@
 package com.jscisco.lom.zone;
 
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
-import com.jscisco.lom.states.State;
-import com.jscisco.lom.util.Position;
 import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class Zone {
@@ -21,7 +18,6 @@ public class Zone {
 
     private Size3D size;
     private List<Stage> stages;
-    private Deque<State> states = new ArrayDeque<>();
 
     private int currentStageIndex;
 
@@ -78,13 +74,6 @@ public class Zone {
                 stage.addEntity(npc);
             }
         }
-
-
-//        NPC hunterSeeker = new NPC(
-//                this.getCurrentStage(), Assets.player, this.getCurrentStage().findEmptyPosition()
-//        );
-//        hunterSeeker.setAi(new HunterSeekerAI(hunterSeeker));
-//        this.getCurrentStage().addEntity(hunterSeeker);
 
         List<Item> createdItems = new ArrayList<>();
         createdItems.add(ItemFactory.buildSword());

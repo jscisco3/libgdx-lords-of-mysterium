@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

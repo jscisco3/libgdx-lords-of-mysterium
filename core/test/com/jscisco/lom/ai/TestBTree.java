@@ -14,7 +14,7 @@ import com.jscisco.lom.attributes.ai.btree.PickDirectionTask;
 import com.jscisco.lom.attributes.ai.btree.WalkTask;
 import com.jscisco.lom.entity.EntityName;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

@@ -6,6 +6,7 @@ import com.jscisco.lom.ability.AbilityDescription;
 import com.jscisco.lom.ability.AbilityName;
 import com.jscisco.lom.combat.Damage;
 import com.jscisco.lom.combat.DamageType;
+import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.effect.DamageEffect;
 import squidpony.FakeLanguageGen;
 import squidpony.squidai.BlastAOE;

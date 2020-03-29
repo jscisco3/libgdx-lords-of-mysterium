@@ -10,8 +10,7 @@ import com.jscisco.lom.items.Item;
 import com.jscisco.lom.log.Message;
 import com.jscisco.lom.log.MessageElement;
 import com.jscisco.lom.log.MessageLog;
-import com.jscisco.lom.screens.ZoneScreen;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
@@ -68,7 +67,7 @@ public class PlayerTurnState extends State {
                 pos = stage.findEmptyPosition();
             }
             Position p = pos.get();
-            action = new MoveAction(player, p.getX() - player.getX(), p.getY() - player.getY());
+            action = new MoveAction(player, p.x() - player.getX(), p.y() - player.getY());
             game.requireConfirmation();
         }
 

@@ -3,7 +3,7 @@ package com.jscisco.lom.attributes.ai.btree.guards;
 import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 
 public class HasTargetPositionGuard extends LeafTask<NPC> {
 

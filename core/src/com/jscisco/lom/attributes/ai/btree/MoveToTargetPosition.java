@@ -4,7 +4,7 @@ import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.entity.NPC;
-import com.jscisco.lom.util.Position;
+import com.jscisco.lom.domain.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.Coord;
@@ -62,7 +62,7 @@ public class MoveToTargetPosition extends LeafTask<NPC> {
                 new ArrayList<>(),
                 new ArrayList<>(),
                 entityCoord,
-                Coord.get(this.target.getX(), this.target.getY()));
+                Coord.get(this.target.x(), this.target.y()));
         if (!path.isEmpty() && !path.get(0).equals(entityCoord)) {
             return new Position(path.get(0).x - entityCoord.x, path.get(0).y - entityCoord.y);
         } else {
