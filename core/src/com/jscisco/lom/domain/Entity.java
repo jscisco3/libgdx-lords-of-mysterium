@@ -19,4 +19,9 @@ public abstract class Entity {
         this.id = id;
         this.name = name;
     }
+
+    public void move(Position newPosition) {
+        this.position = newPosition;
+    }
+
 }

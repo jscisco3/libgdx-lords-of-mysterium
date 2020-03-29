@@ -11,12 +11,18 @@ public class EventProcessor {
         this.eventQueue = eventQueue;
     }
 
+    public boolean hasEvents() {
+        return !eventQueue.isEmpty();
+    }
+
     public void enqueue(Event event) {
         this.eventQueue.addLast(event);
     }
 
     public void process() {
-        throw new UnsupportedOperationException("Unimplemented");
+        while (!eventQueue.isEmpty()) {
+            Event event = eventQueue.removeFirst();
+            event.process();
+        }
     }
-
 }
