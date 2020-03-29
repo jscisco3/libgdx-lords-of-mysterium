@@ -1,8 +1,6 @@
-package com.jscisco.lom.action;
+package com.jscisco.lom.domain;
 
-@Deprecated
 public class ActionResult {
-
     // True if the action succeeded.
     private final boolean succeeded;
     private final boolean finished;

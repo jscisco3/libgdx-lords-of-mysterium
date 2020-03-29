@@ -9,6 +9,8 @@ public abstract class Entity {
     // Statistics
     Health health;
 
+    Action nextAction;
+
     public Entity(EntityId id, EntityName name) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null.");
@@ -24,4 +26,10 @@ public abstract class Entity {
         this.position = newPosition;
     }
 
+    protected Action nextAction() {
+        Action action = nextAction;
+        // Only handle an action once!
+        nextAction = null;
+        return action;
+    }
 }

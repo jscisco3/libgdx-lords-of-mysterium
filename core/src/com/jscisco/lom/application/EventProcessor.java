@@ -2,13 +2,14 @@ package com.jscisco.lom.application;
 
 import com.jscisco.lom.domain.Event;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class EventProcessor {
     Deque<Event> eventQueue;
 
-    public EventProcessor(Deque<Event> eventQueue) {
-        this.eventQueue = eventQueue;
+    public EventProcessor() {
+        this.eventQueue = new ArrayDeque<>();
     }
 
     public boolean hasEvents() {

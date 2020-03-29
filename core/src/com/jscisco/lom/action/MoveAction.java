@@ -5,6 +5,7 @@ import com.jscisco.lom.domain.Position;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class MoveAction extends AbstractAction {
 
     private final static Logger logger = LoggerFactory.getLogger(MoveAction.class);
