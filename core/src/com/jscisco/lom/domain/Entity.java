@@ -22,6 +22,11 @@ public abstract class Entity {
         this.name = name;
     }
 
+    public Entity withHealth(Health health) {
+        this.health = health;
+        return this;
+    }
+
     public void move(Position newPosition) {
         this.position = newPosition;
     }

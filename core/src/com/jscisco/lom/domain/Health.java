@@ -24,7 +24,7 @@ public final class Health {
         return this.hp <= 0;
     }
 
-    public void damage(int damage) {
+    public void reduce(int damage) {
         this.hp -= damage;
     }
 

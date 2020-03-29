@@ -300,7 +300,7 @@ public abstract class Entity {
                 a.getDamages().forEach(d -> {
                     int damageDealt = Math.max(d.getDamage(), defense.getAc().getAc());
                     logger.info("Attacker: {} dealt {} damage to Defender: {}", this, damageDealt, defender);
-                    defender.health.damage(Math.max(d.getDamage(), defense.getAc().getAc()));
+                    defender.health.reduce(Math.max(d.getDamage(), defense.getAc().getAc()));
                 });
             }
         });

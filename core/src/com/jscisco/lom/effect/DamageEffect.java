@@ -14,7 +14,7 @@ public class DamageEffect extends Effect {
     public void apply(Entity entity) {
         // Calculate resistances
         // Apply the damagess
-        entity.getHealth().damage(this.damage.getDamage());
+        entity.getHealth().reduce(this.damage.getDamage());
     }
 
 }
