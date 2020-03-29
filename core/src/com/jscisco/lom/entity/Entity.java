@@ -1,6 +1,7 @@
 package com.jscisco.lom.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.LOMGame;
 import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.assets.Assets;
@@ -22,7 +23,6 @@ import squidpony.squidai.DijkstraMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 public abstract class Entity {
 
@@ -294,7 +294,7 @@ public abstract class Entity {
         // Modify attack & defense based on Attackers OnAttack triggers and Defenders OnDefend triggers
         // Determine if hit via random(accuracy) >= defense.ev
         attacks.forEach(a -> {
-            if (new Random().nextInt(a.getAccuracy()) > defense.getEv().getEv()) {
+            if (LOMGame.rng.nextInt(a.getAccuracy()) > defense.getEv().getEv()) {
                 a.getDamages().forEach(d -> {
                     int damageDealt = Math.max(d.getDamage(), defense.getAc().getAc());
                     logger.info("Attacker: {} dealt {} damage to Defender: {}", this, damageDealt, defender);
