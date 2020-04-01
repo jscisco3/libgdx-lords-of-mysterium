@@ -1,13 +1,11 @@
 package com.jscisco.lom.domain;
 
-import com.jscisco.lom.application.EventProcessor;
-
 public class MoveAction extends Action {
 
     Position newPosition;
 
-    public MoveAction(EventProcessor processor, Entity source, Position newPosition) {
-        super(processor, source);
+    public MoveAction(Entity source, Position newPosition) {
+        super(source);
         if (newPosition == null) {
             throw new IllegalArgumentException();
         }
@@ -16,7 +14,7 @@ public class MoveAction extends Action {
 
     @Override
     public ActionResult invoke() {
-        this.eventProcessor.enqueue(new EntityMovementEvent(this.source, this.newPosition));
+        this.source.move(newPosition);
         return ActionResult.success();
     }
 }

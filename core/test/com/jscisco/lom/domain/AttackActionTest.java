@@ -1,19 +1,12 @@
 package com.jscisco.lom.domain;
 
-import com.jscisco.lom.application.EventProcessor;
 import com.jscisco.lom.test.EntityFactory;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.ArgumentMatchers.any;
-
 public class AttackActionTest {
-
-    @Mock
-    EventProcessor eventProcessor;
 
     @BeforeEach
     public void setUp() {
@@ -24,9 +17,10 @@ public class AttackActionTest {
     public void attackActionShouldEnqueueAHealthLostEvent() {
         Entity attacker = EntityFactory.testEntityWithHealth();
         Entity defender = EntityFactory.testEntityWithHealth();
-        AttackAction action = new AttackAction(eventProcessor, attacker, defender);
+        int startingHealth = defender.health.hp();
+        AttackAction action = new AttackAction(attacker, defender);
         action.invoke();
-        Mockito.verify(eventProcessor).enqueue(any(HealthLostEvent.class));
+        Assertions.assertThat(defender.health.hp()).isLessThan(startingHealth);
     }
 
 }

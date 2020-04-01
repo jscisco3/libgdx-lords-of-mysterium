@@ -27,6 +27,13 @@ public abstract class Entity {
         return this;
     }
 
+    public void damage(int amount) {
+        this.health.reduce(amount);
+        if (this.health.shouldBeDestroyed()) {
+            // TODO
+        }
+    }
+
     public void move(Position newPosition) {
         this.position = newPosition;
     }

@@ -1,18 +1,12 @@
 package com.jscisco.lom.domain;
 
-import com.jscisco.lom.application.EventProcessor;
 import com.jscisco.lom.test.EntityFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 public class MoveActionTest {
-
-    @Mock
-    EventProcessor processor;
 
     @BeforeEach
     public void setUp() {
@@ -22,19 +16,20 @@ public class MoveActionTest {
     @Test
     public void cannotCreateMoveActionIfNewPositionIsNull() {
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() ->
-                new MoveAction(this.processor, EntityFactory.testEntity(), null));
+                new MoveAction(EntityFactory.testEntity(), null));
     }
 
     @Test
-    public void invokingMoveActionAddsEntityMovementEventToEventProcessor() {
-        MoveAction action = new MoveAction(this.processor, EntityFactory.testEntity(), new Position(1, 1));
+    public void invokingMoveActionMovesTheEntity() {
+        Entity e = EntityFactory.testEntity();
+        MoveAction action = new MoveAction(e, new Position(1, 1));
         action.invoke();
-        Mockito.verify(processor).enqueue(Mockito.any(EntityMovementEvent.class));
+        Assertions.assertThat(e.position).isEqualTo(new Position(1, 1));
     }
 
     @Test
     public void invokingMoveActionReturnsSuccessResult() {
-        MoveAction action = new MoveAction(this.processor, EntityFactory.testEntity(), new Position(1, 1));
+        MoveAction action = new MoveAction(EntityFactory.testEntity(), new Position(1, 1));
         ActionResult result = action.invoke();
         Assertions.assertThat(result.succeeded()).isTrue();
     }

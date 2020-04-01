@@ -1,13 +1,11 @@
 package com.jscisco.lom.domain;
 
-import com.jscisco.lom.application.EventProcessor;
-
 public class AttackAction extends Action {
 
     private Entity defender;
 
-    public AttackAction(EventProcessor eventProcessor, Entity source, Entity defender) {
-        super(eventProcessor, source);
+    public AttackAction(Entity source, Entity defender) {
+        super(source);
         if (defender == null) {
             throw new IllegalArgumentException("Defender is required when creating an attack action");
         }
@@ -16,7 +14,7 @@ public class AttackAction extends Action {
 
     @Override
     public ActionResult invoke() {
-        eventProcessor.enqueue(new HealthLostEvent(defender, 10));
+        this.defender.damage(10);
         return ActionResult.success();
     }
 }
