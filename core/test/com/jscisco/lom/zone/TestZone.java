@@ -1,7 +1,7 @@
 package com.jscisco.lom.zone;
 
 import com.jscisco.lom.entity.Player;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.domain.Size3D;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

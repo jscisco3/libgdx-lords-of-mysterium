@@ -38,14 +38,16 @@ public abstract class Entity implements Observer {
         return this;
     }
 
-    public void damage(int amount) {
+    public List<Event> damage(int amount) {
+        List<Event> events = new ArrayList<>();
         if (this.health == null) {
             throw new IllegalStateException(String.format("Entity %s does not have a Health component.", id.id()));
         }
         this.health.reduce(amount);
         if (this.health.shouldBeDestroyed()) {
-            // TODO
+            events.add(new EntityDiedEvent(this));
         }
+        return events;
     }
 
     public List<Event> move(Position newPosition) {

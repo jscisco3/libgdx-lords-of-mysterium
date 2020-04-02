@@ -11,7 +11,7 @@ import com.jscisco.lom.entity.*;
 import com.jscisco.lom.persistence.serializer.CustomBehaviorTreeSerializer;
 import com.jscisco.lom.persistence.serializer.CustomTaskSerializer;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.domain.Size3D;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.Zone;
 import com.jscisco.lom.zone.strategies.EmptyStageGenerationStrategy;

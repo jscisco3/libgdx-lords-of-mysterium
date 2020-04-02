@@ -4,7 +4,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.domain.Size3D;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

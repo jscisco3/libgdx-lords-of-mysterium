@@ -11,7 +11,7 @@ import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.screens.ZoneScreen;
 import com.jscisco.lom.screens.kingdom.shared.HeroInfoBlock;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.domain.Size3D;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

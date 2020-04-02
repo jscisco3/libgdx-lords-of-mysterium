@@ -1,4 +1,4 @@
-package com.jscisco.lom.util;
+package com.jscisco.lom.domain;
 
 public class Size3D {
 

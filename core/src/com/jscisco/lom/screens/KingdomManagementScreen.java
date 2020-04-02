@@ -11,7 +11,7 @@ import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.kingdom.Kingdom;
-import com.jscisco.lom.util.Size3D;
+import com.jscisco.lom.domain.Size3D;
 import com.jscisco.lom.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

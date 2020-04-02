@@ -6,7 +6,6 @@ import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.entity.*;
 import com.jscisco.lom.items.Item;
 import com.jscisco.lom.items.ItemFactory;
-import com.jscisco.lom.util.Size3D;
 import com.jscisco.lom.zone.Stage;
 import com.jscisco.lom.zone.strategies.GenericStrategy;
 import org.slf4j.Logger;
