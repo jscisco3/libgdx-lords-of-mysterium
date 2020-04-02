@@ -1,7 +1,6 @@
 package com.jscisco.lom.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Entity implements Observer {
 
@@ -14,7 +13,7 @@ public abstract class Entity implements Observer {
 
     Action nextAction;
 
-    List<EventHandler> eventHandlers;
+    Map<Class<Event>, List<EventHandler>> eventHandlers;
 
     public Entity(EntityId id, EntityName name, Position position) {
         if (id == null) {
@@ -26,7 +25,7 @@ public abstract class Entity implements Observer {
         this.id = id;
         this.name = name;
         this.position = position;
-        this.eventHandlers = new ArrayList<>();
+        this.eventHandlers = new HashMap<>();
     }
 
     public Entity withHealth(Health health) {
@@ -66,14 +65,16 @@ public abstract class Entity implements Observer {
         this.nextAction = action;
     }
 
-    public void registerHandler(EventHandler handler) {
-        this.eventHandlers.add(handler);
+    public <T extends Event> void registerHandler(Class<T> eventsToHandle, EventHandler handler) {
+        if (this.eventHandlers.get(eventsToHandle) == null) {
+            this.eventHandlers.put((Class<Event>) eventsToHandle, Collections.singletonList(handler));
+        } else {
+            this.eventHandlers.get(eventsToHandle).add(handler);
+        }
     }
 
     @Override
     public void update(Event event) {
-        for (EventHandler handler : this.eventHandlers) {
-            handler.handle(event);
-        }
+        Optional.ofNullable(this.eventHandlers.get(event.getClass())).ifPresent(handler -> handler.forEach(h -> h.handle(event)));
     }
 }

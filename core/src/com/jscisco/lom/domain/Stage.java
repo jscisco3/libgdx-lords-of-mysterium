@@ -246,14 +246,9 @@ public class Stage implements Observer {
 //        return map;
 //    }
 
-    void remove(Entity e) {
-        logger.info("Removing {}", e);
-    }
 
     @Override
     public void update(Event event) {
-        if (event instanceof EntityDiedEvent) {
-            remove(((EntityDiedEvent) event).entity());
-        }
+
     }
 }

@@ -26,9 +26,9 @@ public class EntityTest {
     @Test
     public void testEntityWithHandlerHandlesAnEvent() {
         Entity e = EntityFactory.testEntity();
-        e.registerHandler(new EventHandler<Event>() {
+        e.registerHandler(new EventHandler<EntityMovedEvent>() {
             @Override
-            public void handle(Event event) {
+            public void handle(EntityMovedEvent event) {
                 e.position = new Position(10, 10);
             }
         });

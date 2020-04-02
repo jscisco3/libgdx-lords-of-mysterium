@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain;
 
-public class EntityMovedEvent extends Event {
+public class EntityMovedEvent implements Event {
 
     private Entity entity;
     private Position position;

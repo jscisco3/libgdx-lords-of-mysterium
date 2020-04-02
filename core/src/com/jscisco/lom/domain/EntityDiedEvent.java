@@ -3,7 +3,7 @@ package com.jscisco.lom.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EntityDiedEvent extends Event {
+public class EntityDiedEvent implements Event {
 
     private static final Logger logger = LoggerFactory.getLogger(EntityDiedEvent.class);
 

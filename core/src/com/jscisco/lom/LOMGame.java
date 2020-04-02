@@ -25,7 +25,7 @@ public class LOMGame extends Game {
     public LOMGame() {
         this.processor = new EventProcessor();
         // Register a bad event listener to test it.
-        this.player.registerHandler(new EventHandler() {
+        this.player.registerHandler(EntityMovedEvent.class, new EventHandler() {
             @Override
             public void handle(Event event) {
                 logger.info("Handling event of type: {}", event.getClass());
@@ -57,6 +57,9 @@ public class LOMGame extends Game {
         }
         if (input.isKeyPressed(Input.Keys.RIGHT)) {
             this.player.nextAction(new MoveAction(this.player, this.player.position().add(1, 0)));
+        }
+        if (input.isKeyPressed(Input.Keys.SPACE)) {
+            processor.notifyObservers(new EntityDiedEvent(this.player));
         }
         Optional.ofNullable(player.nextAction()).ifPresent(a -> {
             ActionResult result = a.invoke();
