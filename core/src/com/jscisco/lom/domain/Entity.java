@@ -1,8 +1,13 @@
 package com.jscisco.lom.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.*;
 
 public abstract class Entity implements Observer {
+
+    private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
     EntityId id;
     EntityName name;
@@ -13,7 +18,7 @@ public abstract class Entity implements Observer {
 
     Action nextAction;
 
-    Map<Class<Event>, List<EventHandler>> eventHandlers;
+    Map<EventType, List<EventHandler>> eventHandlers;
 
     public Entity(EntityId id, EntityName name, Position position) {
         if (id == null) {
@@ -65,16 +70,19 @@ public abstract class Entity implements Observer {
         this.nextAction = action;
     }
 
-    public <T extends Event> void registerHandler(Class<T> eventsToHandle, EventHandler handler) {
+    public <T extends Event> void registerHandler(EventType eventsToHandle, EventHandler handler) {
         if (this.eventHandlers.get(eventsToHandle) == null) {
-            this.eventHandlers.put((Class<Event>) eventsToHandle, Collections.singletonList(handler));
+            List<EventHandler> handlers = new ArrayList<>();
+            handlers.add(handler);
+            this.eventHandlers.put(eventsToHandle, handlers);
         } else {
+
             this.eventHandlers.get(eventsToHandle).add(handler);
         }
     }
 
     @Override
     public void update(Event event) {
-        Optional.ofNullable(this.eventHandlers.get(event.getClass())).ifPresent(handler -> handler.forEach(h -> h.handle(event)));
+        Optional.ofNullable(this.eventHandlers.get(event.type)).ifPresent(handler -> handler.forEach(h -> h.handle(event)));
     }
 }

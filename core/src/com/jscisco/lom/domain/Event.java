@@ -1,5 +1,10 @@
 package com.jscisco.lom.domain;
 
-public interface Event {
+public abstract class Event {
+    EventType type;
+
+    public Event(EventType type) {
+        this.type = type;
+    }
 
 }

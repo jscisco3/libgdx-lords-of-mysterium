@@ -25,7 +25,7 @@ public class LOMGame extends Game {
     public LOMGame() {
         this.processor = new EventProcessor();
         // Register a bad event listener to test it.
-        this.player.registerHandler(EntityMovedEvent.class, new EventHandler() {
+        this.player.registerHandler(EventType.ENTITY_MOVED_EVENT, new EventHandler() {
             @Override
             public void handle(Event event) {
                 logger.info("Handling event of type: {}", event.getClass());

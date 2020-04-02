@@ -1,11 +1,12 @@
 package com.jscisco.lom.domain;
 
-public class EntityMovedEvent implements Event {
+public class EntityMovedEvent extends Event {
 
     private Entity entity;
     private Position position;
 
     public EntityMovedEvent(Entity entity, Position position) {
+        super(EventType.ENTITY_MOVED_EVENT);
         this.entity = entity;
         this.position = position;
     }
@@ -16,5 +17,13 @@ public class EntityMovedEvent implements Event {
 
     public Position position() {
         return this.position;
+    }
+
+    @Override
+    public String toString() {
+        return "EntityMovedEvent{" +
+                "entity=" + entity +
+                ", position=" + position +
+                '}';
     }
 }

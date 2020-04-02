@@ -3,8 +3,18 @@ package com.jscisco.lom.domain;
 import com.jscisco.lom.test.EntityFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.times;
 
 public class EntityTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(EntityTest.class);
 
     /**
      * Given an entity
@@ -26,16 +36,17 @@ public class EntityTest {
     @Test
     public void testEntityWithHandlerHandlesAnEvent() {
         Entity e = EntityFactory.testEntity();
-        e.registerHandler(EntityMovedEvent.class, new EventHandler() {
+        e.registerHandler(EventType.ENTITY_MOVED_EVENT, new EventHandler() {
             @Override
             public void handle(Event event) {
+                logger.info("handling...");
                 e.position = new Position(10, 10);
             }
         });
 
         Subject subject = new SubjectImpl();
         subject.attach(e);
-        subject.notifyObservers(new Event() {
+        subject.notifyObservers(new EntityMovedEvent(e, new Position(1, 1)) {
         });
 
         Assertions.assertThat(e.position).isEqualTo(new Position(10, 10));
@@ -49,25 +60,17 @@ public class EntityTest {
     @Test
     public void multipleDistinctEventHandlersAreNotCalledForSameEventType() {
         Entity e = EntityFactory.testEntity();
-        e.registerHandler(EntityMovedEvent.class, new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                e.position = new Position(10, 10);
-            }
-        });
-        // Maybe these event handler should be mocks, since I want to verify their handle method was called and that is
-        // it.
-        e.registerHandler(EntityDiedEvent.class, new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                e.position = new Position(20, 20);
-            }
-        });
+        EventHandler handler1 = Mockito.mock(EventHandler.class);
+        EventHandler handler2 = Mockito.mock(EventHandler.class);
+
+        e.registerHandler(EventType.ENTITY_MOVED_EVENT, handler1);
+        e.registerHandler(EventType.ENTITY_DIED_EVENT, handler2);
+
         Subject subject = new SubjectImpl();
         subject.attach(e);
         subject.notifyObservers(new EntityMovedEvent(e, new Position(0, 0)));
-
-        Assertions.assertThat(e.position).isEqualTo(new Position(10, 10));
+        Mockito.verify(handler1, times(1)).handle(Mockito.any());
+        Mockito.verify(handler2, times(0)).handle(Mockito.any());
     }
 
     /**
@@ -78,25 +81,36 @@ public class EntityTest {
     // TODO
     @Test
     public void multipleEventHandlersSameTypeCalledForEventOfThatType() {
+        Entity e = EntityFactory.testEntity();
+        EventHandler handler1 = Mockito.mock(EventHandler.class);
+        EventHandler handler2 = Mockito.mock(EventHandler.class);
 
+        e.registerHandler(EventType.ENTITY_MOVED_EVENT, handler1);
+        e.registerHandler(EventType.ENTITY_MOVED_EVENT, handler2);
+
+        Subject subject = new SubjectImpl();
+        subject.attach(e);
+        subject.notifyObservers(new EntityMovedEvent(e, new Position(0, 0)));
+        Mockito.verify(handler1, times(1)).handle(Mockito.any());
+        Mockito.verify(handler2, times(1)).handle(Mockito.any());
     }
 
     private class SubjectImpl implements Subject {
-        Observer o = null;
+        List<Observer> observers = new ArrayList<>();
 
         @Override
         public void attach(Observer o) {
-            this.o = o;
+            observers.add(o);
         }
 
         @Override
         public void detach(Observer o) {
-            this.o = null;
+            observers.remove(o);
         }
 
         @Override
         public void notifyObservers(Event event) {
-            this.o.update(event);
+            observers.forEach(o -> o.update(event));
         }
     }
 }
