@@ -1,6 +1,6 @@
 package com.jscisco.lom.entity;
 
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.ability.AbilityDescription;
 import com.jscisco.lom.ability.AbilityName;
@@ -42,7 +42,7 @@ public class PlayerFactory {
     }
 
     private static Job chooseJob() {
-        float res = LOMGame.rng.nextFloat();
+        float res = LOMGame_Deprecated.rng.nextFloat();
         if (0 <= res && res <= 1f / 3f) {
             return Job.warrior();
         } else if (1f / 3 < res && res <= 2f / 3f) {

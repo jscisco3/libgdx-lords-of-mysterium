@@ -1,7 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.domain.Position;
@@ -21,7 +21,7 @@ public class MoveToState extends State {
     private Stage stage;
 
 
-    public MoveToState(LOMGame game, Stage stage, Position goal) {
+    public MoveToState(LOMGame_Deprecated game, Stage stage, Position goal) {
         super(game);
         this.stage = stage;
         // TODO: Update this goal to be nearest pathable tile?

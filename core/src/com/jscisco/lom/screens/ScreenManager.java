@@ -1,18 +1,17 @@
 package com.jscisco.lom.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenManager {
 
-    private LOMGame game;
+    private LOMGame_Deprecated game;
     private List<Screen> screens;
 
-    public ScreenManager(LOMGame game) {
+    public ScreenManager(LOMGame_Deprecated game) {
         this.game = game;
         this.screens = new ArrayList<>();
     }

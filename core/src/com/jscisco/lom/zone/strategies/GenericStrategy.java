@@ -1,6 +1,6 @@
 package com.jscisco.lom.zone.strategies;
 
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.terrain.TerrainRepository;
 import com.jscisco.lom.zone.Tile;
 import squidpony.squidgrid.mapping.DungeonGenerator;
@@ -17,7 +17,7 @@ public class GenericStrategy implements GenerationStrategy {
 
         DungeonGenerator generator = new DungeonGenerator(width, height);
         generator.addDoors(25, false);
-        SerpentMapGenerator serpent = new SerpentMapGenerator(width, height, LOMGame.rng, 0.2);
+        SerpentMapGenerator serpent = new SerpentMapGenerator(width, height, LOMGame_Deprecated.rng, 0.2);
         serpent.putWalledBoxRoomCarvers(2);
         serpent.putWalledRoundRoomCarvers(2);
         serpent.putCaveCarvers(2);

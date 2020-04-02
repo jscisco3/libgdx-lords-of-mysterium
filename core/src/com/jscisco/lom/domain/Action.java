@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain;
 
+import java.util.ArrayList;
+
 public abstract class Action {
 
     Entity source;
@@ -12,7 +14,7 @@ public abstract class Action {
     }
 
     public ActionResult invoke() {
-        return ActionResult.success();
+        return ActionResult.success(new ArrayList<>());
     }
 
 }

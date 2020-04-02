@@ -3,7 +3,7 @@ package com.jscisco.lom.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.*;
 import com.jscisco.lom.entity.Player;
 import com.jscisco.lom.items.Item;
@@ -26,7 +26,7 @@ public class PlayerTurnState extends State {
     private Stage stage;
     private Zone zone;
 
-    public PlayerTurnState(LOMGame game, Player player, Zone zone) {
+    public PlayerTurnState(LOMGame_Deprecated game, Player player, Zone zone) {
         super(game);
         this.game = game;
         this.player = player;

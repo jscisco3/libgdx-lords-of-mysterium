@@ -1,7 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.MoveAction;
 import com.jscisco.lom.domain.Position;
@@ -20,7 +20,7 @@ public class AutoexploreState extends State {
     private static final Logger logger = LoggerFactory.getLogger(AutoexploreState.class);
     private final Stage stage;
 
-    public AutoexploreState(LOMGame game, Stage stage) {
+    public AutoexploreState(LOMGame_Deprecated game, Stage stage) {
         super(game);
         this.stage = stage;
         this.stage.getPlayer().getPathingMap().reset();

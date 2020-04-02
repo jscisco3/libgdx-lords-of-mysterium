@@ -1,6 +1,5 @@
 package com.jscisco.lom.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.DropItemAction;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.Equipment;
@@ -29,7 +28,7 @@ public class InventoryScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(InventoryScreen.class);
 
     private Zone zone;
-    private LOMGame game;
+    private LOMGame_Deprecated game;
     private Player player;
     private Inventory inventory;
     private Equipment equipment;
@@ -44,7 +43,7 @@ public class InventoryScreen implements Screen {
     private int selectedItemIndex = 0;
     private int selectedEquipmentIndex = 0;
 
-    public InventoryScreen(LOMGame game, Zone zone) {
+    public InventoryScreen(LOMGame_Deprecated game, Zone zone) {
         this.game = game;
         this.zone = zone;
         this.player = zone.getCurrentStage().getPlayer();

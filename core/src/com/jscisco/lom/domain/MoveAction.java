@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain;
 
+import java.util.List;
+
 public class MoveAction extends Action {
 
     Position newPosition;
@@ -14,7 +16,7 @@ public class MoveAction extends Action {
 
     @Override
     public ActionResult invoke() {
-        this.source.move(newPosition);
-        return ActionResult.success();
+        List<Event> events = this.source.move(newPosition);
+        return ActionResult.success(events);
     }
 }

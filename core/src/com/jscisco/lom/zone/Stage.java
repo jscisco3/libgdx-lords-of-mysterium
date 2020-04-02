@@ -1,6 +1,6 @@
 package com.jscisco.lom.zone;
 
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.Action;
 import com.jscisco.lom.action.ActionResult;
 import com.jscisco.lom.domain.Position;
@@ -99,8 +99,8 @@ public class Stage {
         int attempt = 0;
         int maxAttempts = 100;
         while (attempt < maxAttempts) {
-            int x = LOMGame.rng.between(0, width);
-            int y = LOMGame.rng.between(0, height);
+            int x = LOMGame_Deprecated.rng.between(0, width);
+            int y = LOMGame_Deprecated.rng.between(0, height);
             if (this.tiles[x][y].getTerrain().isWalkable()) {
                 return Optional.of(new Position(x, y));
             }

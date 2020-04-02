@@ -28,6 +28,10 @@ public final class Health {
         this.hp -= damage;
     }
 
+    public void increase(int amount) {
+        this.hp += amount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

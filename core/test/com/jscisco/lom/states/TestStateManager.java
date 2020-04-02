@@ -1,8 +1,7 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.zone.Zone;
+import com.jscisco.lom.LOMGame_Deprecated;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,10 +12,10 @@ public class TestStateManager {
     private class TestState extends State {
 
         public TestState() {
-            super(Mockito.mock(LOMGame.class));
+            super(Mockito.mock(LOMGame_Deprecated.class));
         }
 
-        public TestState(LOMGame game) {
+        public TestState(LOMGame_Deprecated game) {
             super(game);
         }
 
@@ -49,7 +48,7 @@ public class TestStateManager {
 
     @Test
     void test_push_state_should_put_state_as_current_state() {
-        State state = new TestState(Mockito.mock(LOMGame.class));
+        State state = new TestState(Mockito.mock(LOMGame_Deprecated.class));
         this.stateManager.push(state);
         Assertions.assertThat(this.stateManager.getCurrentState()).isEqualTo(state);
     }

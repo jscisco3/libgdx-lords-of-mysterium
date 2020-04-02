@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.config.Config;
 
 public class ConfirmationState extends State {
@@ -12,7 +12,7 @@ public class ConfirmationState extends State {
     private SpriteBatch batch;
     private BitmapFont font;
 
-    public ConfirmationState(LOMGame game) {
+    public ConfirmationState(LOMGame_Deprecated game) {
         super(game);
         batch = new SpriteBatch();
         batch.begin();

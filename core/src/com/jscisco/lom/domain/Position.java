@@ -15,9 +15,13 @@ public final class Position {
     }
 
     public Position add(Position other) {
+        return add(other.x, other.y);
+    }
+
+    public Position add(int x, int y) {
         return new Position(
-                this.x + other.x(),
-                this.y + other.y()
+                this.x + x,
+                this.y + y
         );
     }
 

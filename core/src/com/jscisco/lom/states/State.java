@@ -1,13 +1,13 @@
 package com.jscisco.lom.states;
 
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 
 public abstract class State {
 
-    protected transient LOMGame game;
+    protected transient LOMGame_Deprecated game;
 
-    public State(LOMGame game) {
+    public State(LOMGame_Deprecated game) {
         this.game = game;
     }
 

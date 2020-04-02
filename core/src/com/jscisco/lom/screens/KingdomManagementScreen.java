@@ -1,6 +1,5 @@
 package com.jscisco.lom.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -8,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.config.Config;
 import com.jscisco.lom.entity.PlayerFactory;
 import com.jscisco.lom.kingdom.Kingdom;
@@ -22,13 +21,13 @@ public class KingdomManagementScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
 
     private Kingdom kingdom;
-    private LOMGame game;
+    private LOMGame_Deprecated game;
     private SpriteBatch batch;
 
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public KingdomManagementScreen(LOMGame game, Kingdom kingdom) {
+    public KingdomManagementScreen(LOMGame_Deprecated game, Kingdom kingdom) {
         this.game = game;
         this.kingdom = kingdom;
 

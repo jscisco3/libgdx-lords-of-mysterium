@@ -9,4 +9,12 @@ public class EntityMovedEvent extends Event {
         this.entity = entity;
         this.position = position;
     }
+
+    public Entity entity() {
+        return this.entity;
+    }
+
+    public Position position() {
+        return this.position;
+    }
 }

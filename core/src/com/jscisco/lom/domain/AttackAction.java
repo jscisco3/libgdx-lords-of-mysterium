@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain;
 
+import java.util.ArrayList;
+
 public class AttackAction extends Action {
 
     private Entity defender;
@@ -15,6 +17,6 @@ public class AttackAction extends Action {
     @Override
     public ActionResult invoke() {
         this.defender.damage(10);
-        return ActionResult.success();
+        return ActionResult.success(new ArrayList<>());
     }
 }

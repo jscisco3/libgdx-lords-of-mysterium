@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.ability.Ability;
 import com.jscisco.lom.action.AbilityAction;
 import com.jscisco.lom.config.Config;
@@ -18,7 +18,7 @@ import java.util.ListIterator;
 
 public class KnownAbilitiesScreen implements Screen {
 
-    private LOMGame game;
+    private LOMGame_Deprecated game;
     private Player player;
 
     private SpriteBatch batch;
@@ -27,7 +27,7 @@ public class KnownAbilitiesScreen implements Screen {
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public KnownAbilitiesScreen(LOMGame game, Player player) {
+    public KnownAbilitiesScreen(LOMGame_Deprecated game, Player player) {
         this.game = game;
         this.player = player;
         batch = new SpriteBatch();

@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.jscisco.lom.LOMGame;
+import com.jscisco.lom.LOMGame_Deprecated;
 import com.jscisco.lom.action.AbilityAction;
 import com.jscisco.lom.assets.Assets;
 import com.jscisco.lom.config.Config;
@@ -40,7 +40,7 @@ public class ZoneScreen implements Screen {
     private Logger logger = LoggerFactory.getLogger(ZoneScreen.class);
 
     private Zone zone;
-    private LOMGame game;
+    private LOMGame_Deprecated game;
     private Player player;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
@@ -48,7 +48,7 @@ public class ZoneScreen implements Screen {
     private OrthographicCamera camera;
     private BitmapFont font;
 
-    public ZoneScreen(LOMGame game, Zone zone) {
+    public ZoneScreen(LOMGame_Deprecated game, Zone zone) {
         this.game = game;
         this.zone = zone;
         this.player = zone.getCurrentStage().getPlayer();
