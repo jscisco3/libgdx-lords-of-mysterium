@@ -13,9 +13,8 @@ public class EntityDiedEvent extends Event {
         this.entity = entity;
     }
 
-    @Override
-    public void process() {
-        // do nothin
-        logger.info("Processing");
+    public Entity entity() {
+        return this.entity;
     }
+
 }

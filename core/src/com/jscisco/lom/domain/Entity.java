@@ -1,5 +1,8 @@
 package com.jscisco.lom.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Entity {
 
     EntityId id;
@@ -34,8 +37,11 @@ public abstract class Entity {
         }
     }
 
-    public void move(Position newPosition) {
+    public List<Event> move(Position newPosition) {
         this.position = newPosition;
+        List<Event> events = new ArrayList<>();
+        events.add(new EntityMovedEvent(this, newPosition));
+        return events;
     }
 
     protected Action nextAction() {
