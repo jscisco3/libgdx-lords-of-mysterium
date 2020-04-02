@@ -23,6 +23,7 @@ import java.util.Optional;
 /**
  * This represents a stage of the zone. Zones can 1 - n Stages.
  */
+@Deprecated
 public class Stage {
 
     private static final Logger logger = LoggerFactory.getLogger(Stage.class);

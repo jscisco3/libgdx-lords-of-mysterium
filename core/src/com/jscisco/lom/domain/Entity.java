@@ -15,8 +15,10 @@ public abstract class Entity implements Observer {
 
     // Statistics
     Health health;
-
     Action nextAction;
+
+    // The stage this entity is in.
+    Stage stage;
 
     Map<EventType, List<EventHandler>> eventHandlers;
 
@@ -72,7 +74,7 @@ public abstract class Entity implements Observer {
         this.nextAction = action;
     }
 
-    public <T extends Event> void registerHandler(EventType eventsToHandle, EventHandler handler) {
+    public void registerHandler(EventType eventsToHandle, EventHandler handler) {
         if (this.eventHandlers.get(eventsToHandle) == null) {
             List<EventHandler> handlers = new ArrayList<>();
             handlers.add(handler);
