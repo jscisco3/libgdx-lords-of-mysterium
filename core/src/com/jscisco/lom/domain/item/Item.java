@@ -8,6 +8,7 @@ public class Item {
     ItemName name;
     Position position;
     Equippable equippable;
+    Weapon weapon;
     int quantity;
 
     public Item() {

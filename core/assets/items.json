@@ -1,13 +1,17 @@
 [
   {
-    "itemName": {
-      "name": "sword"
+    "name": "Sword",
+    "weapon": {
+      "accuracy": {
+        "accuracy": 10
+      },
+      "damageRange": {
+        "minimum": 10,
+        "maximum": 20,
+        "type": "PHYSICAL"
+      }
     },
-    "itemValue": {
-      "value": 50
-    },
-    "rarity": "COMMON",
-    "slot": "HAND",
-    "glyph": "SWORD"
+    "equippable": {
+    }
   }
 ]
