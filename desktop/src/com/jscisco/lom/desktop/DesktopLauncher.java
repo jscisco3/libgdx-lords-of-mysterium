@@ -4,8 +4,8 @@ import ch.qos.logback.classic.util.ContextInitializer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
-import com.jscisco.lom.LOMGame;
-import com.jscisco.lom.config.Config;
+import com.jscisco.lom.shelf.LOMGame;
+import com.jscisco.lom.shelf.config.Config;
 
 
 public class DesktopLauncher {

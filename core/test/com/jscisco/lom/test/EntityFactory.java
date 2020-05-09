@@ -1,6 +1,6 @@
 package com.jscisco.lom.test;
 
-import com.jscisco.lom.domain.*;
+import com.jscisco.lom.shelf.domain.*;
 
 public class EntityFactory {
 

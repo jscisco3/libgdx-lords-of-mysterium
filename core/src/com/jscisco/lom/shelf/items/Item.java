@@ -1,0 +1,165 @@
+package com.jscisco.lom.shelf.items;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.shelf.assets.Assets;
+import com.jscisco.lom.shelf.combat.Attack;
+import com.jscisco.lom.shelf.domain.Position;
+
+import java.util.Optional;
+
+public class Item {
+
+    private ItemName itemName;
+    private ItemValue value;
+    private Rarity rarity;
+    /**
+     * If present, the base attack this item grants when equipped
+     */
+    private Optional<Attack> attack;
+    /**
+     * If present, the equipment slot this item requires to be equipped.
+     * Must be present to be equipped!
+     */
+    private Optional<Slot> slot;
+    /**
+     * If position is present, then it is on the ground.
+     */
+    private Optional<Position> position;
+    /**
+     * Visual representation of the item on the ground
+     */
+    private Assets.Glyphs glyph;
+    private ItemLevel itemLevel;
+
+    public Item(Item other) {
+        this.itemName = other.itemName;
+        this.value = other.value;
+        this.rarity = other.rarity;
+        this.attack = other.attack;
+        this.slot = other.slot;
+        this.position = other.position;
+        this.glyph = other.glyph;
+        this.itemLevel = other.itemLevel;
+    }
+
+    private Item() {
+    }
+
+    public Optional<Position> getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        if (position == null) {
+            this.position = Optional.empty();
+        } else {
+            this.position = Optional.of(position);
+        }
+    }
+
+    public TextureRegion getTexture() {
+        return Assets.textureMap.get(this.glyph);
+    }
+
+    public Assets.Glyphs getGlyph() {
+        return glyph;
+    }
+
+    public ItemValue getValue() {
+        return value;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public ItemLevel getItemLevel() {
+        return itemLevel;
+    }
+
+    public ItemName getItemName() {
+        return itemName;
+    }
+
+    public Optional<Attack> getAttack() {
+        return attack;
+    }
+
+    public Optional<Slot> getSlot() {
+        return slot;
+    }
+
+    public boolean equippable() {
+        return this.slot.isPresent();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.itemName.getName());
+        if (this.value != null) {
+            sb.append(String.format(" | %s", this.value.getValue()));
+        }
+        return sb.toString();
+    }
+
+    public static class Builder {
+        private ItemName name;
+        private ItemValue value;
+        private Rarity rarity;
+        private Attack attack;
+        private Slot slot;
+        private Position position;
+        private Assets.Glyphs glyph;
+
+        public Builder() {
+        }
+
+        public Builder withName(ItemName name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withValue(ItemValue value) {
+            this.value = value;
+            return this;
+        }
+
+        public Builder withRarity(Rarity rarity) {
+            this.rarity = rarity;
+            return this;
+        }
+
+        public Builder withAttack(Attack attack) {
+            this.attack = attack;
+            return this;
+        }
+
+        public Builder withEquipmentSlot(Slot slot) {
+            this.slot = slot;
+            return this;
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder withGlyph(Assets.Glyphs glyph) {
+            this.glyph = glyph;
+            return this;
+        }
+
+        public Item build() {
+            Item item = new Item();
+            item.itemName = this.name;
+            item.value = this.value;
+            item.rarity = this.rarity;
+            item.attack = this.attack != null ? Optional.of(this.attack) : Optional.empty();
+            item.slot = this.slot != null ? Optional.of(this.slot) : Optional.empty();
+            item.position = this.position != null ? Optional.of(this.position) : Optional.empty();
+            item.glyph = this.glyph;
+            return item;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+package com.jscisco.lom.shelf.domain;
+
+import java.util.List;
+
+public class MoveAction extends Action {
+
+    Position newPosition;
+
+    public MoveAction(Entity source, Position newPosition) {
+        super(source);
+        if (newPosition == null) {
+            throw new IllegalArgumentException();
+        }
+        this.newPosition = newPosition;
+    }
+
+    @Override
+    public ActionResult invoke() {
+        List<Event> events = this.source.move(newPosition);
+        return ActionResult.success(events);
+    }
+}
