@@ -9,9 +9,8 @@ public class Item {
     Position position;
     Equippable equippable;
     Weapon weapon;
-    int quantity;
 
-    public Item() {
+    private Item() {
     }
 
     public Position getPosition() {
