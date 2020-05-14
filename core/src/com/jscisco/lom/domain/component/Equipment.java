@@ -1,27 +1,53 @@
 package com.jscisco.lom.domain.component;
 
+import com.jscisco.lom.domain.item.Item;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Equipment {
+    private static final Logger logger = LoggerFactory.getLogger(Equipment.class);
 
-    /**
-     * We need a way for a user to specify _where_ they want to equip an item.
-     * e.g. equip(item, 0);
-     *
-     * If we have multiple hands, we might do equip(item, 0..3)
-     * If we have three hands, and a two handed item, we could do equip(item, 0..1)
-     *
-     * If we equip an item that occupies multiple slots, we should disable the other slots
-     * Should consider if we can return the fact it is occupied by another slot
-     *
-     * So we may need a method that returns the list of possible slots for an item
-     */
+    List<EquipSlot> equipment;
 
-
-
-    public enum Slot {
-        HAND,
-        BODY,
-        HEAD,
-        NECKLACE,
-        RING,
+    public Equipment(EquipSlot... slots) {
+        this.equipment = Arrays.asList(slots);
     }
+
+    public boolean canEquip(Item item) {
+        if (item.isEquippable()) {
+            logger.info("Can equip it, but do we have any available slots?");
+            return equipment.stream().anyMatch(eq -> eq.type == item.equippable().getSlot());
+        }
+        return false;
+    }
+
+    public Map<Integer, EquipSlot> possibleSlots(Item item) {
+        Map<Integer, EquipSlot> slots = new HashMap<>();
+        if (!item.isEquippable()) {
+            logger.warn("Finding possible slots for an unequippable item.");
+            return slots;
+        }
+        for (int i = 0; i < equipment.size(); i++) {
+            if (equipment.get(i).type.equals(item.equippable().getSlot())) {
+                slots.put(i, equipment.get(i));
+            }
+        }
+        return slots;
+    }
+
+    public enum EquipmentType {
+        HAND,
+        OFFHAND,
+        AMULET,
+        RING,
+        HEAD,
+        BODY,
+        GLOVES
+    }
+
 }

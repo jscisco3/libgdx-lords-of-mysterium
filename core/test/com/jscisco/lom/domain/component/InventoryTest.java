@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.component;
 
 import com.jscisco.lom.domain.item.Item;
+import com.jscisco.lom.domain.item.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class InventoryTest {
         @BeforeEach
         public void setUp() {
             inventory = new Inventory();
-            inventory.addItem(new Item());
+            inventory.addItem(ItemRepository.createSword());
         }
 
         @Test
@@ -49,7 +50,7 @@ public class InventoryTest {
 
         @Test
         public void addItemAddsTheItem() {
-            this.inventory.addItem(new Item());
+            this.inventory.addItem(ItemRepository.createSword());
             assertThat(this.inventory.items()).isNotEmpty();
         }
     }

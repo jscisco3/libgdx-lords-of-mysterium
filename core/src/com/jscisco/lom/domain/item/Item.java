@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.item;
 
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.component.Equipment;
 
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ public class Item {
     Equippable equippable;
     Weapon weapon;
 
-    private Item() {
+    Item() {
     }
 
     public Position getPosition() {
@@ -22,7 +23,14 @@ public class Item {
     }
 
     public boolean isEquippable() {
-        return Objects.isNull(equippable);
+        return !Objects.isNull(equippable);
     }
 
+    public Equippable equippable() {
+        return this.equippable;
+    }
+
+    public String getName() {
+        return name.name;
+    }
 }
