@@ -33,11 +33,19 @@ public class Equipment {
             return slots;
         }
         for (int i = 0; i < equipment.size(); i++) {
-            if (equipment.get(i).type.equals(item.equippable().getSlot())) {
+            if (equipment.get(i).canEquip(item)) {
                 slots.put(i, equipment.get(i));
             }
         }
         return slots;
+    }
+
+    public Item equipToDefaultSlot(Item item) {
+        Map<Integer, EquipSlot> slots = possibleSlots(item);
+        if (slots.size() == 1) {
+            return slots.get(0).equip(item);
+        }
+        throw new IllegalArgumentException("Item does not have a default slot");
     }
 
     public enum EquipmentType {

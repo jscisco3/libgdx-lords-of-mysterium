@@ -19,7 +19,15 @@ public class EquipSlot {
         return item;
     }
 
+    public boolean canEquip(Item item) {
+        return item.isEquippable() && item.equippable().getSlot().equals(this.type);
+    }
+
+
     public Item equip(Item item) {
+        if (!canEquip(item)) {
+            throw new IllegalArgumentException("Cannot equip item to this slot");
+        }
         Item unequipped = unequip();
         this.item = item;
         return unequipped;
