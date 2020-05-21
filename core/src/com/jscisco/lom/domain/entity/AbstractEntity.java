@@ -1,6 +1,8 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.combat.Damage;
+import com.jscisco.lom.domain.component.Health;
 import com.jscisco.lom.domain.component.Inventory;
 import com.jscisco.lom.domain.item.Item;
 
@@ -10,6 +12,7 @@ public abstract class AbstractEntity {
     EntityName name;
     Position position;
     Inventory inventory;
+    Health health;
 
     public void pickUpItem(Item item) {
         if (Objects.isNull(inventory)) {
@@ -28,4 +31,8 @@ public abstract class AbstractEntity {
         return item;
     }
 
+    public void damage(Damage damage) {
+        assert health != null;
+        this.health.decrease(damage.getDamage());
+    }
 }

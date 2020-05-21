@@ -10,6 +10,10 @@ public class Health {
         this.maxHp = hp;
     }
 
+    public void decrease(int hp) {
+        this.hp -= hp;
+    }
+
     public int getHp() {
         return hp;
     }
