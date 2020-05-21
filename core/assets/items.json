@@ -12,6 +12,7 @@
       }
     },
     "equippable": {
+      "slot": "HAND"
     }
   }
 ]
