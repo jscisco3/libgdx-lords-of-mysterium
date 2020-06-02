@@ -11,6 +11,7 @@ import java.util.Objects;
 public abstract class AbstractEntity {
     EntityName name;
     Position position;
+    // TODO: Are any of these optional?
     Inventory inventory;
     Health health;
 
@@ -34,5 +35,9 @@ public abstract class AbstractEntity {
     public void damage(Damage damage) {
         assert health != null;
         this.health.decrease(damage.getDamage());
+    }
+
+    public Health getHealth() {
+        return health;
     }
 }

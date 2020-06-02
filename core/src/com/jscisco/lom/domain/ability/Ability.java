@@ -1,6 +1,11 @@
 package com.jscisco.lom.domain.ability;
 
 public abstract class Ability {
-    AbilityName name;
-    AbilityDescription description;
+    final AbilityName name;
+    final AbilityDescription description;
+
+    public Ability(AbilityName name, AbilityDescription description) {
+        this.name = name;
+        this.description = description;
+    }
 }
