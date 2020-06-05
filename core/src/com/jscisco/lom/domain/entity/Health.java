@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.component;
+package com.jscisco.lom.domain.entity;
 
 public class Health {
 

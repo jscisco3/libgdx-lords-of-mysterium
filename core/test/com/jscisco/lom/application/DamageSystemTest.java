@@ -2,7 +2,7 @@ package com.jscisco.lom.application;
 
 import com.jscisco.lom.domain.combat.Damage;
 import com.jscisco.lom.domain.entity.EntityFactory;
-import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.entity.GameObject;
 import com.jscisco.lom.domain.event.DamageEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DamageSystemTest {
 
     DamageSystem system = new DamageSystem();
-    NPC testNpc;
+    GameObject testNpc;
 
     @BeforeEach
     public void setUp() {

@@ -1,14 +1,14 @@
 package com.jscisco.lom.domain.event;
 
 import com.jscisco.lom.domain.combat.Damage;
-import com.jscisco.lom.domain.entity.AbstractEntity;
+import com.jscisco.lom.domain.entity.GameObject;
 
 public class DamageEvent extends Event {
 
     final Damage damage;
-    final AbstractEntity target;
+    final GameObject target;
 
-    public DamageEvent(Damage damage, AbstractEntity target) {
+    public DamageEvent(Damage damage, GameObject target) {
         this.damage = damage;
         this.target = target;
     }
@@ -17,7 +17,7 @@ public class DamageEvent extends Event {
         return damage;
     }
 
-    public AbstractEntity getTarget() {
+    public GameObject getTarget() {
         return target;
     }
 }

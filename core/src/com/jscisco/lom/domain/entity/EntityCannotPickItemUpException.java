@@ -1,12 +1,10 @@
 package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.domain.item.Item;
-
 public class EntityCannotPickItemUpException extends RuntimeException {
-    AbstractEntity entity;
-    Item item;
+    GameObject entity;
+    GameObject item;
 
-    public EntityCannotPickItemUpException(AbstractEntity entity, Item item) {
+    public EntityCannotPickItemUpException(GameObject entity, GameObject item) {
         this.entity = entity;
         this.item = item;
     }

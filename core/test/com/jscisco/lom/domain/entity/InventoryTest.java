@@ -1,7 +1,8 @@
-package com.jscisco.lom.domain.component;
+package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.item.ItemRepository;
+import com.jscisco.lom.domain.entity.Inventory;
+import com.jscisco.lom.domain.entity.Item;
+import com.jscisco.lom.domain.entity.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class InventoryTest {
 
         @Test
         public void removeItemReturnsItemIfItIsInInventory() {
-            Item item = inventory.removeItem(0);
+            GameObject item = inventory.removeItem(0);
             assertNotNull(item);
         }
 

@@ -1,10 +1,8 @@
-package com.jscisco.lom.domain.component;
-
-import com.jscisco.lom.domain.item.Item;
+package com.jscisco.lom.domain.entity;
 
 public class EquipSlot {
     Equipment.EquipmentType type;
-    Item item;
+    GameObject item;
 
     public EquipSlot(Equipment.EquipmentType type) {
         this.type = type;
@@ -15,29 +13,29 @@ public class EquipSlot {
         return type;
     }
 
-    public Item getItem() {
+    public GameObject getItem() {
         return item;
     }
 
-    public boolean canEquip(Item item) {
-        return item.isEquippable() && item.equippable().getSlot().equals(this.type);
+    public boolean canEquip(GameObject item) {
+        return item.item.isEquippable() && item.item.equippable().getSlot().equals(this.type);
     }
 
 
-    public Item equip(Item item) {
+    public GameObject equip(GameObject item) {
         if (!canEquip(item)) {
             throw new IllegalArgumentException("Cannot equip item to this slot");
         }
-        Item unequipped = unequip();
+        GameObject unequipped = unequip();
         this.item = item;
         return unequipped;
     }
 
-    public Item unequip() {
+    public GameObject unequip() {
         if (this.item == null) {
             return null;
         }
-        Item unequipped = this.item;
+        GameObject unequipped = this.item;
         this.item = null;
         return unequipped;
     }

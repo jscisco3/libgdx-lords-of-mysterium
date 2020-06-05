@@ -1,7 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.item.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,24 +11,24 @@ public class PlayerTest {
     @Nested
     class Inventory {
 
-        Player player;
+        GameObject player;
 
         @BeforeEach
         void setUp() {
-            this.player = new Player(new EntityName("Test Player"));
+            this.player = new GameObject(new EntityName("Test Player"));
         }
 
         @Test
         public void testPickingUpAnItemPutsItInThePlayersInventory() {
-            Item item = ItemRepository.createSword();
+            GameObject item = ItemRepository.createSword();
             this.player.pickUpItem(item);
             assertThat(this.player.inventory.items()).isNotEmpty();
-            assertThat(this.player.inventory.items().get(0).getPosition()).isEqualTo(this.player.position);
+            assertThat(this.player.inventory.items().get(0).position).isEqualTo(this.player.position);
         }
 
         @Test
         public void testDroppingAnItemRemovesItFromTheInventory() {
-            Item item = ItemRepository.createSword();
+            GameObject item = ItemRepository.createSword();
             this.player.pickUpItem(item);
             this.player.dropItem(0);
             assertThat(this.player.inventory.items()).isEmpty();

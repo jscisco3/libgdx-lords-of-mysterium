@@ -1,7 +1,5 @@
-package com.jscisco.lom.domain.item;
+package com.jscisco.lom.domain.entity;
 
-
-import com.jscisco.lom.domain.component.Equipment;
 
 public class Equippable {
     private Equipment.EquipmentType slot;

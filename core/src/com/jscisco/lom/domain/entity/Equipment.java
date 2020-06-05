@@ -1,6 +1,5 @@
-package com.jscisco.lom.domain.component;
+package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,17 +17,17 @@ public class Equipment {
         this.equipment = Arrays.asList(slots);
     }
 
-    public boolean canEquip(Item item) {
-        if (item.isEquippable()) {
+    public boolean canEquip(GameObject item) {
+        if (item.item.isEquippable()) {
             logger.info("Can equip it, but do we have any available slots?");
-            return equipment.stream().anyMatch(eq -> eq.type == item.equippable().getSlot());
+            return equipment.stream().anyMatch(eq -> eq.type == item.item.equippable().getSlot());
         }
         return false;
     }
 
-    public Map<Integer, EquipSlot> possibleSlots(Item item) {
+    public Map<Integer, EquipSlot> possibleSlots(GameObject item) {
         Map<Integer, EquipSlot> slots = new HashMap<>();
-        if (!item.isEquippable()) {
+        if (!item.item.isEquippable()) {
             logger.warn("Finding possible slots for an unequippable item.");
             return slots;
         }
@@ -40,7 +39,7 @@ public class Equipment {
         return slots;
     }
 
-    public Item equipToDefaultSlot(Item item) {
+    public GameObject equipToDefaultSlot(GameObject item) {
         Map<Integer, EquipSlot> slots = possibleSlots(item);
         if (slots.size() == 1) {
             return slots.get(0).equip(item);

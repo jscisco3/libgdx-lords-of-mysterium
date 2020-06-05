@@ -1,7 +1,9 @@
-package com.jscisco.lom.domain.component;
+package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.item.ItemRepository;
+import com.jscisco.lom.domain.entity.EquipSlot;
+import com.jscisco.lom.domain.entity.Equipment;
+import com.jscisco.lom.domain.entity.GameObject;
+import com.jscisco.lom.domain.entity.ItemRepository;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -18,7 +20,7 @@ public class EquipmentTest {
      */
     @Test
     public void canEquipItemInAvailableSlot() {
-        Item item = ItemRepository.createSword();
+        GameObject item = ItemRepository.createSword();
         Equipment equipment = new Equipment(new EquipSlot(Equipment.EquipmentType.HAND));
         assertTrue(equipment.canEquip(item));
     }
@@ -30,7 +32,7 @@ public class EquipmentTest {
      */
     @Test
     public void possibleEquipmentSlotsForAnItem() {
-        Item item = ItemRepository.createSword();
+        GameObject item = ItemRepository.createSword();
 
         Equipment equipment = new Equipment(new EquipSlot(Equipment.EquipmentType.HAND),
                 new EquipSlot(Equipment.EquipmentType.HAND),
