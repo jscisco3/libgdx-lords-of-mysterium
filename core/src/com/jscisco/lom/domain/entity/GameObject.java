@@ -45,4 +45,9 @@ public class GameObject {
     public Health getHealth() {
         return health;
     }
+
+    public void moveTo(Position position) {
+        this.position = position;
+    }
+
 }
