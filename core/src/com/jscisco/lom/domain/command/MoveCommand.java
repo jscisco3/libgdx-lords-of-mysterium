@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.command;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.entity.GameObject;
+import com.jscisco.lom.domain.GameObject;
 
 public class MoveCommand extends Command {
 

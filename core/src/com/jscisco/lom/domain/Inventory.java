@@ -1,6 +1,4 @@
-package com.jscisco.lom.domain.entity;
-
-import com.jscisco.lom.domain.entity.GameObject;
+package com.jscisco.lom.domain;
 
 import java.util.ArrayList;
 import java.util.List;

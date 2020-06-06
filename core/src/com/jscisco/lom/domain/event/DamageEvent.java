@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.event;
 
 import com.jscisco.lom.domain.combat.Damage;
-import com.jscisco.lom.domain.entity.GameObject;
+import com.jscisco.lom.domain.GameObject;
 
 public class DamageEvent extends Event {
 

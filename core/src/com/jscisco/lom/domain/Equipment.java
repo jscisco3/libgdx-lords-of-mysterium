@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

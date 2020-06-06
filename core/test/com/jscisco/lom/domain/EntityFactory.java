@@ -1,4 +1,8 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
+
+import com.jscisco.lom.domain.EntityName;
+import com.jscisco.lom.domain.GameObject;
+import com.jscisco.lom.domain.Health;
 
 public class EntityFactory {
 

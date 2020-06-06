@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain.combat;
 
-import com.jscisco.lom.domain.entity.GameObject;
+import com.jscisco.lom.domain.GameObject;
 
 public class CombatService {
 

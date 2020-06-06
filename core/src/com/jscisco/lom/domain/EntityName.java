@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
 
 
 import org.apache.commons.lang3.StringUtils;

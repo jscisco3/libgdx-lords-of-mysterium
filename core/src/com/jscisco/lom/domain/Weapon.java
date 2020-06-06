@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
 
 import com.jscisco.lom.domain.combat.Accuracy;
 import com.jscisco.lom.domain.combat.DamageRange;

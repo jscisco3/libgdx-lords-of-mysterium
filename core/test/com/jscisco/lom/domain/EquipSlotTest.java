@@ -1,5 +1,9 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
 
+import com.jscisco.lom.domain.EquipSlot;
+import com.jscisco.lom.domain.Equipment;
+import com.jscisco.lom.domain.GameObject;
+import com.jscisco.lom.domain.ItemRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.domain;
 
 public class EntityCannotPickItemUpException extends RuntimeException {
     GameObject entity;
