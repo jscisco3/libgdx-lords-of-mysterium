@@ -2,17 +2,48 @@ package com.jscisco.lom.domain;
 
 import com.jscisco.lom.domain.combat.Damage;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class GameObject {
     EntityName name;
     Position position;
-    // TODO: Are any of these optional?
+    @Nullable
     Inventory inventory;
+    @Nullable
+    Equipment equipment;
+    @Nullable
     Health health;
+    @Nullable
     Item item;
 
-    public GameObject() {
+    InputComponent input;
+
+    private GameObject() {
+    }
+
+    public static GameObject player(EntityName name, Health health) {
+        GameObject player = new GameObject(name);
+        player.inventory = new Inventory();
+        player.equipment = new Equipment();
+        player.health = health;
+        player.input = new PlayerInputComponent();
+        return player;
+    }
+
+    public static GameObject npc(EntityName name, Health health) {
+        GameObject entity = new GameObject(name);
+        entity.inventory = new Inventory();
+        entity.equipment = new Equipment();
+        entity.health = health;
+        entity.input = new AIInputComponent();
+        return entity;
+    }
+
+    public static GameObject item(EntityName name, Item item) {
+        GameObject anItem = new GameObject(name);
+        anItem.item = item;
+        return anItem;
     }
 
     public GameObject(EntityName name) {
