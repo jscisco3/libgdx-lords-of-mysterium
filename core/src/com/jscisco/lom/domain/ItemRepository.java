@@ -10,15 +10,14 @@ public class ItemRepository {
     }
 
     public static GameObject createSword() {
-        GameObject item = new GameObject();
-        item.name = new EntityName("Bronze shortsword");
-        item.item = new Item();
+        GameObject item = GameObject.item(new EntityName("Bronze shortsword"), new Item());
+        assert item.item != null;
         item.item.equippable = new Equippable(Equipment.EquipmentType.HAND);
         return item;
     }
 
     public static GameObject createPotion() {
-        GameObject item = new GameObject();
+        GameObject item = GameObject.item(new EntityName("Small Health Potion"), new Item());
         item.name = new EntityName("Small Health Potion");
         return item;
     }

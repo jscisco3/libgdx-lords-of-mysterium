@@ -6,9 +6,17 @@ public class Position {
     int x;
     int y;
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    private Position() {
+    }
+
+    public static Position of(int x, int y) {
+        if (x < 0 || y < 0) {
+            throw new IllegalArgumentException("X and Y must not be negative");
+        }
+        Position p = new Position();
+        p.x = x;
+        p.y = y;
+        return p;
     }
 
     @Override

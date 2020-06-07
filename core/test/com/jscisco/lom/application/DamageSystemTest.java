@@ -1,7 +1,8 @@
 package com.jscisco.lom.application;
 
+import com.jscisco.lom.domain.EntityName;
+import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.domain.combat.Damage;
-import com.jscisco.lom.domain.EntityFactory;
 import com.jscisco.lom.domain.GameObject;
 import com.jscisco.lom.domain.event.DamageEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +17,7 @@ public class DamageSystemTest {
 
     @BeforeEach
     public void setUp() {
-        testNpc = EntityFactory.npc();
+        testNpc = GameObject.npc(new EntityName("Test NPC"), new Health(100));
     }
 
     @Test
