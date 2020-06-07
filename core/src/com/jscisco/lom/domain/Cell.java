@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Cell {
     Terrain terrain;
-    GameObject entity;
-    List<GameObject> items;
+    Entity entity;
+    List<Item> items;
 
     private Cell() {
     }

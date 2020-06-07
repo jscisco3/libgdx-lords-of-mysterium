@@ -20,7 +20,7 @@ public class EquipmentTest {
      */
     @Test
     public void canEquipItemInAvailableSlot() {
-        GameObject item = ItemRepository.createSword();
+        Item item = ItemRepository.createSword();
         Equipment equipment = new Equipment(new EquipSlot(Equipment.EquipmentType.HAND));
         assertTrue(equipment.canEquip(item));
     }
@@ -32,7 +32,7 @@ public class EquipmentTest {
      */
     @Test
     public void possibleEquipmentSlotsForAnItem() {
-        GameObject item = ItemRepository.createSword();
+        Item item = ItemRepository.createSword();
 
         Equipment equipment = new Equipment(new EquipSlot(Equipment.EquipmentType.HAND),
                 new EquipSlot(Equipment.EquipmentType.HAND),

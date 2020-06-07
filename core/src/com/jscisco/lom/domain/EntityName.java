@@ -12,4 +12,8 @@ public class EntityName {
         }
         this.name = name;
     }
+
+    public static EntityName of(String name) {
+        return new EntityName(name);
+    }
 }

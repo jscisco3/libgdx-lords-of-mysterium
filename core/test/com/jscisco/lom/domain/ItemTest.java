@@ -11,14 +11,14 @@ public class ItemTest {
 
     @Test
     public void itemOnlyEquippableIfItHasRequisiteComponent() {
-        GameObject item = ItemRepository.createSword();
-        assertTrue(item.item.isEquippable());
+        Item item = ItemRepository.createSword();
+        assertTrue(item.isEquippable());
     }
 
     @Test
     public void itemWithoutEquippableComponentIsNotEquippable() {
-        GameObject item = ItemRepository.createPotion();
-        assertFalse(item.item.isEquippable());
+        Item item = ItemRepository.createPotion();
+        assertFalse(item.isEquippable());
     }
 
 }

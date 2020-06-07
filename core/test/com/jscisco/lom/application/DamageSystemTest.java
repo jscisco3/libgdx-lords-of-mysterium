@@ -1,5 +1,6 @@
 package com.jscisco.lom.application;
 
+import com.jscisco.lom.domain.Entity;
 import com.jscisco.lom.domain.EntityName;
 import com.jscisco.lom.domain.Health;
 import com.jscisco.lom.domain.combat.Damage;
@@ -13,11 +14,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DamageSystemTest {
 
     DamageSystem system = new DamageSystem();
-    GameObject testNpc;
+    Entity testNpc;
 
     @BeforeEach
     public void setUp() {
-        testNpc = GameObject.npc(new EntityName("Test NPC"), new Health(100));
+        testNpc = Entity.npc(new EntityName("Test NPC"), new Health(100));
     }
 
     @Test

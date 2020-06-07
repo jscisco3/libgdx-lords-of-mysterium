@@ -11,7 +11,7 @@ public class MoveActionTest {
 
     @BeforeEach
     void setUp() {
-        entity = GameObject.player(new EntityName("Test"), new Health(100));
+        entity = Entity.player(new EntityName("Test"), new Health(100));
         entity.position = Position.of(0, 0);
     }
 

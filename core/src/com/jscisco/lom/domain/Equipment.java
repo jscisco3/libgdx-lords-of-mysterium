@@ -17,17 +17,17 @@ public class Equipment {
         this.equipment = Arrays.asList(slots);
     }
 
-    public boolean canEquip(GameObject item) {
-        if (item.item.isEquippable()) {
+    public boolean canEquip(Item item) {
+        if (item.isEquippable()) {
             logger.info("Can equip it, but do we have any available slots?");
-            return equipment.stream().anyMatch(eq -> eq.type == item.item.equippable().getSlot());
+            return equipment.stream().anyMatch(eq -> eq.type == item.equippable().getSlot());
         }
         return false;
     }
 
-    public Map<Integer, EquipSlot> possibleSlots(GameObject item) {
+    public Map<Integer, EquipSlot> possibleSlots(Item item) {
         Map<Integer, EquipSlot> slots = new HashMap<>();
-        if (!item.item.isEquippable()) {
+        if (!item.isEquippable()) {
             logger.warn("Finding possible slots for an unequippable item.");
             return slots;
         }
@@ -39,7 +39,7 @@ public class Equipment {
         return slots;
     }
 
-    public GameObject equipToDefaultSlot(GameObject item) {
+    public Item equipToDefaultSlot(Item item) {
         Map<Integer, EquipSlot> slots = possibleSlots(item);
         if (slots.size() == 1) {
             return slots.get(0).equip(item);

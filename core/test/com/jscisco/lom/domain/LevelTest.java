@@ -26,7 +26,7 @@ public class LevelTest {
         Level level = new Level.Builder()
                 .withSize(10, 15)
                 .build();
-        boolean added = level.addEntityAtPosition(GameObject.npc(new EntityName("Test Entity"), new Health(100)), Position.of(1, 1));
+        boolean added = level.addEntityAtPosition(Entity.npc(new EntityName("Test Entity"), new Health(100)), Position.of(1, 1));
         assertThat(added).isTrue();
     }
 

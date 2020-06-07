@@ -10,11 +10,11 @@ import java.util.List;
 public class Level {
 
     // Reference to the player for convenience
-    private GameObject player;
+    private Entity player;
     /**
      * All game objects that are characters
      */
-    private List<GameObject> entities = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
 
     /**
      * The discrete cells that make up a level.
@@ -25,13 +25,13 @@ public class Level {
     }
 
     public static class Builder {
-        GameObject player;
+        Entity player;
         Cell[][] cells;
 
         public Builder() {
         }
 
-        public Builder withPlayer(GameObject player) {
+        public Builder withPlayer(Entity player) {
             this.player = player;
             return this;
         }
@@ -63,7 +63,7 @@ public class Level {
         }
     }
 
-    public boolean addEntityAtPosition(GameObject entity, Position position) {
+    public boolean addEntityAtPosition(Entity entity, Position position) {
         if (!this.cells[position.x][position.y].isOccupied()) {
             this.cells[position.x][position.y].entity = entity;
             entity.position = position;

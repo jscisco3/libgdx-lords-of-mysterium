@@ -9,16 +9,13 @@ public class ItemRepository {
         Gson gson = new GsonBuilder().create();
     }
 
-    public static GameObject createSword() {
-        GameObject item = GameObject.item(new EntityName("Bronze shortsword"), new Item());
-        assert item.item != null;
-        item.item.equippable = new Equippable(Equipment.EquipmentType.HAND);
+    public static Item createSword() {
+        Item item = Item.equipment(EntityName.of("Bronze shortsword"), new Equippable(Equipment.EquipmentType.HAND));
         return item;
     }
 
-    public static GameObject createPotion() {
-        GameObject item = GameObject.item(new EntityName("Small Health Potion"), new Item());
-        item.name = new EntityName("Small Health Potion");
+    public static Item createPotion() {
+        Item item = Item.nonEquippable(EntityName.of("Small Health Potion"));
         return item;
     }
 

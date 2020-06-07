@@ -2,7 +2,7 @@ package com.jscisco.lom.domain;
 
 public class EquipSlot {
     Equipment.EquipmentType type;
-    GameObject item;
+    Item item;
 
     public EquipSlot(Equipment.EquipmentType type) {
         this.type = type;
@@ -13,29 +13,29 @@ public class EquipSlot {
         return type;
     }
 
-    public GameObject getItem() {
+    public Item getItem() {
         return item;
     }
 
-    public boolean canEquip(GameObject item) {
-        return item.item.isEquippable() && item.item.equippable().getSlot().equals(this.type);
+    public boolean canEquip(Item item) {
+        return item.isEquippable() && item.equippable().getSlot().equals(this.type);
     }
 
 
-    public GameObject equip(GameObject item) {
+    public Item equip(Item item) {
         if (!canEquip(item)) {
             throw new IllegalArgumentException("Cannot equip item to this slot");
         }
-        GameObject unequipped = unequip();
+        Item unequipped = unequip();
         this.item = item;
         return unequipped;
     }
 
-    public GameObject unequip() {
+    public Item unequip() {
         if (this.item == null) {
             return null;
         }
-        GameObject unequipped = this.item;
+        Item unequipped = this.item;
         this.item = null;
         return unequipped;
     }

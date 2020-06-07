@@ -14,11 +14,11 @@ public class PlayerTest {
     @Nested
     class Inventory {
 
-        GameObject player;
+        Entity player;
 
         @BeforeEach
         void setUp() {
-            this.player = new GameObject(new EntityName("Test Player"));
+            this.player = Entity.player(EntityName.of("Test Player"), new Health(100));
         }
 
         @Test
