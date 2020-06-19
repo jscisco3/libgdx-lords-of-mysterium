@@ -8,4 +8,7 @@ public abstract class Ability {
         this.name = name;
         this.description = description;
     }
+
+    public abstract void invoke();
+
 }

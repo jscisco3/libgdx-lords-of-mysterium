@@ -5,10 +5,14 @@ public class DamageRange {
     int maximum;
     Damage.Type type;
 
-    public DamageRange(int minimum, int maximum, Damage.Type type) {
+    private DamageRange(int minimum, int maximum, Damage.Type type) {
         this.minimum = minimum;
         this.maximum = maximum;
         this.type = type;
+    }
+
+    public static DamageRange between(int minimum, int maximum, Damage.Type type) {
+        return new DamageRange(minimum, maximum, type);
     }
 
     public Damage getDamage() {

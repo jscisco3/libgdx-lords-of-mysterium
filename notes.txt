@@ -1,0 +1,17 @@
+How do I handle a few things?
+
+Consumables
+    Items need a Use command
+    
+
+Attacking, and skills that use melee attack (e.g. whirlwind)
+    * Get base attack from Entity
+    -> Entity.getBaseAttack()
+    * Modify attack in some way
+    -> e.g. reduce damage by 30% if whirlwind
+    * Apply modified attack to all targets in area
+    -> This is what would be responsible for handling any other modifiers.
+
+Movement -> Attack
+
+NPC dying

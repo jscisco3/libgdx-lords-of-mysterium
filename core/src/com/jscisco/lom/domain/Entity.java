@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain;
 
-import com.jscisco.lom.domain.combat.Damage;
+import com.jscisco.lom.domain.combat.*;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -59,7 +59,15 @@ public class Entity extends GameObject {
         return item;
     }
 
-    public void damage(Damage damage) {
+    public Attack getAttack() {
+        return Attack.of(Accuracy.of(10), DamageRange.between(10, 20, Damage.Type.PHYSICAL));
+    }
+
+    public Defense getBaseDefense() {
+        return Defense.of(Armor.of(5), Evasion.of(5));
+    }
+
+    public void takeDamage(Damage damage) {
         assert health != null;
         this.health.decrease(damage.getDamage());
     }

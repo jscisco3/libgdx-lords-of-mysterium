@@ -18,6 +18,13 @@ public class Damage {
         this.type = type;
     }
 
+    public void reduce(int amount) {
+        this.damage -= amount;
+        if (this.damage < 0) {
+            this.damage = 0;
+        }
+    }
+
     public int getDamage() {
         return damage;
     }
