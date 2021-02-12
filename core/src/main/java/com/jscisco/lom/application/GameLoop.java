@@ -5,7 +5,7 @@ import com.jscisco.lom.domain.Command;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
+public class GameLoop {
 
     private final List<Command> commands = new ArrayList<>();
 
