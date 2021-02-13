@@ -10,7 +10,7 @@ public abstract class Actor {
     protected GameplayAttributes attributes;
     protected Position position;
 
-    protected Command command = null;
+    protected Action action = null;
 
     protected Actor() {
     }
@@ -51,6 +51,6 @@ public abstract class Actor {
         return position;
     }
 
-    public abstract Command getNextCommand();
+    public abstract Action getNextCommand();
 
 }

@@ -18,9 +18,9 @@ public class Player extends Actor {
     }
 
     @Override
-    public Command getNextCommand() {
-        Command c = this.command;
-        this.command = null;
+    public Action getNextCommand() {
+        Action c = this.action;
+        this.action = null;
         return c;
     }
 }

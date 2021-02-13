@@ -11,6 +11,10 @@ public class Position {
         this.y = y;
     }
 
+    public Position add(Position position) {
+        return of(this.x + position.x, this.y + position.y);
+    }
+
     public static Position of(int x, int y) {
         return new Position(x, y);
     }
