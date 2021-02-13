@@ -1,5 +1,7 @@
 package com.jscisco.lom.application;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.jscisco.lom.domain.Command;
 
 import java.util.ArrayList;
@@ -10,9 +12,11 @@ public class GameLoop {
     private final List<Command> commands = new ArrayList<>();
 
     public void run() {
-        while(true) {
-            // do the stuff.
+        boolean running = true;
+        while (running) {
+            if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                running = false;
+            }
         }
     }
-
 }

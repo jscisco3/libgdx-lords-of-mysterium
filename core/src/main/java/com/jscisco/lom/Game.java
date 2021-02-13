@@ -5,15 +5,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.application.GameLoop;
 
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
+	GameLoop gameLoop = new GameLoop();
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		gameLoop.run();
 	}
 
 	@Override
