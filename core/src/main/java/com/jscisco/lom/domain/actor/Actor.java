@@ -1,5 +1,8 @@
-package com.jscisco.lom.domain;
+package com.jscisco.lom.domain.actor;
 
+
+import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.Position;
 
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
@@ -51,6 +54,10 @@ public abstract class Actor {
         return position;
     }
 
-    public abstract Action getNextCommand();
+    public void move(Position position) {
+        this.position = position;
+    }
+
+    public abstract Action nextAction();
 
 }

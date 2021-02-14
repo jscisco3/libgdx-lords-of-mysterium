@@ -2,7 +2,7 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.jscisco.lom.domain.Action;
+import com.jscisco.lom.domain.action.Action;
 
 import java.util.ArrayList;
 import java.util.List;

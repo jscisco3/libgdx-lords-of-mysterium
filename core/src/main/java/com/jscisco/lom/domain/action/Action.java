@@ -1,4 +1,7 @@
-package com.jscisco.lom.domain;
+package com.jscisco.lom.domain.action;
+
+import com.jscisco.lom.domain.actor.Actor;
+import com.jscisco.lom.domain.zone.Stage;
 
 public abstract class Action {
 
@@ -10,6 +13,6 @@ public abstract class Action {
         this.stage = stage;
     }
 
-    public abstract void execute();
+    public abstract ActionResult execute();
 
 }

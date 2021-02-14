@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain;
+package com.jscisco.lom.domain.actor;
 
 public class ActorName {
 

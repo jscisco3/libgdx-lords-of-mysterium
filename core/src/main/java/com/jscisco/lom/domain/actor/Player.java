@@ -1,4 +1,6 @@
-package com.jscisco.lom.domain;
+package com.jscisco.lom.domain.actor;
+
+import com.jscisco.lom.domain.action.Action;
 
 public class Player extends Actor {
 
@@ -18,7 +20,7 @@ public class Player extends Actor {
     }
 
     @Override
-    public Action getNextCommand() {
+    public Action nextAction() {
         Action c = this.action;
         this.action = null;
         return c;

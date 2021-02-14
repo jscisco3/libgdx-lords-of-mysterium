@@ -1,4 +1,8 @@
-package com.jscisco.lom.domain;
+package com.jscisco.lom.domain.zone;
+
+import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.actor.Actor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +48,7 @@ public class Stage {
      * Process actions from the actors in the current stage
      */
     public void process() {
-        Action action = actors.get(currentActorIndex).action;
+        Action action = actors.get(currentActorIndex).nextAction();
         // No action, so skip
         if (action == null) {
             return;
@@ -54,7 +58,7 @@ public class Stage {
     }
 
     public Tile getTileAt(Position position) {
-        return tiles.get(position.x).get(position.y);
+        return tiles.get(position.getX()).get(position.getY());
     }
 
     public int getWidth() {
