@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
-import com.jscisco.lom.domain.actor.Actor;
+import com.jscisco.lom.domain.entity.Entity;
 
 public class Door extends Feature {
 
@@ -19,7 +19,7 @@ public class Door extends Feature {
     }
 
     @Override
-    public boolean isWalkable(Actor actor) {
+    public boolean isWalkable(Entity entity) {
         return open;
     }
 }

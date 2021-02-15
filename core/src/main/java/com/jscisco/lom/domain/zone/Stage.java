@@ -3,14 +3,14 @@ package com.jscisco.lom.domain.zone;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
-import com.jscisco.lom.domain.actor.Actor;
+import com.jscisco.lom.domain.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Stage {
 
-    private List<Actor> actors = new ArrayList<>();
+    private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
     private List<List<Tile>> tiles = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Stage {
      * Process actions from the actors in the current stage
      */
     public void process() {
-        Action action = actors.get(currentActorIndex).nextAction();
+        Action action = entities.get(currentActorIndex).nextAction();
         // No action, so skip
         if (action == null) {
             return;
@@ -62,17 +62,17 @@ public class Stage {
             // We have an alternative, so we must process that one before we know if we have ultimately succeeded
             action = result.getAlternative();
         }
-        currentActorIndex = (currentActorIndex + 1) % actors.size();
+        currentActorIndex = (currentActorIndex + 1) % entities.size();
     }
 
     public Tile getTileAt(Position position) {
         return tiles.get(position.getX()).get(position.getY());
     }
 
-    public void addActorAtPosition(Actor actor, Position position) {
-        this.actors.add(actor);
-        this.getTileAt(position).occupy(actor);
-        actor.move(position);
+    public void addActorAtPosition(Entity entity, Position position) {
+        this.entities.add(entity);
+        this.getTileAt(position).occupy(entity);
+        entity.move(position);
     }
 
     public int getWidth() {

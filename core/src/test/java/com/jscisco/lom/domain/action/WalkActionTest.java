@@ -2,8 +2,8 @@ package com.jscisco.lom.domain.action;
 
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.actor.ActorFactory;
-import com.jscisco.lom.domain.actor.Player;
+import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.Player;
 import com.jscisco.lom.domain.zone.Door;
 import com.jscisco.lom.domain.zone.Stage;
 import org.junit.jupiter.api.Test;

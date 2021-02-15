@@ -1,8 +1,8 @@
 package com.jscisco.lom.domain.zone;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.actor.ActorFactory;
-import com.jscisco.lom.domain.actor.Player;
+import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

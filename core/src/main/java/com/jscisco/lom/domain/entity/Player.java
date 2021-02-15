@@ -1,14 +1,14 @@
-package com.jscisco.lom.domain.actor;
+package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
-public class Player extends Actor {
+public class Player extends Entity {
 
     private Player() {
         super();
     }
 
-    public static class Builder extends Actor.Builder {
+    public static class Builder extends Entity.Builder {
 
         public Player build() {
             Player player = new Player();

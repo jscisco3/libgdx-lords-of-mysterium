@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.actor;
+package com.jscisco.lom.domain.entity;
 
 
 import com.jscisco.lom.domain.action.Action;
@@ -7,23 +7,23 @@ import com.jscisco.lom.domain.Position;
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
  */
-public abstract class Actor {
+public abstract class Entity {
 
-    protected ActorName name;
+    protected EntityName name;
     protected GameplayAttributes attributes;
     protected Position position;
 
     protected Action action = null;
 
-    protected Actor() {
+    protected Entity() {
     }
 
     public static abstract class Builder {
-        protected ActorName name;
+        protected EntityName name;
         protected GameplayAttributes attributes;
         protected Position position = Position.UNKNOWN;
 
-        public Builder withName(ActorName name) {
+        public Builder withName(EntityName name) {
             this.name = name;
             return this;
         }
@@ -38,11 +38,11 @@ public abstract class Actor {
             return this;
         }
 
-        public abstract Actor build();
+        public abstract Entity build();
 
     }
 
-    public ActorName getName() {
+    public EntityName getName() {
         return name;
     }
 

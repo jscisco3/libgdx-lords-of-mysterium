@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain.action;
 
-import com.jscisco.lom.domain.actor.Actor;
+import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
 import com.jscisco.lom.domain.zone.Stage;
 import com.jscisco.lom.domain.zone.Tile;
@@ -9,7 +9,7 @@ public class OpenDoorAction extends Action {
 
     private final Tile tile;
 
-    public OpenDoorAction(Actor source, Stage stage, Tile tile) {
+    public OpenDoorAction(Entity source, Stage stage, Tile tile) {
         super(source, stage);
         this.tile = tile;
     }

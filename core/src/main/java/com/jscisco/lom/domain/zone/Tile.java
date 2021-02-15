@@ -1,6 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
-import com.jscisco.lom.domain.actor.Actor;
+import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
 
 import java.util.Collections;
@@ -9,14 +9,14 @@ import java.util.List;
 public class Tile {
 
     Feature feature = FeatureFactory.FLOOR;
-    Actor occupant = null;
+    Entity occupant = null;
     List<Item> items = Collections.emptyList();
 
     public Feature getFeature() {
         return feature;
     }
 
-    public Actor getOccupant() {
+    public Entity getOccupant() {
         return occupant;
     }
 
@@ -28,7 +28,7 @@ public class Tile {
         this.feature = feature;
     }
 
-    public void occupy(Actor occupant) {
+    public void occupy(Entity occupant) {
         this.occupant = occupant;
     }
 
@@ -44,8 +44,8 @@ public class Tile {
         return this.items.remove(itemIndex);
     }
 
-    public boolean isWalkable(Actor actor) {
-        return feature.isWalkable(actor);
+    public boolean isWalkable(Entity entity) {
+        return feature.isWalkable(entity);
     }
 
 }
