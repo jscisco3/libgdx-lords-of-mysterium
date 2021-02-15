@@ -19,7 +19,18 @@ public class ActionResult {
     }
 
     public static ActionResult alternate(Action alternative) {
-        return new ActionResult(alternative, false);
+        return new ActionResult(alternative, true);
     }
 
+    public boolean success() {
+        return this.success;
+    }
+
+    public boolean hasAlternate() {
+        return this.alternative != null;
+    }
+
+    public Action getAlternative() {
+        return alternative;
+    }
 }

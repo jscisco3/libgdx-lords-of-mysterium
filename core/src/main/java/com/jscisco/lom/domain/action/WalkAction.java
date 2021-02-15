@@ -16,12 +16,15 @@ public class WalkAction extends Action {
 
     @Override
     public ActionResult execute() {
+        Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
         if (stage.getTileAt(newPosition).getFeature() instanceof Door) {
-            return ActionResult.alternate(new OpenDoorAction(source, stage, (Door) stage.getTileAt(newPosition).getFeature()));
+            return ActionResult.alternate(new OpenDoorAction(source, stage, stage.getTileAt(newPosition)));
         }
         if (stage.getTileAt(newPosition).isWalkable(source)) {
             this.source.move(newPosition);
+            stage.getTileAt(oldPosition).occupy(null);
+            stage.getTileAt(newPosition).occupy(this.source);
             return ActionResult.succeeded();
         }
         return ActionResult.failed();

@@ -24,6 +24,10 @@ public class Tile {
         return items;
     }
 
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
+
     public void occupy(Actor occupant) {
         this.occupant = occupant;
     }

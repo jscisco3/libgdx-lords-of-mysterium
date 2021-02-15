@@ -1,7 +1,8 @@
 package com.jscisco.lom.domain.zone;
 
-import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.actor.Actor;
 
 import java.util.ArrayList;
@@ -18,11 +19,6 @@ public class Stage {
     private int height = 40;
 
     public Stage() {
-//        this.actors.add(new Player.Builder()
-//                .withName(ActorName.of("Johnny"))
-//                .withPosition(Position.of(1, 1))
-//                .build());
-
         // Let's first create the floors.
         for (int i = 0; i < width; i++) {
             List<Tile> column = new ArrayList<>();
@@ -53,12 +49,30 @@ public class Stage {
         if (action == null) {
             return;
         }
-        action.execute();
+        while (true) {
+            ActionResult result = action.execute();
+            if (!result.success()) {
+                // Action failed, so don't increment active actor
+                return;
+            }
+            if (!result.hasAlternate()) {
+                // No alternative and the action has succeeded, so continue on.
+                break;
+            }
+            // We have an alternative, so we must process that one before we know if we have ultimately succeeded
+            action = result.getAlternative();
+        }
         currentActorIndex = (currentActorIndex + 1) % actors.size();
     }
 
     public Tile getTileAt(Position position) {
         return tiles.get(position.getX()).get(position.getY());
+    }
+
+    public void addActorAtPosition(Actor actor, Position position) {
+        this.actors.add(actor);
+        this.getTileAt(position).occupy(actor);
+        actor.move(position);
     }
 
     public int getWidth() {
