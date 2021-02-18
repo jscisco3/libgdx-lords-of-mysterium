@@ -5,12 +5,12 @@ import com.jscisco.lom.domain.zone.Stage;
 
 public abstract class Action {
 
-    protected Entity source;
-    protected Stage stage;
+    protected final Entity source;
+    protected final Stage stage;
 
-    public Action(Entity source, Stage stage) {
+    public Action(Entity source) {
         this.source = source;
-        this.stage = stage;
+        this.stage = source.getStage();
     }
 
     public abstract ActionResult execute();

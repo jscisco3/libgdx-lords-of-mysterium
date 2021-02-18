@@ -22,7 +22,7 @@ public class OpenDoorActionTest {
         door.close();
         Position p = Position.of(10, 10);
         stage.getTileAt(p).setFeature(door);
-        OpenDoorAction action = new OpenDoorAction(player, stage, stage.getTileAt(p));
+        OpenDoorAction action = new OpenDoorAction(player, stage.getTileAt(p));
 
         action.execute();
         assertThat(door.isOpen()).isTrue();

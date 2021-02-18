@@ -69,9 +69,10 @@ public class Stage {
         return tiles.get(position.getX()).get(position.getY());
     }
 
-    public void addActorAtPosition(Entity entity, Position position) {
+    public void addEntityAtPosition(Entity entity, Position position) {
         this.entities.add(entity);
         this.getTileAt(position).occupy(entity);
+        entity.setStage(this);
         entity.move(position);
     }
 

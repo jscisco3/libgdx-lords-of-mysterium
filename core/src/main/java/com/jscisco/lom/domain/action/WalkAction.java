@@ -9,8 +9,8 @@ import com.jscisco.lom.domain.zone.Stage;
 public class WalkAction extends Action {
     Direction direction;
 
-    public WalkAction(Entity source, Stage stage, Direction direction) {
-        super(source, stage);
+    public WalkAction(Entity source, Direction direction) {
+        super(source);
         this.direction = direction;
     }
 
@@ -19,7 +19,7 @@ public class WalkAction extends Action {
         Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
         if (stage.getTileAt(newPosition).getFeature() instanceof Door) {
-            return ActionResult.alternate(new OpenDoorAction(source, stage, stage.getTileAt(newPosition)));
+            return ActionResult.alternate(new OpenDoorAction(source, stage.getTileAt(newPosition)));
         }
         if (stage.getTileAt(newPosition).isWalkable(source)) {
             this.source.move(newPosition);

@@ -8,8 +8,8 @@ public class CloseDoorAction extends Action {
 
     private final Door door;
 
-    public CloseDoorAction(Entity source, Stage stage, Door door) {
-        super(source, stage);
+    public CloseDoorAction(Entity source, Door door) {
+        super(source);
         this.door = door;
     }
 

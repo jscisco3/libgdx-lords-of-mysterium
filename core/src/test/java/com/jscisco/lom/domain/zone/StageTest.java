@@ -29,11 +29,12 @@ public class StageTest {
         Player p = ActorFactory.player();
         Position expectedPosition = Position.of(5, 5);
 
-        stage.addActorAtPosition(p, expectedPosition);
+        stage.addEntityAtPosition(p, expectedPosition);
 
         assertThat(p.getPosition()).isEqualTo(expectedPosition);
         assertThat(stage.getTileAt(expectedPosition).isOccupied()).isTrue();
         assertThat(stage.getTileAt(expectedPosition).getOccupant()).isEqualTo(p);
+        assertThat(p.getStage()).isEqualTo(stage);
     }
 
 }

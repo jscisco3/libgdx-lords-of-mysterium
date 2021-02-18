@@ -17,9 +17,10 @@ public class WalkActionTest {
 
     @Test
     public void walkActionSuccessfullyMovesActor_ifTargetSpaceIsWalkable() {
-        WalkAction action = new WalkAction(player, stage, Direction.N);
         Position startPosition = Position.of(10, 10);
-        stage.addActorAtPosition(player, startPosition);
+        stage.addEntityAtPosition(player, startPosition);
+        WalkAction action = new WalkAction(player, Direction.N);
+        assertThat(player.getStage()).isNotNull();
 
         ActionResult result = action.execute();
 
@@ -31,9 +32,9 @@ public class WalkActionTest {
 
     @Test
     public void walkActionFails_ifTargetSpaceIsNotWalkable() {
-        WalkAction action = new WalkAction(player, stage, Direction.W);
         Position startPosition = Position.of(1, 1);
-        stage.addActorAtPosition(player, startPosition);
+        stage.addEntityAtPosition(player, startPosition);
+        WalkAction action = new WalkAction(player, Direction.W);
 
         ActionResult result = action.execute();
 
@@ -42,9 +43,9 @@ public class WalkActionTest {
 
     @Test
     public void walkActionAlternatesToOpenDoorAction_ifTargetSpaceIsClosedDoor() {
-        WalkAction action = new WalkAction(player, stage, Direction.E);
         Position startPosition = Position.of(1, 1);
-        stage.addActorAtPosition(player, startPosition);
+        stage.addEntityAtPosition(player, startPosition);
+        WalkAction action = new WalkAction(player, Direction.E);
         Position endPosition = startPosition.add(Direction.E.relativePosition);
 
         Door door = new Door();
