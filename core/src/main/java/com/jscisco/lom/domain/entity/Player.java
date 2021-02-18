@@ -15,6 +15,7 @@ public class Player extends Entity {
             player.name = this.name;
             player.attributes = this.attributes;
             player.position = this.position;
+            player.texture = this.texture;
             return player;
         }
     }

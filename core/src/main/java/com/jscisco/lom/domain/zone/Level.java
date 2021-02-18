@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
@@ -74,6 +75,19 @@ public class Level {
         this.getTileAt(position).occupy(entity);
         entity.setStage(this);
         entity.move(position);
+    }
+
+    public void draw(SpriteBatch batch) {
+        batch.begin();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                tiles.get(i).get(j).draw(batch, i, j);
+            }
+        }
+        for (Entity e : entities) {
+            e.draw(batch);
+        }
+        batch.end();
     }
 
     public int getWidth() {

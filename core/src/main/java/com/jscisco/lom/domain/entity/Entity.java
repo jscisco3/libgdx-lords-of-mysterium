@@ -1,8 +1,10 @@
 package com.jscisco.lom.domain.entity;
 
 
-import com.jscisco.lom.domain.action.Action;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.zone.Level;
 
 /**
@@ -15,6 +17,7 @@ public abstract class Entity {
     protected GameplayAttributes attributes;
     protected Position position;
     protected Inventory inventory;
+    protected Texture texture;
 
     protected Action action = null;
 
@@ -25,6 +28,7 @@ public abstract class Entity {
         protected EntityName name;
         protected GameplayAttributes attributes;
         protected Position position = Position.UNKNOWN;
+        protected Texture texture;
 
         public Builder withName(EntityName name) {
             this.name = name;
@@ -38,6 +42,11 @@ public abstract class Entity {
 
         public Builder withPosition(Position position) {
             this.position = position;
+            return this;
+        }
+
+        public Builder withTexture(Texture texture) {
+            this.texture = texture;
             return this;
         }
 
@@ -67,6 +76,10 @@ public abstract class Entity {
 
     public Level getStage() {
         return level;
+    }
+
+    public void draw(SpriteBatch batch) {
+        batch.draw(this.texture, position.getX() * this.texture.getWidth(), position.getY() * this.texture.getHeight());
     }
 
     public abstract Action nextAction();
