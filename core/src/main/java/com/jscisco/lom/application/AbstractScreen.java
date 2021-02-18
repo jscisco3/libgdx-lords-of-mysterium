@@ -32,4 +32,10 @@ public abstract class AbstractScreen extends ScreenAdapter {
         batch.dispose();
         img.dispose();
     }
+
+    @Override
+    public void hide() {
+        super.hide();
+        Gdx.input.setInputProcessor(null);
+    }
 }

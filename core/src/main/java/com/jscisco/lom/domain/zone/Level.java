@@ -5,11 +5,15 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
+
+    private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
@@ -46,6 +50,10 @@ public class Level {
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();
+//        logger.info(entities.get(currentActorIndex).toString());
+        if (action != null) {
+            logger.info(action.toString());
+        }
         // No action, so skip
         if (action == null) {
             return;
