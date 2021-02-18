@@ -8,7 +8,7 @@ import com.jscisco.lom.domain.entity.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stage {
+public class Level {
 
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
@@ -18,7 +18,7 @@ public class Stage {
     private int width = 80;
     private int height = 40;
 
-    public Stage() {
+    public Level() {
         // Let's first create the floors.
         for (int i = 0; i < width; i++) {
             List<Tile> column = new ArrayList<>();

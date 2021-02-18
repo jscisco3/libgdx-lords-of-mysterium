@@ -1,40 +1,35 @@
 package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.zone.Level;
 
 public class GameScreen extends AbstractScreen {
 
     Stage stage = new Stage();
+    Level level;
 
     public GameScreen(Game game) {
         super(game);
         Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
-
-        TextButton button = new TextButton("New Game", skin, "default");
-        button.setWidth(100f);
-        button.setHeight(50f);
-        button.setPosition(Gdx.graphics.getWidth() / 2f - 100f, Gdx.graphics.getHeight() / 2f - 50f);
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                button.setText("You clicked the button");
-            }
-        });
-
-        stage.addActor(button);
         Gdx.input.setInputProcessor(stage);
+
+        // Create a zone and a stage
+        level = new Level();
+        Player p = ActorFactory.player();
+        level.addEntityAtPosition(p, Position.of(1, 1));
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
         stage.draw();

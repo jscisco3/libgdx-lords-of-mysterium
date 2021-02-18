@@ -4,7 +4,6 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
-import com.jscisco.lom.domain.zone.Stage;
 
 public class WalkAction extends Action {
     Direction direction;
@@ -18,13 +17,13 @@ public class WalkAction extends Action {
     public ActionResult execute() {
         Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
-        if (stage.getTileAt(newPosition).getFeature() instanceof Door) {
-            return ActionResult.alternate(new OpenDoorAction(source, stage.getTileAt(newPosition)));
+        if (level.getTileAt(newPosition).getFeature() instanceof Door) {
+            return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
         }
-        if (stage.getTileAt(newPosition).isWalkable(source)) {
+        if (level.getTileAt(newPosition).isWalkable(source)) {
             this.source.move(newPosition);
-            stage.getTileAt(oldPosition).occupy(null);
-            stage.getTileAt(newPosition).occupy(this.source);
+            level.getTileAt(oldPosition).occupy(null);
+            level.getTileAt(newPosition).occupy(this.source);
             return ActionResult.succeeded();
         }
         return ActionResult.failed();

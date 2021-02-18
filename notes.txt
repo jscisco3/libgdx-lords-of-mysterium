@@ -1,16 +1,26 @@
 Entity Actions require:
     * Entity being acted on
     * Stage on which the action is taking place
-        - If the entity has a reference to its own stage, this is superfluous.
+        - If the entity has a reference to its own level, this is superfluous.
     * Additional information for the specific action
 
 AI, in order to generate an action, thus require:
     * The entity associated with that AI
-    * The stage on which the entity is on
+    * The level on which the entity is on
     * Additional information generated when determining action.
-
 
 NPC:
     AIController controller;
-    Stage stage;
-    controller.nextAction(this, stage);
+    Stage level;
+    controller.nextAction(this, level);
+
+Rendering notes:
+    * GameScreen has everything necessary to draw the roguelike adventure screen.
+    * Thus it has:
+        Level
+            * Tiles
+            * Entities
+            * Items
+        Other UI elements
+            * Player stats
+            * Player Skills

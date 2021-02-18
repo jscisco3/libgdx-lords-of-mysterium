@@ -3,7 +3,7 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Stage;
+import com.jscisco.lom.domain.zone.Level;
 
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
@@ -11,7 +11,7 @@ import com.jscisco.lom.domain.zone.Stage;
 public abstract class Entity {
 
     protected EntityName name;
-    protected Stage stage;
+    protected Level level;
     protected GameplayAttributes attributes;
     protected Position position;
     protected Inventory inventory;
@@ -61,12 +61,12 @@ public abstract class Entity {
         this.position = position;
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void setStage(Level level) {
+        this.level = level;
     }
 
-    public Stage getStage() {
-        return stage;
+    public Level getStage() {
+        return level;
     }
 
     public abstract Action nextAction();

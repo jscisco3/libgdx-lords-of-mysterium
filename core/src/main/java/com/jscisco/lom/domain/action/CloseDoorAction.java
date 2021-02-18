@@ -2,7 +2,6 @@ package com.jscisco.lom.domain.action;
 
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
-import com.jscisco.lom.domain.zone.Stage;
 
 public class CloseDoorAction extends Action {
 
