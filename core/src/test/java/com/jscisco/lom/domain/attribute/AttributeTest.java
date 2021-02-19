@@ -68,4 +68,26 @@ public class AttributeTest {
         assertThat(attribute.getValue()).isEqualTo(expectedValue);
     }
 
+    @Test
+    public void attributeApplySubtractionAndDivision_hasExpectedValue() {
+        float startValue = 100f;
+        Attribute attribute = AttributeFactory.testAttribute(startValue);
+
+        AttributeEffect subtract = new AttributeEffect()
+                .withDuration(Duration.permanent())
+                .withMagnitude(-10f)
+                .withOperator(AttributeOperator.ADD);
+
+        AttributeEffect divide = new AttributeEffect()
+                .withDuration(Duration.permanent())
+                .withMagnitude(0.5f)
+                .withOperator(AttributeOperator.MULTIPLY);
+
+        attribute.addEffect(subtract);
+        attribute.addEffect(divide);
+
+        float expectedValue = 40.0f;
+        assertThat(attribute.getValue()).isEqualTo(expectedValue);
+    }
+
 }

@@ -4,7 +4,7 @@ public class AttributeEffect {
     // Duration
     private Duration duration;
     // Magnitude
-    private int magnitude;
+    private float magnitude;
     // Operation
     private AttributeOperator operator;
 
@@ -16,7 +16,7 @@ public class AttributeEffect {
         return this;
     }
 
-    public AttributeEffect withMagnitude(int magnitude) {
+    public AttributeEffect withMagnitude(float magnitude) {
         this.magnitude = magnitude;
         return this;
     }
@@ -30,7 +30,7 @@ public class AttributeEffect {
         return operator;
     }
 
-    public int apply(int value) {
+    public float apply(float value) {
         switch (operator) {
             case ADD:
                 return value + magnitude;

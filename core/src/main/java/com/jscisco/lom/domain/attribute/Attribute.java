@@ -10,29 +10,29 @@ public class Attribute {
 
     private final Name name;
     private final Description description;
-    private int baseValue = 0;
+    private float baseValue = 0;
     private List<AttributeEffect> effects = new ArrayList<>();
 
-    public Attribute(Name name, Description description, int baseValue) {
+    public Attribute(Name name, Description description, float baseValue) {
         this.name = name;
         this.description = description;
         this.baseValue = baseValue;
     }
 
-    public int getBaseValue() {
+    public float getBaseValue() {
         return this.baseValue;
     }
 
-    public int getValue() {
+    public float getValue() {
         return applyEffects();
     }
 
-    private int applyEffects() {
+    private float applyEffects() {
         return applyAdders(applyMultipliers(this.baseValue));
     }
 
-    private int applyMultipliers(int value) {
-        int temp = value;
+    private float applyMultipliers(float value) {
+        float temp = value;
         for (AttributeEffect effect : this.effects) {
             if (effect.getOperator().equals(AttributeOperator.MULTIPLY)) {
                 temp = effect.apply(temp);
@@ -41,8 +41,8 @@ public class Attribute {
         return temp;
     }
 
-    private int applyAdders(int value) {
-        int temp = value;
+    private float applyAdders(float value) {
+        float temp = value;
         for (AttributeEffect effect : this.effects) {
             if (effect.getOperator().equals(AttributeOperator.ADD)) {
                 temp = effect.apply(temp);
@@ -55,7 +55,7 @@ public class Attribute {
         this.effects.add(effect);
     }
 
-    public void setBaseValue(int baseValue) {
+    public void setBaseValue(float baseValue) {
         this.baseValue = baseValue;
     }
 
