@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.attribute.AttributeSet;
 import com.jscisco.lom.domain.zone.Level;
 
 /**
@@ -14,7 +15,7 @@ public abstract class Entity {
 
     protected EntityName name;
     protected Level level;
-    protected GameplayAttributes attributes;
+    protected AttributeSet attributes;
     protected Position position;
     protected Inventory inventory;
     protected Texture texture;
@@ -26,7 +27,7 @@ public abstract class Entity {
 
     public static abstract class Builder {
         protected EntityName name;
-        protected GameplayAttributes attributes;
+        protected AttributeSet attributes;
         protected Position position = Position.UNKNOWN;
         protected Texture texture;
 
@@ -35,7 +36,7 @@ public abstract class Entity {
             return this;
         }
 
-        public Builder withAttributes(GameplayAttributes attributes) {
+        public Builder withAttributes(AttributeSet attributes) {
             this.attributes = attributes;
             return this;
         }
@@ -58,7 +59,7 @@ public abstract class Entity {
         return name;
     }
 
-    public GameplayAttributes getAttributes() {
+    public AttributeSet getAttributes() {
         return attributes;
     }
 

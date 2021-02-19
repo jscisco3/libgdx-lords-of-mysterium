@@ -24,3 +24,16 @@ Rendering notes:
         Other UI elements
             * Player stats
             * Player Skills
+
+Level:
+    * Consider just having a map of Position -> Tile.
+    * Same with Position -> Actor, or Actor -> Position?
+
+Stats:
+    * They have a value that can be modified permanently or temporarily.
+        * Examples:
+            MaxHealth increases by 10 on level up, permanently.
+            Strength increases by 5 for 10 turns after casting Might
+            AC increases by 5 while armor is equipped
+    * They can relate to one another
+        * Health must be <= MaxHealth
