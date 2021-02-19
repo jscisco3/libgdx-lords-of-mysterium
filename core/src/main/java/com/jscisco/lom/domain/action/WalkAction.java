@@ -28,4 +28,12 @@ public class WalkAction extends Action {
         }
         return ActionResult.failed();
     }
+
+    @Override
+    public String toString() {
+        return "WalkAction{" +
+                "source=" + source +
+                ", direction=" + direction +
+                '}';
+    }
 }

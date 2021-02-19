@@ -20,6 +20,10 @@ public class Player extends Entity {
         }
     }
 
+    public void setAction(Action action) {
+        this.action = action;
+    }
+
     @Override
     public Action nextAction() {
         Action c = this.action;

@@ -12,4 +12,10 @@ public class EntityName {
         return new EntityName(name);
     }
 
+    @Override
+    public String toString() {
+        return "EntityName{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

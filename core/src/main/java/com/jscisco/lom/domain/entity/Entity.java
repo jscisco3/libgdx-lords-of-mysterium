@@ -85,4 +85,10 @@ public abstract class Entity {
 
     public abstract Action nextAction();
 
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "name=" + name +
+                '}';
+    }
 }

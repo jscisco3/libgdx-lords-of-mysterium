@@ -31,6 +31,9 @@ public class TitleScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new GameScreen(game));
+                dispose();
+                game.getScreen().show();
+
             }
         });
 
