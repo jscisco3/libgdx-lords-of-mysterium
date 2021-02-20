@@ -11,7 +11,7 @@ public class Attribute {
     private final Name name;
     private final Description description;
     private float baseValue = 0;
-    private List<AttributeEffect> effects = new ArrayList<>();
+    private final List<AttributeEffect> effects = new ArrayList<>();
 
     public Attribute(Name name, Description description, float baseValue) {
         this.name = name;
@@ -69,5 +69,16 @@ public class Attribute {
 
     public List<AttributeEffect> getEffects() {
         return effects;
+    }
+
+    public void tick() {
+        List<AttributeEffect> expiredEffects = new ArrayList<>();
+        for (AttributeEffect effect : effects) {
+            effect.tick();
+            if (effect.expired()) {
+                expiredEffects.add(effect);
+            }
+        }
+        this.effects.removeAll(expiredEffects);
     }
 }

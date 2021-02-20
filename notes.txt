@@ -35,5 +35,26 @@ Stats:
             MaxHealth increases by 10 on level up, permanently.
             Strength increases by 5 for 10 turns after casting Might
             AC increases by 5 while armor is equipped
+            When poisoned, Health decreased by 5 per turn.
+    * Stat changes can be applied:
+        Instantly
+            Example: MaxHealth increases by 10 on level up.
+                        Health decreases by 7 when hit with a sword
+        Temporarily:
+            Example: Might grants 10 strength for 10 turns
+                        Decay reduces MaxHealth by 20% for 5 turns
+        Persistently
+            Example: Poison deals 5 damage per turn for 10 turns
+
     * They can relate to one another
         * Health must be <= MaxHealth
+    * A single effect can modify multiple stats
+        * Blindness decreases EV and To-Hit by 5 for 10 turns
+    * This tells me that we need the following:
+        * Value: The current value of the stat
+        * RecurringEffects: These are effects that apply a delta on a tick (with possible delay)
+            * Example: Poison decreases health by 5 per turn for 5 turns
+        * PermanentEffects: These are effects that are a constant modifier (e.g. from equipped armor, from a spell that falls off)
+            * Example:
+                Might increases strength by 5 for 5 turns
+                Armor increased by 5 when helmet equipped

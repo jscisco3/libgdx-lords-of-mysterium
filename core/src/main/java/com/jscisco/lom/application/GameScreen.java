@@ -71,5 +71,8 @@ public class GameScreen extends AbstractScreen {
         if (keysDown.contains(Input.Keys.RIGHT)) {
             player.setAction(new WalkAction(player, Direction.E));
         }
+        if (keysDown.contains(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 }

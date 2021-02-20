@@ -41,4 +41,12 @@ public class AttributeEffect {
         return value;
     }
 
+    public void tick() {
+        this.duration.tick();
+    }
+
+    public boolean expired() {
+        return this.duration.expired();
+    }
+
 }

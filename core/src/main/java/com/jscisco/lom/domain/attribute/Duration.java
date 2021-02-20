@@ -3,7 +3,7 @@ package com.jscisco.lom.domain.attribute;
 public class Duration {
 
     private final boolean permanent;
-    private final int turns;
+    private int turns;
 
     private Duration(boolean permanent) {
         this.permanent = true;
@@ -25,5 +25,17 @@ public class Duration {
 
     public boolean isPermanent() {
         return permanent;
+    }
+
+    public void tick() {
+        this.turns -= 1;
+    }
+
+    public boolean expired() {
+        return !isPermanent() && this.turns <= 0;
+    }
+
+    public int turnsRemaining() {
+        return this.turns;
     }
 }
