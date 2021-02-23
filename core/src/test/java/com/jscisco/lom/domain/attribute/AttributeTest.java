@@ -19,7 +19,7 @@ public class AttributeTest {
         int startValue = 10;
         Attribute attribute = AttributeFactory.testAttribute(startValue);
 
-        AttributeEffect effect = new AttributeEffect()
+        AttributeModifier effect = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(10)
                 .withOperator(AttributeOperator.ADD);
@@ -35,7 +35,7 @@ public class AttributeTest {
         int startValue = 10;
         Attribute attribute = AttributeFactory.testAttribute(startValue);
 
-        AttributeEffect effect = new AttributeEffect()
+        AttributeModifier effect = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(10)
                 .withOperator(AttributeOperator.MULTIPLY);
@@ -51,12 +51,12 @@ public class AttributeTest {
         int startValue = 10;
         Attribute attribute = AttributeFactory.testAttribute(startValue);
 
-        AttributeEffect add = new AttributeEffect()
+        AttributeModifier add = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(10)
                 .withOperator(AttributeOperator.ADD);
 
-        AttributeEffect multiply = new AttributeEffect()
+        AttributeModifier multiply = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(10)
                 .withOperator(AttributeOperator.MULTIPLY);
@@ -73,12 +73,12 @@ public class AttributeTest {
         float startValue = 100f;
         Attribute attribute = AttributeFactory.testAttribute(startValue);
 
-        AttributeEffect subtract = new AttributeEffect()
+        AttributeModifier subtract = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(-10f)
                 .withOperator(AttributeOperator.ADD);
 
-        AttributeEffect divide = new AttributeEffect()
+        AttributeModifier divide = new AttributeModifier()
                 .withDuration(Duration.permanent())
                 .withMagnitude(0.5f)
                 .withOperator(AttributeOperator.MULTIPLY);

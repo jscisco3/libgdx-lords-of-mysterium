@@ -58,3 +58,67 @@ Stats:
             * Example:
                 Might increases strength by 5 for 5 turns
                 Armor increased by 5 when helmet equipped
+
+    * Durations:
+        Instant: Instantly applies change to the attribute's base value
+            * Level up gain max hp
+        Periodic: Applies change to attribute's base value on an interval, until finished (can be permanent)
+            * Poison
+            * Blindness
+        Temporary: Applies change to attribute's current value, until finished. Can be permanent
+            * Berserker Rage
+
+
+Ability:
+    Abilities have an optional cooldown
+    Abilities have an optional cost
+    Abilities can be activated or passive
+        * e.g. treat Poison as a passive ability
+
+Abilities, Attributes, and Effects:
+    Entities have Attributes // E.g. Health, MaxHealth
+    Entities have Abilities // E.g. Attack, CastSpell
+    Entities have Tags // E.g. Stunned, Levitating, etc.
+    Attributes have a baseValue and currentValue
+    Attributes can have their baseValue modified
+    Attributes' currentValue is calculated on-demand
+    Effects can modify Attributes
+    Effects have a duration
+        * Instant
+            - Modify an attribute's baseValue
+            - Cannot add tags, even for a turn.
+        * Temporary
+            - Modify an attribute's currentValue
+            - Can add tags until it expires
+            - Has duration: # of turns, or permanent
+        * Periodic
+            - Modify an attribute's baseValue each turn
+            - Can add tags until it expires.
+            - Has duration: # of turns, or permanent
+            - Can have delay between invocations
+    Effects can add tags for their duration
+    Abilities can require tags to be used
+    Abilities can be blocked by tags
+    Abilities can have a cost
+    Abilities can have a cooldown
+
+    Thus, we have:
+    Entity: List<Ability> knownAbilities;
+            Map<AttributeType, Attribute> attributes;
+            List<GameplayEffect> effects;
+            Map<Tag, Integer> tags;
+
+            canActivateAbility(ability):
+                if hasTags && notBlocked:
+                    return true
+                return false
+            activateAbility(ability):
+                if (canActivate):
+                    payCost(ability)
+                    ability.activate() ??
+            tick():
+                for effect in effects:
+                    effect.tick()
+                        // Decrease duration of Periodic and Temporary effects
+                        // Apply changes of Periodic effects to baseValue
+

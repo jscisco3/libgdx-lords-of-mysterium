@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AttributeEffectTest {
+public class AttributeModifierTest {
 
     @Test
     public void whenDurationIsExpired_thenAttributeEffectIsExpired() {
-        AttributeEffect effect = new AttributeEffect()
+        AttributeModifier effect = new AttributeModifier()
                 .withDuration(Duration.turns(0));
 
         assertThat(effect.expired()).isTrue();

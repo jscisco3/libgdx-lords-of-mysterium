@@ -10,8 +10,8 @@ public class Attribute {
 
     private final Name name;
     private final Description description;
-    private float baseValue = 0;
-    private final List<AttributeEffect> effects = new ArrayList<>();
+    private float baseValue = 0f;
+    List<AttributeModifier> modifiers = new ArrayList<>();
 
     public Attribute(Name name, Description description, float baseValue) {
         this.name = name;
@@ -19,11 +19,7 @@ public class Attribute {
         this.baseValue = baseValue;
     }
 
-    public float getBaseValue() {
-        return this.baseValue;
-    }
-
-    public float getValue() {
+    public float getCurrentValue() {
         return applyEffects();
     }
 
@@ -33,9 +29,9 @@ public class Attribute {
 
     private float applyMultipliers(float value) {
         float temp = value;
-        for (AttributeEffect effect : this.effects) {
-            if (effect.getOperator().equals(AttributeOperator.MULTIPLY)) {
-                temp = effect.apply(temp);
+        for (AttributeModifier modifier : this.modifiers) {
+            if (modifier.getOperator().equals(AttributeOperator.MULTIPLY)) {
+                temp = modifier.apply(temp);
             }
         }
         return temp;
@@ -43,7 +39,7 @@ public class Attribute {
 
     private float applyAdders(float value) {
         float temp = value;
-        for (AttributeEffect effect : this.effects) {
+        for (AttributeModifier effect : this.modifiers) {
             if (effect.getOperator().equals(AttributeOperator.ADD)) {
                 temp = effect.apply(temp);
             }
@@ -51,12 +47,8 @@ public class Attribute {
         return temp;
     }
 
-    public void addEffect(AttributeEffect effect) {
-        this.effects.add(effect);
-    }
-
-    public void setBaseValue(float baseValue) {
-        this.baseValue = baseValue;
+    public void addEffect(AttributeModifier effect) {
+        this.modifiers.add(effect);
     }
 
     public Name getName() {
@@ -67,18 +59,19 @@ public class Attribute {
         return description;
     }
 
-    public List<AttributeEffect> getEffects() {
-        return effects;
+    public List<AttributeModifier> getModifiers() {
+        return modifiers;
     }
 
-    public void tick() {
-        List<AttributeEffect> expiredEffects = new ArrayList<>();
-        for (AttributeEffect effect : effects) {
-            effect.tick();
-            if (effect.expired()) {
-                expiredEffects.add(effect);
-            }
-        }
-        this.effects.removeAll(expiredEffects);
+    public void removeModifier(AttributeModifier modifier) {
+        this.modifiers.remove(modifier);
+    }
+
+    public float getBaseValue() {
+        return baseValue;
+    }
+
+    public void setBaseValue(float baseValue) {
+        this.baseValue = baseValue;
     }
 }
