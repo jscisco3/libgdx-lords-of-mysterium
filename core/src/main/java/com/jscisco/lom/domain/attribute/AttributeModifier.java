@@ -1,18 +1,16 @@
 package com.jscisco.lom.domain.attribute;
 
-public abstract class AttributeModifier {
-    // Attribute it effects
-    protected Attribute attribute;
-    // Magnitude
+public class AttributeModifier {
+    protected Attribute.AttributeType attributeType;
     protected float magnitude;
-    // Operation
-    protected AttributeOperator operator;
+    protected Attribute.Operator operator;
 
     public AttributeModifier() {
+
     }
 
-    public AttributeModifier forAttribute(Attribute attribute) {
-        this.attribute = attribute;
+    public AttributeModifier forType(Attribute.AttributeType attributeType) {
+        this.attributeType = attributeType;
         return this;
     }
 
@@ -21,15 +19,20 @@ public abstract class AttributeModifier {
         return this;
     }
 
-    public AttributeModifier withOperator(AttributeOperator operator) {
+    public AttributeModifier withOperator(Attribute.Operator operator) {
         this.operator = operator;
         return this;
     }
 
-    public AttributeOperator getOperator() {
-        return operator;
+    public Attribute.AttributeType getAttributeType() {
+        return attributeType;
     }
 
-    public abstract void apply();
+    public float getMagnitude() {
+        return magnitude;
+    }
 
+    public Attribute.Operator getOperator() {
+        return operator;
+    }
 }
