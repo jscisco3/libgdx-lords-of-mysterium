@@ -2,6 +2,7 @@ package com.jscisco.lom;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Screen;
+import com.jscisco.lom.application.GameScreen;
 import com.jscisco.lom.application.TitleScreen;
 
 public class Game extends ApplicationAdapter {
@@ -17,7 +18,9 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        setScreen(new TitleScreen(this));
+//        setScreen(new TitleScreen(this));
+        setScreen(new GameScreen(this));
+        screen.show();
     }
 
     @Override
