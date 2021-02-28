@@ -3,7 +3,7 @@ package com.jscisco.lom;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.application.GameScreen;
-import com.jscisco.lom.application.TitleScreen;
+import com.jscisco.lom.application.Textures;
 
 public class Game extends ApplicationAdapter {
     Screen screen;
@@ -18,6 +18,8 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
+        // Initialize everything
+        Textures.initialize();
 //        setScreen(new TitleScreen(this));
         setScreen(new GameScreen(this));
         screen.show();
