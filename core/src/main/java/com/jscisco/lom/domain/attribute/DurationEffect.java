@@ -12,7 +12,7 @@ public class DurationEffect extends Effect {
 
     @Override
     public void apply(AttributeSet attributeSet) {
-        for (AttributeModifier modifier : this.modifiers) {
+        for (AttributeModifier modifier : this.getModifiers()) {
             attributeSet.applyTemporaryModifier(modifier);
         }
     }

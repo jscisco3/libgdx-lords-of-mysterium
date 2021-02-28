@@ -8,6 +8,11 @@ import com.jscisco.lom.domain.Name;
  */
 public class AttributeSet {
 
+    public enum AttributeDefinition {
+        HEALTH,
+        MAX_HEALTH
+    }
+
     private final Attribute health;
     private final Attribute maxHealth;
 
@@ -53,6 +58,16 @@ public class AttributeSet {
             attributeValue = clamp(this.health.getValue(), this.maxHealth.getValue(), attributeValue);
         }
         return attributeValue;
+    }
+
+    public float getAttributeValue(AttributeDefinition attribute) {
+        switch (attribute) {
+            case HEALTH:
+                return getAttributeValue(health);
+            case MAX_HEALTH:
+                return getAttributeValue(maxHealth);
+        }
+        throw new IllegalArgumentException();
     }
 
     /**

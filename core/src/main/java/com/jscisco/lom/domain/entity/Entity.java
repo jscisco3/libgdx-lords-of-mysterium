@@ -92,10 +92,10 @@ public abstract class Entity {
     }
 
     public void tick() {
-        // Each turn, we should apply effects
+        // Each turn, we should tick effects
         List<Effect> expiredEffects = new ArrayList<>();
         for (Effect effect : this.effects) {
-            effect.apply(this.attributes);
+            effect.tick();
             if (effect.isExpired()) {
                 expiredEffects.add(effect);
             }
@@ -111,8 +111,11 @@ public abstract class Entity {
             effect.apply(this.attributes);
         }
         // Otherwise, it is an effect that makes changes over time. Thus, we add it to the entities active effects.
+        // and toggle it on the appropriate modifiers
+        // TODO: should effects be on the attribute set? Not necessarily.
         else {
             this.effects.add(effect);
+            effect.apply(attributes);
         }
     }
 

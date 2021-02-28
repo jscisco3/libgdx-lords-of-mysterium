@@ -17,6 +17,7 @@ public class Attribute {
     private final Name name;
     private final Description description;
     private float baseValue;
+    // These are just modifiers for the "currentValue"
     private final List<AttributeModifier> modifiers = new ArrayList<>();
 
     public Attribute(Name name, Description description) {
@@ -86,9 +87,11 @@ public class Attribute {
         this.modifiers.add(modifier);
     }
 
-
     public void removeModifier(AttributeModifier modifier) {
         this.modifiers.remove(modifier);
     }
 
+    public List<AttributeModifier> getModifiers() {
+        return modifiers;
+    }
 }

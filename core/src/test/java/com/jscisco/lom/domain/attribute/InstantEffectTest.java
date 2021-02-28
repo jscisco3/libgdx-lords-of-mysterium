@@ -17,16 +17,19 @@ public class InstantEffectTest {
 
     @Test
     public void whenInstantEffectIsApplied_thenTheAttributesBaseValueIsUpdated() {
+
+        Attribute testAttribute = attributeSet.getMaxHealth();
+
         effect = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(attributeSet.getHealth())
+                        .forAttribute(testAttribute)
                         .withMagnitude(10f)
                         .withOperator(Attribute.Operator.ADD));
 
-        float initialValue = attributeSet.getAttributeValue(attributeSet.getHealth());
+        float initialValue = attributeSet.getAttributeValue(testAttribute);
         float expectedValue = initialValue + 10f;
         effect.apply(attributeSet);
 
-        assertThat(attributeSet.getAttributeValue(attributeSet.getHealth())).isEqualTo(expectedValue);
+        assertThat(attributeSet.getAttributeValue(testAttribute)).isEqualTo(expectedValue);
     }
 }

@@ -15,7 +15,7 @@ public class PeriodicEffectTest {
     }
 
     @Test
-    public void whenPeriodicEffectIsApplied_thenItModifiesTheBaseValue() {
+    public void whenPeriodicEffectTicks_thenItModifiesTheBaseValue() {
         Effect periodicEffect = new PeriodicEffect()
                 .withDuration(Duration.turns(100))
                 .addModifier(new AttributeModifier()
@@ -24,7 +24,7 @@ public class PeriodicEffectTest {
                         .withOperator(Attribute.Operator.ADD));
 
         periodicEffect.apply(attributeSet);
-
+        periodicEffect.tick();
         assertThat(attributeSet.getHealth().getBaseValue()).isEqualTo(90f);
     }
 }

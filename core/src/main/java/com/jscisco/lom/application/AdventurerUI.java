@@ -3,10 +3,10 @@ package com.jscisco.lom.application;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.application.ui.Rectangle;
+import com.jscisco.lom.domain.attribute.AttributeSet;
 import com.jscisco.lom.domain.entity.Player;
 
 public class AdventurerUI extends Table {
@@ -14,7 +14,7 @@ public class AdventurerUI extends Table {
     private Player player;
     private Label name;
     private Label position;
-    private ProgressBar healthBar;
+    private Label health;
 
     private Skin skin = GameConfiguration.getSkin();
 
@@ -32,8 +32,9 @@ public class AdventurerUI extends Table {
         this.position = new Label(String.format("(%d, %d)", player.getPosition().getX(), player.getPosition().getY()), skin);
         this.add(position);
         this.row();
-        this.healthBar = new ProgressBar(0f, this.player.getAttributes().getMaxHealth().getValue(), 1f, false, skin);
-        this.add(healthBar);
+        this.health = new Label(String.format("%.2f/%.2f", player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
+        this.health.setColor(Color.RED);
+        this.add(health);
 
     }
 
@@ -42,6 +43,6 @@ public class AdventurerUI extends Table {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         this.position.setText(String.format("(%d, %d)", player.getPosition().getX(), player.getPosition().getY()));
-        this.healthBar.setValue(this.player.getAttributes().getHealth().getValue());
+        this.health.setText(String.format("%.2f/%.2f", player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
     }
 }

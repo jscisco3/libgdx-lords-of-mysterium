@@ -6,19 +6,18 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.WalkAction;
+import com.jscisco.lom.domain.attribute.Attribute;
+import com.jscisco.lom.domain.attribute.AttributeModifier;
+import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.ActorFactory;
 import com.jscisco.lom.domain.entity.Player;
 import com.jscisco.lom.domain.zone.Level;
@@ -68,6 +67,20 @@ public class GameScreen extends AbstractScreen {
         adventurerUI.top();
         stage.addActor(adventurerUI);
         stage.setDebugAll(false);
+
+        player.applyEffect(
+                new InstantEffect()
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(player.getAttributes().getMaxHealth())
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(player.getAttributes().getHealth())
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+        );
     }
 
     @Override
