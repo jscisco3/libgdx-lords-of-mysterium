@@ -25,4 +25,16 @@ public class Duration {
     public static Duration permanent() {
         return new Duration(true);
     }
+
+    public boolean isPermanent() {
+        return permanent;
+    }
+
+    public void decrementDuration() {
+        this.turns -= 1;
+    }
+
+    public boolean isExpired() {
+        return !isPermanent() && this.turns <= 0;
+    }
 }

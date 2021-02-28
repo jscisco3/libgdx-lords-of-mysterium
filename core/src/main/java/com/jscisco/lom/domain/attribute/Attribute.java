@@ -8,55 +8,70 @@ import java.util.List;
 
 public class Attribute {
 
-    public enum AttributeType {
-        HEALTH("Health", "Current health"),
-        MAX_HEALTH("Maximum Health", "Maximum health");
-
-        public final Name name;
-        public final Description description;
-
-        AttributeType(String name, String description) {
-            this.name = Name.of(name);
-            this.description = Description.of(description);
-        }
-    }
-
     public enum Operator {
         ADD,
-        MULTIPLY
+        MULTIPLY,
+        OVERRIDE
     }
 
-    private float baseValue = 0f;
-    private final AttributeType type;
+    private final Name name;
+    private final Description description;
+    private float baseValue;
     private final List<AttributeModifier> modifiers = new ArrayList<>();
 
-    public Attribute(AttributeType type) {
-        this.type = type;
+    public Attribute(Name name, Description description) {
+        this.name = name;
+        this.description = description;
+        this.baseValue = 0f;
     }
 
-    public Attribute(AttributeType type, float baseValue) {
-        this.type = type;
+    public Attribute(Name name, Description description, float baseValue) {
+        this.name = name;
+        this.description = description;
         this.baseValue = baseValue;
     }
 
     public float getValue() {
-        return applyAdders(applyMultipliers(baseValue));
+        return applyOverrides(applyAdders(applyMultipliers(baseValue)));
+    }
+
+    // Note: If there are multiple overrides, then the most recently added override will be applied
+    public float applyOverrides(float value) {
+        float newValue = value;
+        for (AttributeModifier modifier : modifiers) {
+            if (modifier.getOperator().equals(Operator.OVERRIDE)) {
+                newValue = modifier.getMagnitude();
+            }
+        }
+        return newValue;
     }
 
     public float applyMultipliers(float value) {
-        return value;
+        float newValue = value;
+        for (AttributeModifier modifier : modifiers) {
+            if (modifier.getOperator().equals(Operator.MULTIPLY)) {
+                newValue *= modifier.getMagnitude();
+            }
+        }
+        return newValue;
     }
 
     public float applyAdders(float value) {
-        return value;
+        float newValue = value;
+        for (AttributeModifier modifier : modifiers) {
+            if (modifier.getOperator().equals(Operator.ADD)) {
+                newValue += modifier.getMagnitude();
+            }
+        }
+        return newValue;
     }
 
     public Name getName() {
-        return type.name;
+        return name;
     }
 
     public Description getDescription() {
-        return type.description;
+        return description;
     }
 
     public float getBaseValue() {
@@ -71,9 +86,6 @@ public class Attribute {
         this.modifiers.add(modifier);
     }
 
-    public AttributeType getType() {
-        return type;
-    }
 
     public void removeModifier(AttributeModifier modifier) {
         this.modifiers.remove(modifier);

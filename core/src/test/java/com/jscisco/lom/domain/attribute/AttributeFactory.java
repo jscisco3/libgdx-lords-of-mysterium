@@ -1,5 +1,8 @@
 package com.jscisco.lom.domain.attribute;
 
+import com.jscisco.lom.domain.Description;
+import com.jscisco.lom.domain.Name;
+
 public class AttributeFactory {
 
     public static Attribute testAttribute() {
@@ -8,7 +11,7 @@ public class AttributeFactory {
 
 
     public static Attribute testAttribute(float value) {
-        return new Attribute(Attribute.AttributeType.HEALTH, value);
+        return new Attribute(Name.of("Test"), Description.of("Test attribute"), value);
     }
 
 }

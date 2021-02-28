@@ -73,6 +73,8 @@ public class Level {
             action = result.getAlternative();
         }
         currentActorIndex = (currentActorIndex + 1) % entities.size();
+        // Here, we can start the next actors turn
+        entities.get(currentActorIndex).tick();
     }
 
     public Tile getTileAt(Position position) {

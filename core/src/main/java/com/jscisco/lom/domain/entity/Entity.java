@@ -23,7 +23,7 @@ public abstract class Entity {
     protected Position position;
 
     protected Map<Tag, Integer> tags = new HashMap<>();
-    protected Map<Attribute.AttributeType, Attribute> attributes = new HashMap<>();
+    protected AttributeSet attributes = new AttributeSet();
     protected List<Effect> effects = new ArrayList<>();
 
     protected Inventory inventory;
@@ -92,41 +92,45 @@ public abstract class Entity {
     }
 
     public void tick() {
-
+        // Each turn, we should apply effects
+        List<Effect> expiredEffects = new ArrayList<>();
+        for (Effect effect : this.effects) {
+            effect.apply(this.attributes);
+            if (effect.isExpired()) {
+                expiredEffects.add(effect);
+            }
+        }
+        for (Effect effect : expiredEffects) {
+            removeEffect(effect);
+        }
     }
 
     public void applyEffect(Effect effect) {
         if (effect instanceof InstantEffect) {
-            for (AttributeModifier modifier : effect.getModifiers()) {
-                Attribute attribute = this.attributes.get(modifier.getAttributeType());
-                switch (attribute.getType()) {
-                    case HEALTH:
-                        float newValue = attribute.getBaseValue();
-                        if (modifier.getOperator().equals(Attribute.Operator.ADD)) {
-                            newValue = attribute.getBaseValue() + modifier.getMagnitude();
-                        }
-                        else {
-                            newValue = attribute.getBaseValue() * modifier.getMagnitude();
-                        }
-                        attribute.setBaseValue(Math.max(newValue, attributes.get(Attribute.AttributeType.MAX_HEALTH).getValue()));
-                }
-            }
+            // Apply them immediately.
+            effect.apply(this.attributes);
+        }
+        // Otherwise, it is an effect that makes changes over time. Thus, we add it to the entities active effects.
+        else {
+            this.effects.add(effect);
         }
     }
 
     public void removeEffect(Effect effect) {
-        // Get the modifiers associated with this effect
-        List<AttributeModifier> modifiers = effect.getModifiers();
-        // Remove them from their attributes
+        // Here, we need to remove the modifiers that are on the attribute
         for (AttributeModifier modifier : effect.getModifiers()) {
-            Attribute attribute = attributes.get(modifier.getAttributeType());
-            attribute.removeModifier(modifier);
+            modifier.getAttribute().removeModifier(modifier);
         }
+        // Then, we remove the effect
         this.effects.remove(effect);
     }
 
     public boolean hasTag(Tag tag) {
         return tags.containsKey(tag) && tags.get(tag) > 0;
+    }
+
+    public AttributeSet getAttributes() {
+        return this.attributes;
     }
 
 }

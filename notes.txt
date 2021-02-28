@@ -104,7 +104,7 @@ Abilities, Attributes, and Effects:
 
     Thus, we have:
     Entity: List<Ability> knownAbilities;
-            Map<AttributeType, Attribute> attributes;
+            AttributeSet attributes;
             List<GameplayEffect> effects;
             Map<Tag, Integer> tags;
 
@@ -122,3 +122,11 @@ Abilities, Attributes, and Effects:
                         // Decrease duration of Periodic and Temporary effects
                         // Apply changes of Periodic effects to baseValue
 
+
+InstantEffect damage = new InstantEffect().addModifier(Health, -10f, ADD)
+entityBeingDamaged.applyEffect(damage);
+// Immediately subtracts 10 from the entity's health base value
+
+PeriodicEffect poison = new PeriodicEffect().addModifier(Health, -1f, ADD)
+entityBeingDamaged.applyEffect(poison);
+// Adds the effect to the entity, so that it's tick() method will remove 1 from the entities health

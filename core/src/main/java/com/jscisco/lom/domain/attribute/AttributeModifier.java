@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.attribute;
 
 public class AttributeModifier {
-    protected Attribute.AttributeType attributeType;
+    protected Attribute attribute;
     protected float magnitude;
     protected Attribute.Operator operator;
 
@@ -9,8 +9,8 @@ public class AttributeModifier {
 
     }
 
-    public AttributeModifier forType(Attribute.AttributeType attributeType) {
-        this.attributeType = attributeType;
+    public AttributeModifier forAttribute(Attribute attribute) {
+        this.attribute = attribute;
         return this;
     }
 
@@ -24,8 +24,8 @@ public class AttributeModifier {
         return this;
     }
 
-    public Attribute.AttributeType getAttributeType() {
-        return attributeType;
+    public Attribute getAttribute() {
+        return attribute;
     }
 
     public float getMagnitude() {
