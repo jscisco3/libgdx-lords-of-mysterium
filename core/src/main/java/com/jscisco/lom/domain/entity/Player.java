@@ -13,7 +13,6 @@ public class Player extends Entity {
         public Player build() {
             Player player = new Player();
             player.name = this.name;
-            player.attributes = this.attributes;
             player.position = this.position;
             player.texture = this.texture;
             return player;

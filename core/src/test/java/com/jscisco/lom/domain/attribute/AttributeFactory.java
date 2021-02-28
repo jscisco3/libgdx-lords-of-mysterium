@@ -11,7 +11,7 @@ public class AttributeFactory {
 
 
     public static Attribute testAttribute(float value) {
-        return new Attribute(Name.of("Test"), Description.of("Test"), value);
+        return new Attribute(Name.of("Test"), Description.of("Test attribute"), value);
     }
 
 }
