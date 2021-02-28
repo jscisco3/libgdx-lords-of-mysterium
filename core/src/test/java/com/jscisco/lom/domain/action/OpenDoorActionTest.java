@@ -16,7 +16,6 @@ public class OpenDoorActionTest {
     Player player = ActorFactory.player();
 
     @Test
-    @Disabled
     public void openDoorAction_successfulIfTargetHasAClosedDoor() {
         Door door = new Door();
         door.close();

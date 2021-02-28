@@ -20,6 +20,7 @@ public class OpenDoorAction extends Action {
             if (door.isOpen()) {
                 return ActionResult.failed();
             }
+            door.open();
             return ActionResult.succeeded();
         }
         return ActionResult.failed();
