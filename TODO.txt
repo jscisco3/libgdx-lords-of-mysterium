@@ -1,0 +1,38 @@
+Main menu screen
+    * New Game
+    * Loading a game
+    * Quit
+New Game Screen
+    * Initialize kingdom screen
+Kingdom screen
+    * Map view, with buildings
+    * Hire hero screen
+    * Choose dungeon screen
+Hero Death Screen
+Graveyard Screen
+Saving game
+Loading game
+
+Field of View
+    * Player
+    * NPC?
+
+Autoexplore
+    * Game states in general
+
+Data driven files for NPCs
+Data drive files for player stats based on class
+
+Items
+    * Entity inventory
+    * Generate items in level
+    * Pick up items
+        * Pick up popup
+        * Pick up item action
+
+Equipment
+    * Entity equipment
+    * Equip items
+    * Unequip items
+
+Experience Gain

@@ -29,59 +29,15 @@ Level:
     * Consider just having a map of Position -> Tile.
     * Same with Position -> Actor, or Actor -> Position?
 
-Stats:
-    * They have a value that can be modified permanently or temporarily.
-        * Examples:
-            MaxHealth increases by 10 on level up, permanently.
-            Strength increases by 5 for 10 turns after casting Might
-            AC increases by 5 while armor is equipped
-            When poisoned, Health decreased by 5 per turn.
-    * Stat changes can be applied:
-        Instantly
-            Example: MaxHealth increases by 10 on level up.
-                        Health decreases by 7 when hit with a sword
-        Temporarily:
-            Example: Might grants 10 strength for 10 turns
-                        Decay reduces MaxHealth by 20% for 5 turns
-        Persistently
-            Example: Poison deals 5 damage per turn for 10 turns
-
-    * They can relate to one another
-        * Health must be <= MaxHealth
-    * A single effect can modify multiple stats
-        * Blindness decreases EV and To-Hit by 5 for 10 turns
-    * This tells me that we need the following:
-        * Value: The current value of the stat
-        * RecurringEffects: These are effects that apply a delta on a tick (with possible delay)
-            * Example: Poison decreases health by 5 per turn for 5 turns
-        * PermanentEffects: These are effects that are a constant modifier (e.g. from equipped armor, from a spell that falls off)
-            * Example:
-                Might increases strength by 5 for 5 turns
-                Armor increased by 5 when helmet equipped
-
-    * Durations:
-        Instant: Instantly applies change to the attribute's base value
-            * Level up gain max hp
-        Periodic: Applies change to attribute's base value on an interval, until finished (can be permanent)
-            * Poison
-            * Blindness
-        Temporary: Applies change to attribute's current value, until finished. Can be permanent
-            * Berserker Rage
-
-
-Ability:
-    Abilities have an optional cooldown
-    Abilities have an optional cost
-    Abilities can be activated or passive
-        * e.g. treat Poison as a passive ability
-
 Abilities, Attributes, and Effects:
     Entities have Attributes // E.g. Health, MaxHealth
     Entities have Abilities // E.g. Attack, CastSpell
     Entities have Tags // E.g. Stunned, Levitating, etc.
     Attributes have a baseValue and currentValue
     Attributes can have their baseValue modified
-    Attributes' currentValue is calculated on-demand
+    Attribute's currentValue is calculated on-demand
+    Attribute's final value can be clamped. This is done in the AttributeSet.
+        * TODO: How to make some of this easier to remember.
     Effects can modify Attributes
     Effects have a duration
         * Instant
@@ -102,31 +58,3 @@ Abilities, Attributes, and Effects:
     Abilities can have a cost
     Abilities can have a cooldown
 
-    Thus, we have:
-    Entity: List<Ability> knownAbilities;
-            AttributeSet attributes;
-            List<GameplayEffect> effects;
-            Map<Tag, Integer> tags;
-
-            canActivateAbility(ability):
-                if hasTags && notBlocked:
-                    return true
-                return false
-            activateAbility(ability):
-                if (canActivate):
-                    payCost(ability)
-                    ability.activate() ??
-            tick():
-                for effect in effects:
-                    effect.tick()
-                        // Decrease duration of Periodic and Temporary effects
-                        // Apply changes of Periodic effects to baseValue
-
-
-InstantEffect damage = new InstantEffect().addModifier(Health, -10f, ADD)
-entityBeingDamaged.applyEffect(damage);
-// Immediately subtracts 10 from the entity's health base value
-
-PeriodicEffect poison = new PeriodicEffect().addModifier(Health, -1f, ADD)
-entityBeingDamaged.applyEffect(poison);
-// Adds the effect to the entity, so that it's tick() method will remove 1 from the entities health
