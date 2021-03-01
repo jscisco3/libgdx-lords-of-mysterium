@@ -34,24 +34,27 @@ public abstract class Entity {
     protected Entity() {
     }
 
-    public static abstract class Builder {
+    public static abstract class Builder<T extends Builder<T>> {
         protected EntityName name;
         protected Position position = Position.UNKNOWN;
         protected Texture texture;
 
-        public Builder withName(EntityName name) {
+        @SuppressWarnings("unchecked")
+        public T withName(EntityName name) {
             this.name = name;
-            return this;
+            return (T) this;
         }
 
-        public Builder withPosition(Position position) {
+        @SuppressWarnings("unchecked")
+        public T withPosition(Position position) {
             this.position = position;
-            return this;
+            return (T) this;
         }
 
-        public Builder withTexture(Texture texture) {
+        @SuppressWarnings("unchecked")
+        public T withTexture(Texture texture) {
             this.texture = texture;
-            return this;
+            return (T) this;
         }
 
         public abstract Entity build();

@@ -6,14 +6,21 @@ public class NPC extends Entity {
 
     private AIController aiController;
 
-    public static class Builder extends Entity.Builder {
+    public static class Builder extends Entity.Builder<Builder> {
+
+        private AIController controller;
+
+        public Builder withController(AIController controller) {
+            this.controller = controller;
+            return this;
+        }
 
         public NPC build() {
             NPC npc = new NPC();
             npc.name = this.name;
             npc.position = this.position;
             npc.texture = this.texture;
-            npc.aiController = new WanderAIController();
+            npc.aiController = controller;
             return npc;
         }
     }
