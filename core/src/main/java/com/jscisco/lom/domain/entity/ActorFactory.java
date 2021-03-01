@@ -11,4 +11,11 @@ public class ActorFactory {
                 .build();
     }
 
+    public static NPC golem() {
+        return (NPC) new NPC.Builder()
+                .withName(EntityName.of("Golem"))
+                .withTexture(Textures.golem)
+                .build();
+    }
+
 }

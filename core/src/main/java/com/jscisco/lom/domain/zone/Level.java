@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
+import com.jscisco.lom.domain.entity.ActorFactory;
 import com.jscisco.lom.domain.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,8 @@ public class Level {
             tiles.get(0).set(i, TileFactory.wallTile());
             tiles.get(width - 1).set(i, TileFactory.wallTile());
         }
+
+        this.addEntityAtPosition(ActorFactory.golem(), Position.of(5, 5));
 
     }
 

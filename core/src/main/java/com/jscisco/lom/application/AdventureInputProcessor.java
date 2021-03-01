@@ -1,9 +1,6 @@
 package com.jscisco.lom.application;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.jscisco.lom.domain.Direction;
-import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,32 +18,14 @@ public class AdventureInputProcessor implements InputProcessor {
         this.player = player;
     }
 
+    public boolean isKeyDown() {
+        return !keysDown.isEmpty();
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         logger.info("Keydown: " + keycode);
         keysDown.add(keycode);
-//        if (keysDown.contains(Input.Keys.RIGHT)) {
-//            player.setAction(new WalkAction(player, Direction.E));
-//        }
-//        switch (keycode) {
-//            case Input.Keys.LEFT:
-//                player.setAction(new WalkAction(player, Direction.W));
-//                return true;
-//            case Input.Keys.RIGHT:
-//                player.setAction(new WalkAction(player, Direction.E));
-//                return true;
-//            case Input.Keys.UP:
-//                player.setAction(new WalkAction(player, Direction.N));
-//                return true;
-//            case Input.Keys.DOWN:
-//                player.setAction(new WalkAction(player, Direction.S));
-//                return true;
-//            case Input.Keys.PERIOD:
-//                player.setAction(new RestAction(player));
-//                return true;
-//            default:
-//                return false;
-//        }
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.jscisco.lom;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.application.GameScreen;
 import com.jscisco.lom.application.Textures;
@@ -27,7 +28,7 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void render() {
-        screen.render(0);
+        screen.render(Gdx.graphics.getDeltaTime());
     }
 
 }

@@ -34,19 +34,24 @@ public class GameScreen extends AbstractScreen {
 
     Stage stage;
     Player player = ActorFactory.player();
-    AdventureInputProcessor processor;
-    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
     Level level;
 
     // UI Elements
     private AdventurerUI adventurerUI;
+    private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
 
-    int cameraWidth = GameConfiguration.SCREEN_WIDTH;
-    int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
-    Vector3 offset = new Vector3(200f, 0f, 0f);
+    // Input
+    private AdventureInputProcessor processor;
+    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    private float keyPressedTime = 0f;
+    private float initialInputDelay = 0.25f;
 
-    Matrix4 transform = new Matrix4(offset, new Quaternion(), new Vector3(1f, 1f, 1f));
+    private int cameraWidth = GameConfiguration.SCREEN_WIDTH;
+    private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
+
+    Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game) {
         super(game);
@@ -61,8 +66,8 @@ public class GameScreen extends AbstractScreen {
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
-        adventurerUI = new AdventurerUI(player, 0, 0, offset.x, cameraHeight, Color.GRAY);
-        adventurerUI.setWidth(offset.x);
+        adventurerUI = new AdventurerUI(player, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
+        adventurerUI.setWidth(playerUIOffset.x);
         adventurerUI.setHeight(Gdx.graphics.getHeight());
         adventurerUI.top();
         stage.addActor(adventurerUI);
@@ -92,10 +97,10 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        handleInput();
+        handleInput(delta);
         level.process();
         updateCamera();
-        batch.setTransformMatrix(transform);
+        batch.setTransformMatrix(levelBatchTransform);
         level.draw(batch, camera);
         stage.draw();
     }
@@ -104,29 +109,44 @@ public class GameScreen extends AbstractScreen {
         float x = player.getPosition().getX() * 24;
         float y = player.getPosition().getY() * 24;
 
-        x = Math.min(Math.max(cameraWidth / 2f, x), level.getWidth() * 24f - (cameraWidth / 2f) + offset.x);
-        y = Math.min(Math.max(cameraHeight / 2f, y), level.getHeight() * 24f - cameraHeight / 2f + offset.y);
+        x = Math.min(Math.max(cameraWidth / 2f, x), level.getWidth() * 24f - (cameraWidth / 2f) + playerUIOffset.x);
+        y = Math.min(Math.max(cameraHeight / 2f, y), level.getHeight() * 24f - cameraHeight / 2f + playerUIOffset.y);
 
         // Clamp x and y
         camera.position.set(x, y, 0);
         camera.update();
     }
 
-    public void handleInput() {
+    public void handleInput(float delta) {
         Set<Integer> keysDown = processor.getKeysDown();
-        if (keysDown.contains(Input.Keys.UP)) {
+        if (processor.isKeyDown() && keyPressedTime == 0f) {
+            setPlayerAction(keysDown);
+        }
+        if (processor.isKeyDown()) {
+            keyPressedTime += delta;
+        }
+        if (processor.isKeyDown() && keyPressedTime > initialInputDelay) {
+            setPlayerAction(keysDown);
+        }
+        if (!processor.isKeyDown()) {
+            keyPressedTime = 0f;
+        }
+    }
+
+    private void setPlayerAction(Set<Integer> input) {
+        if (input.contains(Input.Keys.UP)) {
             player.setAction(new WalkAction(player, Direction.N));
         }
-        if (keysDown.contains(Input.Keys.DOWN)) {
+        if (input.contains(Input.Keys.DOWN)) {
             player.setAction(new WalkAction(player, Direction.S));
         }
-        if (keysDown.contains(Input.Keys.LEFT)) {
+        if (input.contains(Input.Keys.LEFT)) {
             player.setAction(new WalkAction(player, Direction.W));
         }
-        if (keysDown.contains(Input.Keys.RIGHT)) {
+        if (input.contains(Input.Keys.RIGHT)) {
             player.setAction(new WalkAction(player, Direction.E));
         }
-        if (keysDown.contains(Input.Keys.ESCAPE)) {
+        if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
     }
