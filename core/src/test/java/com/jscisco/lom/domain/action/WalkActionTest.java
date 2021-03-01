@@ -2,7 +2,7 @@ package com.jscisco.lom.domain.action;
 
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Player;
 import com.jscisco.lom.domain.zone.Door;
 import com.jscisco.lom.domain.zone.Level;
@@ -13,14 +13,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class WalkActionTest {
 
     Level level = new Level();
-    Player player = ActorFactory.player();
+    Player player = EntityFactory.player();
 
     @Test
     public void walkActionSuccessfullyMovesActor_ifTargetSpaceIsWalkable() {
         Position startPosition = Position.of(10, 10);
         level.addEntityAtPosition(player, startPosition);
         WalkAction action = new WalkAction(player, Direction.N);
-        assertThat(player.getStage()).isNotNull();
+        assertThat(player.getLevel()).isNotNull();
 
         ActionResult result = action.execute();
 

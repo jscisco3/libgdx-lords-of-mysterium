@@ -6,6 +6,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,8 @@ public class Level {
             tiles.get(0).set(i, TileFactory.wallTile());
             tiles.get(width - 1).set(i, TileFactory.wallTile());
         }
+
+        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 
     }
 
@@ -108,5 +111,11 @@ public class Level {
 
     public int getHeight() {
         return height;
+    }
+
+    public void removeEntity(Entity entity) {
+        // Have to remove it from the tile as well...
+        this.getTileAt(entity.getPosition()).removeOccupant();
+        this.entities.remove(entity);
     }
 }

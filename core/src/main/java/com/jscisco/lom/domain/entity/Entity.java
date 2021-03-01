@@ -34,24 +34,34 @@ public abstract class Entity {
     protected Entity() {
     }
 
-    public static abstract class Builder {
+    public static abstract class Builder<T extends Builder<T>> {
         protected EntityName name;
         protected Position position = Position.UNKNOWN;
         protected Texture texture;
+        protected AttributeSet attributeSet;
 
-        public Builder withName(EntityName name) {
+        @SuppressWarnings("unchecked")
+        public T withName(EntityName name) {
             this.name = name;
-            return this;
+            return (T) this;
         }
 
-        public Builder withPosition(Position position) {
+        @SuppressWarnings("unchecked")
+        public T withPosition(Position position) {
             this.position = position;
-            return this;
+            return (T) this;
         }
 
-        public Builder withTexture(Texture texture) {
+        @SuppressWarnings("unchecked")
+        public T withTexture(Texture texture) {
             this.texture = texture;
-            return this;
+            return (T) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T withAttributes(AttributeSet attributeSet) {
+            this.attributeSet = attributeSet;
+            return (T) this;
         }
 
         public abstract Entity build();
@@ -74,7 +84,7 @@ public abstract class Entity {
         this.level = level;
     }
 
-    public Level getStage() {
+    public Level getLevel() {
         return level;
     }
 
@@ -136,4 +146,9 @@ public abstract class Entity {
         return this.attributes;
     }
 
+    public void onDied() {
+        this.applyEffect(new DurationEffect()
+                .withDuration(Duration.permanent())
+                .grantTag(Tag.DEAD));
+    }
 }

@@ -14,6 +14,7 @@ public class Textures {
     public static Map<Class<? extends Feature>, Texture> featureTextures = new HashMap<>();
 
     public static Texture warriorTexture = null;
+    public static Texture golem = null;
 
 
     public static void initialize() {
@@ -21,6 +22,7 @@ public class Textures {
         featureTextures.put(Wall.class, new Texture(Gdx.files.internal("textures/features/wall.png")));
 
         warriorTexture = new Texture(Gdx.files.internal("textures/entities/warrior.png"));
+        golem = new Texture(Gdx.files.internal("textures/entities/golem.png"));
     }
 
 }

@@ -8,7 +8,7 @@ public class Player extends Entity {
         super();
     }
 
-    public static class Builder extends Entity.Builder {
+    public static class Builder extends Entity.Builder<Builder> {
 
         public Player build() {
             Player player = new Player();
