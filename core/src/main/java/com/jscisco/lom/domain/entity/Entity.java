@@ -146,4 +146,9 @@ public abstract class Entity {
         return this.attributes;
     }
 
+    public void onDied() {
+        this.applyEffect(new DurationEffect()
+                .withDuration(Duration.permanent())
+                .grantTag(Tag.DEAD));
+    }
 }

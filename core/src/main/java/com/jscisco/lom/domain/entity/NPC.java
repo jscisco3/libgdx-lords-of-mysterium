@@ -29,4 +29,10 @@ public class NPC extends Entity {
     public Action nextAction() {
         return aiController.getNextAction(this);
     }
+
+    @Override
+    public void onDied() {
+        super.onDied();
+        this.level.removeEntity(this);
+    }
 }

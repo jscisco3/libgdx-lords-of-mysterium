@@ -25,7 +25,7 @@ public class WalkAction extends Action {
         }
         if (level.getTileAt(newPosition).isWalkable(source)) {
             this.source.move(newPosition);
-            level.getTileAt(oldPosition).occupy(null);
+            level.getTileAt(oldPosition).removeOccupant();
             level.getTileAt(newPosition).occupy(this.source);
             return ActionResult.succeeded();
         }

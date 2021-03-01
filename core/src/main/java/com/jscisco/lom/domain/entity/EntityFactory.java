@@ -32,5 +32,4 @@ public class EntityFactory {
                         .withOperator(Attribute.Operator.OVERRIDE)));
         return golem;
     }
-
 }

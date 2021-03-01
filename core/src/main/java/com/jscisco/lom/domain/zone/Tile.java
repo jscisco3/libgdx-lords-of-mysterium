@@ -33,6 +33,10 @@ public class Tile {
         this.occupant = occupant;
     }
 
+    public void removeOccupant() {
+        this.occupant = null;
+    }
+
     public boolean isOccupied() {
         return this.occupant != null;
     }

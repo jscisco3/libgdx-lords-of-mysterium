@@ -1,9 +1,6 @@
 package com.jscisco.lom.domain.action;
 
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.Effect;
-import com.jscisco.lom.domain.attribute.InstantEffect;
+import com.jscisco.lom.domain.attribute.*;
 import com.jscisco.lom.domain.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +24,20 @@ public class AttackAction extends Action {
     @Override
     public ActionResult execute() {
         float d = 10f;
+        Attribute health = target.getAttributes().getHealth();
         Effect damage = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(target.getAttributes().getHealth())
+                        .forAttribute(health)
                         .withOperator(Attribute.Operator.ADD)
                         .withMagnitude(-d));
         target.applyEffect(damage);
-
-        logger.info(MessageFormat.format("{0} was dealt {1} damage by {2} and has {3} health remaining.", target.getName().getName(), d, source.getName().getName(), target.getAttributes().getHealth().getValue()));
+        logger.info(MessageFormat.format("{0} was dealt {1} damage by {2} and has {3} health remaining.", target.getName().getName(), d, source.getName().getName(), health.getValue()));
+        if (health.getValue() <= 0f) {
+            target.applyEffect(new DurationEffect()
+                    .withDuration(Duration.permanent())
+                    .grantTag(Tag.DEAD));
+            target.onDied();
+        }
         return ActionResult.succeeded();
     }
 }

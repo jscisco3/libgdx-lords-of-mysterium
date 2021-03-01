@@ -4,5 +4,7 @@ public enum Tag {
     STUNNED,
     CONFUSED,
     BLIND,
-    LEVITATING
+    LEVITATING,
+    // Determine if an entity is dead.
+    DEAD
 }
