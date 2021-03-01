@@ -10,7 +10,7 @@ public abstract class Action {
 
     public Action(Entity source) {
         this.source = source;
-        this.level = source.getStage();
+        this.level = source.getLevel();
     }
 
     public abstract ActionResult execute();

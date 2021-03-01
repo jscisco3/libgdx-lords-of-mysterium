@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.zone;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Player;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class LevelTest {
     @Test
     public void whenActorAddedToStage_positionAndTileUpdatedAppropriately() {
         level = new Level();
-        Player p = ActorFactory.player();
+        Player p = EntityFactory.player();
         Position expectedPosition = Position.of(5, 5);
 
         level.addEntityAtPosition(p, expectedPosition);
@@ -34,7 +34,7 @@ public class LevelTest {
         assertThat(p.getPosition()).isEqualTo(expectedPosition);
         assertThat(level.getTileAt(expectedPosition).isOccupied()).isTrue();
         assertThat(level.getTileAt(expectedPosition).getOccupant()).isEqualTo(p);
-        assertThat(p.getStage()).isEqualTo(level);
+        assertThat(p.getLevel()).isEqualTo(level);
     }
 
 }

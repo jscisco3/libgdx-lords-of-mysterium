@@ -18,7 +18,7 @@ import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
-import com.jscisco.lom.domain.entity.ActorFactory;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Player;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
@@ -33,7 +33,7 @@ public class GameScreen extends AbstractScreen {
     private OrthographicCamera camera;
 
     Stage stage;
-    Player player = ActorFactory.player();
+    Player player = EntityFactory.player();
 
     Level level;
 

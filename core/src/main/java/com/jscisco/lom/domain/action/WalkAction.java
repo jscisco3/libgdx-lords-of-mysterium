@@ -17,6 +17,9 @@ public class WalkAction extends Action {
     public ActionResult execute() {
         Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
+        if (level.getTileAt(newPosition).isOccupied()) {
+            return ActionResult.alternate(new AttackAction(source, level.getTileAt(newPosition).getOccupant()));
+        }
         if (level.getTileAt(newPosition).getFeature() instanceof Door) {
             return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
         }

@@ -38,6 +38,7 @@ public abstract class Entity {
         protected EntityName name;
         protected Position position = Position.UNKNOWN;
         protected Texture texture;
+        protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
         public T withName(EntityName name) {
@@ -54,6 +55,12 @@ public abstract class Entity {
         @SuppressWarnings("unchecked")
         public T withTexture(Texture texture) {
             this.texture = texture;
+            return (T) this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public T withAttributes(AttributeSet attributeSet) {
+            this.attributeSet = attributeSet;
             return (T) this;
         }
 
@@ -77,7 +84,7 @@ public abstract class Entity {
         this.level = level;
     }
 
-    public Level getStage() {
+    public Level getLevel() {
         return level;
     }
 
