@@ -37,12 +37,16 @@ public class TitleScreen extends AbstractScreen {
         loadGame.setWidth(100f);
         loadGame.setHeight(50f);
 
+        TextButton kingdomScreen = new TextButton("Kingdom", skin, "default");
+
         TextButton quitGame = new TextButton("Quit", skin, "default");
         quitGame.setWidth(100f);
         quitGame.setHeight(50f);
 
 
         table.add(newGame);
+        table.row();
+        table.add(kingdomScreen);
         table.row();
         table.add(loadGame);
         table.row();
@@ -54,7 +58,6 @@ public class TitleScreen extends AbstractScreen {
                 game.setScreen(new GameScreen(game));
                 dispose();
                 game.getScreen().show();
-
             }
         });
 
@@ -63,6 +66,15 @@ public class TitleScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 Gdx.app.exit();
+            }
+        });
+
+        kingdomScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new KingdomScreen(game));
+                dispose();
+                game.getScreen().show();
             }
         });
 
