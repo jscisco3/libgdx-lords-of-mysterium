@@ -1,3 +1,12 @@
+Asset Manager:
+    Loading screen (done)
+    Create Assets class which contains the AssetManager
+        ref: https://stackoverflow.com/questions/33651323/libgdx-best-way-to-load-all-assets-in-the-game
+    Update Factories to accept Assets class
+    (possibly) update screens to accept Assets class
+    Refactor how textures are retrieved
+
+
 Main menu screen
     * New Game (done)
     * Loading a game
