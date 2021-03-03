@@ -1,6 +1,5 @@
 package com.jscisco.lom.application;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.jscisco.lom.Game;
 

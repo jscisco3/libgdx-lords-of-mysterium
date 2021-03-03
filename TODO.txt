@@ -1,5 +1,5 @@
 Main menu screen
-    * New Game
+    * New Game (done)
     * Loading a game
     * Quit
 New Game Screen
