@@ -1,8 +1,10 @@
 package com.jscisco.lom.application;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.jscisco.lom.Game;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ public class LoadingScreen extends AbstractScreen {
     private final Stage stage;
     private final AssetManager assetManager;
     private final Label loadingProgress = new Label("", GameConfiguration.getSkin(), "default");
+    private long startTimeLoading = TimeUtils.millis();
 
     public LoadingScreen(Game game) {
         super(game);
@@ -28,6 +31,7 @@ public class LoadingScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         if (assetManager.update()) {
+            logger.info(MessageFormat.format("Loaded assets in {0}ms", TimeUtils.timeSinceMillis(startTimeLoading)));
             game.setScreen(new KingdomScreen(this.game));
         }
 
@@ -37,5 +41,21 @@ public class LoadingScreen extends AbstractScreen {
         // Display bar here
         this.loadingProgress.setText(loadingString);
         this.stage.draw();
+    }
+
+    private void loadTextures() {
+        // Terrain features
+        loadTexture("textures/features/floor.png");
+        loadTexture("textures/features/wall.png");
+        // Characters
+        loadTexture("textures/entities/warrior.png");
+        loadTexture("textures/entities/golem.png");
+        // Kingdom
+        loadTexture("textures/kingdom/parchmentAncient.png");
+
+    }
+
+    private void loadTexture(String filename) {
+        assetManager.load(filename, Texture.class);
     }
 }
