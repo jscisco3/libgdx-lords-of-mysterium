@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.zone;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
@@ -91,16 +92,16 @@ public class Level {
         entity.move(position);
     }
 
-    public void draw(SpriteBatch batch, Camera camera) {
+    public void draw(SpriteBatch batch, Assets assets, Camera camera) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                tiles.get(i).get(j).draw(batch, i, j);
+                tiles.get(i).get(j).getFeature().draw(batch, assets, i, j);
             }
         }
         for (Entity e : entities) {
-            e.draw(batch);
+            e.draw(batch, assets);
         }
         batch.end();
     }
