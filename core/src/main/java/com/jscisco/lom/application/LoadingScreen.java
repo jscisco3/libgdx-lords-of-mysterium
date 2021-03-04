@@ -31,8 +31,7 @@ public class LoadingScreen extends AbstractScreen {
         super.render(delta);
         if (assets.getAssetManager().update()) {
             logger.info(MessageFormat.format("Loaded assets in {0}ms", TimeUtils.timeSinceMillis(startTimeLoading)));
-//            game.setScreen(new KingdomScreen(this.game));
-            game.setScreen(new GameScreen(this.game));
+            game.setScreen(new TitleScreen(this.game));
         }
 
         float progress = assets.getAssetManager().getProgress();
