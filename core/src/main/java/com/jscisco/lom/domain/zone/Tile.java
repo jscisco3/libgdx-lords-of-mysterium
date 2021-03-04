@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
@@ -51,11 +52,6 @@ public class Tile {
 
     public boolean isWalkable(Entity entity) {
         return feature.isWalkable(entity);
-    }
-
-    public void draw(SpriteBatch batch, int x, int y) {
-        // Draw just the feature
-        feature.draw(batch, x, y);
     }
 
 }

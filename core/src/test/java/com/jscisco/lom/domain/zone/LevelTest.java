@@ -13,6 +13,7 @@ public class LevelTest {
 
     @Test
     public void whenStageIsCreated_itHasWalls() {
+        // TODO: Fix
         level = new Level();
 
         assertThat(level.getTileAt(Position.of(0, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
@@ -25,6 +26,7 @@ public class LevelTest {
 
     @Test
     public void whenActorAddedToStage_positionAndTileUpdatedAppropriately() {
+        //TODO: Fix
         level = new Level();
         Player p = EntityFactory.player();
         Position expectedPosition = Position.of(5, 5);

@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class OpenDoorActionTest {
 
+    // TODO: Fix
     Level level = new Level();
     Player player = EntityFactory.player();
 

@@ -1,8 +1,10 @@
 package com.jscisco.lom.domain.entity;
 
 
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.attribute.*;
@@ -27,7 +29,7 @@ public abstract class Entity {
     protected List<Effect> effects = new ArrayList<>();
 
     protected Inventory inventory;
-    protected Texture texture;
+    protected AssetDescriptor<Texture> asset;
 
     protected Action action = null;
 
@@ -37,7 +39,7 @@ public abstract class Entity {
     public static abstract class Builder<T extends Builder<T>> {
         protected EntityName name;
         protected Position position = Position.UNKNOWN;
-        protected Texture texture;
+        protected AssetDescriptor<Texture> asset;
         protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
@@ -53,8 +55,8 @@ public abstract class Entity {
         }
 
         @SuppressWarnings("unchecked")
-        public T withTexture(Texture texture) {
-            this.texture = texture;
+        public T withAsset(AssetDescriptor<Texture> asset) {
+            this.asset = asset;
             return (T) this;
         }
 
@@ -88,8 +90,9 @@ public abstract class Entity {
         return level;
     }
 
-    public void draw(SpriteBatch batch) {
-        batch.draw(this.texture, position.getX() * this.texture.getWidth(), position.getY() * this.texture.getHeight());
+    public void draw(SpriteBatch batch, Assets assets) {
+        Texture t = assets.getTexture(this.asset);
+        batch.draw(t, position.getX() * t.getWidth(), position.getY() * t.getHeight());
     }
 
     public abstract Action nextAction();

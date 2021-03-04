@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class WalkActionTest {
 
+    // TODO: Fix
     Level level = new Level();
     Player player = EntityFactory.player();
 

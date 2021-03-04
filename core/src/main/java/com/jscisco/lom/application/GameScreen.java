@@ -29,7 +29,6 @@ import java.util.Set;
 public class GameScreen extends AbstractScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
-
     private OrthographicCamera camera;
 
     Stage stage;
@@ -101,7 +100,7 @@ public class GameScreen extends AbstractScreen {
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
-        level.draw(batch, camera);
+        level.draw(batch, this.game.getAssets(), camera);
         stage.draw();
     }
 
@@ -134,6 +133,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
+        logger.info("Setting player action...");
         if (input.contains(Input.Keys.UP)) {
             player.setAction(new WalkAction(player, Direction.N));
         }
