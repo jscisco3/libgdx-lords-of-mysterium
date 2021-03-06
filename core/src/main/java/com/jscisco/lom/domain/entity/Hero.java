@@ -2,21 +2,20 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
-// TODO: rename to hero
-public class Player extends Entity {
+public class Hero extends Entity {
 
-    private Player() {
+    private Hero() {
         super();
     }
 
     public static class Builder extends Entity.Builder<Builder> {
 
-        public Player build() {
-            Player player = new Player();
-            player.name = this.name;
-            player.position = this.position;
-            player.asset = this.asset;
-            return player;
+        public Hero build() {
+            Hero hero = new Hero();
+            hero.name = this.name;
+            hero.position = this.position;
+            hero.asset = this.asset;
+            return hero;
         }
     }
 

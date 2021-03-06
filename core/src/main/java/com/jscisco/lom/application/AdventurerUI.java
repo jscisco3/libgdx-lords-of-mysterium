@@ -7,32 +7,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.application.ui.Rectangle;
 import com.jscisco.lom.domain.attribute.AttributeSet;
-import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.entity.Hero;
 
 public class AdventurerUI extends Table {
 
-    private Player player;
+    private Hero hero;
     private Label name;
     private Label position;
     private Label health;
 
     private Skin skin = GameConfiguration.getSkin();
 
-    public AdventurerUI(Player player, float x, float y, float width, float height, Color color) {
-        this.player = player;
+    public AdventurerUI(Hero hero, float x, float y, float width, float height, Color color) {
+        this.hero = hero;
         this.setSkin(GameConfiguration.getSkin());
         this.addActor(new Rectangle(x, y, width, height, color));
 
 
-        this.name = new Label(this.player.getName().getName(), skin);
+        this.name = new Label(this.hero.getName().getName(), skin);
 
         this.setFillParent(false);
         this.add(this.name);
         this.row();
-        this.position = new Label(String.format("(%d, %d)", player.getPosition().getX(), player.getPosition().getY()), skin);
+        this.position = new Label(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()), skin);
         this.add(position);
         this.row();
-        this.health = new Label(String.format("%.2f/%.2f", player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
+        this.health = new Label(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
         this.health.setColor(Color.RED);
         this.add(health);
 
@@ -42,7 +42,7 @@ public class AdventurerUI extends Table {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        this.position.setText(String.format("(%d, %d)", player.getPosition().getX(), player.getPosition().getY()));
-        this.health.setText(String.format("%.2f/%.2f", player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), player.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
+        this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
+        this.health.setText(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
     }
 }

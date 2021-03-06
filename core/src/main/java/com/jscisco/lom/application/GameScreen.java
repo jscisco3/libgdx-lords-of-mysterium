@@ -18,7 +18,7 @@ import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.EntityFactory;
-import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +30,7 @@ public class GameScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Player player = EntityFactory.player();
+    Hero hero = EntityFactory.player();
 
     Level level;
 
@@ -57,29 +57,29 @@ public class GameScreen extends AbstractScreen {
         camera.update();
         // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        processor = new AdventureInputProcessor(player);
+        processor = new AdventureInputProcessor(hero);
         // Create a zone and a stage
         level = new Level();
-        level.addEntityAtPosition(player, Position.of(1, 1));
+        level.addEntityAtPosition(hero, Position.of(1, 1));
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
-        adventurerUI = new AdventurerUI(player, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
+        adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
         adventurerUI.setWidth(playerUIOffset.x);
         adventurerUI.setHeight(Gdx.graphics.getHeight());
         adventurerUI.top();
         stage.addActor(adventurerUI);
         stage.setDebugAll(false);
 
-        player.applyEffect(
+        hero.applyEffect(
                 new InstantEffect()
                         .addModifier(new AttributeModifier()
-                                .forAttribute(player.getAttributes().getMaxHealth())
+                                .forAttribute(hero.getAttributes().getMaxHealth())
                                 .withMagnitude(100f)
                                 .withOperator(Attribute.Operator.OVERRIDE)
                         )
                         .addModifier(new AttributeModifier()
-                                .forAttribute(player.getAttributes().getHealth())
+                                .forAttribute(hero.getAttributes().getHealth())
                                 .withMagnitude(100f)
                                 .withOperator(Attribute.Operator.OVERRIDE)
                         )
@@ -102,8 +102,8 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void updateCamera() {
-        float x = player.getPosition().getX() * 24;
-        float y = player.getPosition().getY() * 24;
+        float x = hero.getPosition().getX() * 24;
+        float y = hero.getPosition().getY() * 24;
 
         x = Math.min(Math.max(cameraWidth / 2f, x), level.getWidth() * 24f - (cameraWidth / 2f) + playerUIOffset.x);
         y = Math.min(Math.max(cameraHeight / 2f, y), level.getHeight() * 24f - cameraHeight / 2f + playerUIOffset.y);
@@ -132,16 +132,16 @@ public class GameScreen extends AbstractScreen {
     private void setPlayerAction(Set<Integer> input) {
         logger.info("Setting player action...");
         if (input.contains(Input.Keys.UP)) {
-            player.setAction(new WalkAction(player, Direction.N));
+            hero.setAction(new WalkAction(hero, Direction.N));
         }
         if (input.contains(Input.Keys.DOWN)) {
-            player.setAction(new WalkAction(player, Direction.S));
+            hero.setAction(new WalkAction(hero, Direction.S));
         }
         if (input.contains(Input.Keys.LEFT)) {
-            player.setAction(new WalkAction(player, Direction.W));
+            hero.setAction(new WalkAction(hero, Direction.W));
         }
         if (input.contains(Input.Keys.RIGHT)) {
-            player.setAction(new WalkAction(player, Direction.E));
+            hero.setAction(new WalkAction(hero, Direction.E));
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();

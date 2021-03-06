@@ -7,8 +7,8 @@ import com.jscisco.lom.domain.attribute.InstantEffect;
 
 public class EntityFactory {
 
-    public static Player player() {
-        return new Player.Builder()
+    public static Hero player() {
+        return new Hero.Builder()
                 .withName(EntityName.of("Player"))
                 .withAsset(Assets.warrior)
                 .build();

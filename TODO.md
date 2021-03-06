@@ -38,7 +38,7 @@
 
 ## Field of View
 
-- [ ] For player
+- [ ] For hero
     - [ ] Update tiles
     - [ ]
 

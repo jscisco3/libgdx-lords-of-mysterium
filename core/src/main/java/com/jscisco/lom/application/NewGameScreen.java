@@ -2,14 +2,13 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.ui.HeroBlock;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.EntityName;
-import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +31,7 @@ import java.util.List;
 public class NewGameScreen extends AbstractScreen {
 
     private final Table chooseHeroTable = new Table();
-    private final List<Player> heroes = new ArrayList<Player>();
+    private final List<Hero> heroes = new ArrayList<Hero>();
     private final Table heroChoice;
     private static final Logger logger = LoggerFactory.getLogger(NewGameScreen.class);
 
@@ -99,7 +98,7 @@ public class NewGameScreen extends AbstractScreen {
 
     private void generateHeroes() {
         for (int i = 0; i < 10; i++) {
-            heroes.add(new Player.Builder()
+            heroes.add(new Hero.Builder()
                     .withName(EntityName.of(String.valueOf(i)))
                     .withAsset(Assets.warrior)
                     .build());
@@ -108,7 +107,7 @@ public class NewGameScreen extends AbstractScreen {
 
     private Table createHeroChoiceTable() {
         Table table = new Table(GameConfiguration.getSkin());
-        for (Player p : heroes) {
+        for (Hero p : heroes) {
             table.add(new HeroBlock(p)).top();
 //            table.add(new Label(p.getName().getName(), table.getSkin(), "default")).top().center();
             table.row();

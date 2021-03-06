@@ -2,7 +2,7 @@ package com.jscisco.lom.domain.zone;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.EntityFactory;
-import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.entity.Hero;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -28,7 +28,7 @@ public class LevelTest {
     public void whenActorAddedToStage_positionAndTileUpdatedAppropriately() {
         //TODO: Fix
         level = new Level();
-        Player p = EntityFactory.player();
+        Hero p = EntityFactory.player();
         Position expectedPosition = Position.of(5, 5);
 
         level.addEntityAtPosition(p, expectedPosition);
