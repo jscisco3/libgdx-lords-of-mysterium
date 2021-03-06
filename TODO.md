@@ -21,6 +21,7 @@
 ### Kingdom Screen
 
 - [x] Background
+- [ ] Screen for naming kingdom and so on 
 - [ ] Buildings w/o functionality
 - [ ] Add functionality to buildings
     - [ ] Inn: Hire heroes

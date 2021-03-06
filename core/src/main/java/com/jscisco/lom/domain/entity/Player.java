@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
+// TODO: rename to hero
 public class Player extends Entity {
 
     private Player() {
