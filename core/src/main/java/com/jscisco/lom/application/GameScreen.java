@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
@@ -31,7 +30,6 @@ public class GameScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Stage stage;
     Player player = EntityFactory.player();
 
     Level level;
@@ -57,6 +55,7 @@ public class GameScreen extends AbstractScreen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
         camera.update();
+        // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         processor = new AdventureInputProcessor(player);
         // Create a zone and a stage
@@ -94,14 +93,12 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render(delta);
         handleInput(delta);
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         level.draw(batch, this.game.getAssets(), camera);
-        stage.draw();
     }
 
     private void updateCamera() {

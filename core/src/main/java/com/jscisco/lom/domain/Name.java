@@ -2,7 +2,7 @@ package com.jscisco.lom.domain;
 
 public class Name {
 
-    final String name;
+    private final String name;
 
     private Name(String name) {
         this.name = name;
@@ -12,5 +12,7 @@ public class Name {
         return new Name(name);
     }
 
-
+    public String getName() {
+        return name;
+    }
 }
