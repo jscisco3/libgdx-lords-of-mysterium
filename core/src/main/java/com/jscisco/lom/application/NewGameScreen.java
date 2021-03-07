@@ -1,18 +1,18 @@
 package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.ui.HeroBlock;
 import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.entity.EntityName;
-import com.jscisco.lom.domain.entity.Player;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.FakeLanguageGen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,13 @@ import java.util.List;
 public class NewGameScreen extends AbstractScreen {
 
     private final Table chooseHeroTable = new Table();
-    private final List<Player> heroes = new ArrayList<Player>();
+    private final List<Hero> heroes = new ArrayList<Hero>();
     private final Table heroChoice;
+
+    private final TextArea input = new TextArea(FakeLanguageGen.FANTASY_NAME.word(true), GameConfiguration.getSkin(), "default");
+    private final TextButton next = new TextButton("Start Game", GameConfiguration.getSkin(), "default");
+
+
     private static final Logger logger = LoggerFactory.getLogger(NewGameScreen.class);
 
     public NewGameScreen(Game game) {
@@ -67,19 +72,14 @@ public class NewGameScreen extends AbstractScreen {
 
         Label label = new Label("Name your kingdom: ", GameConfiguration.getSkin(), "default");
         kingdomNameTable.add(label).left().padRight(10f);
-        TextArea input = new TextArea("", GameConfiguration.getSkin(), "default");
         stage.setKeyboardFocus(input);
         kingdomNameTable.add(input);
 
         // Table for next button
         Table bottomTable = new Table();
-        TextButton next = new TextButton("Start Game", GameConfiguration.getSkin(), "default");
-        next.addListener(new ClickListener() {
+        next.addListener(new ChangeListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-//                container.addAction(Actions.moveTo(GameConfiguration.SCREEN_WIDTH, 0, 0.1f));
-//                heroChoice.setVisible(true);
-//                stage.setScrollFocus(heroChoice);
+            public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new KingdomScreen(game, new Kingdom(Name.of(input.getText()))));
             }
         });
@@ -99,8 +99,8 @@ public class NewGameScreen extends AbstractScreen {
 
     private void generateHeroes() {
         for (int i = 0; i < 10; i++) {
-            heroes.add(new Player.Builder()
-                    .withName(EntityName.of(String.valueOf(i)))
+            heroes.add(new Hero.Builder()
+                    .withName(Name.of(String.valueOf(i)))
                     .withAsset(Assets.warrior)
                     .build());
         }
@@ -108,7 +108,7 @@ public class NewGameScreen extends AbstractScreen {
 
     private Table createHeroChoiceTable() {
         Table table = new Table(GameConfiguration.getSkin());
-        for (Player p : heroes) {
+        for (Hero p : heroes) {
             table.add(new HeroBlock(p)).top();
 //            table.add(new Label(p.getName().getName(), table.getSkin(), "default")).top().center();
             table.row();
@@ -128,5 +128,7 @@ public class NewGameScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         stage.act();
+        // Disable next button if there is no name for the kingdom
+        next.setDisabled(StringUtils.isBlank(input.getText()));
     }
 }

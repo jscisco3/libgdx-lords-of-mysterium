@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.attribute.*;
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 public abstract class Entity {
 
-    protected EntityName name;
+    protected Name name;
     protected Level level;
     protected Position position;
 
@@ -37,13 +38,13 @@ public abstract class Entity {
     }
 
     public static abstract class Builder<T extends Builder<T>> {
-        protected EntityName name;
+        protected Name name;
         protected Position position = Position.UNKNOWN;
         protected AssetDescriptor<Texture> asset;
         protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
-        public T withName(EntityName name) {
+        public T withName(Name name) {
             this.name = name;
             return (T) this;
         }
@@ -70,7 +71,7 @@ public abstract class Entity {
 
     }
 
-    public EntityName getName() {
+    public Name getName() {
         return name;
     }
 

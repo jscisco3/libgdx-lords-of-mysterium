@@ -1,22 +1,23 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 
 public class EntityFactory {
 
-    public static Player player() {
-        return new Player.Builder()
-                .withName(EntityName.of("Player"))
+    public static Hero player() {
+        return new Hero.Builder()
+                .withName(Name.of("Player"))
                 .withAsset(Assets.warrior)
                 .build();
     }
 
     public static NPC golem() {
         NPC golem = new NPC.Builder()
-                .withName(EntityName.of("Golem"))
+                .withName(Name.of("Golem"))
                 .withAsset(Assets.golem)
                 .withController(new RestAIController())
                 .build();
