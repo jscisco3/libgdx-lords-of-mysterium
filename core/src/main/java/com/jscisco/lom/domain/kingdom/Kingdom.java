@@ -11,6 +11,8 @@ public class Kingdom {
     private final Name name;
     private List<Hero> heroes;
 
+    private final Inn inn = new Inn();
+
     public Kingdom(Name name) {
         this.name = name;
         this.heroes = new ArrayList<>();
@@ -18,5 +20,10 @@ public class Kingdom {
 
     public Name getName() {
         return name;
+    }
+
+    // TODO: Cost, max number of heroes, etc.
+    public void hireHero(Hero hero) {
+        this.heroes.add(hero);
     }
 }

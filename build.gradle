@@ -66,6 +66,8 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 
         api "com.squidpony:squidlib-util:$squidLibVersion"
+        api 'org.apache.commons:commons-lang3:3.12.0'
+
 
         api "org.slf4j:slf4j-api:$slf4jVersion"
         api 'ch.qos.logback:logback-classic:1.2.3'

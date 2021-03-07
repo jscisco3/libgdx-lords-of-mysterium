@@ -19,6 +19,8 @@ public class Assets {
     public static final AssetDescriptor<Texture> golem = new AssetDescriptor<Texture>("textures/entities/golem.png", Texture.class);
     // Kingdom screen
     public static final AssetDescriptor<Texture> background = new AssetDescriptor<Texture>("textures/kingdom/parchmentAncient.png", Texture.class);
+    public static final AssetDescriptor<Texture> inn = new AssetDescriptor<Texture>("textures/kingdom/inn.png", Texture.class);
+    public static final AssetDescriptor<Texture> portal = new AssetDescriptor<Texture>("textures/kingdom/skull.png", Texture.class);
 
     public Assets() {
         this.assetManager = new AssetManager();
@@ -29,11 +31,16 @@ public class Assets {
     }
 
     public void load() {
+        // Features
         assetManager.load(floor);
         assetManager.load(wall);
+        // Entities
         assetManager.load(warrior);
         assetManager.load(golem);
+        // Kingdom
         assetManager.load(background);
+        assetManager.load(inn);
+        assetManager.load(portal);
     }
 
     public Texture getTexture(AssetDescriptor<Texture> descriptor) {

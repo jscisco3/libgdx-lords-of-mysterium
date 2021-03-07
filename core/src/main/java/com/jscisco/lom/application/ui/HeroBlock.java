@@ -33,4 +33,8 @@ public class HeroBlock extends Group {
         this.addActor(container);
         this.setSize(container.getWidth(), container.getHeight());
     }
+
+    public Hero getHero() {
+        return hero;
+    }
 }

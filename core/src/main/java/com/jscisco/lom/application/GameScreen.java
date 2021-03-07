@@ -99,6 +99,7 @@ public class GameScreen extends AbstractScreen {
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         level.draw(batch, this.game.getAssets(), camera);
+        stage.draw();
     }
 
     private void updateCamera() {
