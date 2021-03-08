@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.item;
 
+import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 
 public class ItemFactory {
@@ -8,7 +9,8 @@ public class ItemFactory {
         return new Item.Builder()
                 .withName(Name.of("Sword"))
                 .withAsset(Assets.sword)
-                .ofType(ItemType.WEAPON);
+                .ofType(ItemType.WEAPON)
+                .build();
     }
 
 }
