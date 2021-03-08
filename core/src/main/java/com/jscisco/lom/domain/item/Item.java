@@ -2,6 +2,9 @@ package com.jscisco.lom.domain.item;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 
 public class Item {
@@ -42,5 +45,13 @@ public class Item {
             item.itemType = this.itemType;
             return item;
         }
+    }
+
+    public void draw(SpriteBatch batch, Assets assets, int x, int y) {
+        Texture t = assets.getTexture(this.asset);
+        Sprite s = new Sprite(t);
+        s.setSize(24f, 24f);
+        s.setPosition(s.getWidth() * x, s.getHeight() * y);
+        s.draw(batch);
     }
 }
