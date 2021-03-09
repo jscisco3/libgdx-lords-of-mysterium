@@ -13,12 +13,14 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,6 +145,15 @@ public class GameScreen extends AbstractScreen {
         }
         if (input.contains(Input.Keys.RIGHT)) {
             hero.setAction(new WalkAction(hero, Direction.E));
+        }
+        if (input.contains(Input.Keys.COMMA)) {
+            hero.setAction(new PickUpItemAction(hero));
+        }
+        if (input.contains(Input.Keys.I)) {
+            // Switch screen to inventory
+            for (Item i : hero.getInventory().getItems()) {
+                logger.info(i.getName().getName());
+            }
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();

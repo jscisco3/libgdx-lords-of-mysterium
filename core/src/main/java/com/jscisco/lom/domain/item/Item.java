@@ -54,4 +54,8 @@ public class Item {
         s.setPosition(s.getWidth() * x, s.getHeight() * y);
         s.draw(batch);
     }
+
+    public Name getName() {
+        return name;
+    }
 }

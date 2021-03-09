@@ -9,6 +9,7 @@ import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.attribute.*;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public abstract class Entity {
     protected AttributeSet attributes = new AttributeSet();
     protected List<Effect> effects = new ArrayList<>();
 
-    protected Inventory inventory;
+    protected Inventory inventory = new Inventory();
     protected AssetDescriptor<Texture> asset;
 
     protected Action action = null;
@@ -98,6 +99,10 @@ public abstract class Entity {
 
     public abstract Action nextAction();
 
+    public void pickup(Item item) {
+        inventory.addItem(item);
+    }
+
     @Override
     public String toString() {
         return "Entity{" +
@@ -154,5 +159,9 @@ public abstract class Entity {
         this.applyEffect(new DurationEffect()
                 .withDuration(Duration.permanent())
                 .grantTag(Tag.DEAD));
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }
