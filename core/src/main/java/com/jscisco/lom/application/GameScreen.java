@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.action.DropItemAction;
 import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
@@ -148,6 +149,9 @@ public class GameScreen extends AbstractScreen {
         }
         if (input.contains(Input.Keys.COMMA)) {
             hero.setAction(new PickUpItemAction(hero));
+        }
+        if (input.contains(Input.Keys.D)) {
+            hero.setAction(new DropItemAction(hero));
         }
         if (input.contains(Input.Keys.I)) {
             // Switch screen to inventory

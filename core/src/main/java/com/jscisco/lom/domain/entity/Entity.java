@@ -103,6 +103,11 @@ public abstract class Entity {
         inventory.addItem(item);
     }
 
+    public void dropItem(Item item) {
+        inventory.removeItem(item);
+        level.getTileAt(this.position).addItem(item);
+    }
+
     @Override
     public String toString() {
         return "Entity{" +
