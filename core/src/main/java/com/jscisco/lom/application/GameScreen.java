@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.ui.ItemWindow;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.DropItemAction;
@@ -97,6 +98,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        stage.act();
         handleInput(delta);
         level.process();
         updateCamera();
@@ -150,11 +152,17 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.COMMA)) {
             hero.setAction(new PickUpItemAction(hero));
         }
-        if (input.contains(Input.Keys.D)) {
-            hero.setAction(new DropItemAction(hero));
-        }
+        // TODO: Consider opening Inventory window with prototype action
+//        if (input.contains(Input.Keys.D)) {
+//            hero.setAction(new DropItemAction(hero));
+//        }
         if (input.contains(Input.Keys.I)) {
-            // Switch screen to inventory
+            ItemWindow inventory = new ItemWindow("Inventory", hero, hero.getInventory().getItems());
+            stage.setScrollFocus(inventory.getScroller());
+            float newWidth = 400, newHeight = 200;
+            inventory.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
+                    (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
+            stage.addActor(inventory);
             for (Item i : hero.getInventory().getItems()) {
                 logger.info(i.getName().getName());
             }

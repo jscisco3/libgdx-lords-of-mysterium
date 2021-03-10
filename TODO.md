@@ -71,7 +71,7 @@
 ## Items
 
 - [ ] Initial item skeleton
-- [ ] Inventory component added to Entity
+- [x] Inventory component added to Entity
 - [ ] Implement relatively generic Popup for choosing something
     - [ ] PickupItemCommand
     - [ ] DropItemCommand

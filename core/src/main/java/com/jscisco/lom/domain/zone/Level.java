@@ -51,6 +51,13 @@ public class Level {
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
     }
 
     /**

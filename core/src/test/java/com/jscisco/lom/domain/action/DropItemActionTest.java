@@ -19,7 +19,8 @@ public class DropItemActionTest {
 
     @Test
     public void givenIHaveNoItems_whenIDropAnItem_thenTheActionFails() {
-        action = new DropItemAction(hero);
+        Item item = ItemFactory.sword();
+        action = new DropItemAction(hero, item);
         ActionResult result = action.execute();
 
         assertThat(result.success()).isFalse();
@@ -32,7 +33,7 @@ public class DropItemActionTest {
         Item item = ItemFactory.sword();
         hero.pickup(item);
 
-        action = new DropItemAction(hero);
+        action = new DropItemAction(hero, item);
         action.execute();
 
         assertThat(hero.getInventory().getItems()).isEmpty();

@@ -72,3 +72,13 @@ Items:
     Items can be created by their components
     Items could have a weight
     Items have a base value, which is then modified by material, enchantments, etc.
+
+Popups:
+    Regular input processor goes:
+        AdventureProcessor (for player commands)
+        Stage
+    When doing a popup, processor should go:
+        Stage
+    When popup is closed, processor should be back to:
+        AdventureProcessor
+        Stage
