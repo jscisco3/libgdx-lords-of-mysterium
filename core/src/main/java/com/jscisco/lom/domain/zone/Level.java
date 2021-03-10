@@ -8,6 +8,7 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.item.ItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,8 +49,8 @@ public class Level {
         }
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
-        getTileAt(Position.of(5, 5)).addItem(ItemFactory.sword());
-        getTileAt(Position.of(4, 7)).addItem(ItemFactory.sword());
+        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
+        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
     }
 
     /**
@@ -125,5 +126,9 @@ public class Level {
 
     public Tile getTileOccupiedByEntity(Entity entity) {
         return getTileAt(entity.getPosition());
+    }
+
+    public void addItemAtPosition(Item item, Position position) {
+        getTileAt(position).addItem(item);
     }
 }
