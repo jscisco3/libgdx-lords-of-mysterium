@@ -14,7 +14,6 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.ui.ItemWindow;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.action.DropItemAction;
 import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
@@ -42,6 +41,7 @@ public class GameScreen extends AbstractScreen {
     private AdventurerUI adventurerUI;
     private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
 
+    private Stage popupStage = new Stage();
 
     // Input
     private AdventureInputProcessor processor;
@@ -98,13 +98,15 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        stage.act();
         handleInput(delta);
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         level.draw(batch, this.game.getAssets(), camera);
+        stage.act();
         stage.draw();
+        popupStage.act();
+        popupStage.draw();
     }
 
     private void updateCamera() {
@@ -136,7 +138,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
-        logger.info("Setting player action...");
+//        logger.info("Setting player action...");
         if (input.contains(Input.Keys.UP)) {
             hero.setAction(new WalkAction(hero, Direction.N));
         }
@@ -157,12 +159,13 @@ public class GameScreen extends AbstractScreen {
 //            hero.setAction(new DropItemAction(hero));
 //        }
         if (input.contains(Input.Keys.I)) {
-            ItemWindow inventory = new ItemWindow("Inventory", hero, hero.getInventory().getItems());
-            stage.setScrollFocus(inventory.getScroller());
+            ItemWindow inventory = new ItemWindow("Inventory", hero, hero.getInventory().getItems(), inputMultiplexer);
+            Gdx.input.setInputProcessor(popupStage);
             float newWidth = 400, newHeight = 200;
             inventory.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
                     (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
-            stage.addActor(inventory);
+            popupStage.addActor(inventory);
+            popupStage.setScrollFocus(inventory.getScroller());
             for (Item i : hero.getInventory().getItems()) {
                 logger.info(i.getName().getName());
             }
@@ -170,5 +173,8 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+        // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+        // as being pressed.
+        input.clear();
     }
 }
