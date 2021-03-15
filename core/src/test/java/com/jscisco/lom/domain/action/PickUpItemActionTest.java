@@ -21,7 +21,7 @@ public class PickUpItemActionTest {
     public void givenITryToPickUpItem_whenThereAreNoItems_thenTheActionFails() {
         level.addEntityAtPosition(hero, Position.of(1, 1));
 
-        action = new PickUpItemAction(hero);
+        action = new PickUpItemAction(hero, null);
         ActionResult result = action.execute();
 
         assertThat(result.success()).isFalse();
@@ -34,11 +34,10 @@ public class PickUpItemActionTest {
         Item item = ItemFactory.sword();
         level.addItemAtPosition(item, hero.getPosition());
 
-        action = new PickUpItemAction(hero);
+        action = new PickUpItemAction(hero, item);
         ActionResult result = action.execute();
 
         assertThat(result.success()).isTrue();
-        assertThat(level.getTileAt(hero.getPosition()).hasItems()).isFalse();
         assertThat(hero.getInventory().getItems().isEmpty()).isFalse();
         assertThat(hero.getInventory().getItems()).contains(item);
     }

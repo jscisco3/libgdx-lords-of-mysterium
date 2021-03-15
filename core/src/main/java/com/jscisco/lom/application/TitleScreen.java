@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.kingdom.Kingdom;
 
 public class TitleScreen extends AbstractScreen {
 
@@ -37,7 +35,7 @@ public class TitleScreen extends AbstractScreen {
         loadGame.setWidth(100f);
         loadGame.setHeight(50f);
 
-        TextButton kingdomScreen = new TextButton("Kingdom", skin, "default");
+        TextButton quickstart = new TextButton("Quick Start", skin, "default");
 
         TextButton quitGame = new TextButton("Quit", skin, "default");
         quitGame.setWidth(100f);
@@ -46,7 +44,7 @@ public class TitleScreen extends AbstractScreen {
 
         table.add(newGame);
         table.row();
-        table.add(kingdomScreen);
+        table.add(quickstart);
         table.row();
         table.add(loadGame);
         table.row();
@@ -69,10 +67,10 @@ public class TitleScreen extends AbstractScreen {
             }
         });
 
-        kingdomScreen.addListener(new ClickListener() {
+        quickstart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new KingdomScreen(game, new Kingdom(Name.of("Test"))));
+                game.setScreen(new GameScreen(game));
                 dispose();
                 game.getScreen().show();
             }

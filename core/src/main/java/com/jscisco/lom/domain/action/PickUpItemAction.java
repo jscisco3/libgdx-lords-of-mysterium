@@ -11,15 +11,17 @@ import com.jscisco.lom.domain.zone.Tile;
  */
 public class PickUpItemAction extends Action {
 
-    public PickUpItemAction(Entity source) {
+    private final Item item;
+
+    public PickUpItemAction(Entity source, Item item) {
         super(source);
+        this.item = item;
     }
 
     @Override
     public ActionResult execute() {
         Tile tile = source.getLevel().getTileOccupiedByEntity(source);
-        Item item = tile.getTopItem();
-        if (item != null) {
+        if (tile.getItems().contains(item) && item != null) {
             source.pickup(item);
             tile.removeItem(item);
             return ActionResult.succeeded();

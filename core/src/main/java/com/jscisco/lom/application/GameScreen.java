@@ -11,10 +11,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.application.ui.ItemWindow;
+import com.jscisco.lom.application.ui.InventoryWindow;
+import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
@@ -152,14 +152,23 @@ public class GameScreen extends AbstractScreen {
             hero.setAction(new WalkAction(hero, Direction.E));
         }
         if (input.contains(Input.Keys.COMMA)) {
-            hero.setAction(new PickUpItemAction(hero));
+            PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
+            Gdx.input.setInputProcessor(popupStage);
+            float newWidth = 400, newHeight = 200;
+            window.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
+                    (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
+            popupStage.addActor(window);
+            popupStage.setScrollFocus(window.getScroller());
+            for (Item i : hero.getInventory().getItems()) {
+                logger.info(i.getName().getName());
+            }
         }
         // TODO: Consider opening Inventory window with prototype action
 //        if (input.contains(Input.Keys.D)) {
 //            hero.setAction(new DropItemAction(hero));
 //        }
         if (input.contains(Input.Keys.I)) {
-            ItemWindow inventory = new ItemWindow("Inventory", hero, hero.getInventory().getItems(), inputMultiplexer);
+            InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
             Gdx.input.setInputProcessor(popupStage);
             float newWidth = 400, newHeight = 200;
             inventory.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,

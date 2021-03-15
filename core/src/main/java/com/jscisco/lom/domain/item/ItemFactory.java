@@ -13,4 +13,12 @@ public class ItemFactory {
                 .build();
     }
 
+    public static Item ring() {
+        return new Item.Builder()
+                .withName(Name.of("Ring"))
+                .withAsset(Assets.ring)
+                .ofType(ItemType.WEAPON)
+                .build();
+    }
+
 }
