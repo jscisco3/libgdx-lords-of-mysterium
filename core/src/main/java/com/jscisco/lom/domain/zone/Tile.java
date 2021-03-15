@@ -1,18 +1,18 @@
 package com.jscisco.lom.domain.zone;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tile {
 
     Feature feature = FeatureFactory.FLOOR;
     Entity occupant = null;
-    List<Item> items = Collections.emptyList();
+    List<Item> items = new ArrayList<>();
 
     public Feature getFeature() {
         return feature;
@@ -46,12 +46,33 @@ public class Tile {
         return this.items.add(item);
     }
 
-    public Item removeItem(int itemIndex) {
-        return this.items.remove(itemIndex);
+    public boolean removeItem(Item item) {
+        return this.items.remove(item);
     }
 
     public boolean isWalkable(Entity entity) {
         return feature.isWalkable(entity);
+    }
+
+    public boolean hasItems() {
+        return !this.items.isEmpty();
+    }
+
+    public Item getTopItem() {
+        if (hasItems()) {
+            return items.get(items.size() - 1);
+        }
+        return null;
+    }
+
+    public void draw(SpriteBatch batch, Assets assets, int x, int y) {
+        feature.draw(batch, assets, x, y);
+        if (!items.isEmpty()) {
+            items.get(items.size() - 1).draw(batch, assets, x, y);
+        }
+        if (isOccupied()) {
+            occupant.draw(batch, assets);
+        }
     }
 
 }

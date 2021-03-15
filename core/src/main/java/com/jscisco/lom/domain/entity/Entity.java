@@ -7,9 +7,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.attribute.*;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +25,8 @@ import java.util.Map;
  */
 public abstract class Entity {
 
+    private static final Logger logger = LoggerFactory.getLogger(Entity.class);
+
     protected Name name;
     protected Level level;
     protected Position position;
@@ -29,10 +35,12 @@ public abstract class Entity {
     protected AttributeSet attributes = new AttributeSet();
     protected List<Effect> effects = new ArrayList<>();
 
-    protected Inventory inventory;
+    protected Inventory inventory = new Inventory();
     protected AssetDescriptor<Texture> asset;
 
     protected Action action = null;
+
+    protected final Subject subject = new Subject();
 
     protected Entity() {
     }
@@ -98,6 +106,16 @@ public abstract class Entity {
 
     public abstract Action nextAction();
 
+    public void pickup(Item item) {
+        inventory.addItem(item);
+    }
+
+    public void dropItem(Item item) {
+        inventory.removeItem(item);
+        level.getTileAt(this.position).addItem(item);
+        subject.notify(null);
+    }
+
     @Override
     public String toString() {
         return "Entity{" +
@@ -154,5 +172,13 @@ public abstract class Entity {
         this.applyEffect(new DurationEffect()
                 .withDuration(Duration.permanent())
                 .grantTag(Tag.DEAD));
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public Subject getSubject() {
+        return subject;
     }
 }

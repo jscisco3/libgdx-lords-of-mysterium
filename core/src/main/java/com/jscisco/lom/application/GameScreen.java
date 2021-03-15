@@ -11,6 +11,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.ui.InventoryWindow;
+import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.WalkAction;
@@ -19,6 +21,7 @@ import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +41,7 @@ public class GameScreen extends AbstractScreen {
     private AdventurerUI adventurerUI;
     private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
 
+    private Stage popupStage = new Stage();
 
     // Input
     private AdventureInputProcessor processor;
@@ -99,7 +103,10 @@ public class GameScreen extends AbstractScreen {
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         level.draw(batch, this.game.getAssets(), camera);
+        stage.act();
         stage.draw();
+        popupStage.act();
+        popupStage.draw();
     }
 
     private void updateCamera() {
@@ -131,7 +138,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
-        logger.info("Setting player action...");
+//        logger.info("Setting player action...");
         if (input.contains(Input.Keys.UP)) {
             hero.setAction(new WalkAction(hero, Direction.N));
         }
@@ -144,8 +151,39 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.RIGHT)) {
             hero.setAction(new WalkAction(hero, Direction.E));
         }
+        if (input.contains(Input.Keys.COMMA)) {
+            PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
+            Gdx.input.setInputProcessor(popupStage);
+            float newWidth = 400, newHeight = 200;
+            window.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
+                    (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
+            popupStage.addActor(window);
+            popupStage.setScrollFocus(window.getScroller());
+            for (Item i : hero.getInventory().getItems()) {
+                logger.info(i.getName().getName());
+            }
+        }
+        // TODO: Consider opening Inventory window with prototype action
+//        if (input.contains(Input.Keys.D)) {
+//            hero.setAction(new DropItemAction(hero));
+//        }
+        if (input.contains(Input.Keys.I)) {
+            InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
+            Gdx.input.setInputProcessor(popupStage);
+            float newWidth = 400, newHeight = 200;
+            inventory.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
+                    (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
+            popupStage.addActor(inventory);
+            popupStage.setScrollFocus(inventory.getScroller());
+            for (Item i : hero.getInventory().getItems()) {
+                logger.info(i.getName().getName());
+            }
+        }
         if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
+        // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+        // as being pressed.
+        input.clear();
     }
 }

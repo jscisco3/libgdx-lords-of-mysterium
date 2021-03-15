@@ -58,3 +58,27 @@ Abilities, Attributes, and Effects:
     Abilities can have a cost
     Abilities can have a cooldown
 
+Items:
+    Items have a rarity
+        Common, Uncommon, Rare, Exotic (random artifacts, Legendary (fixed artifact)
+    Items have a base material
+        // Metals
+        Iron, Steel, Mithril, Adamantium, etc.
+        // Other
+        Wood -- staves, arrows, etc.
+        Glass -- potions
+        Paper -- scrolls, books
+    Items can be broken down into components
+    Items can be created by their components
+    Items could have a weight
+    Items have a base value, which is then modified by material, enchantments, etc.
+
+Popups:
+    Regular input processor goes:
+        AdventureProcessor (for player commands)
+        Stage
+    When doing a popup, processor should go:
+        Stage
+    When popup is closed, processor should be back to:
+        AdventureProcessor
+        Stage

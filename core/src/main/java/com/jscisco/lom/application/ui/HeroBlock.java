@@ -1,6 +1,5 @@
 package com.jscisco.lom.application.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -14,7 +13,7 @@ import com.jscisco.lom.domain.entity.Hero;
  * Initial hero select
  * (possibly) Graveyeard
  */
-public class HeroBlock extends Group {
+public class HeroBlock extends Block {
     private final Hero hero;
     private final Skin skin = GameConfiguration.getSkin();
     private final Table table = new Table(skin);

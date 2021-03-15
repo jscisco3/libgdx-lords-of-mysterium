@@ -8,6 +8,8 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.item.Item;
+import com.jscisco.lom.domain.item.ItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +49,18 @@ public class Level {
         }
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
-
+        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
+        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
+        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
+        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
+        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
     /**
@@ -97,12 +110,13 @@ public class Level {
         batch.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                tiles.get(i).get(j).getFeature().draw(batch, assets, i, j);
+//                tiles.get(i).get(j).getFeature().draw(batch, assets, i, j);
+                tiles.get(i).get(j).draw(batch, assets, i, j);
             }
         }
-        for (Entity e : entities) {
-            e.draw(batch, assets);
-        }
+//        for (Entity e : entities) {
+//            e.draw(batch, assets);
+//        }
         batch.end();
     }
 
@@ -118,5 +132,13 @@ public class Level {
         // Have to remove it from the tile as well...
         this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
+    }
+
+    public Tile getTileOccupiedByEntity(Entity entity) {
+        return getTileAt(entity.getPosition());
+    }
+
+    public void addItemAtPosition(Item item, Position position) {
+        getTileAt(position).addItem(item);
     }
 }
