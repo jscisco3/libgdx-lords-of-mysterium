@@ -1,13 +1,8 @@
 package com.jscisco.lom.application.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.application.GameConfiguration;
 import com.jscisco.lom.domain.Observer;
@@ -16,28 +11,14 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.item.Item;
 
-public class InventoryWindow extends Window implements Observer {
+public class InventoryWindow extends PopupWindow implements Observer {
     private final Hero hero;
-    private final Table content;
-    private final ScrollPane scroller;
-    private final InputMultiplexer previousInput;
 
     public InventoryWindow(String title, Hero hero, InputMultiplexer previousInput) {
-        super(title, GameConfiguration.getSkin());
+        super(title, GameConfiguration.getSkin(), previousInput);
         this.hero = hero;
         this.hero.getSubject().register(this);
-        this.previousInput = previousInput;
-        TextButton close = new TextButton("X", GameConfiguration.getSkin(), "default");
-        close.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                close();
-            }
-        });
-        getTitleTable().add(close).size(38, 38).padRight(10).padTop(0);
 
-        content = new Table(this.getSkin());
-        scroller = new ScrollPane(content);
         scroller.setFadeScrollBars(false);
 
         setContent();
@@ -51,18 +32,13 @@ public class InventoryWindow extends Window implements Observer {
         return scroller;
     }
 
-    public void close() {
-        Gdx.input.setInputProcessor(previousInput);
-        addAction(Actions.removeActor(this));
-    }
-
     @Override
     public void onNotify(Event event) {
         content.clear();
         setContent();
     }
 
-    private void setContent() {
+    protected void setContent() {
         for (Item i : hero.getInventory().getItems()) {
             ItemBlock block = new ItemBlock(i);
             block.addListener(new ClickListener() {

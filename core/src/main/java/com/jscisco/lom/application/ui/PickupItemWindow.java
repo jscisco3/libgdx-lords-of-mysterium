@@ -1,13 +1,7 @@
 package com.jscisco.lom.application.ui;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.application.GameConfiguration;
 import com.jscisco.lom.domain.action.ActionResult;
@@ -19,34 +13,18 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class PickupItemWindow extends Window {
+public class PickupItemWindow extends PopupWindow {
 
     private static final Logger logger = LoggerFactory.getLogger(PickupItemWindow.class);
 
     private Hero hero;
     private List<Item> items;
-    private final Table content;
-    private final ScrollPane scroller;
-    private final InputMultiplexer previousInput;
 
     public PickupItemWindow(Hero hero, List<Item> items, InputMultiplexer previousInput) {
-        super("Items", GameConfiguration.getSkin());
+        super("Items", GameConfiguration.getSkin(), previousInput);
         this.hero = hero;
         this.items = items;
-        this.previousInput = previousInput;
 
-        // TODO: abstract this to something?
-        TextButton close = new TextButton("X", GameConfiguration.getSkin(), "default");
-        close.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                close();
-            }
-        });
-        getTitleTable().add(close).size(38, 38).padRight(10).padTop(0);
-
-        content = new Table(this.getSkin());
-        scroller = new ScrollPane(content);
         scroller.setFadeScrollBars(false);
 
         setContent();
@@ -56,16 +34,7 @@ public class PickupItemWindow extends Window {
         this.setMovable(false);
     }
 
-    public ScrollPane getScroller() {
-        return scroller;
-    }
-
-    public void close() {
-        Gdx.input.setInputProcessor(previousInput);
-        addAction(Actions.removeActor(this));
-    }
-
-    private void setContent() {
+    protected void setContent() {
         for (Item i : items) {
             ItemBlock block = new ItemBlock(i);
             block.addListener(new ClickListener() {
