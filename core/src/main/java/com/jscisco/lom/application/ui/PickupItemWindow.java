@@ -3,6 +3,7 @@ package com.jscisco.lom.application.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -39,7 +40,7 @@ public class PickupItemWindow extends Window {
         close.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                setVisible(false);
+                close();
             }
         });
         getTitleTable().add(close).size(38, 38).padRight(10).padTop(0);
@@ -59,12 +60,9 @@ public class PickupItemWindow extends Window {
         return scroller;
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
-        if (!visible) {
-            Gdx.input.setInputProcessor(previousInput);
-        }
+    public void close() {
+        Gdx.input.setInputProcessor(previousInput);
+        addAction(Actions.removeActor(this));
     }
 
     private void setContent() {

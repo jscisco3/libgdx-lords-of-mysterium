@@ -151,6 +151,9 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.RIGHT)) {
             hero.setAction(new WalkAction(hero, Direction.E));
         }
+        if (input.contains(Input.Keys.P)) {
+            logger.info("Paused...");
+        }
         if (input.contains(Input.Keys.COMMA)) {
             PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
             Gdx.input.setInputProcessor(popupStage);
@@ -167,6 +170,8 @@ public class GameScreen extends AbstractScreen {
 //        if (input.contains(Input.Keys.D)) {
 //            hero.setAction(new DropItemAction(hero));
 //        }
+        // TODO: we just hide the window, and then we create a new window when we close it.
+        // Consider how we can re-use or delete the old window.
         if (input.contains(Input.Keys.I)) {
             InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
             Gdx.input.setInputProcessor(popupStage);
