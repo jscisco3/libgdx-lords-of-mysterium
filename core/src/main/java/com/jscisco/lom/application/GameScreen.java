@@ -64,7 +64,7 @@ public class GameScreen extends AbstractScreen {
         processor = new AdventureInputProcessor(hero);
         // Create a zone and a stage
         level = new Level();
-        level.addEntityAtPosition(hero, Position.of(1, 1));
+        level.addHero(hero, Position.of(1, 1));
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 

@@ -30,6 +30,7 @@ public abstract class Entity {
     protected Name name;
     protected Level level;
     protected Position position;
+    protected FieldOfView fieldOfView = new FieldOfView(this);
 
     protected Map<Tag, Integer> tags = new HashMap<>();
     protected AttributeSet attributes = new AttributeSet();
@@ -89,9 +90,10 @@ public abstract class Entity {
 
     public void move(Position position) {
         this.position = position;
+        this.calculateFieldOfView();
     }
 
-    public void setStage(Level level) {
+    public void setLevel(Level level) {
         this.level = level;
     }
 
@@ -180,5 +182,17 @@ public abstract class Entity {
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public double[][] calculateFieldOfView() {
+        return fieldOfView.calculateFOV();
+    }
+
+    public FieldOfView getFieldOfView() {
+        return this.fieldOfView;
+    }
+
+    public AssetDescriptor<Texture> getAsset() {
+        return asset;
     }
 }

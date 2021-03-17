@@ -27,4 +27,8 @@ public abstract class Feature {
         return true;
     }
 
+    public boolean blocksSight(Entity entity) {
+        return false;
+    }
+
 }

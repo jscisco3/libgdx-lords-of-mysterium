@@ -58,4 +58,8 @@ public class Item {
     public Name getName() {
         return name;
     }
+
+    public AssetDescriptor<Texture> getAsset() {
+        return asset;
+    }
 }

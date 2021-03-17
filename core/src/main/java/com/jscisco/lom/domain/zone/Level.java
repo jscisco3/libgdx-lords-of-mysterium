@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.zone;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
@@ -8,6 +9,7 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.item.ItemFactory;
 import org.slf4j.Logger;
@@ -20,6 +22,7 @@ public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
+    private Hero hero;
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
@@ -50,13 +53,6 @@ public class Level {
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(4, 7));
         addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
         addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
         addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
@@ -101,22 +97,37 @@ public class Level {
     public void addEntityAtPosition(Entity entity, Position position) {
         this.entities.add(entity);
         this.getTileAt(position).occupy(entity);
-        entity.setStage(this);
+        entity.setLevel(this);
         entity.move(position);
+        entity.calculateFieldOfView();
     }
 
+    /**
+     * Responsible for rendering the level to the given SpriteBatch from the hero's perspective
+     *
+     * @param batch
+     * @param assets
+     * @param camera
+     */
     public void draw(SpriteBatch batch, Assets assets, Camera camera) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-//                tiles.get(i).get(j).getFeature().draw(batch, assets, i, j);
-                tiles.get(i).get(j).draw(batch, assets, i, j);
+                if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
+                    tiles.get(i).get(j).draw(batch, assets, i, j, true);
+                } else if (tiles.get(i).get(j).isExplored()) {
+                    batch.setColor(Color.GRAY);
+                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
+                    batch.setColor(Color.WHITE);
+                }
+//                else if (tiles.get(i).get(j).isExplored() && !this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
+//                    batch.setColor(Color.GRAY);
+//                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
+//                    batch.setColor(Color.WHITE);
+//                }
             }
         }
-//        for (Entity e : entities) {
-//            e.draw(batch, assets);
-//        }
         batch.end();
     }
 
@@ -132,6 +143,11 @@ public class Level {
         // Have to remove it from the tile as well...
         this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
+    }
+
+    public void addHero(Hero hero, Position position) {
+        this.hero = hero;
+        addEntityAtPosition(hero, position);
     }
 
     public Tile getTileOccupiedByEntity(Entity entity) {
