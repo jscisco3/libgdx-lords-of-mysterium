@@ -57,8 +57,10 @@
 - [ ] Load into dungeon save
 
 ## Field of View
-- [ ] For hero
-- [ ] Update tiles to include **explored**
+- [x] For hero
+- [x] Update tiles to include **explored**
+- [ ] Update render method to only draw explored tiles
+- [ ] Update render method for fog of war
 
 ## Autoexplore
 
@@ -72,9 +74,9 @@
 
 - [ ] Initial item skeleton
 - [x] Inventory component added to Entity
-- [ ] Implement relatively generic Popup for choosing something
-    - [ ] PickupItemCommand
-    - [ ] DropItemCommand
+- [x] Implement relatively generic Popup for choosing something
+    - [x] PickupItemCommand
+    - [x] DropItemCommand
 - [ ] Generate items as part of level generation
 
 ## Zone

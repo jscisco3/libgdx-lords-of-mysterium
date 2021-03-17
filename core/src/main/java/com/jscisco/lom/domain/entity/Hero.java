@@ -1,6 +1,8 @@
 package com.jscisco.lom.domain.entity;
 
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
+import squidpony.squidgrid.FOV;
 
 public class Hero extends Entity {
 
@@ -28,5 +30,18 @@ public class Hero extends Entity {
         Action c = this.action;
         this.action = null;
         return c;
+    }
+
+    @Override
+    public double[][] calculateFieldOfView() {
+        double[][] fov = super.calculateFieldOfView();
+        for (int x = 0; x < fov.length; x++) {
+            for (int y = 0 ; y < fov[x].length; y++) {
+                if (fov[x][y] > 0) {
+                    this.level.getTileAt(Position.of(x, y)).explore();
+                }
+            }
+        }
+        return fov;
     }
 }

@@ -14,6 +14,8 @@ public class Tile {
     Entity occupant = null;
     List<Item> items = new ArrayList<>();
 
+    private boolean explored = false;
+
     public Feature getFeature() {
         return feature;
     }
@@ -54,24 +56,31 @@ public class Tile {
         return feature.isWalkable(entity);
     }
 
+    public boolean blocksSight(Entity entity) {
+        return feature.blocksSight(entity);
+    }
+
+    public boolean isExplored() {
+        return explored;
+    }
+
+    public void explore() {
+        this.explored = true;
+    }
+
     public boolean hasItems() {
         return !this.items.isEmpty();
     }
 
-    public Item getTopItem() {
-        if (hasItems()) {
-            return items.get(items.size() - 1);
-        }
-        return null;
-    }
-
-    public void draw(SpriteBatch batch, Assets assets, int x, int y) {
+    public void draw(SpriteBatch batch, Assets assets, int x, int y, boolean isInSight) {
         feature.draw(batch, assets, x, y);
-        if (!items.isEmpty()) {
-            items.get(items.size() - 1).draw(batch, assets, x, y);
-        }
-        if (isOccupied()) {
-            occupant.draw(batch, assets);
+        if (isInSight) {
+            if (!items.isEmpty()) {
+                items.get(items.size() - 1).draw(batch, assets, x, y);
+            }
+            if (isOccupied()) {
+                occupant.draw(batch, assets);
+            }
         }
     }
 
