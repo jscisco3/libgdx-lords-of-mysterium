@@ -1,10 +1,11 @@
-package com.jscisco.lom.application;
+package com.jscisco.lom.application.ui;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.jscisco.lom.application.GameConfiguration;
 import com.jscisco.lom.application.ui.Rectangle;
 import com.jscisco.lom.domain.attribute.AttributeSet;
 import com.jscisco.lom.domain.entity.Hero;

@@ -11,10 +11,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.application.ui.InventoryWindow;
-import com.jscisco.lom.application.ui.PickupItemWindow;
-import com.jscisco.lom.application.ui.PopupWindow;
+import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.Direction;
+import com.jscisco.lom.domain.GameLog;
+import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
@@ -39,7 +39,9 @@ public class GameScreen extends AbstractScreen {
 
     // UI Elements
     private AdventurerUI adventurerUI;
+    private GameLogUI gameLogUI;
     private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
+    private Vector3 gameLogUIOffset = new Vector3(playerUIOffset.x, 200f, 0f);
 
     private Stage popupStage = new Stage();
 
@@ -71,8 +73,14 @@ public class GameScreen extends AbstractScreen {
         adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
         adventurerUI.setWidth(playerUIOffset.x);
         adventurerUI.setHeight(Gdx.graphics.getHeight());
+
+        gameLogUI = new GameLogUI(new GameLog(), playerUIOffset.x, 0, GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, Color.BLUE);
+        gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
+        gameLogUI.setHeight(gameLogUIOffset.y);
+
         adventurerUI.top();
         stage.addActor(adventurerUI);
+        stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
         hero.applyEffect(
@@ -113,10 +121,9 @@ public class GameScreen extends AbstractScreen {
         float x = hero.getPosition().getX() * 24;
         float y = hero.getPosition().getY() * 24;
 
-        x = Math.min(Math.max(cameraWidth / 2f, x), level.getWidth() * 24f - (cameraWidth / 2f) + playerUIOffset.x);
-        y = Math.min(Math.max(cameraHeight / 2f, y), level.getHeight() * 24f - cameraHeight / 2f + playerUIOffset.y);
+        x = MathUtils.clamp(cameraWidth / 2f, level.getWidth() * 24f - (cameraWidth / 2f) + playerUIOffset.x, x);
+        y = MathUtils.clamp(cameraHeight / 2f - gameLogUIOffset.y, level.getHeight() * 24f - cameraHeight / 2f, y);
 
-        // Clamp x and y
         camera.position.set(x, y, 0);
         camera.update();
     }
