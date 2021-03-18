@@ -59,8 +59,9 @@
 ## Field of View
 - [x] For hero
 - [x] Update tiles to include **explored**
-- [ ] Update render method to only draw explored tiles
-- [ ] Update render method for fog of war
+- [x] Update render method to only draw explored tiles
+- [x] Update render method for fog of war
+  - [ ] Update render method to show last thing of interest (entity, item) in explored square
 
 ## Autoexplore
 
@@ -101,3 +102,6 @@
 - [ ] Implement stat boots on equipped items
 - [ ] EquipItem command (relies on PopupMenu)
 - [ ] UnequipItem command (relies on PopupMenu)
+
+## Game log
+- [ ] Display messages in some log
