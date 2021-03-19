@@ -11,8 +11,8 @@ import com.jscisco.lom.domain.event.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-
+// TODO: Fix the layout here so that messages are displayed correctly.
+// TODO: Fix scrolling
 public class GameLogUI extends Table implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(GameLogUI.class);

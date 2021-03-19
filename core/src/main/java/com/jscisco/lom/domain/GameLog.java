@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain;
 
 import com.google.common.eventbus.Subscribe;
+import com.jscisco.lom.domain.event.LogEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +37,8 @@ public class GameLog {
     }
 
     @Subscribe
-    public void handleLogEvent(String message) {
-        logger.info(message);
-        this.log(message);
+    public void handleLogEvent(LogEvent event) {
+        logger.debug("Received Log Event: " + event.toString());
+        this.log(event.getMessage());
     }
 }
