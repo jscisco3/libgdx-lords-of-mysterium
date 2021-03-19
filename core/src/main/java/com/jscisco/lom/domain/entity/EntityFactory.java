@@ -19,7 +19,8 @@ public class EntityFactory {
         NPC golem = new NPC.Builder()
                 .withName(Name.of("Golem"))
                 .withAsset(Assets.golem)
-                .withController(new WanderAIController())
+//                .withController(new WanderAIController())
+                .withController(new RestAIController())
                 .build();
 
         golem.applyEffect(new InstantEffect()

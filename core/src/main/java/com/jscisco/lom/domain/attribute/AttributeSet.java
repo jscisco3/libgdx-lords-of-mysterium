@@ -3,6 +3,8 @@ package com.jscisco.lom.domain.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 
+import static com.jscisco.lom.domain.MathUtils.clamp;
+
 /**
  * Responsible for maintaining relevant attributes
  */
@@ -75,9 +77,5 @@ public class AttributeSet {
      */
     public void applyTemporaryModifier(AttributeModifier modifier) {
         modifier.getAttribute().addModifier(modifier);
-    }
-
-    private float clamp(float min, float max, float value) {
-        return Math.max(min, Math.min(max, value));
     }
 }

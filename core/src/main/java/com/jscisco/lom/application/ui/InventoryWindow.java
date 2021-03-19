@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.jscisco.lom.application.GameConfiguration;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.action.DropItemAction;
 import com.jscisco.lom.domain.entity.Hero;

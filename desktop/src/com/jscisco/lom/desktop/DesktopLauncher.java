@@ -3,7 +3,7 @@ package com.jscisco.lom.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.application.GameConfiguration;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 
 public class DesktopLauncher {
     public static void main(String[] arg) {

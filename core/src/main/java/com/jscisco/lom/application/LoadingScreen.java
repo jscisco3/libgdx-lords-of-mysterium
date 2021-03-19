@@ -3,6 +3,7 @@ package com.jscisco.lom.application;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
