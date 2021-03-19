@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.GameLog;
@@ -41,7 +42,7 @@ public class GameScreen extends AbstractScreen {
     private AdventurerUI adventurerUI;
     private GameLogUI gameLogUI;
     private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
-    private Vector3 gameLogUIOffset = new Vector3(playerUIOffset.x, 200f, 0f);
+    private Vector3 gameLogUIOffset = new Vector3(playerUIOffset.x, 150f, 0f);
 
     private Stage popupStage = new Stage();
 
@@ -74,7 +75,8 @@ public class GameScreen extends AbstractScreen {
         adventurerUI.setWidth(playerUIOffset.x);
         adventurerUI.setHeight(Gdx.graphics.getHeight());
 
-        gameLogUI = new GameLogUI(new GameLog(), playerUIOffset.x, 0, GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, Color.BLUE);
+        gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0, GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
+        gameLogUI.setPosition(playerUIOffset.x, 0f);
         gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
         gameLogUI.setHeight(gameLogUIOffset.y);
 

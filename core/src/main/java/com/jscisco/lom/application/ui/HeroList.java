@@ -1,8 +1,6 @@
 package com.jscisco.lom.application.ui;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.jscisco.lom.application.GameConfiguration;
 import com.jscisco.lom.domain.entity.Hero;
 
 import java.util.List;

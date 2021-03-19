@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.application.LoadingScreen;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 
 public class Game extends ApplicationAdapter {
     Screen screen;
@@ -22,6 +23,7 @@ public class Game extends ApplicationAdapter {
     @Override
     public void create() {
         // Initialize everything
+        GameConfiguration.configureEventBus();
         setScreen(new LoadingScreen(this));
 //        setScreen(new GameScreen(this));
 //        setScreen(new KingdomScreen(this));
