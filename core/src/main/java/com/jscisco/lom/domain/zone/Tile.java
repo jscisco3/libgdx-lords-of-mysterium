@@ -14,6 +14,13 @@ public class Tile {
     Entity occupant = null;
     List<Item> items = new ArrayList<>();
 
+    public Tile() {
+    }
+
+    public Tile(Feature feature) {
+        this.feature = feature;
+    }
+
     private boolean explored = false;
 
     public Feature getFeature() {

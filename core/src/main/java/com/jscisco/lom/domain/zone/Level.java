@@ -22,34 +22,26 @@ public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
+    private LevelGeneratorStrategy generator;
+
     private Hero hero;
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
     private List<List<Tile>> tiles = new ArrayList<>();
 
-    private int width = 80;
-    private int height = 40;
+    private final int width;
+    private final int height;
 
     public Level() {
-        // Let's first create the floors.
-        for (int i = 0; i < width; i++) {
-            List<Tile> column = new ArrayList<>();
-            for (int j = 0; j < height; j++) {
-                column.add(TileFactory.floorTile());
-            }
-            tiles.add(column);
-        }
-        // Now let's do the top and bottom walls
-        for (int i = 0; i < width; i++) {
-            tiles.get(i).set(0, TileFactory.wallTile());
-            tiles.get(i).set(height - 1, TileFactory.wallTile());
-        }
-        // Left and right walls
-        for (int i = 0; i < height; i++) {
-            tiles.get(0).set(i, TileFactory.wallTile());
-            tiles.get(width - 1).set(i, TileFactory.wallTile());
-        }
+        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy(80, 40));
+    }
+
+    public Level(int width, int height, LevelGeneratorStrategy generator) {
+        this.width = width;
+        this.height = height;
+        this.generator = generator;
+        tiles = generator.generate();
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
@@ -156,5 +148,9 @@ public class Level {
 
     public void addItemAtPosition(Item item, Position position) {
         getTileAt(position).addItem(item);
+    }
+
+    public void setTile(Tile t, Position p) {
+        this.tiles.get(p.getX()).set(p.getY(), t);
     }
 }

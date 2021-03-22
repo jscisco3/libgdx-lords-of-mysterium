@@ -14,4 +14,13 @@ public class TileFactory {
         return t;
     }
 
+    public static Tile stairsDown() {
+        return new Tile(FeatureFactory.STAIRS_DOWN);
+    }
+
+
+    public static Tile stairsUp() {
+        return new Tile(FeatureFactory.STAIRS_UP);
+    }
+
 }
