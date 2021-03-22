@@ -34,14 +34,14 @@ public class Level {
     private final int height;
 
     public Level() {
-        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy(80, 40));
+        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {
         this.width = width;
         this.height = height;
         this.generator = generator;
-        tiles = generator.generate();
+        tiles = generator.generate(this.width, this.height);
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
@@ -109,7 +109,7 @@ public class Level {
                 if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
                     tiles.get(i).get(j).draw(batch, assets, i, j, true);
                 } else if (tiles.get(i).get(j).isExplored()) {
-                    batch.setColor(Color.GRAY);
+                    batch.setColor(Color.DARK_GRAY);
                     tiles.get(i).get(j).draw(batch, assets, i, j, false);
                     batch.setColor(Color.WHITE);
                 }

@@ -24,6 +24,7 @@ import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,7 +67,7 @@ public class GameScreen extends AbstractScreen {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         processor = new AdventureInputProcessor(hero);
         // Create a zone and a stage
-        level = new Level();
+        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
         level.addHero(hero, Position.of(1, 1));
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
