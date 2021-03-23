@@ -67,8 +67,8 @@ public class GameScreen extends AbstractScreen {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         processor = new AdventureInputProcessor(hero);
         // Create a zone and a stage
-        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
-        level.addHero(hero, Position.of(1, 1));
+        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
+        level.addHero(hero);
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 

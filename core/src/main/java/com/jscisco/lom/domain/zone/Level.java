@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
@@ -137,9 +139,26 @@ public class Level {
         this.entities.remove(entity);
     }
 
-    public void addHero(Hero hero, Position position) {
+    public void addHero(Hero hero) {
         this.hero = hero;
-        addEntityAtPosition(hero, position);
+        addEntityAtPosition(hero, getEmptyTile(hero));
+    }
+
+    /**
+     * Returns the first tile that is walkable for the entity and unoccupied
+     * @param e
+     * @return
+     */
+    public Position getEmptyTile(Entity e) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Tile t = tiles.get(i).get(j);
+                if (!t.isOccupied() && t.isWalkable(e)) {
+                    return Position.of(i, j);
+                }
+            }
+        }
+        throw new RuntimeException("Could not find empty tile for entity: " + e);
     }
 
     public Tile getTileOccupiedByEntity(Entity entity) {
