@@ -3,6 +3,8 @@ package com.jscisco.lom.domain.zone;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.zone.generation.Cell;
+import com.jscisco.lom.domain.zone.generation.CellularAutomata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +100,30 @@ public abstract class LevelGeneratorStrategy {
             return tiles;
         }
     }
+
+    public static class CellularAutomataStrategy extends LevelGeneratorStrategy {
+
+        @Override
+        protected List<List<Tile>> generate(int width, int height) {
+            List<List<Tile>> tiles = allWalls(width, height);
+            CellularAutomata automata = new CellularAutomata(width, height);
+            for (int i = 0; i < 100; i++) {
+                automata.tick();
+            }
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    Cell c = automata.getCurrentGeneration()[i][j];
+                    if (c.alive()) {
+                        tiles.get(i).get(j).setFeature(FeatureFactory.FLOOR);
+                    } else {
+                        tiles.get(i).get(j).setFeature(FeatureFactory.WALL);
+                    }
+                }
+            }
+            return tiles;
+        }
+    }
+
 
     public static List<List<Tile>> allWalls(int width, int height) {
         List<List<Tile>> tiles = new ArrayList<>();
