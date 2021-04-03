@@ -150,6 +150,9 @@ public class GameScreen extends AbstractScreen {
 
     private void setPlayerAction(Set<Integer> input) {
 //        logger.info("Setting player action...");
+        if (input.contains(Input.Keys.Z)) {
+            Screenshotter.saveScreenshot();
+        }
         if (input.contains(Input.Keys.UP)) {
             hero.setAction(new WalkAction(hero, Direction.N));
         }

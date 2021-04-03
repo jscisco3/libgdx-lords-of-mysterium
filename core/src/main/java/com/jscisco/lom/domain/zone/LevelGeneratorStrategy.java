@@ -1,10 +1,11 @@
 package com.jscisco.lom.domain.zone;
 
+import com.jscisco.ca.Cell;
+import com.jscisco.ca.CellularAutomata;
+import com.jscisco.ca.GameOfLifeRuleSet;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.generation.Cell;
-import com.jscisco.lom.domain.zone.generation.CellularAutomata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,14 +107,25 @@ public abstract class LevelGeneratorStrategy {
         @Override
         protected List<List<Tile>> generate(int width, int height) {
             List<List<Tile>> tiles = allWalls(width, height);
-            CellularAutomata automata = new CellularAutomata(width, height);
+            CellularAutomata automata = new CellularAutomata(width, height, new GameOfLifeRuleSet());
+            Cell[][] seed = new Cell[width][height];
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    seed[i][j] = new Cell(Cell.State.DEAD);
+                }
+            }
+            // Set the outer cells to definitively dead
+            for (int i = 0; i < width; i++) {
+                seed[i][0] = new Cell(Cell.State.DEFINITIVELY_DEAD);
+            }
+
             for (int i = 0; i < 100; i++) {
                 automata.tick();
             }
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    Cell c = automata.getCurrentGeneration()[i][j];
-                    if (c.alive()) {
+                    Cell c = automata.getCells()[i][j];
+                    if (c.isAlive()) {
                         tiles.get(i).get(j).setFeature(FeatureFactory.FLOOR);
                     } else {
                         tiles.get(i).get(j).setFeature(FeatureFactory.WALL);
