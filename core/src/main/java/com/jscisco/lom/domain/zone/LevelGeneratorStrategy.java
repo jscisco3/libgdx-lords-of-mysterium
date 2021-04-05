@@ -1,11 +1,11 @@
 package com.jscisco.lom.domain.zone;
 
-import com.jscisco.ca.Cell;
-import com.jscisco.ca.CellularAutomata;
-import com.jscisco.ca.GameOfLifeRuleSet;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.cellular_automata.Cell;
+import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
+import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
 
 import java.util.ArrayList;
 import java.util.List;
