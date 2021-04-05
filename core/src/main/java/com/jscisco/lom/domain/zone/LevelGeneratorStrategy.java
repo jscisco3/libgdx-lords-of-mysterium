@@ -6,12 +6,16 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.cellular_automata.Cell;
 import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
 import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
+import org.checkerframework.checker.units.qual.C;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class LevelGeneratorStrategy {
+    protected static final Logger logger = LoggerFactory.getLogger(LevelGeneratorStrategy.class);
     protected abstract List<List<Tile>> generate(int width, int height);
 
     public static class EmptyLevelStrategy extends LevelGeneratorStrategy {
@@ -106,28 +110,36 @@ public abstract class LevelGeneratorStrategy {
 
         @Override
         protected List<List<Tile>> generate(int width, int height) {
+            logger.info("Generating...");
             List<List<Tile>> tiles = allWalls(width, height);
-            CellularAutomata automata = new CellularAutomata(width, height, new GameOfLifeRuleSet());
             Cell[][] seed = new Cell[width][height];
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    seed[i][j] = new Cell(Cell.State.DEAD);
+                    seed[i][j] = new Cell(Cell.State.ALIVE);
                 }
             }
             // Set the outer cells to definitively dead
             for (int i = 0; i < width; i++) {
                 seed[i][0] = new Cell(Cell.State.DEFINITIVELY_DEAD);
+                seed[i][height - 1] = new Cell(Cell.State.DEFINITIVELY_DEAD);
             }
+            for (int i = 0; i < height; i++) {
+                seed[0][i] = new Cell(Cell.State.DEFINITIVELY_DEAD);
+                seed[width - 1][i] = new Cell(Cell.State.DEFINITIVELY_DEAD);
+            }
+            CellularAutomata automata = new CellularAutomata(seed, new GameOfLifeRuleSet());
 
             for (int i = 0; i < 100; i++) {
                 automata.tick();
             }
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
-                    Cell c = automata.getCells()[i][j];
+                    Cell c = automata.getCell(Position.of(i, j));
                     if (c.isAlive()) {
+                        logger.debug("Setting floor at position: " + Position.of(i, j).toString());
                         tiles.get(i).get(j).setFeature(FeatureFactory.FLOOR);
                     } else {
+                        logger.debug("Setting wall at position: " + Position.of(i, j).toString());
                         tiles.get(i).get(j).setFeature(FeatureFactory.WALL);
                     }
                 }

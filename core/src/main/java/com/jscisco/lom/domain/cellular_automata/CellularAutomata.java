@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain.cellular_automata;
 
+import com.jscisco.lom.domain.Position;
+
 public class CellularAutomata {
 
     private final RuleSet rules;
@@ -56,5 +58,9 @@ public class CellularAutomata {
 
     public Cell[][] getCells() {
         return cells;
+    }
+
+    public Cell getCell(Position p) {
+        return cells[p.getX()][p.getY()];
     }
 }
