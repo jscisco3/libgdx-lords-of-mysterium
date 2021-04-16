@@ -82,3 +82,15 @@ Popups:
     When popup is closed, processor should be back to:
         AdventureProcessor
         Stage
+
+Zone Generation:
+    Zones will have
+        Depth
+        Population Density (?)
+        Type (e.g. Castle, Demon realm, etc.)
+    Levels will have
+        Length
+        Width
+        LevelGeneratorStrategy generates the Tiles
+        Then it is populated with items
+        Then it is populated with NPCs

@@ -10,6 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+
+import java.time.DateTimeException;
+import java.time.Instant;
 
 public class TitleScreen extends AbstractScreen {
 
@@ -37,6 +42,8 @@ public class TitleScreen extends AbstractScreen {
 
         TextButton quickstart = new TextButton("Quick Start", skin, "default");
 
+        TextButton outputLevel = new TextButton("Output Level", skin, "default");
+
         TextButton quitGame = new TextButton("Quit", skin, "default");
         quitGame.setWidth(100f);
         quitGame.setHeight(50f);
@@ -45,6 +52,8 @@ public class TitleScreen extends AbstractScreen {
         table.add(newGame);
         table.row();
         table.add(quickstart);
+        table.row();
+        table.add(outputLevel);
         table.row();
         table.add(loadGame);
         table.row();
@@ -73,6 +82,15 @@ public class TitleScreen extends AbstractScreen {
                 game.setScreen(new GameScreen(game));
                 dispose();
                 game.getScreen().show();
+            }
+        });
+
+        outputLevel.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Level level = new Level(80, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
+                String filename = "test" + Instant.now().toString() + ".txt";
+                LevelOutputToFile.outputToFile(level, filename);
             }
         });
 

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
@@ -22,34 +24,28 @@ public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
+    private LevelGeneratorStrategy generator;
+
     private Hero hero;
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
+    // TODO: Make this a Tile[][]
     private List<List<Tile>> tiles = new ArrayList<>();
 
-    private int width = 80;
-    private int height = 40;
+    private final int width;
+    private final int height;
 
     public Level() {
-        // Let's first create the floors.
-        for (int i = 0; i < width; i++) {
-            List<Tile> column = new ArrayList<>();
-            for (int j = 0; j < height; j++) {
-                column.add(TileFactory.floorTile());
-            }
-            tiles.add(column);
-        }
-        // Now let's do the top and bottom walls
-        for (int i = 0; i < width; i++) {
-            tiles.get(i).set(0, TileFactory.wallTile());
-            tiles.get(i).set(height - 1, TileFactory.wallTile());
-        }
-        // Left and right walls
-        for (int i = 0; i < height; i++) {
-            tiles.get(0).set(i, TileFactory.wallTile());
-            tiles.get(width - 1).set(i, TileFactory.wallTile());
-        }
+        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
+        getTileAt(Position.of(5, 5)).setFeature(FeatureFactory.WALL);
+    }
+
+    public Level(int width, int height, LevelGeneratorStrategy generator) {
+        this.width = width;
+        this.height = height;
+        this.generator = generator;
+        tiles = generator.generate(this.width, this.height);
 
         this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
         addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
@@ -117,7 +113,7 @@ public class Level {
                 if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
                     tiles.get(i).get(j).draw(batch, assets, i, j, true);
                 } else if (tiles.get(i).get(j).isExplored()) {
-                    batch.setColor(Color.GRAY);
+                    batch.setColor(Color.DARK_GRAY);
                     tiles.get(i).get(j).draw(batch, assets, i, j, false);
                     batch.setColor(Color.WHITE);
                 }
@@ -145,9 +141,26 @@ public class Level {
         this.entities.remove(entity);
     }
 
-    public void addHero(Hero hero, Position position) {
+    public void addHero(Hero hero) {
         this.hero = hero;
-        addEntityAtPosition(hero, position);
+        addEntityAtPosition(hero, getEmptyTile(hero));
+    }
+
+    /**
+     * Returns the first tile that is walkable for the entity and unoccupied
+     * @param e
+     * @return
+     */
+    public Position getEmptyTile(Entity e) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Tile t = tiles.get(i).get(j);
+                if (!t.isOccupied() && t.isWalkable(e)) {
+                    return Position.of(i, j);
+                }
+            }
+        }
+        throw new RuntimeException("Could not find empty tile for entity: " + e);
     }
 
     public Tile getTileOccupiedByEntity(Entity entity) {
@@ -156,5 +169,9 @@ public class Level {
 
     public void addItemAtPosition(Item item, Position position) {
         getTileAt(position).addItem(item);
+    }
+
+    public void setTile(Tile t, Position p) {
+        this.tiles.get(p.getX()).set(p.getY(), t);
     }
 }

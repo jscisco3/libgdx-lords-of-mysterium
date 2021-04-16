@@ -14,6 +14,8 @@ public class Assets {
     // Terrain features
     public static final AssetDescriptor<Texture> floor = new AssetDescriptor<Texture>("textures/features/floor.png", Texture.class);
     public static final AssetDescriptor<Texture> wall = new AssetDescriptor<Texture>("textures/features/wall.png", Texture.class);
+    public static final AssetDescriptor<Texture> stairsDown = new AssetDescriptor<Texture>("textures/features/stairsDown.png", Texture.class);
+    public static final AssetDescriptor<Texture> stairsUp = new AssetDescriptor<Texture>("textures/features/stairsUp.png", Texture.class);
     // Entities
     public static final AssetDescriptor<Texture> warrior = new AssetDescriptor<Texture>("textures/entities/warrior.png", Texture.class);
     public static final AssetDescriptor<Texture> golem = new AssetDescriptor<Texture>("textures/entities/golem.png", Texture.class);
@@ -37,6 +39,8 @@ public class Assets {
         // Features
         assetManager.load(floor);
         assetManager.load(wall);
+        assetManager.load(stairsDown);
+        assetManager.load(stairsUp);
         // Entities
         assetManager.load(warrior);
         assetManager.load(golem);
