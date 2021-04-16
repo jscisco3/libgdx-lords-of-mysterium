@@ -30,6 +30,7 @@ public class Level {
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
+    // TODO: Make this a Tile[][]
     private List<List<Tile>> tiles = new ArrayList<>();
 
     private final int width;
@@ -37,6 +38,7 @@ public class Level {
 
     public Level() {
         this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
+        getTileAt(Position.of(5, 5)).setFeature(FeatureFactory.WALL);
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {

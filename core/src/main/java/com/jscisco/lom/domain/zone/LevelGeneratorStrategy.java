@@ -6,7 +6,6 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.cellular_automata.Cell;
 import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
 import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
-import org.checkerframework.checker.units.qual.C;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,10 +135,8 @@ public abstract class LevelGeneratorStrategy {
                 for (int j = 0; j < height; j++) {
                     Cell c = automata.getCell(Position.of(i, j));
                     if (c.isAlive()) {
-                        logger.debug("Setting floor at position: " + Position.of(i, j).toString());
                         tiles.get(i).get(j).setFeature(FeatureFactory.FLOOR);
                     } else {
-                        logger.debug("Setting wall at position: " + Position.of(i, j).toString());
                         tiles.get(i).get(j).setFeature(FeatureFactory.WALL);
                     }
                 }
