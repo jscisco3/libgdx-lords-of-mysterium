@@ -4,6 +4,7 @@ package com.jscisco.lom.domain.entity;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
@@ -38,6 +39,7 @@ public abstract class Entity {
 
     protected Inventory inventory = new Inventory();
     protected AssetDescriptor<Texture> asset;
+    protected String tex;
 
     protected Action action = null;
 
@@ -102,8 +104,15 @@ public abstract class Entity {
     }
 
     public void draw(SpriteBatch batch, Assets assets) {
-        Texture t = assets.getTexture(this.asset);
-        batch.draw(t, position.getX() * t.getWidth(), position.getY() * t.getHeight());
+        if (this.tex != null) {
+            TextureRegion tr = assets.getTexture(tex);
+            batch.draw(tr, position.getX() * tr.getRegionWidth(), position.getY() * tr.getRegionWidth());
+
+        } else {
+            Texture t = assets.getTexture(this.asset);
+            batch.draw(t, position.getX() * t.getWidth(), position.getY() * t.getHeight());
+
+        }
     }
 
     public abstract Action nextAction();

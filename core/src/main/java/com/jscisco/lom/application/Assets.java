@@ -3,6 +3,8 @@ package com.jscisco.lom.application;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets {
 
@@ -11,6 +13,7 @@ public class Assets {
     /**
      * Assets go here
      */
+    public static final AssetDescriptor<TextureAtlas> atlas = new AssetDescriptor<TextureAtlas>("packed/assets.atlas", TextureAtlas.class);
     // Terrain features
     public static final AssetDescriptor<Texture> floor = new AssetDescriptor<Texture>("textures/features/floor.png", Texture.class);
     public static final AssetDescriptor<Texture> wall = new AssetDescriptor<Texture>("textures/features/wall.png", Texture.class);
@@ -36,6 +39,8 @@ public class Assets {
     }
 
     public void load() {
+        // Texture Atlas
+        assetManager.load(atlas);
         // Features
         assetManager.load(floor);
         assetManager.load(wall);
@@ -51,6 +56,10 @@ public class Assets {
         assetManager.load(background);
         assetManager.load(inn);
         assetManager.load(portal);
+    }
+
+    public TextureRegion getTexture(String name) {
+        return assetManager.get(atlas).findRegion(name);
     }
 
     public Texture getTexture(AssetDescriptor<Texture> descriptor) {

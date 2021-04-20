@@ -16,7 +16,8 @@ public class Hero extends Entity {
             Hero hero = new Hero();
             hero.name = this.name;
             hero.position = this.position;
-            hero.asset = this.asset;
+//            hero.asset = this.asset;
+            hero.tex = "hero";
             return hero;
         }
     }
