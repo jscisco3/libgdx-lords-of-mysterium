@@ -2,7 +2,6 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
-import squidpony.squidgrid.FOV;
 
 public class Hero extends Entity {
 
@@ -16,7 +15,7 @@ public class Hero extends Entity {
             Hero hero = new Hero();
             hero.name = this.name;
             hero.position = this.position;
-            hero.asset = this.asset;
+            hero.glyph = this.glyph;
             return hero;
         }
     }

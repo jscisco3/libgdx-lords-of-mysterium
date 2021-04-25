@@ -2,6 +2,7 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,7 +18,7 @@ public class KingdomScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(KingdomScreen.class);
 
     private Kingdom kingdom;
-    private Texture backgroundTexture;
+    private TextureRegion backgroundTexture;
 
     // UI Elements
     private final Label kingdomName;
@@ -27,16 +28,17 @@ public class KingdomScreen extends AbstractScreen {
     public KingdomScreen(Game game, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
-        backgroundTexture = game.getAssets().getTexture(Assets.background);
-        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+//        backgroundTexture = new Texture(game.getAssets().getTextureRegion(Assets.background)
+//        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        backgroundTexture = game.getAssets().getTextureRegion(Assets.background);
 
         kingdomName = new Label(kingdom.getName().getName(), GameConfiguration.getSkin(), "default");
         kingdomName.setPosition(0, GameConfiguration.SCREEN_HEIGHT - kingdomName.getHeight());
 
-        inn = new Image(game.getAssets().getTexture(Assets.inn));
+        inn = new Image(game.getAssets().getTextureRegion(Assets.inn));
         inn.setPosition(250f, 400f);
 
-        portal = new Image(game.getAssets().getTexture(Assets.portal));
+        portal = new Image(game.getAssets().getTextureRegion(Assets.portal));
         portal.setPosition(600f, 200f);
         portal.addListener(new ClickListener() {
             @Override

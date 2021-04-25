@@ -1,15 +1,23 @@
 package com.jscisco.lom.domain.entity;
 
 
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.domain.Glyph;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
-import com.jscisco.lom.domain.attribute.*;
+import com.jscisco.lom.domain.attribute.AttributeModifier;
+import com.jscisco.lom.domain.attribute.AttributeSet;
+import com.jscisco.lom.domain.attribute.Duration;
+import com.jscisco.lom.domain.attribute.DurationEffect;
+import com.jscisco.lom.domain.attribute.Effect;
+import com.jscisco.lom.domain.attribute.InstantEffect;
+import com.jscisco.lom.domain.attribute.Tag;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
@@ -37,7 +45,7 @@ public abstract class Entity {
     protected List<Effect> effects = new ArrayList<>();
 
     protected Inventory inventory = new Inventory();
-    protected AssetDescriptor<Texture> asset;
+    protected Glyph glyph;
 
     protected Action action = null;
 
@@ -49,7 +57,7 @@ public abstract class Entity {
     public static abstract class Builder<T extends Builder<T>> {
         protected Name name;
         protected Position position = Position.UNKNOWN;
-        protected AssetDescriptor<Texture> asset;
+        protected Glyph glyph;
         protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
@@ -65,8 +73,8 @@ public abstract class Entity {
         }
 
         @SuppressWarnings("unchecked")
-        public T withAsset(AssetDescriptor<Texture> asset) {
-            this.asset = asset;
+        public T withGlyph(Glyph asset) {
+            this.glyph = asset;
             return (T) this;
         }
 
@@ -102,8 +110,9 @@ public abstract class Entity {
     }
 
     public void draw(SpriteBatch batch, Assets assets) {
-        Texture t = assets.getTexture(this.asset);
-        batch.draw(t, position.getX() * t.getWidth(), position.getY() * t.getHeight());
+        Sprite s = new Sprite(assets.getTextureRegion(this.glyph));
+        s.setPosition(s.getWidth() * position.getX(), s.getHeight() * position.getY());
+        s.draw(batch);
     }
 
     public abstract Action nextAction();
@@ -192,7 +201,7 @@ public abstract class Entity {
         return this.fieldOfView;
     }
 
-    public AssetDescriptor<Texture> getAsset() {
-        return asset;
+    public Glyph getGlyph() {
+        return glyph;
     }
 }

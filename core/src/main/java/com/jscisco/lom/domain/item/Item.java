@@ -4,13 +4,15 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.domain.Glyph;
 import com.jscisco.lom.domain.Name;
 
 public class Item {
 
     private Name name;
-    private AssetDescriptor<Texture> asset;
+    private Glyph glyph;
     private ItemType itemType;
 
     private Item() {
@@ -20,7 +22,7 @@ public class Item {
     public static class Builder {
         Name name;
         ItemType itemType;
-        AssetDescriptor<Texture> asset;
+        Glyph glyph;
 
 
         public Builder withName(Name name) {
@@ -33,22 +35,22 @@ public class Item {
             return this;
         }
 
-        public Builder withAsset(AssetDescriptor<Texture> asset) {
-            this.asset = asset;
+        public Builder withGlyph(Glyph glyph) {
+            this.glyph = glyph;
             return this;
         }
 
         public Item build() {
             Item item = new Item();
             item.name = this.name;
-            item.asset = this.asset;
+            item.glyph = this.glyph;
             item.itemType = this.itemType;
             return item;
         }
     }
 
     public void draw(SpriteBatch batch, Assets assets, int x, int y) {
-        Texture t = assets.getTexture(this.asset);
+        TextureRegion t = assets.getTextureRegion(this.glyph);
         Sprite s = new Sprite(t);
         s.setSize(24f, 24f);
         s.setPosition(s.getWidth() * x, s.getHeight() * y);
@@ -59,7 +61,4 @@ public class Item {
         return name;
     }
 
-    public AssetDescriptor<Texture> getAsset() {
-        return asset;
-    }
 }

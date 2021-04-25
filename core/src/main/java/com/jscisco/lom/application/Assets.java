@@ -2,7 +2,9 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.jscisco.lom.domain.Glyph;
 
 public class Assets {
 
@@ -11,21 +13,24 @@ public class Assets {
     /**
      * Assets go here
      */
+
+    public static final AssetDescriptor<TextureAtlas> atlas = new AssetDescriptor<TextureAtlas>("packed/assets.atlas", TextureAtlas.class);
+
     // Terrain features
-    public static final AssetDescriptor<Texture> floor = new AssetDescriptor<Texture>("textures/features/floor.png", Texture.class);
-    public static final AssetDescriptor<Texture> wall = new AssetDescriptor<Texture>("textures/features/wall.png", Texture.class);
-    public static final AssetDescriptor<Texture> stairsDown = new AssetDescriptor<Texture>("textures/features/stairsDown.png", Texture.class);
-    public static final AssetDescriptor<Texture> stairsUp = new AssetDescriptor<Texture>("textures/features/stairsUp.png", Texture.class);
+    public static final Glyph floor = Glyph.of("floor");
+    public static final Glyph wall = Glyph.of("wall");
+    public static final Glyph stairsDown = Glyph.of("stairsDown");
+    public static final Glyph stairsUp = Glyph.of("stairsUp");
     // Entities
-    public static final AssetDescriptor<Texture> warrior = new AssetDescriptor<Texture>("textures/entities/warrior.png", Texture.class);
-    public static final AssetDescriptor<Texture> golem = new AssetDescriptor<Texture>("textures/entities/golem.png", Texture.class);
+    public static final Glyph warrior = Glyph.of("warrior");
+    public static final Glyph golem = Glyph.of("golem");
     // Items
-    public static final AssetDescriptor<Texture> sword = new AssetDescriptor<Texture>("textures/items/sword.png", Texture.class);
-    public static final AssetDescriptor<Texture> ring = new AssetDescriptor<Texture>("textures/items/ring.png", Texture.class);
+    public static final Glyph sword = Glyph.of("sword");
+    public static final Glyph ring = Glyph.of("ring");
     // Kingdom screen
-    public static final AssetDescriptor<Texture> background = new AssetDescriptor<Texture>("textures/kingdom/parchmentAncient.png", Texture.class);
-    public static final AssetDescriptor<Texture> inn = new AssetDescriptor<Texture>("textures/kingdom/inn.png", Texture.class);
-    public static final AssetDescriptor<Texture> portal = new AssetDescriptor<Texture>("textures/kingdom/skull.png", Texture.class);
+    public static final String background = "parchmentAncient";
+    public static final String inn = "inn";
+    public static final String portal = "skull";
 
     public Assets() {
         this.assetManager = new AssetManager();
@@ -36,25 +41,15 @@ public class Assets {
     }
 
     public void load() {
-        // Features
-        assetManager.load(floor);
-        assetManager.load(wall);
-        assetManager.load(stairsDown);
-        assetManager.load(stairsUp);
-        // Entities
-        assetManager.load(warrior);
-        assetManager.load(golem);
-        // Items
-        assetManager.load(sword);
-        assetManager.load(ring);
-        // Kingdom
-        assetManager.load(background);
-        assetManager.load(inn);
-        assetManager.load(portal);
+        assetManager.load(atlas);
     }
 
-    public Texture getTexture(AssetDescriptor<Texture> descriptor) {
-        return assetManager.get(descriptor);
+    public TextureRegion getTextureRegion(String region) {
+        return assetManager.get(atlas).findRegion(region);
+    }
+
+    public TextureRegion getTextureRegion(Glyph glyph) {
+        return assetManager.get(atlas).findRegion(glyph.get());
     }
 
     public void dispose() {

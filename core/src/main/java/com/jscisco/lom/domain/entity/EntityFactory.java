@@ -11,14 +11,14 @@ public class EntityFactory {
     public static Hero player() {
         return new Hero.Builder()
                 .withName(Name.of("Player"))
-                .withAsset(Assets.warrior)
+                .withGlyph(Assets.warrior)
                 .build();
     }
 
     public static NPC golem() {
         NPC golem = new NPC.Builder()
                 .withName(Name.of("Golem"))
-                .withAsset(Assets.golem)
+                .withGlyph(Assets.golem)
 //                .withController(new WanderAIController())
                 .withController(new RestAIController())
                 .build();

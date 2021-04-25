@@ -108,6 +108,7 @@ public class Level {
     public void draw(SpriteBatch batch, Assets assets, Camera camera) {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
