@@ -152,28 +152,14 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
-//        logger.info("Setting player action...");
         if (input.contains(Input.Keys.Z)) {
             Screenshotter.saveScreenshot();
-        }
-        if (input.contains(Input.Keys.UP)) {
-            hero.setAction(new WalkAction(hero, Direction.N));
-        }
-        if (input.contains(Input.Keys.DOWN)) {
-            hero.setAction(new WalkAction(hero, Direction.S));
-        }
-        if (input.contains(Input.Keys.LEFT)) {
-            hero.setAction(new WalkAction(hero, Direction.W));
-        }
-        if (input.contains(Input.Keys.RIGHT)) {
-            hero.setAction(new WalkAction(hero, Direction.E));
-        }
-        if (input.contains(Input.Keys.P)) {
-            logger.info("Paused...");
         }
         if (input.contains(Input.Keys.COMMA)) {
             PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
             popup(window);
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // as being pressed.
             input.clear();
         }
         // TODO: Consider opening Inventory window with prototype action
@@ -185,13 +171,14 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.I)) {
             InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
             popup(inventory);
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // as being pressed.
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             Gdx.app.exit();
         }
-        // Have to clear the input because otherwise, when we change the input processor... it still counts the character
-        // as being pressed.
+        hero.handleInput(input);
     }
 
     private void popup(PopupWindow popupWindow) {

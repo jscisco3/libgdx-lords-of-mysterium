@@ -111,3 +111,8 @@ Input Handling:
         'R' should put the player to resting.
         Any key press should cancel this state
         While health < Maximum, get rest action.
+
+Hero State Machine:
+    Hero has a StateMachine
+    States have Transitions (essentially, next state)
+    e.g. state.transition(nextState)

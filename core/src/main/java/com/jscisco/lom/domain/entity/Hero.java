@@ -2,12 +2,18 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
-import squidpony.squidgrid.FOV;
+import com.jscisco.lom.domain.state.DefaultState;
+import com.jscisco.lom.domain.state.State;
+
+import java.util.Set;
 
 public class Hero extends Entity {
 
+    private State state;
+
     private Hero() {
         super();
+        this.state = new DefaultState(this);
     }
 
     public static class Builder extends Entity.Builder<Builder> {
@@ -21,22 +27,21 @@ public class Hero extends Entity {
         }
     }
 
+    // TODO: Remove
     public void setAction(Action action) {
         this.action = action;
     }
 
     @Override
     public Action nextAction() {
-        Action c = this.action;
-        this.action = null;
-        return c;
+        return state.getNextAction();
     }
 
     @Override
     public double[][] calculateFieldOfView() {
         double[][] fov = super.calculateFieldOfView();
         for (int x = 0; x < fov.length; x++) {
-            for (int y = 0 ; y < fov[x].length; y++) {
+            for (int y = 0; y < fov[x].length; y++) {
                 if (fov[x][y] > 0) {
                     this.level.getTileAt(Position.of(x, y)).explore();
                 }
@@ -44,4 +49,17 @@ public class Hero extends Entity {
         }
         return fov;
     }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public void handleInput(Set<Integer> input) {
+        state.handleInput(input);
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
 }
