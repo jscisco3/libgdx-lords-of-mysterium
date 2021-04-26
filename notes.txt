@@ -94,3 +94,20 @@ Zone Generation:
         LevelGeneratorStrategy generates the Tiles
         Then it is populated with items
         Then it is populated with NPCs
+
+
+Input Handling:
+    We have say, the GameScreen, which has an InputProcessor.
+    The input processor can change based on the Player's state
+    For example:
+        PlayerState -> AutoExplore
+        Any key press should pop the autoexplore state back to normal
+        AutoExplore should automatically assign actions to the user
+
+        PlayerState -> Normal
+        'z' should put the player state to AutoExplore
+
+        PlayerState -> Resting
+        'R' should put the player to resting.
+        Any key press should cancel this state
+        While health < Maximum, get rest action.
