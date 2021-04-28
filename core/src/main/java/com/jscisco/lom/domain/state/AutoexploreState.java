@@ -4,8 +4,10 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.WalkAction;
+import com.jscisco.lom.domain.entity.FieldOfView;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -39,25 +41,46 @@ public class AutoexploreState extends State {
                 weights[x][y] = DijkstraMap.FLOOR;
             }
         }
-        this.dijkstraMap = new DijkstraMap(weights, Measurement.CHEBYSHEV);
+        this.dijkstraMap = new DijkstraMap(weights, Measurement.EUCLIDEAN);
         // Initial goal is nearest unexplored tile
         this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
     }
 
     @Override
     public Action getNextAction() {
+        // Initialize the dijkstra map based on what we have explore
+        FieldOfView fov = hero.getFieldOfView();
+        double[][] weights = new double[level.getWidth()][level.getHeight()];
+        for (int x = 0; x < level.getWidth(); x++) {
+            for (int y = 0; y < level.getHeight(); y++) {
+                Tile t = level.getTileAt(Position.of(x, y));
+                if (t.isExplored()) {
+                    weights[x][y] = t.isWalkable(hero) ? DijkstraMap.FLOOR : DijkstraMap.WALL;
+                } else {
+                    weights[x][y] = DijkstraMap.FLOOR;
+                }
+            }
+        }
+        this.dijkstraMap.initialize(weights);
+
         // We have goal, but it has been explored. So we should get a new one
         if (this.goal != null && level.getTileAt(Position.fromCoord(this.goal)).isExplored()) {
+            // This was messed up with CHEBYSHEV measurement. Not sure why, but we could not find a path to the last unexplored corner of an empty square map
             this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
         }
         // We have no goal, and no unexplored coordinates
-        if (this.goal == null || unexploredCoords().isEmpty()) {
+        if (this.goal == null) {
+            logger.info("Null goal");
+            hero.setState(new DefaultState(hero));
+            return null;
+        }
+        if (unexploredCoords().isEmpty()) {
             logger.info("no unexplored tiles, so exiting this state.");
             hero.setState(new DefaultState(hero));
             return null;
         }
         // We have a goal, we should move towards it
-        logger.trace("Goal: " + this.goal);
+        logger.info("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
         List<Coord> path = this.dijkstraMap.findPath(1, null, null, hero.getPosition().toCoord(), this.goal);
         // This probably isn't reachable. But now I will be experimenting with different dungeon layouts
         if (path.isEmpty()) {
