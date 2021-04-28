@@ -15,6 +15,7 @@ public class AdventurerUI extends Table {
     private Label name;
     private Label position;
     private Label health;
+    private Label state;
 
     private Skin skin = GameConfiguration.getSkin();
 
@@ -22,7 +23,6 @@ public class AdventurerUI extends Table {
         this.hero = hero;
         this.setSkin(GameConfiguration.getSkin());
         this.addActor(new Rectangle(x, y, width, height, color));
-
 
         this.name = new Label(this.hero.getName().getName(), skin);
 
@@ -35,6 +35,9 @@ public class AdventurerUI extends Table {
         this.health = new Label(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
         this.health.setColor(Color.RED);
         this.add(health);
+        this.row();
+        this.state = new Label(hero.getState().toString(), skin);
+        this.add(state);
 
     }
 
@@ -44,5 +47,6 @@ public class AdventurerUI extends Table {
         super.draw(batch, parentAlpha);
         this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
         this.health.setText(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
+        this.state.setText(hero.getState().toString());
     }
 }

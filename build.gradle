@@ -27,7 +27,7 @@ allprojects {
         aiVersion = '1.8.2'
         gdxControllersVersion = '2.1.0'
 
-        squidLibVersion = '3.0.0-b9'
+        squidLibVersion = '3.0.3'
         slf4jVersion = '1.7.25'
         junitVersion = '5.3.2'
         assertjVersion = '3.11.1'

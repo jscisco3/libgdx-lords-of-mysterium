@@ -24,9 +24,11 @@ public class WalkAction extends Action {
             return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
         }
         if (level.getTileAt(newPosition).isWalkable(source)) {
+            // TODO: This seems bad. Should not be repeating all of this in _every_ function that moves a hero
             this.source.move(newPosition);
             level.getTileAt(oldPosition).removeOccupant();
             level.getTileAt(newPosition).occupy(this.source);
+            this.source.calculateFieldOfView();
             return ActionResult.succeeded();
         }
         return ActionResult.failed();

@@ -24,7 +24,7 @@ public class AdventureInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        logger.info("Keydown: " + keycode);
+        logger.trace("Keydown: " + keycode);
         keysDown.add(keycode);
         return true;
     }

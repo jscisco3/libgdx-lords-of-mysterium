@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain;
 
+import squidpony.squidmath.Coord;
+
 import java.util.Objects;
 
 public class Position {
@@ -40,6 +42,18 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public Coord toCoord() {
+        return Coord.get(x, y);
+    }
+
+    public static Position fromCoord(Coord coord) {
+        return Position.of(coord.x, coord.y);
+    }
+
+    public Position subtract(Position p) {
+        return Position.of(x - p.x, y - p.y);
     }
 
     @Override
