@@ -36,12 +36,12 @@ public class FieldOfView {
     }
 
     public double[][] calculateFOV() {
-        logger.info("Calculating FOV");
+        logger.debug("Calculating FOV");
         if (recalculate) {
             calculateResistanceMap();
             recalculate = false;
         }
-        this.vision = fov.calculateFOV(resistanceMap, entity.position.getX(), entity.position.getY(), 10.0);
+        this.vision = fov.calculateFOV(resistanceMap, entity.position.getX(), entity.position.getY(), 5.0);
         return this.vision;
     }
 

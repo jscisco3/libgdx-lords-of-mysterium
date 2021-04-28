@@ -40,10 +40,11 @@ public abstract class LevelGeneratorStrategy {
                 tiles.get(width - 1).set(i, TileFactory.wallTile());
             }
 
+            // TODO: Place stairs randomly
             // stairs down
-            tiles.get(7).set(7, TileFactory.stairsDown());
+//            tiles.get(7).set(7, TileFactory.stairsDown());
             // stairs up
-            tiles.get(10).set(7, TileFactory.stairsUp());
+//            tiles.get(10).set(7, TileFactory.stairsUp());
             return tiles;
         }
     }

@@ -17,9 +17,7 @@ import com.jscisco.lom.application.ui.GameLogUI;
 import com.jscisco.lom.application.ui.InventoryWindow;
 import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
-import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.MathUtils;
-import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
 import com.jscisco.lom.domain.attribute.InstantEffect;
@@ -69,7 +67,7 @@ public class GameScreen extends AbstractScreen {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         processor = new AdventureInputProcessor(hero);
         // Create a zone and a stage
-        level = new Level(100, 100, new LevelGeneratorStrategy.EmptyLevelStrategy());
+        level = new Level(50, 50, new LevelGeneratorStrategy.EmptyLevelStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
         level.addHero(hero);
@@ -152,9 +150,6 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
-        if (input.contains(Input.Keys.Z)) {
-            Screenshotter.saveScreenshot();
-        }
         if (input.contains(Input.Keys.COMMA)) {
             PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
             popup(window);

@@ -47,12 +47,12 @@ public class Level {
         this.generator = generator;
         tiles = generator.generate(this.width, this.height);
 
-        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
-        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
-        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
+//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
+//        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
+//        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
+//        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
     /**
@@ -60,9 +60,8 @@ public class Level {
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();
-//        logger.info(entities.get(currentActorIndex).toString());
         if (action != null) {
-            logger.info(action.toString());
+            logger.trace(action.toString());
         }
         // No action, so skip
         if (action == null) {
@@ -163,6 +162,18 @@ public class Level {
         throw new RuntimeException("Could not find empty tile for entity: " + e);
     }
 
+    public List<Position> getUnexploredPositions() {
+        List<Position> unexplored = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (!tiles.get(i).get(j).isExplored()) {
+                    unexplored.add(Position.of(i, j));
+                }
+            }
+        }
+        return unexplored;
+    }
+
     public Tile getTileOccupiedByEntity(Entity entity) {
         return getTileAt(entity.getPosition());
     }
@@ -173,5 +184,9 @@ public class Level {
 
     public void setTile(Tile t, Position p) {
         this.tiles.get(p.getX()).set(p.getY(), t);
+    }
+
+    public List<List<Tile>> getTiles() {
+        return tiles;
     }
 }
