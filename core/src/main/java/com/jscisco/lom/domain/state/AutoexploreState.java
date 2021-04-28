@@ -36,32 +36,30 @@ public class AutoexploreState extends State {
         double[][] weights = new double[level.getWidth()][level.getWidth()];
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(hero) ? DijkstraMap.FLOOR : DijkstraMap.WALL;
+                weights[x][y] = DijkstraMap.FLOOR;
             }
         }
         this.dijkstraMap = new DijkstraMap(weights, Measurement.CHEBYSHEV);
-        // Get all unexplored coordinates
+        // Initial goal is nearest unexplored tile
         this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
-        // TODO: Need to scan?
-//        this.dijkstraMap.scan(hero.getPosition().toCoord(), null);
     }
 
     @Override
     public Action getNextAction() {
-        // We are standing on the goal, so find a new one.
-        // TODO: Maybe instead of standing on, check if in vision
+        // We have goal, but it has been explored. So we should get a new one
         if (this.goal != null && level.getTileAt(Position.fromCoord(this.goal)).isExplored()) {
             this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
         }
-        // We have no goal, so bail
+        // We have no goal, and no unexplored coordinates
         if (this.goal == null || unexploredCoords().isEmpty()) {
             logger.info("no unexplored tiles, so exiting this state.");
             hero.setState(new DefaultState(hero));
             return null;
         }
         // We have a goal, we should move towards it
-        logger.info("Goal: " + this.goal);
-        List<Coord> path = this.dijkstraMap.findPath(100, null, null, hero.getPosition().toCoord(), this.goal);
+        logger.trace("Goal: " + this.goal);
+        List<Coord> path = this.dijkstraMap.findPath(1, null, null, hero.getPosition().toCoord(), this.goal);
+        // This probably isn't reachable. But now I will be experimenting with different dungeon layouts
         if (path.isEmpty()) {
             logger.info("Empty path, bailing for now");
             hero.setState(new DefaultState(hero));
