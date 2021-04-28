@@ -70,21 +70,21 @@ public class AutoexploreState extends State {
         }
         // We have no goal, and no unexplored coordinates
         if (this.goal == null) {
-            logger.info("Null goal");
+            logger.debug("Null goal");
             hero.setState(new DefaultState(hero));
             return null;
         }
         if (unexploredCoords().isEmpty()) {
-            logger.info("no unexplored tiles, so exiting this state.");
+            logger.debug("no unexplored tiles, so exiting this state.");
             hero.setState(new DefaultState(hero));
             return null;
         }
         // We have a goal, we should move towards it
-        logger.info("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
+        logger.trace("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
         List<Coord> path = this.dijkstraMap.findPath(1, null, null, hero.getPosition().toCoord(), this.goal);
         // This probably isn't reachable. But now I will be experimenting with different dungeon layouts
         if (path.isEmpty()) {
-            logger.info("Empty path, bailing for now");
+            logger.debug("Empty path, bailing for now");
             hero.setState(new DefaultState(hero));
             return null;
         }
