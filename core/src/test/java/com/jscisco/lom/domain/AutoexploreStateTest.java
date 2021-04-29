@@ -9,6 +9,8 @@ import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Tile;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class AutoexploreStateTest {
@@ -20,8 +22,8 @@ public class AutoexploreStateTest {
         Hero hero = testHero(Position.of(1, 1));
         level.addHero(hero);
 
-        level.getTiles().forEach(row -> {
-            row.forEach(Tile::explore);
+        Arrays.stream(level.getTiles()).forEach(row -> {
+            Arrays.stream(row).forEach(Tile::explore);
         });
 
         // When we try to get the next action

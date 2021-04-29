@@ -4,16 +4,12 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
-import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.item.ItemFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +26,7 @@ public class Level {
     private List<Entity> entities = new ArrayList<>();
     private int currentActorIndex = 0;
 
-    // TODO: Make this a Tile[][]
-    private List<List<Tile>> tiles = new ArrayList<>();
+    private Tile[][] tiles;
 
     private final int width;
     private final int height;
@@ -55,6 +50,7 @@ public class Level {
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
+    // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
     /**
      * Process actions from the actors in the current stage
      */
@@ -86,7 +82,7 @@ public class Level {
     }
 
     public Tile getTileAt(Position position) {
-        return tiles.get(position.getX()).get(position.getY());
+        return tiles[position.getX()][position.getY()];
     }
 
     public void addEntityAtPosition(Entity entity, Position position) {
@@ -109,11 +105,12 @@ public class Level {
         batch.begin();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+                Tile t = getTileAt(Position.of(i, j));
                 if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
-                    tiles.get(i).get(j).draw(batch, assets, i, j, true);
-                } else if (tiles.get(i).get(j).isExplored()) {
+                    t.draw(batch, assets, i, j, true);
+                } else if (t.isExplored()) {
                     batch.setColor(Color.DARK_GRAY);
-                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
+                    t.draw(batch, assets, i, j, false);
                     batch.setColor(Color.WHITE);
                 }
 //                else if (tiles.get(i).get(j).isExplored() && !this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
@@ -147,13 +144,14 @@ public class Level {
 
     /**
      * Returns the first tile that is walkable for the entity and unoccupied
+     *
      * @param e
      * @return
      */
     public Position getEmptyTile(Entity e) {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Tile t = tiles.get(i).get(j);
+                Tile t = tiles[i][j];
                 if (!t.isOccupied() && t.isWalkable(e)) {
                     return Position.of(i, j);
                 }
@@ -166,7 +164,7 @@ public class Level {
         List<Position> unexplored = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (!tiles.get(i).get(j).isExplored()) {
+                if (!getTileAt(Position.of(i, j)).isExplored()) {
                     unexplored.add(Position.of(i, j));
                 }
             }
@@ -183,10 +181,10 @@ public class Level {
     }
 
     public void setTile(Tile t, Position p) {
-        this.tiles.get(p.getX()).set(p.getY(), t);
+        tiles[p.getX()][p.getY()] = t;
     }
 
-    public List<List<Tile>> getTiles() {
+    public Tile[][] getTiles() {
         return tiles;
     }
 }
