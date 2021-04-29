@@ -50,6 +50,7 @@ public class Level {
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
+    // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
     /**
      * Process actions from the actors in the current stage
      */
