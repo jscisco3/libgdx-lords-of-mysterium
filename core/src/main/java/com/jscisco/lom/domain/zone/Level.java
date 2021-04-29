@@ -8,6 +8,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ public class Level {
         this.generator = generator;
         tiles = generator.generate(this.width, this.height);
 
-//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
+        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
 //        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
@@ -51,6 +52,7 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
+
     /**
      * Process actions from the actors in the current stage
      */
@@ -186,5 +188,17 @@ public class Level {
 
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    public List<Position> walkablePositions(Entity e) {
+        List<Position> walkable = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (tiles[i][j].isWalkable(e)) {
+                    walkable.add(Position.of(i, j));
+                }
+            }
+        }
+        return walkable;
     }
 }
