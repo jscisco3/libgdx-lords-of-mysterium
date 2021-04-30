@@ -16,13 +16,12 @@ public class EntityFactory {
     }
 
     public static NPC golem() {
+
         NPC golem = new NPC.Builder()
                 .withName(Name.of("Golem"))
                 .withAsset(Assets.golem)
-//                .withController(new WanderAIController())
-//                .withController(new RestAIController())
-                .withController(new HunterSeekerAI())
                 .build();
+        golem.setAiController(new HunterSeekerAI(golem));
 
         golem.applyEffect(new InstantEffect()
                 .addModifier(new AttributeModifier()

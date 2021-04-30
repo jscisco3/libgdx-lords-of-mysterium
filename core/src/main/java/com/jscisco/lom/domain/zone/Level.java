@@ -5,11 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,8 @@ public class Level {
 
     private final int width;
     private final int height;
+
+    private final Subject subject = new Subject();
 
     public Level() {
         this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
@@ -88,11 +92,12 @@ public class Level {
     }
 
     public void addEntityAtPosition(Entity entity, Position position) {
+        entity.setLevel(this);
         this.entities.add(entity);
         this.getTileAt(position).occupy(entity);
-        entity.setLevel(this);
+        this.subject.register(entity);
         entity.move(position);
-        entity.calculateFieldOfView();
+        this.subject.notify(new LevelChangedEvent());
     }
 
     /**

@@ -101,6 +101,10 @@ public class GameScreen extends AbstractScreen {
                                 .withMagnitude(100f)
                                 .withOperator(Attribute.Operator.OVERRIDE)
                         )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(hero.getAttributes().getLightRadius())
+                                .withMagnitude(10f)
+                                .withOperator(Attribute.Operator.OVERRIDE))
         );
     }
 

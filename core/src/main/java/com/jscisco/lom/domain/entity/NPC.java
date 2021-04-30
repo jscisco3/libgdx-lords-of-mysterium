@@ -27,7 +27,7 @@ public class NPC extends Entity {
 
     @Override
     public Action nextAction() {
-        return aiController.getNextAction(this);
+        return aiController.getNextAction();
     }
 
     @Override

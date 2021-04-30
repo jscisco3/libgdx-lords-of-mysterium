@@ -12,15 +12,18 @@ public class AttributeSet {
 
     public enum AttributeDefinition {
         HEALTH,
-        MAX_HEALTH
+        MAX_HEALTH,
+        LIGHT_RADIUS
     }
 
     private final Attribute health;
     private final Attribute maxHealth;
+    private final Attribute lightRadius;
 
     public AttributeSet() {
         health = new Attribute(Name.of("Health"), Description.of("Current health"));
         maxHealth = new Attribute(Name.of("Max Health"), Description.of("Maximum health"));
+        lightRadius = new Attribute(Name.of("Light Radius"), Description.of("Light radius"));
     }
 
     public Attribute getHealth() {
@@ -29,6 +32,10 @@ public class AttributeSet {
 
     public Attribute getMaxHealth() {
         return maxHealth;
+    }
+
+    public Attribute getLightRadius() {
+        return lightRadius;
     }
 
     public void applyBaseValueModifier(AttributeModifier modifier) {

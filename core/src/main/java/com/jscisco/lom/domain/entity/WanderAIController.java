@@ -24,8 +24,12 @@ public class WanderAIController extends AIController {
     private final Random random = new Random();
     private Coord goal;
 
+    public WanderAIController(Entity entity) {
+        super(entity);
+    }
+
     @Override
-    public Action getNextAction(Entity entity) {
+    public Action getNextAction() {
         // Either we have no goal, or we reached it.
         if (goal == null || entity.getPosition().toCoord().equals(goal)) {
             pickGoal(entity);

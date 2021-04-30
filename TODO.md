@@ -65,11 +65,13 @@
 
 ## Autoexplore
 
-- [ ] Determine how to handle changing the state of the PlayerController
-- [ ] Implement autoexplore
-    - [ ] Toggle on
-    - [ ] Toggle off at button click
+- [x] Determine how to handle changing the state of the PlayerController
+- [x] Implement autoexplore
+    - [x] Toggle on
+    - [x] Toggle off at button click
     - [ ] Toggle off when enemy in view
+    - [ ] When everything reachable has been explored, navigate to stairs down
+    - [ ] When everything reachable has been explored, navigate to stairs up if standing on stairs down
 
 ## Items
 
@@ -86,7 +88,7 @@
   - [ ] Depth
 
 ## Level
-- [ ] Level Generation strategy
+- [x] Level Generation strategy
 - [ ] Basic level generator with Squidlib
 - [ ] AscendLevel command
 - [ ] DescendLevel command
@@ -105,3 +107,16 @@
 
 ## Game log
 - [ ] Display messages in some log
+
+## AI
+### General AI enhancements
+- [ ] Give each entity its own Dijkstra map that is initialized
+- [ ] Entities should listen for changes to the level to update their dijkstra map
+
+### Wander AI
+- [ ] Initial skeleton that choose a goal and moves towards it
+- [ ] Handle other entities in the dungeon when selecting the path
+
+### Hunter Seeker AI
+- [ ] Initial skeleton that chooses a target (the hero) and moves towards it
+- [ ] Handle other entities in the dungeon when selecting the path

@@ -6,15 +6,27 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
-import com.jscisco.lom.domain.attribute.*;
+import com.jscisco.lom.domain.attribute.AttributeModifier;
+import com.jscisco.lom.domain.attribute.AttributeSet;
+import com.jscisco.lom.domain.attribute.Duration;
+import com.jscisco.lom.domain.attribute.DurationEffect;
+import com.jscisco.lom.domain.attribute.Effect;
+import com.jscisco.lom.domain.attribute.InstantEffect;
+import com.jscisco.lom.domain.attribute.Tag;
+import com.jscisco.lom.domain.event.Event;
+import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidai.DijkstraMap;
+import squidpony.squidgrid.Measurement;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +35,13 @@ import java.util.Map;
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
  */
-public abstract class Entity {
+public abstract class Entity implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
     protected Name name;
     protected Level level;
+    protected DijkstraMap dijkstraMap;
     protected Position position;
     protected FieldOfView fieldOfView = new FieldOfView(this);
 
@@ -95,6 +108,8 @@ public abstract class Entity {
 
     public void setLevel(Level level) {
         this.level = level;
+        this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
+        recalculateDijkstraMap();
     }
 
     public Level getLevel() {
@@ -194,5 +209,36 @@ public abstract class Entity {
 
     public AssetDescriptor<Texture> getAsset() {
         return asset;
+    }
+
+    @Override
+    public void onNotify(Event event) {
+        logger.info(MessageFormat.format("Entity notified about event {0}", event));
+        if (event instanceof LevelChangedEvent) {
+            recalculateDijkstraMap();
+            this.fieldOfView.calculateFOV(true);
+        }
+    }
+
+    private void recalculateDijkstraMap() {
+        this.dijkstraMap.initialize(getWeightsForDijkstraMap());
+    }
+
+    private double[][] getWeightsForDijkstraMap() {
+        double[][] weights = new double[level.getWidth()][level.getWidth()];
+        for (int x = 0; x < level.getWidth(); x++) {
+            for (int y = 0; y < level.getHeight(); y++) {
+                if (level.getTileAt(Position.of(x, y)).isWalkable(this)) {
+                    weights[x][y] = DijkstraMap.FLOOR;
+                } else {
+                    weights[x][y] = DijkstraMap.WALL;
+                }
+            }
+        }
+        return weights;
+    }
+
+    public DijkstraMap getDijkstraMap() {
+        return dijkstraMap;
     }
 }

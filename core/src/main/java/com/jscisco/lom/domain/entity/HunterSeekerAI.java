@@ -22,13 +22,17 @@ public class HunterSeekerAI extends AIController {
     private DijkstraMap dijkstraMap;
     private Entity target; // Allow the AI to target things other than the player
 
+    public HunterSeekerAI(Entity entity) {
+        super(entity);
+    }
+
     @Override
-    public Action getNextAction(Entity entity) {
+    public Action getNextAction() {
         if (target == null) {
             if (!chooseTarget(entity)) {
                 // Could not choose a target.
                 logger.info("Could not find a target, no hero?");
-                ((NPC) entity).setAiController(new WanderAIController());
+                ((NPC) entity).setAiController(new WanderAIController(entity));
             }
         }
         // Get path to the target
