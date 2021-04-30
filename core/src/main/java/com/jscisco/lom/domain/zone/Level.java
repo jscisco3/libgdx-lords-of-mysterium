@@ -201,4 +201,8 @@ public class Level {
         }
         return walkable;
     }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
 }

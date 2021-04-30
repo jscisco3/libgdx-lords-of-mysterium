@@ -35,4 +35,12 @@ public class NPC extends Entity {
         super.onDied();
         this.level.removeEntity(this);
     }
+
+    public AIController getAiController() {
+        return aiController;
+    }
+
+    public void setAiController(AIController aiController) {
+        this.aiController = aiController;
+    }
 }
