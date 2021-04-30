@@ -1,0 +1,5 @@
+On game start, nothing is revealed until a move is made.
+* How to reproduce:
+    - Quick start
+* Expected behavior
+    - When entering a level, vision is calculated correctly
