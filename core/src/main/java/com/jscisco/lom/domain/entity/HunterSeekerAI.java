@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
@@ -15,43 +14,47 @@ import squidpony.squidmath.Coord;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Random;
+import java.util.Optional;
 
-public class WanderAIController extends AIController {
+public class HunterSeekerAI extends AIController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WanderAIController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HunterSeekerAI.class);
     private DijkstraMap dijkstraMap;
-    private final Random random = new Random();
-    private Coord goal;
+    private Entity target; // Allow the AI to target things other than the player
 
-    public WanderAIController(Entity entity) {
+    public HunterSeekerAI(Entity entity) {
         super(entity);
     }
 
     @Override
     public Action getNextAction() {
-        // Either we have no goal, or we reached it.
-        if (goal == null || entity.getPosition().toCoord().equals(goal)) {
-            pickGoal(entity);
+        if (target == null) {
+            if (!chooseTarget(entity)) {
+                // Could not choose a target.
+                logger.info("Could not find a target, no hero?");
+                ((NPC) entity).setAiController(new WanderAIController(entity));
+            }
         }
-        List<Coord> path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
+        // Get path to the target
+        if (this.dijkstraMap == null) {
+            initializeDijkstraMap(entity);
+        }
+        List<Coord> path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.target.getPosition().toCoord());
         if (path.isEmpty()) {
-            logger.info(MessageFormat.format("Path from {0} to {1} is empty, so resting", entity.getPosition(), this.goal));
+            logger.info(MessageFormat.format("We have a target at position: {0} but we could not find a path from {1}", target.getPosition(), entity.getPosition()));
             return new RestAction(entity);
         }
         Direction d = Direction.byValue(Position.fromCoord(path.get(0)).subtract(entity.getPosition()));
         return new WalkAction(entity, d);
     }
 
-    private void pickGoal(Entity entity) {
-        if (dijkstraMap == null) {
-            initializeDijkstraMap(entity);
+    private boolean chooseTarget(Entity entity) {
+        Optional<Entity> target = entity.getLevel().getEntities().stream().filter(e -> e instanceof Hero).findFirst();
+        if (target.isPresent()) {
+            this.target = target.get();
+            return true;
         }
-        // Pick a random, walkable tile
-        logger.info("Choosing goal...");
-        List<Position> walkable = entity.getLevel().walkablePositions(entity);
-        this.goal = walkable.get(GameConfiguration.random.nextInt(walkable.size())).toCoord();
-        logger.info("Goal chosen: " + this.goal);
+        return false;
     }
 
     private void initializeDijkstraMap(Entity entity) {

@@ -9,19 +9,38 @@ import com.jscisco.lom.domain.attribute.InstantEffect;
 public class EntityFactory {
 
     public static Hero player() {
-        return new Hero.Builder()
+        Hero hero = new Hero.Builder()
                 .withName(Name.of("Player"))
                 .withAsset(Assets.warrior)
                 .build();
+
+        hero.applyEffect(
+                new InstantEffect()
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(hero.getAttributes().getMaxHealth())
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(hero.getAttributes().getHealth())
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(hero.getAttributes().getLightRadius())
+                                .withMagnitude(10f)
+                                .withOperator(Attribute.Operator.OVERRIDE))
+        );
+        return hero;
     }
 
     public static NPC golem() {
+
         NPC golem = new NPC.Builder()
                 .withName(Name.of("Golem"))
                 .withAsset(Assets.golem)
-//                .withController(new WanderAIController())
-                .withController(new RestAIController())
                 .build();
+        golem.setAiController(new HunterSeekerAI(golem));
 
         golem.applyEffect(new InstantEffect()
                 .addModifier(new AttributeModifier()

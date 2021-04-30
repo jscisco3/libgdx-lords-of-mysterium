@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,8 @@ public class Level {
     private final int width;
     private final int height;
 
+    private final Subject subject = new Subject();
+
     public Level() {
         this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
         getTileAt(Position.of(5, 5)).setFeature(FeatureFactory.WALL);
@@ -42,7 +47,7 @@ public class Level {
         this.generator = generator;
         tiles = generator.generate(this.width, this.height);
 
-//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
+        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
 //        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
@@ -51,6 +56,7 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
+
     /**
      * Process actions from the actors in the current stage
      */
@@ -85,12 +91,19 @@ public class Level {
         return tiles[position.getX()][position.getY()];
     }
 
+    /**
+     * Adds an entity to the map at the given position. As of 4/30/2021, there are no checks to see if it
+     * is a walkable tile
+     *
+     * @param entity
+     * @param position
+     */
     public void addEntityAtPosition(Entity entity, Position position) {
         this.entities.add(entity);
-        this.getTileAt(position).occupy(entity);
+        entity.setPosition(position);
         entity.setLevel(this);
-        entity.move(position);
-        entity.calculateFieldOfView();
+        this.subject.register(entity);
+        this.getTileAt(position).occupy(entity);
     }
 
     /**
@@ -186,5 +199,21 @@ public class Level {
 
     public Tile[][] getTiles() {
         return tiles;
+    }
+
+    public List<Position> walkablePositions(Entity e) {
+        List<Position> walkable = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (tiles[i][j].isWalkable(e)) {
+                    walkable.add(Position.of(i, j));
+                }
+            }
+        }
+        return walkable;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
     }
 }

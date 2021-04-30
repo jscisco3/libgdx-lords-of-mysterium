@@ -27,12 +27,20 @@ public class NPC extends Entity {
 
     @Override
     public Action nextAction() {
-        return aiController.getNextAction(this);
+        return aiController.getNextAction();
     }
 
     @Override
     public void onDied() {
         super.onDied();
         this.level.removeEntity(this);
+    }
+
+    public AIController getAiController() {
+        return aiController;
+    }
+
+    public void setAiController(AIController aiController) {
+        this.aiController = aiController;
     }
 }

@@ -88,20 +88,6 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(adventurerUI);
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
-
-        hero.applyEffect(
-                new InstantEffect()
-                        .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getMaxHealth())
-                                .withMagnitude(100f)
-                                .withOperator(Attribute.Operator.OVERRIDE)
-                        )
-                        .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getHealth())
-                                .withMagnitude(100f)
-                                .withOperator(Attribute.Operator.OVERRIDE)
-                        )
-        );
     }
 
     @Override
