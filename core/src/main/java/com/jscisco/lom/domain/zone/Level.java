@@ -91,13 +91,19 @@ public class Level {
         return tiles[position.getX()][position.getY()];
     }
 
+    /**
+     * Adds an entity to the map at the given position. As of 4/30/2021, there are no checks to see if it
+     * is a walkable tile
+     *
+     * @param entity
+     * @param position
+     */
     public void addEntityAtPosition(Entity entity, Position position) {
-        entity.setLevel(this);
         this.entities.add(entity);
-        this.getTileAt(position).occupy(entity);
+        entity.setPosition(position);
+        entity.setLevel(this);
         this.subject.register(entity);
-        entity.move(position);
-        this.subject.notify(new LevelChangedEvent());
+        this.getTileAt(position).occupy(entity);
     }
 
     /**

@@ -4,11 +4,14 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.state.DefaultState;
 import com.jscisco.lom.domain.state.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public class Hero extends Entity {
 
+    private static final Logger logger = LoggerFactory.getLogger(Hero.class);
     private State state;
 
     private Hero() {
@@ -39,6 +42,7 @@ public class Hero extends Entity {
 
     @Override
     public double[][] calculateFieldOfView() {
+        logger.trace("Calculating hero FOV");
         double[][] fov = super.calculateFieldOfView();
         for (int x = 0; x < fov.length; x++) {
             for (int y = 0; y < fov[x].length; y++) {

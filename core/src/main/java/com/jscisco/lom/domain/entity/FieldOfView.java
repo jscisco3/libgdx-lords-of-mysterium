@@ -22,7 +22,7 @@ public class FieldOfView {
     }
 
     public void calculateResistanceMap() {
-        logger.info("Calculating resistance map...");
+        logger.debug("Calculating resistance map for entity " + entity.getName().toString());
         if (this.level == null) {
             this.level = this.entity.getLevel();
             this.resistanceMap = new double[level.getWidth()][level.getHeight()];
@@ -53,11 +53,11 @@ public class FieldOfView {
      * @return vision
      */
     public double[][] calculateFOV(boolean recalculateResistanceMap) {
-        logger.debug("Calculating FOV");
+        logger.debug("Calculating FOV for entity " + entity.getName());
         if (recalculateResistanceMap) {
             calculateResistanceMap();
         }
-        this.vision = fov.calculateFOV(resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
+        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
         return this.vision;
     }
 

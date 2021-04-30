@@ -106,10 +106,18 @@ public abstract class Entity implements Observer {
         this.calculateFieldOfView();
     }
 
+    /**
+     * This is called when an entity is added to a level.
+     * It should:
+     *  Calculate the initial DijkstraMap for the entity
+     *  Calculate FOV *and* FOV Resistance Map for the level
+     * @param level
+     */
     public void setLevel(Level level) {
         this.level = level;
         this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
         recalculateDijkstraMap();
+        this.calculateFieldOfView();
     }
 
     public Level getLevel() {
@@ -240,5 +248,9 @@ public abstract class Entity implements Observer {
 
     public DijkstraMap getDijkstraMap() {
         return dijkstraMap;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
