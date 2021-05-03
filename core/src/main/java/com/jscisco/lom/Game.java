@@ -7,6 +7,7 @@ import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.application.LoadingScreen;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +32,10 @@ public class Game extends ApplicationAdapter {
     public void create() {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         GameRepository repo = ctx.getBean(GameRepository.class);
-        repo.save(new com.jscisco.lom.domain.Game());
 
         repo.findAll().forEach(g -> logger.info(String.valueOf(g.getId())));
         // Initialize everything
+        // TODO: Spring bean
         GameConfiguration.configureEventBus();
         setScreen(new LoadingScreen(this));
 

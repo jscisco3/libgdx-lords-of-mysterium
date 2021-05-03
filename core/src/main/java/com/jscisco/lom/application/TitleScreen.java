@@ -10,18 +10,31 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.configuration.ApplicationConfiguration;
+import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.text.MessageFormat;
 import java.time.DateTimeException;
 import java.time.Instant;
 
 public class TitleScreen extends AbstractScreen {
 
+    private static final Logger logger = LoggerFactory.getLogger(TitleScreen.class);
     OrthographicCamera camera = new OrthographicCamera();
+    GameRepository gameRepository;
 
     public TitleScreen(Game game) {
         super(game);
+
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
+        gameRepository = ctx.getBean(GameRepository.class);
+
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
         Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
@@ -91,6 +104,15 @@ public class TitleScreen extends AbstractScreen {
                 Level level = new Level(80, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
                 String filename = "test" + Instant.now().toString() + ".txt";
                 LevelOutputToFile.outputToFile(level, filename);
+            }
+        });
+
+        loadGame.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                gameRepository.findAll().forEach(g -> {
+                    logger.info(MessageFormat.format("Game {0} | Kingdom: {1}", g.getId(), g.getKingdom().getName().getName()));
+                });
             }
         });
 
