@@ -33,8 +33,7 @@ public class Game extends ApplicationAdapter {
         GameRepository repo = ctx.getBean(GameRepository.class);
         repo.save(new com.jscisco.lom.domain.Game());
 
-        com.jscisco.lom.domain.Game g = repo.getById(1L);
-        logger.info(String.valueOf(g.getId()));
+        repo.findAll().forEach(g -> logger.info(String.valueOf(g.getId())));
         // Initialize everything
         GameConfiguration.configureEventBus();
         setScreen(new LoadingScreen(this));
