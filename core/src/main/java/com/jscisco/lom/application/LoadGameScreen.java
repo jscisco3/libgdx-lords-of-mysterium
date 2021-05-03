@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
@@ -29,7 +30,7 @@ public class LoadGameScreen extends AbstractScreen {
 
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
         super(game);
-        stage.setDebugAll(true);
+        stage.setDebugAll(false);
         this.savedGames = savedGames;
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
 
@@ -46,12 +47,25 @@ public class LoadGameScreen extends AbstractScreen {
     }
 
     void setContent() {
+        // Back button
+        TextButton back = new TextButton("Back", GameConfiguration.getSkin(), "default");
+        back.setWidth(100f);
+        back.setHeight(50f);
+
+        back.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new TitleScreen(game));
+            }
+        });
+
+        content.add(back);
+
         for (SaveGame saveGame : this.savedGames) {
             SavedGameBlock block = new SavedGameBlock(saveGame);
             block.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    logger.info("Clicked");
                     game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
                 }
             });
@@ -78,10 +92,13 @@ public class LoadGameScreen extends AbstractScreen {
             // Initialize table
             Label name = new Label(saveGame.getKingdom().getName().getName(), skin, "default");
             table.add(name).top().center();
+            table.row();
+
+            Label lastPlayed = new Label(saveGame.getLastPlayed().toString(), skin, "default");
+            table.add(lastPlayed).top().center();
 
             this.addActor(table);
             this.setSize(container.getWidth(), container.getHeight());
-            logger.info("Size of this: " + this.getWidth() + " x " + this.getHeight());
         }
     }
 
