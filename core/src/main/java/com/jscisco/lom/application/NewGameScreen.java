@@ -7,12 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.ui.HeroBlock;
+import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.repository.GameRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import squidpony.FakeLanguageGen;
 
 import java.util.ArrayList;
@@ -44,7 +48,6 @@ public class NewGameScreen extends AbstractScreen {
 
     public NewGameScreen(Game game) {
         super(game);
-
         stage.setDebugAll(true);
 
         setUpKingdomNameTable();
