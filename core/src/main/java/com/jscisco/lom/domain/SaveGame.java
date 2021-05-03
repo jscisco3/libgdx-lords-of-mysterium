@@ -42,4 +42,12 @@ public class SaveGame {
         this.kingdom = kingdom;
         this.kingdom.setSaveGame(this);
     }
+
+    @Override
+    public String toString() {
+        return "SaveGame{" +
+                "id=" + id +
+                ", kingdom=" + kingdom +
+                '}';
+    }
 }

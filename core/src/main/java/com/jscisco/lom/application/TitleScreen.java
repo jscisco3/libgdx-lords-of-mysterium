@@ -75,7 +75,6 @@ public class TitleScreen extends AbstractScreen {
         newGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-//                game.setScreen(new GameScreen(game));
                 game.setScreen(new NewGameScreen(game));
                 game.getScreen().show();
             }
@@ -110,9 +109,12 @@ public class TitleScreen extends AbstractScreen {
         loadGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                gameRepository.findAll().forEach(g -> {
-                    logger.info(MessageFormat.format("Game {0} | Kingdom: {1}", g.getId(), g.getKingdom().getName().getName()));
-                });
+                game.setScreen(new LoadGameScreen(game, gameRepository.findAll()));
+                dispose();
+                game.getScreen().show();
+//                gameRepository.findAll().forEach(g -> {
+//                    logger.info(MessageFormat.format("Game {0} | Kingdom: {1}", g.getId(), g.getKingdom().getName().getName()));
+//                });
             }
         });
 
