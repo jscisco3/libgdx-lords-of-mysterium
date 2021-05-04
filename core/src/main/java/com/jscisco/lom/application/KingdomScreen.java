@@ -8,9 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.repository.GameRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class KingdomScreen extends AbstractScreen {
 
@@ -24,9 +28,12 @@ public class KingdomScreen extends AbstractScreen {
     private Image inn;
     private Image portal;
 
+    private GameRepository gameRepository;
+
     public KingdomScreen(Game game, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
+
         backgroundTexture = game.getAssets().getTexture(Assets.background);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
