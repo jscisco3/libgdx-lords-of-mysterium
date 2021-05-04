@@ -116,3 +116,13 @@ Hero State Machine:
     Hero has a StateMachine
     States have Transitions (essentially, next state)
     e.g. state.transition(nextState)
+
+SaveGames:
+    * Need a state to know if we should load into kingdom, or into current zone/level
+    * GameState
+        Kingdom
+        Exploration
+            * Current Zone id
+            * Current Level id
+                -- This will have the hero, etc.
+                -- Maybe hero is transient, and we just set it based on the entities?

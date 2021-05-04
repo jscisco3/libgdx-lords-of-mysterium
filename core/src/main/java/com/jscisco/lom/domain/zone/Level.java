@@ -11,34 +11,55 @@ import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+@javax.persistence.Entity
 public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "zone_id", nullable = false)
+    private Zone zone;
+
+    @Transient
     private LevelGeneratorStrategy generator;
 
+    @Transient
     private Hero hero;
+    @Transient
     private List<Entity> entities = new ArrayList<>();
+    @Transient
     private int currentActorIndex = 0;
 
+    @Transient
     private Tile[][] tiles;
 
+    @Transient
     private final int width;
+    @Transient
     private final int height;
 
+    @Transient
     private final Subject subject = new Subject();
 
     public Level() {
         this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
-        getTileAt(Position.of(5, 5)).setFeature(FeatureFactory.WALL);
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {
@@ -47,7 +68,7 @@ public class Level {
         this.generator = generator;
         tiles = generator.generate(this.width, this.height);
 
-        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
+//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
 //        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
@@ -99,6 +120,7 @@ public class Level {
      * @param position
      */
     public void addEntityAtPosition(Entity entity, Position position) {
+        logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
         this.entities.add(entity);
         entity.setPosition(position);
         entity.setLevel(this);
@@ -215,5 +237,9 @@ public class Level {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    public Hero getHero() {
+        return hero;
     }
 }

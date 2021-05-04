@@ -8,13 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.configuration.ApplicationConfiguration;
+import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.repository.GameRepository;
+import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class KingdomScreen extends AbstractScreen {
 
@@ -49,7 +50,11 @@ public class KingdomScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.info("Clicked portal");
-                game.setScreen(new GameScreen(game));
+                Zone zone = new Zone(3);
+                Level level = zone.getLevels().get(0);
+                Hero hero = EntityFactory.player();
+                level.addHero(hero);
+                game.setScreen(new GameScreen(game, level));
             }
         });
 

@@ -35,7 +35,7 @@ public class GameScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Hero hero = EntityFactory.player();
+    Hero hero;
 
     Level level;
 
@@ -58,20 +58,23 @@ public class GameScreen extends AbstractScreen {
 
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, Level level) {
         super(game);
+        this.level = level;
+        this.hero = level.getHero();
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
         camera.update();
         // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        processor = new AdventureInputProcessor(hero);
+        processor = new AdventureInputProcessor(this.hero);
         // Create a zone and a stage
 //        level = new Level(10, 10, new LevelGeneratorStrategy.EmptyLevelStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
-        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
-        level.addHero(hero);
+//        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
+//        level.addHero(hero);
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 

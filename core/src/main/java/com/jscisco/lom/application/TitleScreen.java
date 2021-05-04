@@ -11,17 +11,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
+import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.text.MessageFormat;
-import java.time.DateTimeException;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 public class TitleScreen extends AbstractScreen {
 
@@ -91,7 +95,17 @@ public class TitleScreen extends AbstractScreen {
         quickstart.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new GameScreen(game));
+                SaveGame saveGame = new SaveGame();
+                gameRepository.save(saveGame);
+                Kingdom kingdom = new Kingdom(Name.of(LocalDateTime.now().toString()));
+                saveGame.setKingdom(kingdom);
+                Zone zone = new Zone(3);
+                saveGame.addZone(zone);
+                gameRepository.save(saveGame);
+
+                Level level = zone.getLevels().get(0);
+                level.addHero(EntityFactory.player());
+                game.setScreen(new GameScreen(game, level));
                 dispose();
                 game.getScreen().show();
             }
