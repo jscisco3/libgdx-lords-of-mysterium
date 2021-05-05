@@ -7,14 +7,20 @@ import com.jscisco.lom.domain.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Transient;
 import java.util.Set;
 
+@javax.persistence.Entity
+@DiscriminatorValue("H")
 public class Hero extends Entity {
 
     private static final Logger logger = LoggerFactory.getLogger(Hero.class);
+
+    @Transient
     private State state;
 
-    private Hero() {
+    public Hero() {
         super();
         this.state = new DefaultState(this);
     }

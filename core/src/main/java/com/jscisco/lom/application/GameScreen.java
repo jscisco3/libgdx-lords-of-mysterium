@@ -18,13 +18,8 @@ import com.jscisco.lom.application.ui.InventoryWindow;
 import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
 import com.jscisco.lom.domain.MathUtils;
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.InstantEffect;
-import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +56,7 @@ public class GameScreen extends AbstractScreen {
     public GameScreen(Game game, Level level) {
         super(game);
         this.level = level;
+        // TODO: Lazy initialization error in hibernate
         this.hero = level.getHero();
 
         camera = new OrthographicCamera();

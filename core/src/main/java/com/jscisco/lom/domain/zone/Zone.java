@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.zone;
 
 import com.jscisco.lom.domain.SaveGame;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ public class Zone {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "zone")
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Level> levels;
 
     @ManyToOne
@@ -32,7 +33,9 @@ public class Zone {
     public Zone(int depth) {
         this.levels = new ArrayList<>();
         for (int i = 0; i < depth; i++) {
-            levels.add(new Level());
+            Level level = new Level();
+            level.setZone(this);
+            levels.add(level);
         }
     }
 

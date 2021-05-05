@@ -13,8 +13,16 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.ui.Block;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
+import com.jscisco.lom.domain.ExplorationState;
+import com.jscisco.lom.domain.KingdomState;
 import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.SaveGameState;
+import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
+import com.jscisco.lom.domain.repository.HeroRepository;
+import com.jscisco.lom.domain.repository.LevelRepository;
+import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -32,6 +40,9 @@ public class LoadGameScreen extends AbstractScreen {
     private final ScrollPane scroller;
     private final List<SaveGame> savedGames;
     private final GameRepository gameRepository;
+    private final LevelRepository levelRepository;
+    private final EntityRepository entityRepository;
+    private final HeroRepository heroRepository;
 
 
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
@@ -40,6 +51,9 @@ public class LoadGameScreen extends AbstractScreen {
         stage.setDebugAll(false);
         ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         gameRepository = ctx.getBean(GameRepository.class);
+        levelRepository = ctx.getBean(LevelRepository.class);
+        entityRepository = ctx.getBean(EntityRepository.class);
+        heroRepository = ctx.getBean(HeroRepository.class);
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
 
@@ -77,7 +91,19 @@ public class LoadGameScreen extends AbstractScreen {
                 public void clicked(InputEvent event, float x, float y) {
                     saveGame.setLastPlayed(LocalDateTime.now());
                     gameRepository.save(saveGame);
-                    game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
+
+                    SaveGameState state = saveGame.getSaveGameState();
+                    if (state instanceof KingdomState) {
+                        game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
+                    } else if (state instanceof ExplorationState) {
+                        logger.info("State: " + state.toString());
+                        Level level = levelRepository.getById(((ExplorationState) state).getLevelId());
+                        Hero h = heroRepository.getById(((ExplorationState) state).getHeroId());
+                        level.addHero(h);
+                        game.setScreen(new GameScreen(game, level));
+                    } else {
+                        logger.error("Illegal save game state");
+                    }
                 }
             });
             content.add(block);
@@ -101,12 +127,15 @@ public class LoadGameScreen extends AbstractScreen {
             table.setFillParent(true);
 
             // Initialize table
-            Label name = new Label(saveGame.getKingdom().getName().getName(), skin, "default");
+            Label name = new Label("Kingdom: " + saveGame.getKingdom().getName().getName(), skin, "default");
             table.add(name).top().center();
             table.row();
 
-            Label lastPlayed = new Label(saveGame.getLastPlayed().toString(), skin, "default");
+            Label lastPlayed = new Label("Last played: " + saveGame.getLastPlayed().toString(), skin, "default");
             table.add(lastPlayed).top().center();
+
+            Label state = new Label("State: " + saveGame.getSaveGameState().getClass().getSimpleName(), skin, "default");
+            table.add(state).top().center();
 
             this.addActor(table);
             this.setSize(container.getWidth(), container.getHeight());

@@ -26,6 +26,14 @@ import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Embedded;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,25 +43,44 @@ import java.util.Map;
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
  */
+@javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "entity_type",
+        discriminatorType = DiscriminatorType.STRING
+)
 public abstract class Entity implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
-    protected Name name;
-    protected Level level;
-    protected DijkstraMap dijkstraMap;
-    protected Position position;
-    protected FieldOfView fieldOfView = new FieldOfView(this);
+    @Id
+    @GeneratedValue
+    protected Long id;
 
+    @Embedded
+    protected Name name;
+
+    @Transient
+    protected Level level;
+    @Transient
+    protected DijkstraMap dijkstraMap;
+    @Embedded
+    protected Position position;
+    @Transient
+    protected FieldOfView fieldOfView = new FieldOfView(this);
+    @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
+    @Transient
     protected AttributeSet attributes = new AttributeSet();
+    @Transient
     protected List<Effect> effects = new ArrayList<>();
 
+    @Transient
     protected Inventory inventory = new Inventory();
+    @Transient
     protected AssetDescriptor<Texture> asset;
-
+    @Transient
     protected Action action = null;
-
+    @Transient
     protected final Subject subject = new Subject();
 
     protected Entity() {
@@ -109,8 +136,9 @@ public abstract class Entity implements Observer {
     /**
      * This is called when an entity is added to a level.
      * It should:
-     *  Calculate the initial DijkstraMap for the entity
-     *  Calculate FOV *and* FOV Resistance Map for the level
+     * Calculate the initial DijkstraMap for the entity
+     * Calculate FOV *and* FOV Resistance Map for the level
+     *
      * @param level
      */
     public void setLevel(Level level) {
@@ -252,5 +280,13 @@ public abstract class Entity implements Observer {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -6,6 +6,7 @@ import com.jscisco.lom.domain.zone.Zone;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +37,10 @@ public class SaveGame {
     @OneToMany(mappedBy = "saveGame")
     private List<Zone> zones = new ArrayList<>();
 
+    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private SaveGameState saveGameState;
+
     public SaveGame() {
         this.lastPlayed = LocalDateTime.now();
     }
@@ -65,6 +70,15 @@ public class SaveGame {
         this.lastPlayed = lastPlayed;
     }
 
+    public SaveGameState getSaveGameState() {
+        return saveGameState;
+    }
+
+    public void setSaveGameState(SaveGameState saveGameState) {
+        this.saveGameState = saveGameState;
+        saveGameState.setSaveGame(this);
+    }
+
     public List<Zone> getZones() {
         return zones;
     }
@@ -83,6 +97,8 @@ public class SaveGame {
         return "SaveGame{" +
                 "id=" + id +
                 ", kingdom=" + kingdom +
+                ", lastPlayed=" + lastPlayed +
+                ", saveGameState=" + saveGameState +
                 '}';
     }
 }
