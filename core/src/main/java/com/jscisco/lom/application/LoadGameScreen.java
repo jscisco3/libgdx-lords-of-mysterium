@@ -43,6 +43,7 @@ public class LoadGameScreen extends AbstractScreen {
     private final LevelRepository levelRepository;
     private final EntityRepository entityRepository;
     private final HeroRepository heroRepository;
+    private final LevelService levelService;
 
 
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
@@ -54,6 +55,8 @@ public class LoadGameScreen extends AbstractScreen {
         levelRepository = ctx.getBean(LevelRepository.class);
         entityRepository = ctx.getBean(EntityRepository.class);
         heroRepository = ctx.getBean(HeroRepository.class);
+        levelService = ctx.getBean(LevelService.class);
+
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
 
@@ -97,9 +100,9 @@ public class LoadGameScreen extends AbstractScreen {
                         game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
                     } else if (state instanceof ExplorationState) {
                         logger.info("State: " + state.toString());
-                        Level level = levelRepository.getById(((ExplorationState) state).getLevelId());
-                        Hero h = heroRepository.getById(((ExplorationState) state).getHeroId());
-                        level.addHero(h);
+                        Long levelId = ((ExplorationState) state).getLevelId();
+                        Long heroId = ((ExplorationState) state).getHeroId();
+                        Level level = levelService.loadLevel(levelId, heroId);
                         game.setScreen(new GameScreen(game, level));
                     } else {
                         logger.error("Illegal save game state");

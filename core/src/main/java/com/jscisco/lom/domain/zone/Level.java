@@ -9,7 +9,6 @@ import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;

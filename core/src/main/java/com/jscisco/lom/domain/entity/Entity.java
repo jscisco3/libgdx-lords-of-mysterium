@@ -73,11 +73,11 @@ public abstract class Entity implements Observer {
     protected AttributeSet attributes = new AttributeSet();
     @Transient
     protected List<Effect> effects = new ArrayList<>();
-
     @Transient
     protected Inventory inventory = new Inventory();
+    // TODO: Should this even be on the entity model? Or is it somewhere else?
     @Transient
-    protected AssetDescriptor<Texture> asset;
+    protected AssetDescriptor<Texture> asset = Assets.warrior;
     @Transient
     protected Action action = null;
     @Transient

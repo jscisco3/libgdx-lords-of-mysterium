@@ -80,7 +80,7 @@ public class AutoexploreState extends State {
             return null;
         }
         // We have a goal, we should move towards it
-        logger.trace("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
+        logger.debug("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
         List<Coord> path = this.dijkstraMap.findPath(1, null, null, hero.getPosition().toCoord(), this.goal);
         // This probably isn't reachable. But now I will be experimenting with different dungeon layouts
         if (path.isEmpty()) {
