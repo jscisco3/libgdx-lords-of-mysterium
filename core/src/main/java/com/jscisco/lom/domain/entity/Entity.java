@@ -21,7 +21,6 @@ import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -35,6 +34,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
@@ -63,8 +64,11 @@ public abstract class Entity implements Observer {
     @Embedded
     protected Name name;
 
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "level_id")
     protected Level level;
+
     @Transient
     protected DijkstraMap dijkstraMap;
     @Embedded
@@ -137,7 +141,10 @@ public abstract class Entity implements Observer {
     }
 
     public void move(Position position) {
+        Position oldPosition = this.position;
         this.position = position;
+        level.getTileAt(oldPosition).removeOccupant();
+        level.getTileAt(position).occupy(this);
         this.calculateFieldOfView();
     }
 

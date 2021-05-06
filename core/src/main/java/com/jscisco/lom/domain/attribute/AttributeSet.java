@@ -38,7 +38,7 @@ public class AttributeSet {
     @Column(name = "entity_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "entity_id")
     private Entity entity;

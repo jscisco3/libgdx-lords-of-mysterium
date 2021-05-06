@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
@@ -28,8 +29,6 @@ public class KingdomScreen extends AbstractScreen {
     private final Label kingdomName;
     private Image inn;
     private Image portal;
-
-    private GameRepository gameRepository;
 
     public KingdomScreen(Game game, Kingdom kingdom) {
         super(game);
@@ -53,8 +52,8 @@ public class KingdomScreen extends AbstractScreen {
                 Zone zone = new Zone(3);
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
-                level.addHero(hero);
-                game.setScreen(new GameScreen(game, level));
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                game.setScreen(new GameScreen(game, new SaveGame(), level));
             }
         });
 

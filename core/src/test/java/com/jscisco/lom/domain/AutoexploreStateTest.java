@@ -22,7 +22,7 @@ public class AutoexploreStateTest {
         // Given a hero on a level that has every tile explored
         Level level = new Level(10, 10, new LevelGeneratorStrategy.EmptyLevelStrategy());
         Hero hero = EntityFactory.testHero();
-        level.addHero(hero);
+        level.addEntityAtPosition(hero, Position.of(1, 1));
 
         Arrays.stream(level.getTiles()).forEach(row -> {
             Arrays.stream(row).forEach(Tile::explore);
@@ -44,7 +44,7 @@ public class AutoexploreStateTest {
         Level level = new Level(20, 20, new LevelGeneratorStrategy.EmptyLevelStrategy());
         Hero hero = EntityFactory.testHero();
 
-        level.addHero(hero);
+        level.addEntityAtPosition(hero, Position.of(1, 1));
         hero.setState(new AutoexploreState(hero));
 
         Action action = hero.nextAction();
@@ -56,7 +56,7 @@ public class AutoexploreStateTest {
         Level level = new Level(10, 10, new LevelGeneratorStrategy.EmptyLevelStrategy());
         Hero hero = EntityFactory.testHero();
 
-        level.addHero(hero);
+        level.addEntityAtPosition(hero, Position.of(1, 1));
         hero.setState(new AutoexploreState(hero));
 
         while (true) {

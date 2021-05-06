@@ -17,11 +17,15 @@ import com.jscisco.lom.application.ui.GameLogUI;
 import com.jscisco.lom.application.ui.InventoryWindow;
 import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
+import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.MathUtils;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Set;
 
@@ -30,8 +34,9 @@ public class GameScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Hero hero;
+    SaveGame saveGame;
 
+    Hero hero;
     Level level;
 
     // UI Elements
@@ -51,13 +56,19 @@ public class GameScreen extends AbstractScreen {
     private int cameraWidth = GameConfiguration.SCREEN_WIDTH;
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
+    private final GameService gameService;
+
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game, Level level) {
+    public GameScreen(Game game, SaveGame saveGame, Level level) {
         super(game);
         this.level = level;
+        this.saveGame = saveGame;
         // TODO: Lazy initialization error in hibernate
         this.hero = level.getHero();
+
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
+        this.gameService = ctx.getBean(GameService.class);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
@@ -157,6 +168,12 @@ public class GameScreen extends AbstractScreen {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
+            // TODO: Save stuff here
+            logger.info("Saving level...");
+//            this.gameService.saveLevel(level);
+            saveGame.setLevelId(this.level.getId());
+            this.gameService.saveGame(saveGame);
+            logger.info("Level saved...");
             Gdx.app.exit();
         }
         hero.handleInput(input);

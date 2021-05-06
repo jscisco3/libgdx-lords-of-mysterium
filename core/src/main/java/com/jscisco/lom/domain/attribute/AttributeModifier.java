@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.attribute;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,7 +16,7 @@ public class AttributeModifier {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "attribute_id", nullable = false)
     protected Attribute attribute;
 

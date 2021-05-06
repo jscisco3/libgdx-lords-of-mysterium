@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 

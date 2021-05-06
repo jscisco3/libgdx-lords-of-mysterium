@@ -16,7 +16,7 @@ public class FieldOfViewTest {
 
         Hero hero = EntityFactory.testHero();
 
-        level.addHero(hero);
+        level.addEntityAtPosition(hero, Position.of(1, 1));
 
         assertThat(level.getTileAt(Position.of(1, 1)).isExplored()).isTrue();
         assertThat(level.getTileAt(Position.of(2, 2)).isExplored()).isTrue();
@@ -29,7 +29,7 @@ public class FieldOfViewTest {
 
         Hero hero = EntityFactory.testHero();
 
-        level.addHero(hero);
+        level.addEntityAtPosition(hero, Position.of(1, 1));
 
         assertThat(level.getTileAt(Position.of(1, 1)).isExplored()).isTrue();
         assertThat(level.getTileAt(Position.of(2, 2)).isExplored()).isTrue();

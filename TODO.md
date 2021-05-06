@@ -43,8 +43,8 @@
 - [ ] Something
 
 ## Saving game
-- [ ] Create savegame folder based on kingdom name
-- [ ] After creating initial savegame folder, save kingdom.json
+- [x] Create savegame folder based on kingdom name
+- [x] After creating initial savegame folder, save kingdom.json
 - [ ] Allow arbitrary save in kingdom screen
 - [ ] Save kingdom with hired heroes
 - [ ] Save kingdom with available heroes

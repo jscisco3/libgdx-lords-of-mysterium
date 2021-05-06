@@ -1,15 +1,17 @@
 package com.jscisco.lom.domain;
 
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.Zone;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -27,19 +29,30 @@ public class SaveGame {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL)
+    /**
+     * The kingdom you are part of
+     */
+    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private Kingdom kingdom;
 
+    /**
+     * Last time you played this particular kingdom
+     */
     @Column(name = "last_played")
     private LocalDateTime lastPlayed;
 
-    @OneToMany(mappedBy = "saveGame")
+    /**
+     * The zones you have been to, in general.
+     */
+    @OneToMany(mappedBy = "saveGame", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Zone> zones = new ArrayList<>();
 
-    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private SaveGameState saveGameState;
+    /**
+     * Optional current level - if it is present, load into that level.
+     * Otherwise, load into the kingdom(?)
+     */
+    private Long levelId;
 
     public SaveGame() {
         this.lastPlayed = LocalDateTime.now();
@@ -70,15 +83,6 @@ public class SaveGame {
         this.lastPlayed = lastPlayed;
     }
 
-    public SaveGameState getSaveGameState() {
-        return saveGameState;
-    }
-
-    public void setSaveGameState(SaveGameState saveGameState) {
-        this.saveGameState = saveGameState;
-        saveGameState.setSaveGame(this);
-    }
-
     public List<Zone> getZones() {
         return zones;
     }
@@ -92,13 +96,22 @@ public class SaveGame {
         zone.setSaveGame(this);
     }
 
+    public Long getLevelId() {
+        return levelId;
+    }
+
+    public void setLevelId(Long levelId) {
+        this.levelId = levelId;
+    }
+
     @Override
     public String toString() {
         return "SaveGame{" +
                 "id=" + id +
                 ", kingdom=" + kingdom +
                 ", lastPlayed=" + lastPlayed +
-                ", saveGameState=" + saveGameState +
+                ", zones=" + zones +
+                ", levelId=" + levelId +
                 '}';
     }
 }

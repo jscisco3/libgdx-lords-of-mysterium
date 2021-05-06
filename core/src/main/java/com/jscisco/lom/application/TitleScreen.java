@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
-import com.jscisco.lom.domain.ExplorationState;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
@@ -38,6 +37,7 @@ public class TitleScreen extends AbstractScreen {
     GameRepository gameRepository;
     ZoneRepository zoneRepository;
     EntityRepository entityRepository;
+    GameService gameService;
 
 
     public TitleScreen(Game game) {
@@ -47,6 +47,7 @@ public class TitleScreen extends AbstractScreen {
         gameRepository = ctx.getBean(GameRepository.class);
         zoneRepository = ctx.getBean(ZoneRepository.class);
         entityRepository = ctx.getBean(EntityRepository.class);
+        gameService = ctx.getBean(GameService.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -105,27 +106,27 @@ public class TitleScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 SaveGame saveGame = new SaveGame();
-                gameRepository.save(saveGame);
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
                 saveGame.setKingdom(kingdom);
                 Zone zone = new Zone(3);
                 saveGame.addZone(zone);
+                gameService.saveGame(saveGame);
+//                gameRepository.save(saveGame);
 
 
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
-                level.addHero(hero);
-                entityRepository.save(hero);
-                zoneRepository.save(zone);
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+//                entityRepository.save(hero);
+//                gameService.saveLevel(level);
+//                zoneRepository.save(zone);
 
-                ExplorationState explore = new ExplorationState();
-                explore.setLevelId(level.getId());
-                explore.setHeroId(hero.getId());
-                saveGame.setSaveGameState(explore);
+//                ExplorationState explore = new ExplorationState();
+//                explore.setLevelId(level.getId());
+//                saveGame.setSaveGameState(explore);
+//                gameService.saveGame(saveGame);
 
-                gameRepository.save(saveGame);
-
-                game.setScreen(new GameScreen(game, level));
+                game.setScreen(new GameScreen(game, saveGame, level));
                 dispose();
                 game.getScreen().show();
             }

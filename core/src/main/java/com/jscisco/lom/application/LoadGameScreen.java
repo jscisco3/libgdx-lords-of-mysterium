@@ -13,11 +13,7 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.ui.Block;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
-import com.jscisco.lom.domain.ExplorationState;
-import com.jscisco.lom.domain.KingdomState;
 import com.jscisco.lom.domain.SaveGame;
-import com.jscisco.lom.domain.SaveGameState;
-import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.repository.HeroRepository;
@@ -43,7 +39,7 @@ public class LoadGameScreen extends AbstractScreen {
     private final LevelRepository levelRepository;
     private final EntityRepository entityRepository;
     private final HeroRepository heroRepository;
-    private final LevelService levelService;
+    private final GameService gameService;
 
 
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
@@ -55,7 +51,7 @@ public class LoadGameScreen extends AbstractScreen {
         levelRepository = ctx.getBean(LevelRepository.class);
         entityRepository = ctx.getBean(EntityRepository.class);
         heroRepository = ctx.getBean(HeroRepository.class);
-        levelService = ctx.getBean(LevelService.class);
+        gameService = ctx.getBean(GameService.class);
 
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
@@ -95,17 +91,11 @@ public class LoadGameScreen extends AbstractScreen {
                     saveGame.setLastPlayed(LocalDateTime.now());
                     gameRepository.save(saveGame);
 
-                    SaveGameState state = saveGame.getSaveGameState();
-                    if (state instanceof KingdomState) {
-                        game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
-                    } else if (state instanceof ExplorationState) {
-                        logger.info("State: " + state.toString());
-                        Long levelId = ((ExplorationState) state).getLevelId();
-                        Long heroId = ((ExplorationState) state).getHeroId();
-                        Level level = levelService.loadLevel(levelId, heroId);
-                        game.setScreen(new GameScreen(game, level));
+                    if (saveGame.getLevelId() != null) {
+                        Level level = gameService.loadLevel(saveGame.getLevelId());
+                        game.setScreen(new GameScreen(game, saveGame, level));
                     } else {
-                        logger.error("Illegal save game state");
+                        game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
                     }
                 }
             });
@@ -137,7 +127,12 @@ public class LoadGameScreen extends AbstractScreen {
             Label lastPlayed = new Label("Last played: " + saveGame.getLastPlayed().toString(), skin, "default");
             table.add(lastPlayed).top().center();
 
-            Label state = new Label("State: " + saveGame.getSaveGameState().getClass().getSimpleName(), skin, "default");
+            Label state = new Label("", skin, "default");
+            if (saveGame.getLevelId() != null) {
+                state.setText("State: Exploring...");
+            } else {
+                state.setText("State: Kingdom...");
+            }
             table.add(state).top().center();
 
             this.addActor(table);

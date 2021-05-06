@@ -14,10 +14,14 @@ import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -32,17 +36,20 @@ public class Level {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone_id", nullable = false)
     private Zone zone;
 
     @Transient
     private LevelGeneratorStrategy generator;
 
-    @Transient
+    @OneToOne(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Hero hero;
+
     @Transient
     private List<Entity> entities = new ArrayList<>();
+
     @Transient
     private int currentActorIndex = 0;
 
@@ -120,8 +127,11 @@ public class Level {
      */
     public void addEntityAtPosition(Entity entity, Position position) {
         logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
-        this.entities.add(entity);
         entity.setPosition(position);
+        if (entity instanceof Hero) {
+            setHero((Hero) entity);
+        }
+        this.entities.add(entity);
         entity.setLevel(this);
         this.subject.register(entity);
         this.getTileAt(position).occupy(entity);
@@ -169,11 +179,6 @@ public class Level {
         // Have to remove it from the tile as well...
         this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
-    }
-
-    public void addHero(Hero hero) {
-        this.hero = hero;
-        addEntityAtPosition(hero, getEmptyTile(hero));
     }
 
     /**
@@ -256,5 +261,10 @@ public class Level {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setHero(Hero hero) {
+        this.hero = hero;
+        hero.setLevel(this);
     }
 }
