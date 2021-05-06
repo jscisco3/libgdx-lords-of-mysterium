@@ -26,10 +26,10 @@ public class InstantEffectTest {
                         .withMagnitude(10f)
                         .withOperator(Attribute.Operator.ADD));
 
-        float initialValue = attributeSet.getAttributeValue(testAttribute);
+        float initialValue = attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH);
         float expectedValue = initialValue + 10f;
         effect.apply(attributeSet);
 
-        assertThat(attributeSet.getAttributeValue(testAttribute)).isEqualTo(expectedValue);
+        assertThat(attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)).isEqualTo(expectedValue);
     }
 }

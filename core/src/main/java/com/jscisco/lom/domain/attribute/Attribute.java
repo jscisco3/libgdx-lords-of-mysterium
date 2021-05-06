@@ -3,9 +3,21 @@ package com.jscisco.lom.domain.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Attribute {
 
     public enum Operator {
@@ -14,11 +26,28 @@ public class Attribute {
         OVERRIDE
     }
 
-    private final Name name;
-    private final Description description;
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
+    @Embedded
+    private Name name;
+
+    @Embedded
+    private Description description;
+
+//    @MapKeyEnumerated(value = EnumType.STRING)
+//    private AttributeSet.AttributeDefinition attributeDefinition;
+
     private float baseValue;
-    // These are just modifiers for the "currentValue"
+
+    @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private final List<AttributeModifier> modifiers = new ArrayList<>();
+
+    public Attribute() {
+    }
 
     public Attribute(Name name, Description description) {
         this.name = name;
@@ -65,6 +94,14 @@ public class Attribute {
             }
         }
         return newValue;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Name getName() {

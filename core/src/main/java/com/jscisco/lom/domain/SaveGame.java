@@ -27,7 +27,7 @@ public class SaveGame {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Kingdom kingdom;
 

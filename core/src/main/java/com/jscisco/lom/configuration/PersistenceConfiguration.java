@@ -72,10 +72,13 @@ public class PersistenceConfiguration {
 
     final Properties additionalProperties() {
         final Properties additionalProperties = new Properties();
+        additionalProperties.setProperty("spring.jpa.show-sql", env.getProperty("spring.jpa.show-sql"));
 //        additionalProperties.setProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.action", env.getProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.action"));
 //        additionalProperties.setProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target", env.getProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-target"));
 //        additionalProperties.setProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-source", env.getProperty("spring.jpa.properties.javax.persistence.schema-generation.scripts.create-source"));
 //        additionalProperties.setProperty("spring.jpa.hibernate.ddl-auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
+//        additionalProperties.setProperty("hibernate.show_sql", "true");
+//        additionalProperties.setProperty("hibernate.format_sql", "true");
         additionalProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         additionalProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         return additionalProperties;

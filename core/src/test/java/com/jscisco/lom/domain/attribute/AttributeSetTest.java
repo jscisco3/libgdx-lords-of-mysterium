@@ -22,11 +22,11 @@ public class AttributeSetTest {
                         .withMagnitude(1000f)
                         .withOperator(Attribute.Operator.ADD));
 
-        float maxHealthValue = attributeSet.getAttributeValue(attributeSet.getMaxHealth());
+        float maxHealthValue = attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH);
 
         effect.apply(this.attributeSet);
 
-        assertThat(this.attributeSet.getAttributeValue(attributeSet.getHealth())).isEqualTo(maxHealthValue);
+        assertThat(this.attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.HEALTH)).isEqualTo(maxHealthValue);
         assertThat(this.attributeSet.getHealth().getBaseValue()).isEqualTo(maxHealthValue);
     }
 }

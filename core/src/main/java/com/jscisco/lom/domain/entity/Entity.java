@@ -21,11 +21,13 @@ import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.LevelChangedEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
@@ -33,6 +35,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -69,8 +73,11 @@ public abstract class Entity implements Observer {
     protected FieldOfView fieldOfView = new FieldOfView(this);
     @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
-    @Transient
-    protected AttributeSet attributes = new AttributeSet();
+
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    protected AttributeSet attributes;
+
     @Transient
     protected List<Effect> effects = new ArrayList<>();
     @Transient
@@ -84,6 +91,7 @@ public abstract class Entity implements Observer {
     protected final Subject subject = new Subject();
 
     protected Entity() {
+        this.setAttributes(new AttributeSet());
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -219,6 +227,11 @@ public abstract class Entity implements Observer {
 
     public AttributeSet getAttributes() {
         return this.attributes;
+    }
+
+    public void setAttributes(AttributeSet attributes) {
+        this.attributes = attributes;
+        attributes.setEntity(this);
     }
 
     public void onDied() {

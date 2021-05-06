@@ -1,8 +1,27 @@
 package com.jscisco.lom.domain.attribute;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class AttributeModifier {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "attribute_id", nullable = false)
     protected Attribute attribute;
+
     protected float magnitude;
+
+    @Enumerated(value = EnumType.STRING)
     protected Attribute.Operator operator;
 
     public AttributeModifier() {
