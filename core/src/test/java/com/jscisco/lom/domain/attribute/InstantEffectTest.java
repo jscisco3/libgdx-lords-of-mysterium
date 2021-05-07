@@ -18,11 +18,9 @@ public class InstantEffectTest {
     @Test
     public void whenInstantEffectIsApplied_thenTheAttributesBaseValueIsUpdated() {
 
-        Attribute testAttribute = attributeSet.getMaxHealth();
-
         effect = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(testAttribute)
+                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                         .withMagnitude(10f)
                         .withOperator(Attribute.Operator.ADD));
 

@@ -18,7 +18,7 @@ public class AttributeSetTest {
     public void whenHealthIsIncreasedByInstantEffect_thenItCannotBeHigherThanMaxHealth() {
         Effect effect = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(attributeSet.getHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                         .withMagnitude(1000f)
                         .withOperator(Attribute.Operator.ADD));
 

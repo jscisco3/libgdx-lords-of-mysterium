@@ -35,7 +35,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
@@ -64,8 +64,7 @@ public abstract class Entity implements Observer {
     @Embedded
     protected Name name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @MapsId
+    @ManyToOne
     @JoinColumn(name = "level_id")
     protected Level level;
 
@@ -184,13 +183,6 @@ public abstract class Entity implements Observer {
         subject.notify(null);
     }
 
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "name=" + name +
-                '}';
-    }
-
     public void tick() {
         // Each turn, we should tick effects
         List<Effect> expiredEffects = new ArrayList<>();
@@ -222,7 +214,7 @@ public abstract class Entity implements Observer {
     public void removeEffect(Effect effect) {
         // Here, we need to remove the modifiers that are on the attribute
         for (AttributeModifier modifier : effect.getModifiers()) {
-            modifier.getAttribute().removeModifier(modifier);
+            attributes.getAttribute(modifier.getAttributeDefinition()).removeModifier(modifier);
         }
         // Then, we remove the effect
         this.effects.remove(effect);
@@ -308,5 +300,14 @@ public abstract class Entity implements Observer {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                ", name=" + name +
+                ", position=" + position +
+                '}';
     }
 }

@@ -14,7 +14,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
 
         Effect instantEffect = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(e.attributes.getMaxHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                         .withMagnitude(100f)
                         .withOperator(Attribute.Operator.ADD));
         e.applyEffect(instantEffect);
@@ -25,7 +25,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
     @Test
     public void whenPeriodicEffectIsApplied_thenItIsStoredOnTheEntity() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
@@ -39,7 +39,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
     @Test
     public void whenDurationEffectIsApplied_thenItIsStoredOnTheEntity_andItsAttributes() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
@@ -54,7 +54,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
     @Test
     public void whenPeriodicEffectIsRemoved_thenItIsRemovedFromTheEntity() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
@@ -73,7 +73,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
     @Test
     public void whenDurationcEffectIsRemoved_thenItIsRemovedFromTheEntity_andItsModifiersAreRemovedFromTheAttributes() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 

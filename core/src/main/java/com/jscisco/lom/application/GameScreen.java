@@ -61,11 +61,14 @@ public class GameScreen extends AbstractScreen {
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game, SaveGame saveGame, Level level) {
+        this(game, saveGame, level, level.getHero());
+    }
+
+    public GameScreen(Game game, SaveGame saveGame, Level level, Hero hero) {
         super(game);
         this.level = level;
+        this.hero = hero;
         this.saveGame = saveGame;
-        // TODO: Lazy initialization error in hibernate
-        this.hero = level.getHero();
 
         ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         this.gameService = ctx.getBean(GameService.class);
@@ -75,7 +78,7 @@ public class GameScreen extends AbstractScreen {
         camera.update();
         // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        processor = new AdventureInputProcessor(this.hero);
+        processor = new AdventureInputProcessor();
         // Create a zone and a stage
 //        level = new Level(10, 10, new LevelGeneratorStrategy.EmptyLevelStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
@@ -112,7 +115,7 @@ public class GameScreen extends AbstractScreen {
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
-        level.draw(batch, this.game.getAssets(), camera);
+        LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
         stage.act();
         stage.draw();
         popupStage.act();
@@ -168,12 +171,9 @@ public class GameScreen extends AbstractScreen {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
-            // TODO: Save stuff here
-            logger.info("Saving level...");
-//            this.gameService.saveLevel(level);
             saveGame.setLevelId(this.level.getId());
-            this.gameService.saveGame(saveGame);
-            logger.info("Level saved...");
+            gameService.saveGame(saveGame);
+            gameService.saveLevel(level);
             Gdx.app.exit();
         }
         hero.handleInput(input);

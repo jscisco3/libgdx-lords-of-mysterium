@@ -18,7 +18,6 @@ import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.repository.HeroRepository;
 import com.jscisco.lom.domain.repository.LevelRepository;
-import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -89,14 +88,8 @@ public class LoadGameScreen extends AbstractScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     saveGame.setLastPlayed(LocalDateTime.now());
-                    gameRepository.save(saveGame);
-
-                    if (saveGame.getLevelId() != null) {
-                        Level level = gameService.loadLevel(saveGame.getLevelId());
-                        game.setScreen(new GameScreen(game, saveGame, level));
-                    } else {
-                        game.setScreen(new KingdomScreen(game, saveGame.getKingdom()));
-                    }
+                    gameService.saveGame(saveGame);
+                    game.setScreen(gameService.loadGame(game, saveGame.getId()));
                 }
             });
             content.add(block);

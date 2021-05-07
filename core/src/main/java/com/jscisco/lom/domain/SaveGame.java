@@ -110,7 +110,6 @@ public class SaveGame {
                 "id=" + id +
                 ", kingdom=" + kingdom +
                 ", lastPlayed=" + lastPlayed +
-                ", zones=" + zones +
                 ", levelId=" + levelId +
                 '}';
     }

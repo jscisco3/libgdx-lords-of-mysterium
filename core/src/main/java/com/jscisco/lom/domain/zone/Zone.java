@@ -4,25 +4,34 @@ import com.jscisco.lom.domain.SaveGame;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(
+        name = "zone_sequence",
+        sequenceName = "zone_sequence",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Zone {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zone_sequence")
     private Long id;
 
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Level> levels;
+    private List<Level> levels = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "save_game_id", nullable = false)
     private SaveGame saveGame;
 
@@ -61,5 +70,12 @@ public class Zone {
 
     public void setSaveGame(SaveGame saveGame) {
         this.saveGame = saveGame;
+    }
+
+    @Override
+    public String toString() {
+        return "Zone{" +
+                "id=" + id +
+                '}';
     }
 }

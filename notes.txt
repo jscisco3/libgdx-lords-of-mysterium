@@ -25,6 +25,36 @@ Rendering notes:
             * Player stats
             * Player Skills
 
+Screens:
+    TitleScreen
+    NewGameScreen
+    KingdomScreen
+    LoadGameScreen
+    GameScreen - Responsible for rendering and handling input for roguelike mode
+        LevelRenderer - Given a level and a hero, draws the appropriate tiles. Consider if it needs a Hero, or a FieldOfView
+        Level - Needed to know size of the level to clamp the camera
+        Hero - Needed for position for the camera to follow
+
+
+Services:
+    GameService: Responsible for saving and loading the game
+    ScreenService: Responsible for creating the appropriate screens
+
+Flow:
+    TitleScreen
+        -> Quickstart
+            - Create SaveGame
+            - Create Kingdom
+            - Create Zone
+            - (Maybe) save game
+            - Create Hero
+            - Add Hero to first level
+            - Load into game screen
+                GameScreen needs:
+                    SaveGame
+            - Exit to save the game
+
+
 Level:
     * Consider just having a map of Position -> Tile.
     * Same with Position -> Actor, or Actor -> Position?

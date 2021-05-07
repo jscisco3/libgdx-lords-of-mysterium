@@ -10,15 +10,23 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@SequenceGenerator(
+        name = "attribute_sequence",
+        sequenceName = "attribute_sequence",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Attribute {
 
     public enum Operator {
@@ -28,8 +36,7 @@ public class Attribute {
     }
 
     @Id
-    @GeneratedValue
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attribute_sequence")
     private Long id;
 
     @Embedded
@@ -38,13 +45,9 @@ public class Attribute {
     @Embedded
     private Description description;
 
-//    @MapKeyEnumerated(value = EnumType.STRING)
-//    private AttributeSet.AttributeDefinition attributeDefinition;
-
     private float baseValue;
 
     @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
     private final List<AttributeModifier> modifiers = new ArrayList<>();
 
     public Attribute() {
@@ -123,6 +126,7 @@ public class Attribute {
 
     public void addModifier(AttributeModifier modifier) {
         this.modifiers.add(modifier);
+        modifier.setAttribute(this);
     }
 
     public void removeModifier(AttributeModifier modifier) {
@@ -131,5 +135,16 @@ public class Attribute {
 
     public List<AttributeModifier> getModifiers() {
         return modifiers;
+    }
+
+    @Override
+    public String toString() {
+        return "Attribute{" +
+                "id=" + id +
+                ", name=" + name +
+                ", description=" + description +
+                ", baseValue=" + baseValue +
+                ", modifiers=" + modifiers +
+                '}';
     }
 }

@@ -4,30 +4,32 @@ import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
+import com.jscisco.lom.domain.attribute.AttributeSet;
 import com.jscisco.lom.domain.attribute.InstantEffect;
+import squidpony.FakeLanguageGen;
 
 public class EntityFactory {
 
     public static Hero player() {
         Hero hero = new Hero.Builder()
-                .withName(Name.of("Player"))
+                .withName(Name.of(FakeLanguageGen.FANCY_FANTASY_NAME.word(true)))
                 .withAsset(Assets.warrior)
                 .build();
 
         hero.applyEffect(
                 new InstantEffect()
                         .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getMaxHealth())
+                                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                                 .withMagnitude(100f)
                                 .withOperator(Attribute.Operator.OVERRIDE)
                         )
                         .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getHealth())
+                                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                                 .withMagnitude(100f)
                                 .withOperator(Attribute.Operator.OVERRIDE)
                         )
                         .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getLightRadius())
+                                .forAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS)
                                 .withMagnitude(10f)
                                 .withOperator(Attribute.Operator.OVERRIDE))
         );
@@ -44,11 +46,11 @@ public class EntityFactory {
 
         golem.applyEffect(new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(golem.attributes.getMaxHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                         .withMagnitude(100f)
                         .withOperator(Attribute.Operator.OVERRIDE))
                 .addModifier(new AttributeModifier()
-                        .forAttribute(golem.attributes.getHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                         .withMagnitude(100f)
                         .withOperator(Attribute.Operator.OVERRIDE)));
         return golem;

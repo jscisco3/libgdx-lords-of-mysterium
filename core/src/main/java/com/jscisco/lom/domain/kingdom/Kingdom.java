@@ -33,7 +33,7 @@ public class Kingdom {
     private SaveGame saveGame;
 
     @Transient
-    private List<Hero> heroes;
+    private List<Hero> heroes = new ArrayList<>();
 
     @Transient
     private final Inn inn = new Inn();

@@ -53,7 +53,7 @@ public class KingdomScreen extends AbstractScreen {
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
-                game.setScreen(new GameScreen(game, new SaveGame(), level));
+                game.setScreen(new GameScreen(game, new SaveGame(), level, hero));
             }
         });
 

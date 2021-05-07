@@ -8,15 +8,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,15 +35,12 @@ public class AttributeSet {
     @Column(name = "entity_id")
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @MapsId
     @JoinColumn(name = "entity_id")
     private Entity entity;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//    @JoinTable(name = "attribute_set_attribute_mapping",
-//            joinColumns = {@JoinColumn(name = "attribute_set_id", referencedColumnName = "id")},
-//            inverseJoinColumns = {@JoinColumn(name = "attribute_id", referencedColumnName = "id")})
     @MapKeyEnumerated(value = EnumType.STRING)
     private Map<AttributeDefinition, Attribute> attributes = new HashMap<>();
 
@@ -73,10 +67,10 @@ public class AttributeSet {
 
         switch (modifier.operator) {
             case MULTIPLY:
-                newValue = modifier.getAttribute().getBaseValue() * modifier.getMagnitude();
+                newValue = getBaseValue(modifier.getAttributeDefinition()) * modifier.getMagnitude();
                 break;
             case ADD:
-                newValue = modifier.getAttribute().getBaseValue() + modifier.getMagnitude();
+                newValue = getBaseValue(modifier.getAttributeDefinition()) + modifier.getMagnitude();
                 break;
             case OVERRIDE:
                 newValue = modifier.getMagnitude();
@@ -84,10 +78,10 @@ public class AttributeSet {
         }
         // TODO: FIX
         // Health can never permanently be greater than the max health.
-//        if (modifier.getAttribute().equals(this.health)) {
-//            newValue = (clamp(0f, this.maxHealth.getValue(), newValue));
-//        }
-        modifier.getAttribute().setBaseValue(newValue);
+        if (modifier.getAttributeDefinition().equals(AttributeDefinition.HEALTH)) {
+            newValue = (clamp(0f, getAttributeValue(AttributeDefinition.MAX_HEALTH), newValue));
+        }
+        getAttribute(modifier.getAttributeDefinition()).setBaseValue(newValue);
     }
 
     public float getAttributeValue(AttributeDefinition attributeDefinition) {
@@ -103,7 +97,7 @@ public class AttributeSet {
      * @param modifier
      */
     public void applyTemporaryModifier(AttributeModifier modifier) {
-        modifier.getAttribute().addModifier(modifier);
+        getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
     }
 
     public Long getId() {
@@ -128,5 +122,13 @@ public class AttributeSet {
 
     public void setAttributes(Map<AttributeDefinition, Attribute> attributes) {
         this.attributes = attributes;
+    }
+
+    public Attribute getAttribute(AttributeDefinition attributeDefinition) {
+        return attributes.get(attributeDefinition);
+    }
+
+    public float getBaseValue(AttributeDefinition attributeDefinition) {
+        return attributes.get(attributeDefinition).getBaseValue();
     }
 }

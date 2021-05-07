@@ -1,9 +1,5 @@
 package com.jscisco.lom.domain.zone;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
@@ -17,37 +13,40 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 @javax.persistence.Entity
+@SequenceGenerator(
+        name = "level_sequence",
+        sequenceName = "level_sequence",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "level_sequence")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "zone_id", nullable = false)
     private Zone zone;
 
     @Transient
     private LevelGeneratorStrategy generator;
 
-    @OneToOne(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    private Hero hero;
-
-    @Transient
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Entity> entities = new ArrayList<>();
 
     @Transient
@@ -128,43 +127,10 @@ public class Level {
     public void addEntityAtPosition(Entity entity, Position position) {
         logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
         entity.setPosition(position);
-        if (entity instanceof Hero) {
-            setHero((Hero) entity);
-        }
-        this.entities.add(entity);
         entity.setLevel(this);
+        this.entities.add(entity);
         this.subject.register(entity);
         this.getTileAt(position).occupy(entity);
-    }
-
-    /**
-     * Responsible for rendering the level to the given SpriteBatch from the hero's perspective
-     *
-     * @param batch
-     * @param assets
-     * @param camera
-     */
-    public void draw(SpriteBatch batch, Assets assets, Camera camera) {
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                Tile t = getTileAt(Position.of(i, j));
-                if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
-                    t.draw(batch, assets, i, j, true);
-                } else if (t.isExplored()) {
-                    batch.setColor(Color.DARK_GRAY);
-                    t.draw(batch, assets, i, j, false);
-                    batch.setColor(Color.WHITE);
-                }
-//                else if (tiles.get(i).get(j).isExplored() && !this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
-//                    batch.setColor(Color.GRAY);
-//                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
-//                    batch.setColor(Color.WHITE);
-//                }
-            }
-        }
-        batch.end();
     }
 
     public int getWidth() {
@@ -243,9 +209,6 @@ public class Level {
         return entities;
     }
 
-    public Hero getHero() {
-        return hero;
-    }
 
     public Zone getZone() {
         return zone;
@@ -263,8 +226,14 @@ public class Level {
         this.id = id;
     }
 
-    public void setHero(Hero hero) {
-        this.hero = hero;
-        hero.setLevel(this);
+    public Hero getHero() {
+        return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
+    }
+
+    @Override
+    public String toString() {
+        return "Level{" +
+                "id=" + id +
+                '}';
     }
 }
