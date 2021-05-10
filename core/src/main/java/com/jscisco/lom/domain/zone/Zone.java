@@ -1,6 +1,8 @@
 package com.jscisco.lom.domain.zone;
 
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.entity.EntityFactory;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -41,7 +43,8 @@ public class Zone {
 
     public Zone(int depth) {
         for (int i = 0; i < depth; i++) {
-            addLevel(new Level());
+            Level level = new Level();
+            addLevel(level);
         }
     }
 

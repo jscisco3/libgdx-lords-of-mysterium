@@ -58,6 +58,7 @@ public class GameService {
         SaveGame saveGame = gameRepository.findById(saveGameId).orElseThrow(IllegalStateException::new);
         if (saveGame.getLevelId() != null) {
             Level level = loadLevel(saveGame.getLevelId());
+            logger.info("loading with # of entities: " + level.getEntities().size());
             return new GameScreen(game, saveGame, level);
         } else {
             return new KingdomScreen(game, saveGame, saveGame.getKingdom());

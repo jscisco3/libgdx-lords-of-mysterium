@@ -47,11 +47,13 @@ public class Level {
     @Transient
     private LevelGeneratorStrategy generator;
 
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // Orphan Removal == true so that when an entity is removed from this list, it is deleted from the DB.
+    // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
+    // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Entity> entities = new ArrayList<>();
 
-    @Transient
-    private int currentActorIndex = 0;
+    private int currentActorIndex;
 
     @Transient
     private Tile[][] tiles;
@@ -72,6 +74,7 @@ public class Level {
         this.width = width;
         this.height = height;
         this.generator = generator;
+        this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
 
 //        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));

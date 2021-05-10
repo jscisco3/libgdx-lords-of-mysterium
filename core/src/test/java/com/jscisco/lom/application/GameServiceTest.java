@@ -4,6 +4,7 @@ import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
@@ -88,7 +89,30 @@ public class GameServiceTest {
         Level loadedLevel = gameService.loadLevel(level.getId());
 
         assertThat(loadedLevel.getEntities().size()).isEqualTo(5);
+    }
 
+    @Test
+    public void can_remove_entity_from_level_correctly() {
+        SaveGame game = new SaveGame();
+        Zone zone = new Zone(1);
+        game.addZone(zone);
+
+        Level level = zone.getLevels().get(0);
+        for (int i = 0; i < 5; i++) {
+            NPC npc = EntityFactory.golem();
+            level.addEntityAtPosition(npc, level.getEmptyTile(npc));
+        }
+        gameService.saveGame(game);
+
+        Entity testNpc = level.getEntities().get(0);
+
+        assertThat(level.getEntities().size()).isEqualTo(5);
+        level.removeEntity(testNpc);
+        assertThat(level.getEntities().size()).isEqualTo(4);
+        gameService.saveGame(game);
+
+        Level loadedLevel = gameService.loadLevel(level.getId());
+        assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
     }
 
 }
