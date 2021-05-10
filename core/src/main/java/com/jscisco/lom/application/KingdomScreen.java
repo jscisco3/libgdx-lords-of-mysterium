@@ -8,7 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.repository.GameRepository;
+import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,16 +23,22 @@ public class KingdomScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(KingdomScreen.class);
 
     private Kingdom kingdom;
+    private SaveGame saveGame;
     private Texture backgroundTexture;
+
+    private GameService gameService;
 
     // UI Elements
     private final Label kingdomName;
     private Image inn;
     private Image portal;
 
-    public KingdomScreen(Game game, Kingdom kingdom) {
+    public KingdomScreen(Game game, SaveGame saveGame, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
+        this.saveGame = saveGame;
+        this.gameService = ServiceLocator.getBean(GameService.class);
+
         backgroundTexture = game.getAssets().getTexture(Assets.background);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
@@ -42,7 +54,15 @@ public class KingdomScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.info("Clicked portal");
-                game.setScreen(new GameScreen(game));
+                Zone zone = new Zone(3);
+                saveGame.addZone(zone);
+                Level level = zone.getLevels().get(0);
+                Hero hero = EntityFactory.player();
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                gameService.saveZone(zone);
+                gameService.saveLevel(level);
+                gameService.saveGame(saveGame);
+                game.setScreen(new GameScreen(game, saveGame, level, hero));
             }
         });
 

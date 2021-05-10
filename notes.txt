@@ -25,6 +25,47 @@ Rendering notes:
             * Player stats
             * Player Skills
 
+Screens:
+    TitleScreen
+    NewGameScreen
+    KingdomScreen
+    LoadGameScreen
+    GameScreen - Responsible for rendering and handling input for roguelike mode
+        LevelRenderer - Given a level and a hero, draws the appropriate tiles. Consider if it needs a Hero, or a FieldOfView
+        Level - Needed to know size of the level to clamp the camera
+        Hero - Needed for position for the camera to follow
+
+
+Services:
+    GameService: Responsible for saving and loading the game
+    ScreenService: Responsible for creating the appropriate screens
+
+Flow:
+    TitleScreen
+        -> Quickstart
+            - Create SaveGame
+            - Create Kingdom
+            - Savegame.setKingdom(...)
+            - Create Zone
+            - SaveGame.add(zone)
+            - Create Hero
+            - Add Hero to first level
+            * Necessary for setting the level ID
+            - gameService.saveGame(...)
+        -> New game
+            - NewGame Screen
+                * Create savegame
+                * Create kingdom
+                * saveGame.setKingdom(kingdom)
+                * GameService.saveGame(...)
+            - KingdomScreen
+                - Create Zone
+                - SaveGame.addZone(zone)
+                - Create Hero
+                - Add hero to level
+                - saveGame(...)
+
+
 Level:
     * Consider just having a map of Position -> Tile.
     * Same with Position -> Actor, or Actor -> Position?
@@ -116,3 +157,12 @@ Hero State Machine:
     Hero has a StateMachine
     States have Transitions (essentially, next state)
     e.g. state.transition(nextState)
+
+SaveGames:
+    * Id
+    * Kingdom
+        * Kingdom information here, inn, etc.
+    * Zones // Optional, all the zones we have been to.
+    * Level // Optional, when we are on an adventure. If we have a level, we should load into it.
+    * Last Played // Timestamp that let's us order the games by most recently played to last
+    *

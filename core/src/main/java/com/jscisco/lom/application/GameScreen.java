@@ -17,16 +17,17 @@ import com.jscisco.lom.application.ui.GameLogUI;
 import com.jscisco.lom.application.ui.InventoryWindow;
 import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
+import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.MathUtils;
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.InstantEffect;
-import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import com.jscisco.lom.domain.zone.Zone;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Set;
 
@@ -35,8 +36,9 @@ public class GameScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Hero hero = EntityFactory.player();
+    SaveGame saveGame;
 
+    Hero hero;
     Level level;
 
     // UI Elements
@@ -56,22 +58,34 @@ public class GameScreen extends AbstractScreen {
     private int cameraWidth = GameConfiguration.SCREEN_WIDTH;
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
+    private final GameService gameService;
+
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, SaveGame saveGame, Level level) {
+        this(game, saveGame, level, level.getHero());
+    }
+
+    public GameScreen(Game game, SaveGame saveGame, Level level, Hero hero) {
         super(game);
+        this.level = level;
+        this.hero = hero;
+        this.saveGame = saveGame;
+
+        this.gameService = ServiceLocator.getBean(GameService.class);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
         camera.update();
         // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        processor = new AdventureInputProcessor(hero);
+        processor = new AdventureInputProcessor();
         // Create a zone and a stage
 //        level = new Level(10, 10, new LevelGeneratorStrategy.EmptyLevelStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
 //        level = new Level(90, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
-        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
-        level.addHero(hero);
+//        level = new Level(90, 40, new LevelGeneratorStrategy.GenericStrategy());
+//        level.addHero(hero);
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
@@ -102,7 +116,7 @@ public class GameScreen extends AbstractScreen {
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
-        level.draw(batch, this.game.getAssets(), camera);
+        LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
         stage.act();
         stage.draw();
         popupStage.act();
@@ -158,6 +172,10 @@ public class GameScreen extends AbstractScreen {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
+            saveGame.setLevelId(this.level.getId());
+            logger.info(saveGame.toString());
+            gameService.saveLevel(level);
+            gameService.saveGame(saveGame);
             Gdx.app.exit();
         }
         hero.handleInput(input);

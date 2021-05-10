@@ -20,7 +20,7 @@ public class DurationEffectTest {
         Effect durationEffect = new DurationEffect()
                 .withDuration(Duration.permanent())
                 .addModifier(new AttributeModifier()
-                        .forAttribute(this.attributeSet.getMaxHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                         .withMagnitude(100f)
                         .withOperator(Attribute.Operator.ADD)
                 );

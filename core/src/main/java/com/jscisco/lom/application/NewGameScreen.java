@@ -2,21 +2,24 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.ui.HeroBlock;
-import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.repository.GameRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import squidpony.FakeLanguageGen;
 
 import java.util.ArrayList;
@@ -42,12 +45,15 @@ public class NewGameScreen extends AbstractScreen {
 
     private final TextArea input = new TextArea(FakeLanguageGen.FANTASY_NAME.word(true), GameConfiguration.getSkin(), "default");
     private final TextButton next = new TextButton("Start Game", GameConfiguration.getSkin(), "default");
-
+    private final GameService gameService;
 
     private static final Logger logger = LoggerFactory.getLogger(NewGameScreen.class);
 
     public NewGameScreen(Game game) {
         super(game);
+
+        gameService = ServiceLocator.getBean(GameService.class);
+
         stage.setDebugAll(true);
 
         setUpKingdomNameTable();
@@ -84,7 +90,12 @@ public class NewGameScreen extends AbstractScreen {
         next.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new KingdomScreen(game, new Kingdom(Name.of(input.getText()))));
+                // Generate the game and save it
+                SaveGame saveGame = new SaveGame();
+                Kingdom kingdom = new Kingdom(Name.of(input.getText()));
+                saveGame.setKingdom(kingdom);
+                gameService.saveGame(saveGame);
+                game.setScreen(new KingdomScreen(game, saveGame, kingdom));
             }
         });
         bottomTable.add(next);

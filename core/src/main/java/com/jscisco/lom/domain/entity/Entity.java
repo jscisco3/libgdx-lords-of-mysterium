@@ -26,6 +26,19 @@ import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Embedded;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,28 +48,53 @@ import java.util.Map;
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
  */
+@javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "entity_type",
+        discriminatorType = DiscriminatorType.STRING
+)
 public abstract class Entity implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
+    @Id
+    @GeneratedValue
+    protected Long id;
+
+    @Embedded
     protected Name name;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
     protected Level level;
+
+    @Transient
     protected DijkstraMap dijkstraMap;
+    @Embedded
     protected Position position;
+    @Transient
     protected FieldOfView fieldOfView = new FieldOfView(this);
-
+    @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
-    protected AttributeSet attributes = new AttributeSet();
+
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
+    protected AttributeSet attributes;
+
+    @Transient
     protected List<Effect> effects = new ArrayList<>();
-
+    @Transient
     protected Inventory inventory = new Inventory();
-    protected AssetDescriptor<Texture> asset;
-
+    // TODO: Should this even be on the entity model? Or is it somewhere else?
+    @Transient
+    protected AssetDescriptor<Texture> asset = Assets.warrior;
+    @Transient
     protected Action action = null;
-
+    @Transient
     protected final Subject subject = new Subject();
 
     protected Entity() {
+        this.setAttributes(new AttributeSet());
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -102,15 +140,19 @@ public abstract class Entity implements Observer {
     }
 
     public void move(Position position) {
+        Position oldPosition = this.position;
         this.position = position;
+        level.getTileAt(oldPosition).removeOccupant();
+        level.getTileAt(position).occupy(this);
         this.calculateFieldOfView();
     }
 
     /**
      * This is called when an entity is added to a level.
      * It should:
-     *  Calculate the initial DijkstraMap for the entity
-     *  Calculate FOV *and* FOV Resistance Map for the level
+     * Calculate the initial DijkstraMap for the entity
+     * Calculate FOV *and* FOV Resistance Map for the level
+     *
      * @param level
      */
     public void setLevel(Level level) {
@@ -139,13 +181,6 @@ public abstract class Entity implements Observer {
         inventory.removeItem(item);
         level.getTileAt(this.position).addItem(item);
         subject.notify(null);
-    }
-
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "name=" + name +
-                '}';
     }
 
     public void tick() {
@@ -179,7 +214,7 @@ public abstract class Entity implements Observer {
     public void removeEffect(Effect effect) {
         // Here, we need to remove the modifiers that are on the attribute
         for (AttributeModifier modifier : effect.getModifiers()) {
-            modifier.getAttribute().removeModifier(modifier);
+            attributes.getAttribute(modifier.getAttributeDefinition()).removeModifier(modifier);
         }
         // Then, we remove the effect
         this.effects.remove(effect);
@@ -191,6 +226,11 @@ public abstract class Entity implements Observer {
 
     public AttributeSet getAttributes() {
         return this.attributes;
+    }
+
+    public void setAttributes(AttributeSet attributes) {
+        this.attributes = attributes;
+        attributes.setEntity(this);
     }
 
     public void onDied() {
@@ -252,5 +292,22 @@ public abstract class Entity implements Observer {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                ", name=" + name +
+                ", position=" + position +
+                '}';
     }
 }

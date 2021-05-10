@@ -2,8 +2,14 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Transient;
+
+@javax.persistence.Entity
+@DiscriminatorValue("N")
 public class NPC extends Entity {
 
+    @Transient
     private AIController aiController;
 
     public static class Builder extends Entity.Builder<Builder> {

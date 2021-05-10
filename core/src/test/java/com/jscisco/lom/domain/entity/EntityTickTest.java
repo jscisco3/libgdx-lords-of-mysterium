@@ -10,7 +10,7 @@ public class EntityTickTest extends BaseEntityTest {
     @Test
     public void whenAnEntityTicks_thenItsEffectsTick() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getMaxHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
@@ -31,7 +31,7 @@ public class EntityTickTest extends BaseEntityTest {
     @Test
     public void whenAnEffectExpiresFromTicking_itIsRemoved() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getMaxHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
@@ -49,7 +49,7 @@ public class EntityTickTest extends BaseEntityTest {
     @Test
     public void whenDurationEffectExpires_ItsModifiersAreRemovedAppropriately() {
         AttributeModifier modifier = new AttributeModifier()
-                .forAttribute(e.attributes.getMaxHealth())
+                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
                 .withMagnitude(100f)
                 .withOperator(Attribute.Operator.ADD);
 
