@@ -69,4 +69,9 @@ public class GameServiceTest {
         assertThat(level.getTileAt(Position.of(2, 2)).isOccupied()).isTrue();
     }
 
+    @Test
+    public void can_save_entity_with_ai() {
+
+    }
+
 }

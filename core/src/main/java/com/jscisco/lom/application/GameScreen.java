@@ -175,6 +175,7 @@ public class GameScreen extends AbstractScreen {
             saveGame.setLevelId(this.level.getId());
             logger.info(saveGame.toString());
             gameService.saveLevel(level);
+            logger.info("Number of entities: " + this.level.getEntities().size());
             gameService.saveGame(saveGame);
             Gdx.app.exit();
         }

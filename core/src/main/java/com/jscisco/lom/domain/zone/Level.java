@@ -50,8 +50,7 @@ public class Level {
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Entity> entities = new ArrayList<>();
 
-    @Transient
-    private int currentActorIndex = 0;
+    private int currentActorIndex;
 
     @Transient
     private Tile[][] tiles;
@@ -72,9 +71,9 @@ public class Level {
         this.width = width;
         this.height = height;
         this.generator = generator;
+        this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
 
-        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
 //        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));

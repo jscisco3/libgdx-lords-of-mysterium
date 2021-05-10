@@ -13,16 +13,21 @@ import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 import squidpony.squidmath.Coord;
 
+import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Random;
 
+@javax.persistence.Entity
 public class WanderAIController extends AIController {
 
     private static final Logger logger = LoggerFactory.getLogger(WanderAIController.class);
+    @Transient
     private DijkstraMap dijkstraMap;
-    private final Random random = new Random();
+    @Transient
     private Coord goal;
+
+    public WanderAIController() {}
 
     public WanderAIController(Entity entity) {
         super(entity);

@@ -2,14 +2,18 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 
 @javax.persistence.Entity
 @DiscriminatorValue("N")
 public class NPC extends Entity {
 
-    @Transient
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
     private AIController aiController;
 
     public static class Builder extends Entity.Builder<Builder> {
