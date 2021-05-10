@@ -47,7 +47,7 @@ public class Level {
     @Transient
     private LevelGeneratorStrategy generator;
 
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Entity> entities = new ArrayList<>();
 
     @Transient
@@ -74,7 +74,7 @@ public class Level {
         this.generator = generator;
         tiles = generator.generate(this.width, this.height);
 
-        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
+//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
 //        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
 //        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));

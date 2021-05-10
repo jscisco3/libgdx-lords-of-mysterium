@@ -6,6 +6,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.Test;
@@ -67,6 +68,27 @@ public class GameServiceTest {
 
         assertThat(level.getHero()).isNotNull();
         assertThat(level.getTileAt(Position.of(2, 2)).isOccupied()).isTrue();
+    }
+
+    @Test
+    public void loading_a_level_with_npcs_loads_the_correct_number_of_entities() {
+        SaveGame game = new SaveGame();
+        Zone zone = new Zone(1);
+        game.addZone(zone);
+
+        Level level = zone.getLevels().get(0);
+        for (int i = 0; i < 5; i++) {
+            NPC npc = EntityFactory.golem();
+            level.addEntityAtPosition(npc, level.getEmptyTile(npc));
+        }
+        gameService.saveGame(game);
+
+        assertThat(level.getEntities().size()).isEqualTo(5);
+
+        Level loadedLevel = gameService.loadLevel(level.getId());
+
+        assertThat(loadedLevel.getEntities().size()).isEqualTo(5);
+
     }
 
 }
