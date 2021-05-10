@@ -45,14 +45,25 @@ Flow:
         -> Quickstart
             - Create SaveGame
             - Create Kingdom
+            - Savegame.setKingdom(...)
             - Create Zone
-            - (Maybe) save game
+            - SaveGame.add(zone)
             - Create Hero
             - Add Hero to first level
-            - Load into game screen
-                GameScreen needs:
-                    SaveGame
-            - Exit to save the game
+            * Necessary for setting the level ID
+            - gameService.saveGame(...)
+        -> New game
+            - NewGame Screen
+                * Create savegame
+                * Create kingdom
+                * saveGame.setKingdom(kingdom)
+                * GameService.saveGame(...)
+            - KingdomScreen
+                - Create Zone
+                - SaveGame.addZone(zone)
+                - Create Hero
+                - Add hero to level
+                - saveGame(...)
 
 
 Level:

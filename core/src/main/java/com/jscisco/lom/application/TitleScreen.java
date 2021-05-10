@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
@@ -22,11 +21,8 @@ import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import squidpony.FakeLanguageGen;
 
 import java.time.Instant;
@@ -44,11 +40,10 @@ public class TitleScreen extends AbstractScreen {
     public TitleScreen(Game game) {
         super(game);
 
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        gameRepository = ctx.getBean(GameRepository.class);
-        zoneRepository = ctx.getBean(ZoneRepository.class);
-        entityRepository = ctx.getBean(EntityRepository.class);
-        gameService = ctx.getBean(GameService.class);
+        gameRepository = ServiceLocator.getBean(GameRepository.class);
+        zoneRepository = ServiceLocator.getBean(ZoneRepository.class);
+        entityRepository = ServiceLocator.getBean(EntityRepository.class);
+        gameService = ServiceLocator.getBean(GameService.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));

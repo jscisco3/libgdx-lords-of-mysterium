@@ -22,6 +22,8 @@ import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.Zone;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -70,8 +72,7 @@ public class GameScreen extends AbstractScreen {
         this.hero = hero;
         this.saveGame = saveGame;
 
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        this.gameService = ctx.getBean(GameService.class);
+        this.gameService = ServiceLocator.getBean(GameService.class);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
@@ -172,8 +173,9 @@ public class GameScreen extends AbstractScreen {
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             saveGame.setLevelId(this.level.getId());
-            gameService.saveGame(saveGame);
+            logger.info(saveGame.toString());
             gameService.saveLevel(level);
+            gameService.saveGame(saveGame);
             Gdx.app.exit();
         }
         hero.handleInput(input);

@@ -60,7 +60,7 @@ public class GameService {
             Level level = loadLevel(saveGame.getLevelId());
             return new GameScreen(game, saveGame, level);
         } else {
-            return new KingdomScreen(game, saveGame.getKingdom());
+            return new KingdomScreen(game, saveGame, saveGame.getKingdom());
         }
     }
 

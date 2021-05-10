@@ -45,12 +45,11 @@ public class LoadGameScreen extends AbstractScreen {
         super(game);
         this.savedGames = savedGames;
         stage.setDebugAll(false);
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        gameRepository = ctx.getBean(GameRepository.class);
-        levelRepository = ctx.getBean(LevelRepository.class);
-        entityRepository = ctx.getBean(EntityRepository.class);
-        heroRepository = ctx.getBean(HeroRepository.class);
-        gameService = ctx.getBean(GameService.class);
+        gameRepository = ServiceLocator.getBean(GameRepository.class);
+        levelRepository = ServiceLocator.getBean(LevelRepository.class);
+        entityRepository = ServiceLocator.getBean(EntityRepository.class);
+        heroRepository = ServiceLocator.getBean(HeroRepository.class);
+        gameService = ServiceLocator.getBean(GameService.class);
 
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));

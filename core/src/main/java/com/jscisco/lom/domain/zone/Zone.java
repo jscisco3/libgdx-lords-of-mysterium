@@ -40,11 +40,8 @@ public class Zone {
     }
 
     public Zone(int depth) {
-        this.levels = new ArrayList<>();
         for (int i = 0; i < depth; i++) {
-            Level level = new Level();
-            level.setZone(this);
-            levels.add(level);
+            addLevel(new Level());
         }
     }
 
@@ -62,6 +59,11 @@ public class Zone {
 
     public void setLevels(List<Level> levels) {
         this.levels = levels;
+    }
+
+    public void addLevel(Level level) {
+        this.levels.add(level);
+        level.setZone(this);
     }
 
     public SaveGame getSaveGame() {

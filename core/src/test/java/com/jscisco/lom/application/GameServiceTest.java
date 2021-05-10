@@ -38,6 +38,11 @@ public class GameServiceTest {
         Zone zone = new Zone(1);
         game.addZone(zone);
         Level level = zone.getLevels().get(0);
+        Hero hero = EntityFactory.player();
+        level.addEntityAtPosition(hero, Position.of(1, 1));
+        gameService.saveGame(game);
+
+        game.setLevelId(level.getId());
         gameService.saveGame(game);
 
         assertThat(level.getId()).isNotNull();
