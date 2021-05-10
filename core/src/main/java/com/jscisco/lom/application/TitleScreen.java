@@ -11,9 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
@@ -114,19 +116,16 @@ public class TitleScreen extends AbstractScreen {
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
-                // Saving the game to set the level id
+
+                NPC golem = EntityFactory.golem();
+                level.addEntityAtPosition(golem, Position.of(5, 5));
                 gameService.saveGame(saveGame);
-//                saveGame.setLevelId(level.getId());
-//                gameService.saveGame(saveGame);
 
                 logger.info("Level id: " + level.getId());
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
-//                Hibernate.initialize(saveGame);
-//                Hibernate.initialize(level);
                 game.setScreen(new GameScreen(game, saveGame, level));
-//                game.setScreen(new GameScreen(game, saveGame, level, hero));
                 dispose();
                 game.getScreen().show();
             }

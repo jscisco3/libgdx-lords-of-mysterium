@@ -44,7 +44,6 @@ public class Zone {
     public Zone(int depth) {
         for (int i = 0; i < depth; i++) {
             Level level = new Level();
-            level.addEntityAtPosition(EntityFactory.golem(), Position.of(4, 4));
             addLevel(level);
         }
     }
