@@ -1,7 +1,6 @@
 package com.jscisco.lom.application;
 
-import com.badlogic.gdx.Screen;
-import com.jscisco.lom.Game;
+import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Position;

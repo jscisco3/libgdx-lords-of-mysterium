@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,19 +34,18 @@ public class Zone {
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
     private List<Level> levels = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "save_game_id", nullable = false)
+    // TODO: is it necessary that the zone knows it's save game?
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "save_game_id", nullable = false)
+    @Transient
     private SaveGame saveGame;
 
-    protected Zone() {
+    public Zone() {
 
     }
 
     public Zone(int depth) {
-        for (int i = 0; i < depth; i++) {
-            Level level = new Level();
-            addLevel(level);
-        }
+        this();
     }
 
     public Long getId() {

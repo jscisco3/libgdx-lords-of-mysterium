@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,8 @@ public class SaveGame {
     /**
      * The zones you have been to, in general.
      */
-    @OneToMany(mappedBy = "saveGame", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @OneToMany(mappedBy = "saveGame", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Transient
     private List<Zone> zones = new ArrayList<>();
 
     /**

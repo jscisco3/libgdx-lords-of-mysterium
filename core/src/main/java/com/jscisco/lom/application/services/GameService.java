@@ -1,7 +1,9 @@
-package com.jscisco.lom.application;
+package com.jscisco.lom.application.services;
 
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.GameScreen;
+import com.jscisco.lom.application.KingdomScreen;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.repository.HeroRepository;

@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.Block;
-import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
@@ -20,8 +20,6 @@ import com.jscisco.lom.domain.repository.HeroRepository;
 import com.jscisco.lom.domain.repository.LevelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
