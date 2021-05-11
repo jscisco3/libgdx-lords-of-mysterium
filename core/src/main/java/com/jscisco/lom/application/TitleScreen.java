@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.services.GameService;
+import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.SaveGame;
@@ -23,6 +24,7 @@ import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,19 +36,15 @@ public class TitleScreen extends AbstractScreen {
 
     private static final Logger logger = LoggerFactory.getLogger(TitleScreen.class);
     OrthographicCamera camera = new OrthographicCamera();
-    GameRepository gameRepository;
-    ZoneRepository zoneRepository;
-    EntityRepository entityRepository;
     GameService gameService;
+    ZoneService zoneService;
 
 
     public TitleScreen(Game game) {
         super(game);
 
-        gameRepository = ServiceLocator.getBean(GameRepository.class);
-        zoneRepository = ServiceLocator.getBean(ZoneRepository.class);
-        entityRepository = ServiceLocator.getBean(EntityRepository.class);
         gameService = ServiceLocator.getBean(GameService.class);
+        zoneService = ServiceLocator.getBean(ZoneService.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -110,21 +108,16 @@ public class TitleScreen extends AbstractScreen {
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
                 saveGame.setKingdom(kingdom);
                 // Create the zone
-                Zone zone = new Zone(3);
+                Zone zone = zoneService.createZone();
                 saveGame.addZone(zone);
 
                 // Add hero to the first level
-                Level level = zone.getLevels().get(0);
+                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.EMPTY);
                 Hero hero = EntityFactory.player();
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
-                // Have to save the game to get the level id.
                 NPC golem = EntityFactory.golem();
                 level.addEntityAtPosition(golem, Position.of(5, 5));
-                gameService.saveGame(saveGame);
-                // TODO: Move this to GameScreen exit method after refactoring SaveGame to just have a list of ZoneIds
-                saveGame.setLevelId(level.getId());
-                gameService.saveGame(saveGame);
 
                 logger.info("Level id: " + level.getId());
 
@@ -148,12 +141,9 @@ public class TitleScreen extends AbstractScreen {
         loadGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoadGameScreen(game, gameRepository.findAll()));
+                game.setScreen(new LoadGameScreen(game, gameService.getGames()));
                 dispose();
                 game.getScreen().show();
-//                gameRepository.findAll().forEach(g -> {
-//                    logger.info(MessageFormat.format("Game {0} | Kingdom: {1}", g.getId(), g.getKingdom().getName().getName()));
-//                });
             }
         });
 

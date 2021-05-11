@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -35,6 +36,10 @@ public class GameService {
         this.heroRepository = heroRepository;
         this.gameRepository = gameRepository;
         this.zoneRepository = zoneRepository;
+    }
+
+    public List<SaveGame> getGames() {
+        return gameRepository.findAll();
     }
 
     public Level loadLevel(Long levelId) {

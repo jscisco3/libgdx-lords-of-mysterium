@@ -1,20 +1,12 @@
 package com.jscisco.lom.domain.zone;
 
-import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.SaveGame;
-import com.jscisco.lom.domain.entity.EntityFactory;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,18 +26,7 @@ public class Zone {
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
     private List<Level> levels = new ArrayList<>();
 
-    // TODO: is it necessary that the zone knows it's save game?
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "save_game_id", nullable = false)
-    @Transient
-    private SaveGame saveGame;
-
     public Zone() {
-
-    }
-
-    public Zone(int depth) {
-        this();
     }
 
     public Long getId() {
@@ -67,14 +48,6 @@ public class Zone {
     public void addLevel(Level level) {
         this.levels.add(level);
         level.setZone(this);
-    }
-
-    public SaveGame getSaveGame() {
-        return saveGame;
-    }
-
-    public void setSaveGame(SaveGame saveGame) {
-        this.saveGame = saveGame;
     }
 
     @Override

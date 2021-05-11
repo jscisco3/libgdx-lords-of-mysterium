@@ -44,4 +44,15 @@ public class ZoneService {
         return levelRepository.save(level);
     }
 
+    public Level saveLevel(Level level) {
+        return levelRepository.save(level);
+    }
+
+    public Level loadLevel(Long levelId) {
+        Level level = levelRepository.findById(levelId).get();
+        // Initialize all entity positions
+        level.getEntities().forEach(e -> e.move(e.getPosition()));
+        return level;
+    }
+
 }

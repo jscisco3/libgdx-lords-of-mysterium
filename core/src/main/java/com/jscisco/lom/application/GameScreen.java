@@ -162,6 +162,8 @@ public class GameScreen extends AbstractScreen {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
+            saveGame.setLevelId(level.getId());
+            gameService.saveGame(saveGame);
             gameService.saveLevel(level);
             Gdx.app.exit();
         }
