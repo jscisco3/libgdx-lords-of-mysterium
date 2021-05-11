@@ -1,5 +1,7 @@
 package com.jscisco.lom.application;
 
+import com.badlogic.gdx.Screen;
+import com.jscisco.lom.Game;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Position;
@@ -113,6 +115,32 @@ public class GameServiceTest {
 
         Level loadedLevel = gameService.loadLevel(level.getId());
         assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
+    }
+
+    @Test
+    public void can_load_a_game_with_a_removed_entity_and_then_save_it() {
+        SaveGame game = new SaveGame();
+        Zone zone = new Zone(1);
+        game.addZone(zone);
+
+        Level level = zone.getLevels().get(0);
+        for (int i = 0; i < 5; i++) {
+            NPC npc = EntityFactory.golem();
+            level.addEntityAtPosition(npc, level.getEmptyTile(npc));
+        }
+        gameService.saveGame(game);
+
+        Entity testNpc = level.getEntities().get(0);
+
+        assertThat(level.getEntities().size()).isEqualTo(5);
+        level.removeEntity(testNpc);
+        assertThat(level.getEntities().size()).isEqualTo(4);
+        gameService.saveGame(game);
+
+        Level loadedLevel = gameService.loadLevel(level.getId());
+        assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
+
+        gameService.saveLevel(loadedLevel);
     }
 
 }

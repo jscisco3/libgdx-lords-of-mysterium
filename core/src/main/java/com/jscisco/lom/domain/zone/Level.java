@@ -149,6 +149,7 @@ public class Level {
         // Have to remove it from the tile as well...
         this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
+        entity.setLevel(null);
     }
 
     /**

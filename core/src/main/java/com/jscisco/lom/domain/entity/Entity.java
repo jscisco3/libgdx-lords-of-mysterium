@@ -156,6 +156,10 @@ public abstract class Entity implements Observer {
      * @param level
      */
     public void setLevel(Level level) {
+        if (level == null) {
+            this.level = null;
+            return;
+        }
         this.level = level;
         this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
         recalculateDijkstraMap();
