@@ -117,8 +117,12 @@ public class TitleScreen extends AbstractScreen {
                 Hero hero = EntityFactory.player();
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
+                // Have to save the game to get the level id.
                 NPC golem = EntityFactory.golem();
                 level.addEntityAtPosition(golem, Position.of(5, 5));
+                gameService.saveGame(saveGame);
+                // TODO: Move this to GameScreen exit method after refactoring SaveGame to just have a list of ZoneIds
+                saveGame.setLevelId(level.getId());
                 gameService.saveGame(saveGame);
 
                 logger.info("Level id: " + level.getId());

@@ -30,7 +30,7 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zone_sequence")
     private Long id;
 
-    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
     private List<Level> levels = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

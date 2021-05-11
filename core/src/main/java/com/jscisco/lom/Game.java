@@ -30,12 +30,9 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void create() {
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        GameRepository repo = ctx.getBean(GameRepository.class);
-
-        repo.findAll().forEach(g -> logger.info(String.valueOf(g.getId())));
         // Initialize everything
-        // TODO: Spring bean
+        // Required for setting the context once! Has to be done.
+        new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         GameConfiguration.configureEventBus();
         setScreen(new LoadingScreen(this));
 
