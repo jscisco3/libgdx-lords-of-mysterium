@@ -65,6 +65,19 @@ Flow:
                 - Add hero to level
                 - saveGame(...)
 
+Services:
+    GameService:
+        Creates the metadata for a new game
+        Handles loading a game to the correct screen
+    ZoneService:
+        Creates a new zone and persists it?
+    LevelService:
+        Used to create an individual level
+        Responsible for saving an individual level when saving the game
+        Responsible for handling hero changing level (?)
+    ItemService (?)
+    EntityService (?)
+
 
 Level:
     * Consider just having a map of Position -> Tile.
