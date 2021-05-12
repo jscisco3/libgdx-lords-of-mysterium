@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
@@ -15,6 +16,14 @@ public class EntityFactory {
                 .withName(Name.of(FakeLanguageGen.FANCY_FANTASY_NAME.word(true)))
                 .withAsset(Assets.warrior)
                 .build();
+
+        //        attributes.put(AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
+//        attributes.put(AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Maximum Health")));
+//        attributes.put(AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
+
+        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
+        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Max Health")));
+        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
 
         hero.applyEffect(
                 new InstantEffect()
@@ -44,15 +53,27 @@ public class EntityFactory {
                 .build();
         golem.setAiController(new HunterSeekerAI(golem));
 
-        golem.applyEffect(new InstantEffect()
-                .addModifier(new AttributeModifier()
-                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE))
-                .addModifier(new AttributeModifier()
-                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE)));
+        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
+        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Max Health")));
+        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
+
+        golem.applyEffect(
+                new InstantEffect()
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS)
+                                .withMagnitude(10f)
+                                .withOperator(Attribute.Operator.OVERRIDE))
+        );
         return golem;
     }
 }

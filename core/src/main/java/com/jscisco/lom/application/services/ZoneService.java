@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * ZoneService: Domain service for interacting with the Zone root aggregate.
@@ -40,7 +39,6 @@ public class ZoneService {
         Zone zone = zoneRepository.getById(zoneId);
         Level level = new Level(width, height, strategy);
         zone.addLevel(level);
-//        zoneRepository.save(zone);
         return levelRepository.save(level);
     }
 
