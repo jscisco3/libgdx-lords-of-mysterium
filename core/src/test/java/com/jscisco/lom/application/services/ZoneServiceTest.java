@@ -6,12 +6,10 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,18 +98,16 @@ public class ZoneServiceTest {
 
         Level level = zoneService.createLevel(zone.getId(), 20, 20, LevelGeneratorStrategyFactory.EMPTY);
         for (int i = 0; i < 5; i++) {
-            Entity e = entityService.createEntity(EntityFactory.golem());
+            Entity e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
         }
-
-        zoneService.saveLevel(level);
-        Entity testNpc = level.getEntities().get(0);
+        Level savedLevel = zoneService.saveLevel(level);
+        Entity testNpc = savedLevel.getEntities().get(0);
 
         assertThat(level.getEntities().size()).isEqualTo(5);
-        level.removeEntity(testNpc);
-        entityService.deleteEntity(testNpc.getId());
-        assertThat(level.getEntities().size()).isEqualTo(4);
-        zoneService.saveLevel(level);
+        savedLevel.removeEntity(testNpc);
+        assertThat(savedLevel.getEntities().size()).isEqualTo(4);
+        zoneService.saveLevel(savedLevel);
 
         Level loadedLevel = zoneService.loadLevel(level.getId());
         assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
@@ -127,19 +123,19 @@ public class ZoneServiceTest {
             Entity e = entityService.createEntity(EntityFactory.golem());
             level.addEntityAtPosition(e, level.getEmptyTile(e));
         }
-        zoneService.saveLevel(level);
+        level = zoneService.saveLevel(level);
 
         Entity testNpc = level.getEntities().get(0);
 
         assertThat(level.getEntities().size()).isEqualTo(5);
         level.removeEntity(testNpc);
-        entityService.deleteEntity(testNpc.getId());
+//        entityService.deleteEntity(testNpc.getId());
         assertThat(level.getEntities().size()).isEqualTo(4);
         zoneService.saveLevel(level);
 
-        Level loadedLevel = zoneService.loadLevel(level.getId());
-        assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
+        level = zoneService.loadLevel(level.getId());
+        assertThat(level.getEntities().size()).isEqualTo(4);
 
-        zoneService.saveLevel(loadedLevel);
+        zoneService.saveLevel(level);
     }
 }

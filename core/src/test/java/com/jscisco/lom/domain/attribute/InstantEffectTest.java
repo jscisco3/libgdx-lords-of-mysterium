@@ -12,7 +12,7 @@ public class InstantEffectTest {
 
     @BeforeEach
     public void setup() {
-        this.attributeSet = new AttributeSet();
+        this.attributeSet = AttributeSetFactory.getAttributeSet();
     }
 
     @Test

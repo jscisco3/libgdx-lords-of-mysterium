@@ -5,6 +5,8 @@ import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class ZoneService {
 
+    private static final Logger logger = LoggerFactory.getLogger(ZoneService.class);
     private final ZoneRepository zoneRepository;
     private final LevelRepository levelRepository;
 
@@ -43,6 +46,7 @@ public class ZoneService {
     }
 
     public Level saveLevel(Level level) {
+        logger.info("saving level with # entites: " + level.getEntities().size());
         return levelRepository.save(level);
     }
 

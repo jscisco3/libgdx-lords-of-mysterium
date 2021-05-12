@@ -1,7 +1,6 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.application.Assets;
-import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
@@ -17,13 +16,7 @@ public class EntityFactory {
                 .withAsset(Assets.warrior)
                 .build();
 
-        //        attributes.put(AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
-//        attributes.put(AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Maximum Health")));
-//        attributes.put(AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
-
-        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
-        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Max Health")));
-        hero.getAttributes().addAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
+        hero.attributes.initialize();
 
         hero.applyEffect(
                 new InstantEffect()
@@ -52,10 +45,7 @@ public class EntityFactory {
                 .withAsset(Assets.golem)
                 .build();
         golem.setAiController(new HunterSeekerAI(golem));
-
-        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
-        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Max Health")));
-        golem.getAttributes().addAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
+        golem.attributes.initialize();
 
         golem.applyEffect(
                 new InstantEffect()

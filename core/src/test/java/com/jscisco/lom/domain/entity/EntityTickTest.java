@@ -22,10 +22,10 @@ public class EntityTickTest extends BaseEntityTest {
         e.tick();
 
         assertThat(e.effects).contains(periodicEffect);
-        assertThat(e.attributes.getMaxHealth().getValue()).isEqualTo(100f);
+        assertThat(e.attributes.getMaxHealth().getValue()).isEqualTo(200f);
 
         e.tick();
-        assertThat(e.attributes.getMaxHealth().getValue()).isEqualTo(200f);
+        assertThat(e.attributes.getMaxHealth().getValue()).isEqualTo(300f);
     }
 
     @Test
