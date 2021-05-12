@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
+import fixtures.EntityFactory;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class BaseEntityTest {
@@ -9,12 +10,7 @@ public abstract class BaseEntityTest {
 
     @BeforeEach
     public void setup() {
-        e = new Entity() {
-            @Override
-            public Action nextAction() {
-                return null;
-            }
-        };
+        e = EntityFactory.testHero();
     }
 
 }

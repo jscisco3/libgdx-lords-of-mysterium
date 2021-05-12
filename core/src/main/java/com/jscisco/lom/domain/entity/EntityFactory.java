@@ -16,6 +16,8 @@ public class EntityFactory {
                 .withAsset(Assets.warrior)
                 .build();
 
+        hero.attributes.initialize();
+
         hero.applyEffect(
                 new InstantEffect()
                         .addModifier(new AttributeModifier()
@@ -43,16 +45,25 @@ public class EntityFactory {
                 .withAsset(Assets.golem)
                 .build();
         golem.setAiController(new HunterSeekerAI(golem));
+        golem.attributes.initialize();
 
-        golem.applyEffect(new InstantEffect()
-                .addModifier(new AttributeModifier()
-                        .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE))
-                .addModifier(new AttributeModifier()
-                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE)));
+        golem.applyEffect(
+                new InstantEffect()
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.MAX_HEALTH)
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
+                                .withMagnitude(100f)
+                                .withOperator(Attribute.Operator.OVERRIDE)
+                        )
+                        .addModifier(new AttributeModifier()
+                                .forAttribute(AttributeSet.AttributeDefinition.LIGHT_RADIUS)
+                                .withMagnitude(10f)
+                                .withOperator(Attribute.Operator.OVERRIDE))
+        );
         return golem;
     }
 }

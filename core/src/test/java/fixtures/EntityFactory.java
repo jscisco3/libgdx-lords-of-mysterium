@@ -17,6 +17,8 @@ public class EntityFactory {
                 .withAttributes(new AttributeSet())
                 .build();
 
+        h.getAttributes().initialize();
+
         h.applyEffect(
                 new InstantEffect()
                         .addModifier(new AttributeModifier()

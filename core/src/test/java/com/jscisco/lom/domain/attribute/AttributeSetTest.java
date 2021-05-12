@@ -12,6 +12,7 @@ public class AttributeSetTest {
     @BeforeEach
     public void setup() {
         this.attributeSet = new AttributeSet();
+        this.attributeSet.initialize();
     }
 
     @Test

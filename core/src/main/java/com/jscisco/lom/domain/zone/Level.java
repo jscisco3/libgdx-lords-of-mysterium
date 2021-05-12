@@ -5,9 +5,10 @@ import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,13 +77,6 @@ public class Level {
         this.generator = generator;
         this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
-
-//        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
-//        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-//        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-//        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?

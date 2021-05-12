@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.application.services.GameService;
+import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.application.ui.AdventurerUI;
 import com.jscisco.lom.application.ui.GameLogUI;
 import com.jscisco.lom.application.ui.InventoryWindow;
@@ -54,6 +56,7 @@ public class GameScreen extends AbstractScreen {
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
     private final GameService gameService;
+    private final ZoneService zoneService;
 
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
@@ -68,6 +71,7 @@ public class GameScreen extends AbstractScreen {
         this.saveGame = saveGame;
 
         this.gameService = ServiceLocator.getBean(GameService.class);
+        this.zoneService = ServiceLocator.getBean(ZoneService.class);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
@@ -161,7 +165,9 @@ public class GameScreen extends AbstractScreen {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
-            gameService.saveLevel(level);
+            saveGame.setLevelId(level.getId());
+            gameService.saveGame(saveGame);
+            zoneService.saveLevel(level);
             Gdx.app.exit();
         }
         hero.handleInput(input);

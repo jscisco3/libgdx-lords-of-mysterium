@@ -77,7 +77,7 @@ public abstract class Entity implements Observer {
     @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     protected AttributeSet attributes;
 
@@ -157,6 +157,7 @@ public abstract class Entity implements Observer {
      */
     public void setLevel(Level level) {
         if (level == null) {
+            logger.info("Setting level to null");
             this.level = null;
             return;
         }

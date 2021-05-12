@@ -1,7 +1,9 @@
-package com.jscisco.lom.application;
+package com.jscisco.lom.application.services;
 
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.GameScreen;
+import com.jscisco.lom.application.KingdomScreen;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.repository.HeroRepository;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -33,6 +36,10 @@ public class GameService {
         this.heroRepository = heroRepository;
         this.gameRepository = gameRepository;
         this.zoneRepository = zoneRepository;
+    }
+
+    public List<SaveGame> getGames() {
+        return gameRepository.findAll();
     }
 
     public Level loadLevel(Long levelId) {

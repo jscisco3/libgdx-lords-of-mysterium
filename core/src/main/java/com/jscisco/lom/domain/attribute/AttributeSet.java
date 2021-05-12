@@ -45,9 +45,16 @@ public class AttributeSet {
     private Map<AttributeDefinition, Attribute> attributes = new HashMap<>();
 
     public AttributeSet() {
+    }
+
+    public void initialize() {
         attributes.put(AttributeDefinition.HEALTH, new Attribute(Name.of("Health"), Description.of("Current Health")));
         attributes.put(AttributeDefinition.MAX_HEALTH, new Attribute(Name.of("Max Health"), Description.of("Maximum Health")));
         attributes.put(AttributeDefinition.LIGHT_RADIUS, new Attribute(Name.of("Light Radius"), Description.of("Light Radius")));
+    }
+
+    public void addAttribute(AttributeDefinition definition, Attribute attribute) {
+        this.attributes.put(definition, attribute);
     }
 
     public Attribute getHealth() {

@@ -57,7 +57,8 @@ public class FieldOfView {
         if (recalculateResistanceMap) {
             calculateResistanceMap();
         }
-        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
+//        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
+        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), 10.0f);
         return this.vision;
     }
 
