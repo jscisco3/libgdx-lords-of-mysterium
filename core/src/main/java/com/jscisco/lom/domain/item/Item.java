@@ -6,14 +6,53 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.zone.Level;
 
+import javax.annotation.Nullable;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
+
+@Entity
+@SequenceGenerator(
+        name = "item_sequence",
+        sequenceName = "item_sequence",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_sequence")
+    private Long id;
+
+    @Embedded
     private Name name;
-    private AssetDescriptor<Texture> asset;
+
+    @Embedded
+    @Nullable
+    private Position position;
+
+    @Transient
+    protected AssetDescriptor<Texture> asset = Assets.sword;
+
+    @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
-    private Item() {
+    @ManyToOne(optional = true)
+    @Nullable
+    private Level level;
+
+    public Item() {
 
     }
 
@@ -61,5 +100,45 @@ public class Item {
 
     public AssetDescriptor<Texture> getAsset() {
         return asset;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
+
+    public void setAsset(AssetDescriptor<Texture> asset) {
+        this.asset = asset;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }

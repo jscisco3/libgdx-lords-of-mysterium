@@ -179,3 +179,8 @@ SaveGames:
     * Level // Optional, when we are on an adventure. If we have a level, we should load into it.
     * Last Played // Timestamp that let's us order the games by most recently played to last
     *
+
+Saving Items:
+    An item can be either
+        a) In an inventory
+        b) On the ground in a level

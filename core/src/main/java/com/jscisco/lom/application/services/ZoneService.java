@@ -47,13 +47,20 @@ public class ZoneService {
 
     public Level saveLevel(Level level) {
         logger.info("saving level with # entites: " + level.getEntities().size());
+        logger.info("saving level with # items: " + level.getItems().size());
         return levelRepository.save(level);
     }
 
     public Level loadLevel(Long levelId) {
+        logger.info("Loading level with id: " + levelId);
         Level level = levelRepository.findById(levelId).get();
         // Initialize all entity positions
         level.getEntities().forEach(e -> e.move(e.getPosition()));
+        level.getItems().forEach(i -> {
+            logger.info(i.toString());
+            assert i.getPosition() != null;
+            level.getTileAt(i.getPosition()).addItem(i);
+        });
         return level;
     }
 
