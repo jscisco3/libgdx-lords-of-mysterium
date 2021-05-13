@@ -19,6 +19,7 @@ import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.repository.EntityRepository;
 import com.jscisco.lom.domain.repository.GameRepository;
@@ -116,15 +117,23 @@ public class TitleScreen extends AbstractScreen {
 
                 // Add hero to the first level
                 Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.EMPTY);
-//                Hero hero = (Hero) entityService.createEntity(EntityFactory.player());
                 Hero hero = EntityFactory.player();
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
-//                NPC golem = (NPC) entityService.createEntity(EntityFactory.golem());
                 NPC golem = EntityFactory.golem();
                 level.addEntityAtPosition(golem, Position.of(5, 5));
 
-                logger.info("Level id: " + level.getId());
+                logger.debug("Level id: " + level.getId());
+
+                // Add some items;
+                for (int i = 0; i < 5; i++) {
+                    Item item = new Item.Builder()
+                            .withName(Name.of("Sword"))
+                            .withAsset(Assets.sword)
+                            .build();
+
+                    level.addItemAtPosition(item, Position.of(i + 3, 5));
+                }
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in

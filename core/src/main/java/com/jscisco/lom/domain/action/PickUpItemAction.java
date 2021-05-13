@@ -24,6 +24,7 @@ public class PickUpItemAction extends Action {
         if (tile.getItems().contains(item) && item != null) {
             source.pickup(item);
             tile.removeItem(item);
+            source.getLevel().removeItem(item);
             return ActionResult.succeeded();
         }
         return ActionResult.failed();

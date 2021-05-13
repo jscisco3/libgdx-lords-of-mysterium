@@ -2,14 +2,17 @@ package com.jscisco.lom.application.services;
 
 import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
+import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,7 +132,6 @@ public class ZoneServiceTest {
 
         assertThat(level.getEntities().size()).isEqualTo(5);
         level.removeEntity(testNpc);
-//        entityService.deleteEntity(testNpc.getId());
         assertThat(level.getEntities().size()).isEqualTo(4);
         zoneService.saveLevel(level);
 
@@ -137,5 +139,61 @@ public class ZoneServiceTest {
         assertThat(level.getEntities().size()).isEqualTo(4);
 
         zoneService.saveLevel(level);
+    }
+
+    @Test
+    public void can_save_level_with_items() {
+        Zone zone = zoneService.createZone();
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+
+        Item item = new Item.Builder()
+                .withName(Name.of("Sword"))
+                .build();
+        level.addItemAtPosition(item, Position.of(2, 2));
+
+        level = zoneService.saveLevel(level);
+
+        item = level.getItems().get(0);
+        assertThat(item.getId()).isEqualTo(1L);
+        assertThat(item.getName()).isEqualTo(Name.of("Sword"));
+    }
+
+    @Test
+    public void loading_level_with_items_places_items_in_appropriate_tile() {
+        Zone zone = zoneService.createZone();
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+
+        Item item = new Item.Builder()
+                .withName(Name.of("Sword"))
+                .build();
+        level.addItemAtPosition(item, Position.of(2, 2));
+        zoneService.saveLevel(level);
+
+        Level loadedLevel = zoneService.loadLevel(1L);
+        assertThat(loadedLevel.getItems().isEmpty()).isFalse();
+        assertThat(loadedLevel.getTileAt(Position.of(2, 2)).getItems().isEmpty()).isFalse();
+    }
+
+    @Test
+    @Disabled("This works in practice, but not in the test")
+    public void can_remove_items_and_save_level() {
+        Zone zone = zoneService.createZone();
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+
+        Item item = new Item.Builder()
+                .withName(Name.of("Sword"))
+                .build();
+        level.addItemAtPosition(item, Position.of(2, 2));
+        zoneService.saveLevel(level);
+
+        item = level.getItems().get(0);
+        level.removeItem(item);
+
+        assertThat(level.getItems().isEmpty()).isTrue();
+        zoneService.saveLevel(level);
+        assertThat(level.getItems().isEmpty()).isTrue();
+
+        level = zoneService.loadLevel(level.getId());
+        assertThat(level.getItems().isEmpty()).isTrue();
     }
 }

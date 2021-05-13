@@ -7,8 +7,6 @@ import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +53,9 @@ public class Level {
     private List<Entity> entities = new ArrayList<>();
 
     private int currentActorIndex;
+
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Item> items = new ArrayList<>();
 
     @Transient
     private Tile[][] tiles;
@@ -182,6 +183,14 @@ public class Level {
 
     public void addItemAtPosition(Item item, Position position) {
         getTileAt(position).addItem(item);
+        this.items.add(item);
+        item.setPosition(position);
+        item.setLevel(this);
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(item);
+        item.setLevel(null);
     }
 
     public void setTile(Tile t, Position p) {
@@ -226,7 +235,12 @@ public class Level {
     }
 
     public Hero getHero() {
+        entities.stream().forEach(e -> logger.info(e.getClass().getSimpleName()));
         return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 
     @Override
