@@ -30,6 +30,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
@@ -83,8 +84,11 @@ public abstract class Entity implements Observer {
 
     @Transient
     protected List<Effect> effects = new ArrayList<>();
-    @Transient
-    protected Inventory inventory = new Inventory();
+
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    protected Inventory inventory;
+
     // TODO: Should this even be on the entity model? Or is it somewhere else?
     @Transient
     protected AssetDescriptor<Texture> asset = Assets.warrior;
@@ -306,6 +310,11 @@ public abstract class Entity implements Observer {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        inventory.setEntity(this);
     }
 
     @Override

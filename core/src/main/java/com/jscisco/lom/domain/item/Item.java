@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.entity.Inventory;
 import com.jscisco.lom.domain.zone.Level;
 
 import javax.annotation.Nullable;
@@ -51,6 +52,10 @@ public class Item {
     @ManyToOne(optional = true)
     @Nullable
     private Level level;
+
+    @ManyToOne(optional = true)
+    @Nullable
+    private Inventory inventory;
 
     public Item() {
 
@@ -140,5 +145,14 @@ public class Item {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Nullable
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(@Nullable Inventory inventory) {
+        this.inventory = inventory;
     }
 }

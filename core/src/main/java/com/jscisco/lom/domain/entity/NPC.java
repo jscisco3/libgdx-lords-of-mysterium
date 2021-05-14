@@ -31,6 +31,7 @@ public class NPC extends Entity {
             npc.position = this.position;
             npc.asset = this.asset;
             npc.aiController = controller;
+            npc.setInventory(new Inventory());
             return npc;
         }
     }
