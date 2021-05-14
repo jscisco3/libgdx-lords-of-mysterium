@@ -116,3 +116,4 @@ Thumbs.db
 
 ## DB for save games
 *.mv.db
+*.trace.db
