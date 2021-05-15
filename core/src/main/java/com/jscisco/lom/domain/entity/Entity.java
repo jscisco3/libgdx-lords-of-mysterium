@@ -146,8 +146,6 @@ public abstract class Entity implements Observer {
     public void move(Position position) {
         Position oldPosition = this.position;
         this.position = position;
-        level.getTileAt(oldPosition).removeOccupant();
-        level.getTileAt(position).occupy(this);
         this.calculateFieldOfView();
     }
 

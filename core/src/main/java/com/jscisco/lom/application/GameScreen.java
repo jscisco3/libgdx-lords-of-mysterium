@@ -145,7 +145,7 @@ public class GameScreen extends AbstractScreen {
 
     private void setPlayerAction(Set<Integer> input) {
         if (input.contains(Input.Keys.COMMA)) {
-            PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
+            PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()), inputMultiplexer);
             popup(window);
             // Have to clear the input because otherwise, when we change the input processor... it still counts the character
             // as being pressed.

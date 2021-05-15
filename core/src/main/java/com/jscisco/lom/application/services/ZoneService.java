@@ -56,11 +56,11 @@ public class ZoneService {
         Level level = levelRepository.findById(levelId).get();
         // Initialize all entity positions
         level.getEntities().forEach(e -> e.move(e.getPosition()));
-        level.getItems().forEach(i -> {
-            logger.info(i.toString());
-            assert i.getPosition() != null;
-            level.getTileAt(i.getPosition()).addItem(i);
-        });
+//        level.getItems().forEach(i -> {
+//            logger.info(i.toString());
+//            assert i.getPosition() != null;
+//            level.getTileAt(i.getPosition()).addItem(i);
+//        });
         return level;
     }
 

@@ -23,6 +23,9 @@ import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @javax.persistence.Entity
 @SequenceGenerator(
@@ -49,7 +52,8 @@ public class Level {
     // Orphan Removal == true so that when an entity is removed from this list, it is deleted from the DB.
     // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
     // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    // Fetch eager because we just want everything loaded in memory. Revisit if it becomes a problem.
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Entity> entities = new ArrayList<>();
 
     private int currentActorIndex;
@@ -129,7 +133,6 @@ public class Level {
         entity.setLevel(this);
         this.entities.add(entity);
         this.subject.register(entity);
-        this.getTileAt(position).occupy(entity);
     }
 
     public int getWidth() {
@@ -142,7 +145,6 @@ public class Level {
 
     public void removeEntity(Entity entity) {
         // Have to remove it from the tile as well...
-        this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
         entity.setLevel(null);
     }
@@ -154,10 +156,11 @@ public class Level {
      * @return
      */
     public Position getEmptyTile(Entity e) {
+        Set<Position> occupiedPositions = entities.stream().map(Entity::getPosition).collect(Collectors.toSet());
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Tile t = tiles[i][j];
-                if (!t.isOccupied() && t.isWalkable(e)) {
+                if (!occupiedPositions.contains(Position.of(i, j)) && t.isWalkable(e)) {
                     return Position.of(i, j);
                 }
             }
@@ -182,10 +185,16 @@ public class Level {
     }
 
     public void addItemAtPosition(Item item, Position position) {
-        getTileAt(position).addItem(item);
         this.items.add(item);
         item.setPosition(position);
         item.setLevel(this);
+    }
+
+    public List<Item> getItemsAtPosition(Position p) {
+        return items.stream().filter(i -> {
+            assert i.getPosition() != null;
+            return i.getPosition().equals(p);
+        }).collect(Collectors.toList());
     }
 
     public void removeItem(Item item) {
@@ -217,6 +226,9 @@ public class Level {
         return entities;
     }
 
+    public Optional<Entity> getEntityAtPosition(Position p) {
+        return entities.stream().filter(e -> e.getPosition().equals(p)).findFirst();
+    }
 
     public Zone getZone() {
         return zone;

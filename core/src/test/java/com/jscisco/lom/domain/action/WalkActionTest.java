@@ -27,8 +27,8 @@ public class WalkActionTest {
 
         assertThat(result.success()).isTrue();
         assertThat(hero.getPosition()).isEqualTo(startPosition.add(Direction.N.relativePosition));
-        assertThat(level.getTileAt(startPosition).isOccupied()).isFalse();
-        assertThat(level.getTileAt(startPosition.add(Direction.N.relativePosition)).isOccupied()).isTrue();
+        assertThat(level.getEntityAtPosition(startPosition)).isEmpty();
+        assertThat(level.getEntityAtPosition(startPosition.add(Direction.N.relativePosition))).isPresent();
     }
 
     @Test

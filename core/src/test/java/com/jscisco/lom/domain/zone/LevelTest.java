@@ -34,8 +34,8 @@ public class LevelTest {
         level.addEntityAtPosition(p, expectedPosition);
 
         assertThat(p.getPosition()).isEqualTo(expectedPosition);
-        assertThat(level.getTileAt(expectedPosition).isOccupied()).isTrue();
-        assertThat(level.getTileAt(expectedPosition).getOccupant()).isEqualTo(p);
+        assertThat(level.getEntityAtPosition(expectedPosition).isPresent()).isTrue();
+        assertThat(level.getEntityAtPosition(expectedPosition).get()).isEqualTo(p);
         assertThat(p.getLevel()).isEqualTo(level);
     }
 

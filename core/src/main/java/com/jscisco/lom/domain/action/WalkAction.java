@@ -5,6 +5,8 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
 
+import java.util.Optional;
+
 public class WalkAction extends Action {
     Direction direction;
 
@@ -17,8 +19,9 @@ public class WalkAction extends Action {
     public ActionResult execute() {
         Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
-        if (level.getTileAt(newPosition).isOccupied()) {
-            return ActionResult.alternate(new AttackAction(source, level.getTileAt(newPosition).getOccupant()));
+        Optional<Entity> occupant = level.getEntities().stream().filter(e -> e.getPosition().equals(newPosition)).findFirst();
+        if (occupant.isPresent()) {
+            return ActionResult.alternate(new AttackAction(source, occupant.get()));
         }
         if (level.getTileAt(newPosition).getFeature() instanceof Door) {
             return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
