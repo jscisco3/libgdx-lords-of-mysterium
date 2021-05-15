@@ -4,6 +4,8 @@ import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Tile;
 
+import java.util.stream.Collectors;
+
 /**
  * Pick up the top item in the tile that the player is in.
  * <p>
@@ -20,10 +22,11 @@ public class PickUpItemAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Tile tile = source.getLevel().getTileOccupiedByEntity(source);
-        if (tile.getItems().contains(item) && item != null) {
+        if (level.getItems().stream().filter(i -> {
+            assert i.getPosition() != null;
+            return i.getPosition().equals(source.getPosition());
+        }).collect(Collectors.toList()).contains(item) && item != null) {
             source.pickup(item);
-            tile.removeItem(item);
             source.getLevel().removeItem(item);
             return ActionResult.succeeded();
         }

@@ -72,7 +72,7 @@ public class ZoneServiceTest {
         level = zoneService.loadLevel(level.getId());
 
         assertThat(level.getHero()).isNotNull();
-        assertThat(level.getTileAt(Position.of(2, 2)).isOccupied()).isTrue();
+        assertThat(level.getEntityAtPosition(Position.of(2, 2)).isPresent()).isTrue();
     }
 
 
@@ -171,7 +171,7 @@ public class ZoneServiceTest {
 
         Level loadedLevel = zoneService.loadLevel(1L);
         assertThat(loadedLevel.getItems().isEmpty()).isFalse();
-        assertThat(loadedLevel.getTileAt(Position.of(2, 2)).getItems().isEmpty()).isFalse();
+        assertThat(loadedLevel.getItemsAtPosition(Position.of(2, 2)).isEmpty()).isFalse();
     }
 
     @Test

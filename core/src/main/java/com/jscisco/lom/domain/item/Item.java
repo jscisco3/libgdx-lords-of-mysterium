@@ -91,11 +91,11 @@ public class Item {
         }
     }
 
-    public void draw(SpriteBatch batch, Assets assets, int x, int y) {
+    public void draw(SpriteBatch batch, Assets assets) {
         Texture t = assets.getTexture(this.asset);
         Sprite s = new Sprite(t);
         s.setSize(24f, 24f);
-        s.setPosition(s.getWidth() * x, s.getHeight() * y);
+        s.setPosition(s.getWidth() * position.getX(), s.getHeight() * position.getY());
         s.draw(batch);
     }
 

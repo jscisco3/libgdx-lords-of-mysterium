@@ -37,8 +37,8 @@ public class DropItemActionTest {
         action.execute();
 
         assertThat(hero.getInventory().getItems()).isEmpty();
-        assertThat(level.getTileAt(Position.of(10, 10)).hasItems()).isTrue();
-        assertThat(level.getTileAt(Position.of(10, 10)).getItems()).contains(item);
+        assertThat(level.getItemsAtPosition(Position.of(10, 10)).isEmpty()).isFalse();
+        assertThat(level.getItemsAtPosition(Position.of(10, 10))).contains(item);
     }
 
 }
