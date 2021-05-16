@@ -21,18 +21,6 @@ public class LevelRenderer {
         drawTerrain(batch, assets, level, hero);
         drawItems(batch, assets, level, hero);
         drawEntities(batch, assets, level, hero);
-//        for (int i = 0; i < level.getWidth(); i++) {
-//            for (int j = 0; j < level.getHeight(); j++) {
-//                Tile t = level.getTileAt(Position.of(i, j));
-//                if (hero.getFieldOfView().isInSight(Position.of(i, j))) {
-//                    t.draw(batch, assets, i, j, true);
-//                } else if (t.isExplored()) {
-//                    batch.setColor(Color.DARK_GRAY);
-//                    t.draw(batch, assets, i, j, false);
-//                    batch.setColor(Color.WHITE);
-//                }
-//            }
-//        }
         batch.end();
     }
 

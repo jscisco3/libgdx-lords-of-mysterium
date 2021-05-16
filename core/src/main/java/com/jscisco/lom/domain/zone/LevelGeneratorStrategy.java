@@ -8,7 +8,11 @@ import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
 import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidgrid.mapping.DividedMazeGenerator;
+import squidpony.squidgrid.mapping.GrowingTreeMazeGenerator;
+import squidpony.squidgrid.mapping.IDungeonGenerator;
 
+import java.text.MessageFormat;
 import java.util.Random;
 
 public abstract class LevelGeneratorStrategy {
@@ -32,12 +36,20 @@ public abstract class LevelGeneratorStrategy {
     public static class GenericStrategy extends LevelGeneratorStrategy {
         @Override
         protected Tile[][] generate(int width, int height) {
-            Random random = new Random();
-            Tile[][] tiles = LevelGeneratorStrategy.initialize(width, height);
-            for (int i = 0; i < 250; i++) {
-                int x = random.nextInt(width - 6) + 5;
-                int y = random.nextInt(height - 6) + 5;
-                tiles[x][y] = TileFactory.wallTile();
+            IDungeonGenerator generator = new GrowingTreeMazeGenerator(width, height);
+            char[][] dungeon = generator.generate();
+            Tile[][] tiles = new Tile[width][height];
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (dungeon[x][y] == '#') {
+                        tiles[x][y] = TileFactory.wallTile();
+                    } else if (dungeon[x][y] == '.') {
+                        tiles[x][y] = TileFactory.floorTile();
+                    } else {
+                        logger.warn(MessageFormat.format("At position ({0}, {1}), we have unknown char {2} -- replacing with floor", x, y, dungeon[x][y]));
+                        tiles[x][y] = TileFactory.floorTile();
+                    }
+                }
             }
 
             // stairs down

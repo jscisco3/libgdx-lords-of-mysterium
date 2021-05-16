@@ -44,7 +44,7 @@ public class EntityFactory {
                 .withName(Name.of("Golem"))
                 .withAsset(Assets.golem)
                 .build();
-        golem.setAiController(new HunterSeekerAI(golem));
+        golem.setAiController(new WanderAIController(golem));
         golem.attributes.initialize();
 
         golem.applyEffect(

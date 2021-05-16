@@ -50,7 +50,7 @@ public class Hero extends Entity {
     @Override
     public double[][] calculateFieldOfView() {
         logger.trace("Calculating hero FOV");
-        double[][] fov = super.calculateFieldOfView();
+        double[][] fov = fieldOfView.calculateFOV();
         for (int x = 0; x < fov.length; x++) {
             for (int y = 0; y < fov[x].length; y++) {
                 if (fov[x][y] > 0) {

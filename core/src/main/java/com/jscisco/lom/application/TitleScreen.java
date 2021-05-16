@@ -21,9 +21,6 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
-import com.jscisco.lom.domain.repository.EntityRepository;
-import com.jscisco.lom.domain.repository.GameRepository;
-import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
@@ -116,12 +113,17 @@ public class TitleScreen extends AbstractScreen {
                 saveGame.addZone(zone);
 
                 // Add hero to the first level
+//                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.GENERIC);
                 Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.EMPTY);
                 Hero hero = EntityFactory.player();
-                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                level.addEntityAtPosition(hero, Position.of(1, 1));
+//                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
-                NPC golem = EntityFactory.golem();
-                level.addEntityAtPosition(golem, Position.of(5, 5));
+                for (int i = 0; i < 100; i++) {
+                    NPC golem = EntityFactory.golem();
+//                    level.addEntityAtPosition(golem, Position.of(i + 3, i + 2));
+                    level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+                }
 
                 logger.debug("Level id: " + level.getId());
 

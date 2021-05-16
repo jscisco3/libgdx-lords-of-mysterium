@@ -1,3 +1,7 @@
+Performance improvements!
+    - It takes about a second to process ~100 AI doing random moves. Why?
+    TODO: Profiling
+
 Entity Actions require:
     * Entity being acted on
     * Stage on which the action is taking place
