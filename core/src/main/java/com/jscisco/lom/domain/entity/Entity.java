@@ -144,7 +144,6 @@ public abstract class Entity implements Observer {
     }
 
     public void move(Position position) {
-        Position oldPosition = this.position;
         this.position = position;
         this.calculateFieldOfView();
     }
@@ -256,7 +255,7 @@ public abstract class Entity implements Observer {
     }
 
     public double[][] calculateFieldOfView() {
-        return fieldOfView.calculateFOV();
+        return null;
     }
 
     public FieldOfView getFieldOfView() {

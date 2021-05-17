@@ -58,6 +58,9 @@ public class GameScreen extends AbstractScreen {
     private final GameService gameService;
     private final ZoneService zoneService;
 
+    private LevelProcessingThread levelProcessingThread;
+    private Thread gameLoop;
+
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game, SaveGame saveGame, Level level) {
@@ -95,6 +98,10 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(adventurerUI);
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
+
+        levelProcessingThread = new LevelProcessingThread(this.level);
+        gameLoop = new Thread(levelProcessingThread);
+        gameLoop.start();
     }
 
     @Override
@@ -106,7 +113,8 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         super.render(delta);
         handleInput(delta);
-        level.process();
+        // TODO: This should be done in a separate thread
+//        level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
@@ -128,6 +136,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void handleInput(float delta) {
+//        logger.info("Handling Input...");
         Set<Integer> keysDown = processor.getKeysDown();
         if (processor.isKeyDown() && keyPressedTime == 0f) {
             setPlayerAction(keysDown);
@@ -144,6 +153,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void setPlayerAction(Set<Integer> input) {
+        hero.handleInput(input);
         if (input.contains(Input.Keys.COMMA)) {
             PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()), inputMultiplexer);
             popup(window);
@@ -168,9 +178,9 @@ public class GameScreen extends AbstractScreen {
             saveGame.setLevelId(level.getId());
             gameService.saveGame(saveGame);
             zoneService.saveLevel(level);
+            levelProcessingThread.stop();
             Gdx.app.exit();
         }
-        hero.handleInput(input);
     }
 
     private void popup(PopupWindow popupWindow) {

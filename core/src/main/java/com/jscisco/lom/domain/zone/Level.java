@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
@@ -85,13 +86,13 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
-
     /**
-     * Process actions from the actors in the current stage
+     * Process actions from the actors in the current stage. Currently processes a single actor
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();
         if (action != null) {
+            logger.trace("Current actor index: " + currentActorIndex);
             logger.trace(action.toString());
         }
         // No action, so skip
@@ -157,15 +158,9 @@ public class Level {
      */
     public Position getEmptyTile(Entity e) {
         Set<Position> occupiedPositions = entities.stream().map(Entity::getPosition).collect(Collectors.toSet());
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                Tile t = tiles[i][j];
-                if (!occupiedPositions.contains(Position.of(i, j)) && t.isWalkable(e)) {
-                    return Position.of(i, j);
-                }
-            }
-        }
-        throw new RuntimeException("Could not find empty tile for entity: " + e);
+        List<Position> walkable = walkablePositions(e);
+        walkable.removeAll(occupiedPositions);
+        return walkable.get(GameConfiguration.random.nextInt(walkable.size()));
     }
 
     public List<Position> getUnexploredPositions() {
@@ -247,12 +242,15 @@ public class Level {
     }
 
     public Hero getHero() {
-        entities.stream().forEach(e -> logger.info(e.getClass().getSimpleName()));
         return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
     }
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public int getCurrentActorIndex() {
+        return currentActorIndex;
     }
 
     @Override
