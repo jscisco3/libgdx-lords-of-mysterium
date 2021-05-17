@@ -38,54 +38,41 @@ public class WanderAIController extends AIController {
         super(entity);
     }
 
-    @Override
-    public Action getNextAction() {
-        Direction d = Direction.values()[GameConfiguration.random.nextInt(Direction.values().length)];
-        return new WalkAction(entity, d);
-    }
-//
 //    @Override
 //    public Action getNextAction() {
-////        // Either we have no goal, or we reached it.
-//        if (goal == null || entity.getPosition().toCoord().equals(goal)) {
-//            pickGoal();
-//        }
-//        Direction d = pickDirection();
-//        // TODO: Try to calculate the gradient map, then determine which direction to move it based on the lowest value surrounding tiles
+//        Direction d = Direction.values()[GameConfiguration.random.nextInt(Direction.values().length)];
 //        return new WalkAction(entity, d);
-//
-////        if (path.isEmpty() || (path.size() == 1 && path.get(0).equals(entity.getPosition().toCoord()))) {
-////            logger.info(MessageFormat.format("Path from {0} to {1} is empty, so recalculating path", entity.getPosition(), this.goal));
-//////            calculatePathAStar();
-////            calculatePathDijkstra();
-////        }
-////        logger.info("" + entity.level.getCurrentActorIndex());
-////        Position p = entity.getPosition();
-////        // TODO: How to handle when we do not move?
-////        // If we do not move, then next == our position, thus, we should remove that one and get the next coord in the path
-////        Coord next = path.remove(0);
-////        if (next.equals(entity.getPosition().toCoord())) {
-////            path.remove(0);
-////            next = path.get(0);
-////        }
-////        logger.info(MessageFormat.format("Picking direction from position {0} to coord {1}", p, next));
-////        Direction d = Direction.byValue(Position.fromCoord(next).subtract(p));
-////        return new WalkAction(entity, d);
 //    }
+
+    @Override
+    public Action getNextAction() {
+//        // Either we have no goal, or we reached it.
+        if (goal == null || entity.getPosition().toCoord().equals(goal)) {
+            pickGoal();
+        }
+        Position p = entity.getPosition();
+        // TODO: How to handle when we do not move?
+        // If we do not move, then next == our position, thus, we should remove that one and get the next coord in the path
+        this.path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
+        Coord next = path.get(0);
+        logger.debug(MessageFormat.format("Picking direction from position {0} to coord {1}", p, next));
+        Direction d = Direction.byValue(Position.fromCoord(next).subtract(p));
+        return new WalkAction(entity, d);
+    }
 
     private void pickGoal() {
         if (dijkstraMap == null) {
             initializeDijkstraMap(entity);
         }
         if (aStarSearch == null) {
-            initializeAStarSearch();
+//            initializeAStarSearch();
         }
         // Pick a random, walkable tile
         logger.trace("Choosing goal...");
         this.goal = entity.getLevel().getEmptyTile(entity).toCoord();
-        this.dijkstraMap.setGoal(this.goal);
-        this.dijkstraMap.scan(entity.position.toCoord(), null);
-        logger.info(MessageFormat.format("Goal chosen {0}", this.goal));
+//        this.dijkstraMap.setGoal(this.goal);
+//        this.dijkstraMap.scan(entity.position.toCoord(), null);
+        logger.debug(MessageFormat.format("Goal chosen {0}", this.goal));
 //        calculatePathDijkstra();
 //        calculatePathAStar();
     }
@@ -117,8 +104,7 @@ public class WanderAIController extends AIController {
     }
 
     private void calculatePathDijkstra() {
-        this.path = this.dijkstraMap.findPath(10, null, null, entity.getPosition().toCoord(), this.goal);
-        logger.info(String.valueOf(this.path.get(0)));
+        this.path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
     }
 
     private void calculatePathAStar() {

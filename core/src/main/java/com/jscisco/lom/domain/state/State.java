@@ -2,11 +2,14 @@ package com.jscisco.lom.domain.state;
 
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.entity.Hero;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public abstract class State {
 
+    private static final Logger logger = LoggerFactory.getLogger(State.class);
     protected final Hero hero;
     protected Action action;
 

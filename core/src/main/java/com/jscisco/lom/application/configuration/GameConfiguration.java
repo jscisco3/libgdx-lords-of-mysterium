@@ -22,6 +22,6 @@ public class GameConfiguration {
     public static final Random random = new Random(0xDEADBEEF);
 
     public static void configureEventBus() {
-        eventBus.register(gameLog);
+//        eventBus.register(gameLog);
     }
 }

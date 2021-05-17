@@ -86,14 +86,13 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
-
     /**
-     * Process actions from the actors in the current stage
+     * Process actions from the actors in the current stage. Currently processes a single actor
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();
         if (action != null) {
-            logger.info("Current actor index: " + currentActorIndex);
+            logger.trace("Current actor index: " + currentActorIndex);
             logger.trace(action.toString());
         }
         // No action, so skip
@@ -243,7 +242,6 @@ public class Level {
     }
 
     public Hero getHero() {
-        entities.stream().forEach(e -> logger.info(e.getClass().getSimpleName()));
         return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
     }
 

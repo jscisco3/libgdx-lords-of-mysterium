@@ -19,8 +19,11 @@ import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.entity.PlayerHunterSeekerAI;
+import com.jscisco.lom.domain.entity.WanderAIController;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.state.AIState;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
@@ -113,9 +116,13 @@ public class TitleScreen extends AbstractScreen {
                 saveGame.addZone(zone);
 
                 // Add hero to the first level
-//                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.GENERIC);
-                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.EMPTY);
+                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.GENERIC);
+//                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.EMPTY);
                 Hero hero = EntityFactory.player();
+                AIState state = new AIState(hero);
+                state.setController(new PlayerHunterSeekerAI(hero));
+                hero.setState(state);
+
                 level.addEntityAtPosition(hero, Position.of(1, 1));
 //                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
