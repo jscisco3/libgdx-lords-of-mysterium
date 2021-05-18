@@ -36,9 +36,30 @@ public class ZoneService {
         return zoneRepository.getById(zoneId);
     }
 
+    /**
+     * This method generates the skeleton of a zone.
+     * That is, it is responsible for creating the empty levels, persisting them to generate ids,
+     * and then linking the levels together via LevelTransitionFeatures
+     *
+     * @return
+     */
     public Zone createZone() {
         Zone zone = new Zone();
         return zoneRepository.save(zone);
+    }
+
+    public Zone createZone(int depth) {
+        Zone zone = new Zone();
+        zone = zoneRepository.save(zone);
+        for (int i = 0; i < depth; i++) {
+            createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.EMPTY);
+        }
+        // Link levels
+        return zone;
+    }
+
+    public Level createLevel(Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
+        return createLevel(zone.getId(), width, height, strategy);
     }
 
     public Level createLevel(Long zoneId, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
@@ -73,6 +94,10 @@ public class ZoneService {
 //            level.getTileAt(i.getPosition()).addItem(i);
 //        });
         return level;
+    }
+
+    public Long getNextLevelId() {
+        return zoneRepository.nextLevelId();
     }
 
 }

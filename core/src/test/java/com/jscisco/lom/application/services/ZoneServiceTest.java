@@ -74,6 +74,17 @@ public class ZoneServiceTest {
         assertThat(level.getEntityAtPosition(Position.of(2, 2)).isPresent()).isTrue();
     }
 
+    @Test
+    public void gettingNextLevelId_is1whenThereAreNoIdsGeneratedYet() {
+        Long id = zoneService.getNextLevelId();
+        assertThat(id).isEqualTo(1L);
+
+        zoneService.getNextLevelId();
+        zoneService.getNextLevelId();
+        id = zoneService.getNextLevelId();
+        assertThat(id).isEqualTo(4L);
+    }
+
 
     @Test
     public void loading_a_level_with_npcs_loads_the_correct_number_of_entities() {

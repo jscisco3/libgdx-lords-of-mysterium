@@ -112,7 +112,9 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        logger.trace(String.valueOf(delta));
+        if (delta * 1000.0f > 16.0f) {
+            logger.trace("Frame took longer than 16ms");
+        }
         handleInput(delta);
         // TODO: This should be done in a separate thread?
 //        level.processAllActors();
