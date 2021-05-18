@@ -99,9 +99,9 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
-        levelProcessingThread = new LevelProcessingThread(this.level);
-        gameLoop = new Thread(levelProcessingThread);
-        gameLoop.start();
+//        levelProcessingThread = new LevelProcessingThread(this.level);
+//        gameLoop = new Thread(levelProcessingThread);
+//        gameLoop.start();
     }
 
     @Override
@@ -112,9 +112,11 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        logger.info(String.valueOf(delta));
         handleInput(delta);
-        // TODO: This should be done in a separate thread
-//        level.process();
+        // TODO: This should be done in a separate thread?
+//        level.processAllActors();
+        level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
@@ -178,7 +180,7 @@ public class GameScreen extends AbstractScreen {
             saveGame.setLevelId(level.getId());
             gameService.saveGame(saveGame);
             zoneService.saveLevel(level);
-            levelProcessingThread.stop();
+//            levelProcessingThread.stop();
             Gdx.app.exit();
         }
     }

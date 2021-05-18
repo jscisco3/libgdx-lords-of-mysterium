@@ -123,8 +123,8 @@ public class TitleScreen extends AbstractScreen {
                 state.setController(new PlayerHunterSeekerAI(hero));
                 hero.setState(state);
 
-                level.addEntityAtPosition(hero, Position.of(1, 1));
-//                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+//                level.addEntityAtPosition(hero, Position.of(1, 1));
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
                 for (int i = 0; i < 100; i++) {
                     NPC golem = EntityFactory.golem();

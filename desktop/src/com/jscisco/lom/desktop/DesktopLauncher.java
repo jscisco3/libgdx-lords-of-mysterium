@@ -11,6 +11,10 @@ public class DesktopLauncher {
         config.title = "Lords of Mysterium";
         config.width = GameConfiguration.SCREEN_WIDTH;
         config.height = GameConfiguration.SCREEN_HEIGHT;
+        // Unlock FPS
+        config.backgroundFPS = 0;
+        config.foregroundFPS = 0;
+        config.vSyncEnabled = false;
         new LwjglApplication(new Game(), config);
     }
 }

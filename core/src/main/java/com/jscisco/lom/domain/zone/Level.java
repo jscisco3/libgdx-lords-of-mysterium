@@ -7,6 +7,7 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,9 +86,44 @@ public class Level {
         tiles = generator.generate(this.width, this.height);
     }
 
+    /**
+     * This method processes all actors, returning when we have a null action (this indicates we are waiting for the player
+     * to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and skip that actor.
+     *
+     * However, this does not work if we have a state for the player that returns an action at all times.
+     */
+    public void processAllActors() {
+        while(true) {
+            Entity currentEntity = entities.get(currentActorIndex);
+            Action action = currentEntity.nextAction();
+            if (action == null) {
+                if (currentEntity instanceof NPC) {
+                    logger.error("NPC with a null action: " + String.valueOf(currentEntity));
+                }
+                return;
+            }
+            while (true) {
+                ActionResult result = action.execute();
+                if (!result.success()) {
+                    // Action failed, so don't increment active actor
+                    return;
+                }
+                if (!result.hasAlternate()) {
+                    // No alternative and the action has succeeded, so continue on.
+                    break;
+                }
+                // We have an alternative, so we must process that one before we know if we have ultimately succeeded
+                action = result.getAlternative();
+            }
+            currentActorIndex = (currentActorIndex + 1) % entities.size();
+            // Here, we can start the next actors turn
+            entities.get(currentActorIndex).tick();
+        }
+    }
+
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
     /**
-     * Process actions from the actors in the current stage. Currently processes a single actor
+     * Process actions from the actors in the current stage. Currently processes a single actor.
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();

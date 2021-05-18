@@ -10,10 +10,16 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.Tile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 
 public class LevelRenderer {
+
+    private static final Logger logger = LoggerFactory.getLogger(LevelRenderer.class);
 
     public static void draw(SpriteBatch batch, Assets assets, Camera camera, Level level, Hero hero) {
         batch.setProjectionMatrix(camera.combined);

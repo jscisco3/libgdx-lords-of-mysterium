@@ -64,6 +64,11 @@ public class AutoexploreState extends State {
         this.dijkstraMap.initialize(weights);
 
         // We have goal, but it has been explored. So we should get a new one
+        if (unexploredCoords().isEmpty()) {
+            logger.debug("no unexplored tiles, so exiting this state.");
+            hero.setState(new DefaultState(hero));
+            return null;
+        }
         if (this.goal != null && level.getTileAt(Position.fromCoord(this.goal)).isExplored()) {
             // This was messed up with CHEBYSHEV measurement. Not sure why, but we could not find a path to the last unexplored corner of an empty square map
             this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
@@ -71,11 +76,6 @@ public class AutoexploreState extends State {
         // We have no goal, and no unexplored coordinates
         if (this.goal == null) {
             logger.debug("Null goal");
-            hero.setState(new DefaultState(hero));
-            return null;
-        }
-        if (unexploredCoords().isEmpty()) {
-            logger.debug("no unexplored tiles, so exiting this state.");
             hero.setState(new DefaultState(hero));
             return null;
         }
