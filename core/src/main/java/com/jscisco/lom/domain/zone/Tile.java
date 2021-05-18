@@ -7,6 +7,7 @@ import com.jscisco.lom.domain.entity.Entity;
 public class Tile {
 
     Feature feature = FeatureFactory.FLOOR;
+    private boolean explored = false;
 
     public Tile() {
     }
@@ -14,8 +15,6 @@ public class Tile {
     public Tile(Feature feature) {
         this.feature = feature;
     }
-
-    private boolean explored = false;
 
     public Feature getFeature() {
         return feature;

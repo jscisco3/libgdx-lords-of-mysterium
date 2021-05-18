@@ -48,9 +48,6 @@ public class Level {
     @JoinColumn(name = "zone_id", nullable = false)
     private Zone zone;
 
-    @Transient
-    private LevelGeneratorStrategy generator;
-
     // Orphan Removal == true so that when an entity is removed from this list, it is deleted from the DB.
     // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
     // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
@@ -81,7 +78,6 @@ public class Level {
     public Level(int width, int height, LevelGeneratorStrategy generator) {
         this.width = width;
         this.height = height;
-        this.generator = generator;
         this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
     }
@@ -89,11 +85,11 @@ public class Level {
     /**
      * This method processes all actors, returning when we have a null action (this indicates we are waiting for the player
      * to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and skip that actor.
-     *
+     * <p>
      * However, this does not work if we have a state for the player that returns an action at all times.
      */
     public void processAllActors() {
-        while(true) {
+        while (true) {
             Entity currentEntity = entities.get(currentActorIndex);
             Action action = currentEntity.nextAction();
             if (action == null) {
@@ -122,6 +118,7 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
+
     /**
      * Process actions from the actors in the current stage. Currently processes a single actor.
      */
