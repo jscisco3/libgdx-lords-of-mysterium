@@ -17,9 +17,8 @@ public class WalkAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
-        Optional<Entity> occupant = level.getEntities().stream().filter(e -> e.getPosition().equals(newPosition)).findFirst();
+        Optional<Entity> occupant = this.level.getEntities().stream().filter(e -> e.getPosition().equals(newPosition)).findFirst();
         if (occupant.isPresent()) {
             return ActionResult.alternate(new AttackAction(source, occupant.get()));
         }

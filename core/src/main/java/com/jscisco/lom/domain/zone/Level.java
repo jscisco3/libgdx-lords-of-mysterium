@@ -8,6 +8,7 @@ import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
@@ -48,9 +50,6 @@ public class Level {
     @JoinColumn(name = "zone_id", nullable = false)
     private Zone zone;
 
-    @Transient
-    private LevelGeneratorStrategy generator;
-
     // Orphan Removal == true so that when an entity is removed from this list, it is deleted from the DB.
     // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
     // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
@@ -63,25 +62,30 @@ public class Level {
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy("id ASC")
+    private List<LevelEvent> events = new ArrayList<>();
+
     @Transient
     private Tile[][] tiles;
 
-    @Transient
-    private final int width;
-    @Transient
-    private final int height;
+    private int width;
+    private int height;
 
     @Transient
     private final Subject subject = new Subject();
 
     public Level() {
-        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
+    }
+
+    public Level(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {
         this.width = width;
         this.height = height;
-        this.generator = generator;
         this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
     }
@@ -89,11 +93,11 @@ public class Level {
     /**
      * This method processes all actors, returning when we have a null action (this indicates we are waiting for the player
      * to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and skip that actor.
-     *
+     * <p>
      * However, this does not work if we have a state for the player that returns an action at all times.
      */
     public void processAllActors() {
-        while(true) {
+        while (true) {
             Entity currentEntity = entities.get(currentActorIndex);
             Action action = currentEntity.nextAction();
             if (action == null) {
@@ -122,6 +126,7 @@ public class Level {
     }
 
     // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
+
     /**
      * Process actions from the actors in the current stage. Currently processes a single actor.
      */
@@ -237,6 +242,10 @@ public class Level {
         tiles[p.getX()][p.getY()] = t;
     }
 
+    public void setTiles(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
     public Tile[][] getTiles() {
         return tiles;
     }
@@ -288,6 +297,29 @@ public class Level {
     public int getCurrentActorIndex() {
         return currentActorIndex;
     }
+
+    public void addEvent(LevelEvent levelEvent) {
+        this.events.add(levelEvent);
+        levelEvent.setLevel(this);
+    }
+
+    public List<LevelEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Used for regenerating state of a level
+     */
+    public void processEvents() {
+//        for (LevelEvent event : events) {
+//            logger.info("Event: " + event);
+//        }
+        for (LevelEvent event : events) {
+            logger.trace("Processing event: " + event);
+            event.process();
+        }
+    }
+
 
     @Override
     public String toString() {

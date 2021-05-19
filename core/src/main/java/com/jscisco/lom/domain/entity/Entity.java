@@ -18,7 +18,7 @@ import com.jscisco.lom.domain.attribute.Effect;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.attribute.Tag;
 import com.jscisco.lom.domain.event.Event;
-import com.jscisco.lom.domain.event.LevelChangedEvent;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
@@ -269,7 +269,7 @@ public abstract class Entity implements Observer {
     @Override
     public void onNotify(Event event) {
         logger.info(MessageFormat.format("Entity notified about event {0}", event));
-        if (event instanceof LevelChangedEvent) {
+        if (event instanceof LevelEvent) {
             recalculateDijkstraMap();
             this.fieldOfView.calculateFOV(true);
         }

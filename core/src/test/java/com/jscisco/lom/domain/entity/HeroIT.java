@@ -10,6 +10,7 @@ import com.jscisco.lom.domain.action.DropItemAction;
 import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +37,7 @@ public class HeroIT {
     @BeforeEach
     public void setup() {
         zone = zoneService.createZone();
-        level = zoneService.createLevel(zone.getId(), 30, 30, LevelGeneratorStrategyFactory.EMPTY);
+        level = zoneService.createLevel(zone.getId(), 30, 30, LevelGeneratorStrategy.Strategy.EMPTY);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.jscisco.lom.application.services;
 
+import com.jscisco.lom.domain.event.level.Generated;
 import com.jscisco.lom.domain.repository.LevelRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
@@ -38,9 +39,14 @@ public class ZoneService {
         return zoneRepository.save(zone);
     }
 
-    public Level createLevel(Long zoneId, int width, int height, LevelGeneratorStrategy strategy) {
+    public Level createLevel(Long zoneId, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
         Zone zone = zoneRepository.getById(zoneId);
-        Level level = new Level(width, height, strategy);
+        Level level = new Level(width, height);
+        Generated event = new Generated();
+        event.setStrategy(strategy);
+        event.setSeed(0xDEADBEEFL);
+        level.addEvent(event);
+        level.processEvents();
         zone.addLevel(level);
         return levelRepository.save(level);
     }
@@ -54,6 +60,8 @@ public class ZoneService {
     public Level loadLevel(Long levelId) {
         logger.info("Loading level with id: " + levelId);
         Level level = levelRepository.findById(levelId).get();
+        // Run through all events
+        level.processEvents();
         // Initialize all entity positions
         level.getEntities().forEach(e -> e.move(e.getPosition()));
 //        level.getItems().forEach(i -> {

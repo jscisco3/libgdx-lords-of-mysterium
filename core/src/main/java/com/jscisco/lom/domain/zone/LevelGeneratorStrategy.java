@@ -8,21 +8,26 @@ import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
 import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import squidpony.squidgrid.mapping.DividedMazeGenerator;
 import squidpony.squidgrid.mapping.GrowingTreeMazeGenerator;
 import squidpony.squidgrid.mapping.IDungeonGenerator;
 
 import java.text.MessageFormat;
-import java.util.Random;
 
 public abstract class LevelGeneratorStrategy {
     protected static final Logger logger = LoggerFactory.getLogger(LevelGeneratorStrategy.class);
 
-    protected abstract Tile[][] generate(int width, int height);
+    public abstract Tile[][] generate(int width, int height);
+
+    public enum Strategy {
+        EMPTY,
+        GENERIC,
+        RANDOM_ROOM,
+        CELLULAR_AUTOMATA;
+    }
 
     public static class EmptyLevelStrategy extends LevelGeneratorStrategy {
         @Override
-        protected Tile[][] generate(int width, int height) {
+        public Tile[][] generate(int width, int height) {
             Tile[][] tiles = LevelGeneratorStrategy.initialize(width, height);
             // TODO: Place stairs randomly
             // stairs down
@@ -35,8 +40,8 @@ public abstract class LevelGeneratorStrategy {
 
     public static class GenericStrategy extends LevelGeneratorStrategy {
         @Override
-        protected Tile[][] generate(int width, int height) {
-            IDungeonGenerator generator = new GrowingTreeMazeGenerator(width, height);
+        public Tile[][] generate(int width, int height) {
+            IDungeonGenerator generator = new GrowingTreeMazeGenerator(width, height, GameConfiguration.rng);
             char[][] dungeon = generator.generate();
             Tile[][] tiles = new Tile[width][height];
             for (int x = 0; x < width; x++) {
@@ -62,7 +67,7 @@ public abstract class LevelGeneratorStrategy {
 
     public static class RandomRoomStrategy extends LevelGeneratorStrategy {
         @Override
-        protected Tile[][] generate(int width, int height) {
+        public Tile[][] generate(int width, int height) {
             Tile[][] tiles = allWalls(width, height);
             for (int i = 0; i < 10; i++) {
                 int w = MathUtils.randomIntegerInRange(GameConfiguration.random, 4, 10);
@@ -81,7 +86,7 @@ public abstract class LevelGeneratorStrategy {
     public static class CellularAutomataStrategy extends LevelGeneratorStrategy {
 
         @Override
-        protected Tile[][] generate(int width, int height) {
+        public Tile[][] generate(int width, int height) {
             logger.info("Generating...");
             Tile[][] tiles = allWalls(width, height);
             Cell[][] seed = new Cell[width][height];

@@ -45,7 +45,7 @@ public class ZoneServiceTest {
 
     @Test
     public void given_a_noneexistent_zone_when_i_create_a_level_it_fails() {
-        assertThatThrownBy(() -> zoneService.createLevel(12345L, 100, 100, new LevelGeneratorStrategy.EmptyLevelStrategy()))
+        assertThatThrownBy(() -> zoneService.createLevel(12345L, 100, 100, LevelGeneratorStrategy.Strategy.EMPTY))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -54,7 +54,7 @@ public class ZoneServiceTest {
         // Given
         Zone createdZone = zoneService.createZone();
         // When
-        Level createdLevel = zoneService.createLevel(createdZone.getId(), 100, 100, new LevelGeneratorStrategy.EmptyLevelStrategy());
+        Level createdLevel = zoneService.createLevel(createdZone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
         // Then
         assertThat(createdLevel.getId()).isEqualTo(1L);
     }
@@ -63,7 +63,7 @@ public class ZoneServiceTest {
     public void can_load_level_with_hero() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
         Hero hero = EntityFactory.player();
         level.addEntityAtPosition(hero, Position.of(2, 2));
 
@@ -81,7 +81,7 @@ public class ZoneServiceTest {
     public void loading_a_level_with_npcs_loads_the_correct_number_of_entities() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
         for (int i = 0; i < 5; i++) {
             NPC e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
@@ -101,7 +101,7 @@ public class ZoneServiceTest {
     public void can_remove_entity_from_level_correctly() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 20, 20, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 20, 20, LevelGeneratorStrategy.Strategy.EMPTY);
         for (int i = 0; i < 5; i++) {
             Entity e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
@@ -124,7 +124,7 @@ public class ZoneServiceTest {
     public void can_load_a_game_with_a_removed_entity_and_then_save_it() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
         for (int i = 0; i < 5; i++) {
             NPC e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
@@ -147,7 +147,7 @@ public class ZoneServiceTest {
     @Test
     public void can_save_level_with_items() {
         Zone zone = zoneService.createZone();
-        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
         Item item = new Item.Builder()
                 .withName(Name.of("Sword"))
@@ -164,7 +164,7 @@ public class ZoneServiceTest {
     @Test
     public void loading_level_with_items_places_items_in_appropriate_tile() {
         Zone zone = zoneService.createZone();
-        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
         Item item = new Item.Builder()
                 .withName(Name.of("Sword"))
@@ -181,7 +181,7 @@ public class ZoneServiceTest {
     @Disabled("This works in practice, but not in the test")
     public void can_remove_items_and_save_level() {
         Zone zone = zoneService.createZone();
-        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategyFactory.EMPTY);
+        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
         Item item = new Item.Builder()
                 .withName(Name.of("Sword"))

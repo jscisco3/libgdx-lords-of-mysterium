@@ -188,3 +188,15 @@ Saving Items:
     An item can be either
         a) In an inventory
         b) On the ground in a level
+
+Saving a Level:
+    A level is persisted via it's basic attributes
+        width, height, RNG seed (?)
+    and a corresponding list of events that alter the structure of the level
+        GenerationEvent
+            Seed (?)
+            Generator
+        DoorOpened
+        DoorClosed
+        WallDestroyed (?)
+        WallCreated (?)
