@@ -50,7 +50,6 @@ public class ZoneService {
         level.addEvent(event);
         level.processEvents();
         zone.addLevel(level);
-        levelRepository.save(level);
         return level;
     }
 

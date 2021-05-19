@@ -23,7 +23,7 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zone_sequence")
     private Long id;
 
-    @OneToMany(mappedBy = "zone", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL)
     private List<Level> levels = new ArrayList<>();
 
     public Zone() {

@@ -80,6 +80,7 @@ public class LoadGameScreen extends AbstractScreen {
         content.add(back);
 
         for (SaveGame saveGame : this.savedGames) {
+            logger.info(String.valueOf(saveGame));
             SavedGameBlock block = new SavedGameBlock(saveGame);
             block.addListener(new ClickListener() {
                 @Override
