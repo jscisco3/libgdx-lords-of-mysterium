@@ -112,7 +112,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        logger.info(String.valueOf(delta));
+        logger.trace(String.valueOf(delta));
         handleInput(delta);
         // TODO: This should be done in a separate thread?
 //        level.processAllActors();

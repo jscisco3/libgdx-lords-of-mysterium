@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.event.level.TileExplored;
 import com.jscisco.lom.domain.state.DefaultState;
 import com.jscisco.lom.domain.state.State;
 import org.slf4j.Logger;
@@ -55,6 +56,9 @@ public class Hero extends Entity {
             for (int y = 0; y < fov[x].length; y++) {
                 if (fov[x][y] > 0) {
                     this.level.getTileAt(Position.of(x, y)).explore();
+                    TileExplored event = new TileExplored();
+                    event.setPosition(Position.of(x, y));
+                    this.level.addEvent(event);
                 }
             }
         }

@@ -12,4 +12,14 @@ public abstract class LevelEvent extends Event {
     @ManyToOne
     Level level;
 
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public abstract void process();
+
 }

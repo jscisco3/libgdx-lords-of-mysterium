@@ -8,6 +8,7 @@ import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
@@ -60,19 +62,25 @@ public class Level {
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy("id ASC")
+    private List<LevelEvent> events = new ArrayList<>();
+
     @Transient
     private Tile[][] tiles;
 
-    @Transient
-    private final int width;
-    @Transient
-    private final int height;
+    private int width;
+    private int height;
 
     @Transient
     private final Subject subject = new Subject();
 
     public Level() {
-        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
+    }
+
+    public Level(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {
@@ -234,6 +242,10 @@ public class Level {
         tiles[p.getX()][p.getY()] = t;
     }
 
+    public void setTiles(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
     public Tile[][] getTiles() {
         return tiles;
     }
@@ -285,6 +297,29 @@ public class Level {
     public int getCurrentActorIndex() {
         return currentActorIndex;
     }
+
+    public void addEvent(LevelEvent levelEvent) {
+        this.events.add(levelEvent);
+        levelEvent.setLevel(this);
+    }
+
+    public List<LevelEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Used for regenerating state of a level
+     */
+    public void processEvents() {
+//        for (LevelEvent event : events) {
+//            logger.info("Event: " + event);
+//        }
+        for (LevelEvent event : events) {
+            logger.trace("Processing event: " + event);
+            event.process();
+        }
+    }
+
 
     @Override
     public String toString() {

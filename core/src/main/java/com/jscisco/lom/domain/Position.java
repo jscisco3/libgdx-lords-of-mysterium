@@ -2,11 +2,13 @@ package com.jscisco.lom.domain;
 
 import squidpony.squidmath.Coord;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
 public class Position {
+
     int x;
     int y;
 
