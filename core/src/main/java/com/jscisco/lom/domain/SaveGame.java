@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "games")
@@ -49,7 +50,7 @@ public class SaveGame {
      * Optional current level - if it is present, load into that level.
      * Otherwise, load into the kingdom(?)
      */
-    private Long levelId;
+    private UUID levelId;
 
     public SaveGame() {
         this.lastPlayed = LocalDateTime.now();
@@ -92,11 +93,11 @@ public class SaveGame {
         this.zones.add(zone.getId());
     }
 
-    public Long getLevelId() {
+    public UUID getLevelId() {
         return levelId;
     }
 
-    public void setLevelId(Long levelId) {
+    public void setLevelId(UUID levelId) {
         this.levelId = levelId;
     }
 

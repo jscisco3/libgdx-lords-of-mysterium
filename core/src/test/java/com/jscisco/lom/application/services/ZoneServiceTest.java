@@ -55,7 +55,7 @@ public class ZoneServiceTest {
         // When
         Level createdLevel = zoneService.createLevel(createdZone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
         // Then
-        assertThat(createdLevel.getId()).isEqualTo(1L);
+        assertThat(createdLevel).isNotNull();
     }
 
     @Test
@@ -84,7 +84,6 @@ public class ZoneServiceTest {
             NPC e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
         }
-
         zoneService.saveLevel(level);
 
         assertThat(level.getEntities().size()).isEqualTo(5);
@@ -168,7 +167,7 @@ public class ZoneServiceTest {
         level.addItemAtPosition(item, Position.of(2, 2));
         zoneService.saveLevel(level);
 
-        Level loadedLevel = zoneService.loadLevel(1L);
+        Level loadedLevel = zoneService.loadLevel(level.getId());
         assertThat(loadedLevel.getItems().isEmpty()).isFalse();
         assertThat(loadedLevel.getItemsAtPosition(Position.of(2, 2)).isEmpty()).isFalse();
     }

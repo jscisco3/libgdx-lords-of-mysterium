@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 /**
  * ZoneService: Domain service for interacting with the Zone root aggregate.
@@ -49,7 +50,8 @@ public class ZoneService {
         level.addEvent(event);
         level.processEvents();
         zone.addLevel(level);
-        return levelRepository.save(level);
+        levelRepository.save(level);
+        return level;
     }
 
     public Level saveLevel(Level level) {
@@ -58,7 +60,7 @@ public class ZoneService {
         return levelRepository.save(level);
     }
 
-    public Level loadLevel(Long levelId) {
+    public Level loadLevel(UUID levelId) {
         logger.info("Loading level with id: " + levelId);
         Level level = levelRepository.findById(levelId).get();
         Hibernate.initialize(level.getItems());

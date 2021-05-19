@@ -29,24 +29,26 @@ import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @javax.persistence.Entity
-@SequenceGenerator(
-        name = "level_sequence",
-        sequenceName = "level_sequence",
-        initialValue = 1,
-        allocationSize = 1
-)
+//@SequenceGenerator(
+//        name = "level_sequence",
+//        sequenceName = "level_sequence",
+//        initialValue = 1,
+//        allocationSize = 1
+//)
 public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "level_sequence")
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "level_sequence")
+    private UUID id = UUID.randomUUID();
 
     @ManyToOne
     @JoinColumn(name = "zone_id", nullable = false)
@@ -281,11 +283,11 @@ public class Level {
         this.zone = zone;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -323,6 +325,18 @@ public class Level {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Level level = (Level) o;
+        return id.equals(level.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 
     @Override
     public String toString() {
