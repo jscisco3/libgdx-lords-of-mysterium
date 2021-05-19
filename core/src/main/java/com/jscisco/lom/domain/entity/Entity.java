@@ -31,7 +31,6 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -45,6 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
@@ -59,8 +60,7 @@ public abstract class Entity implements Observer {
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
     @Id
-    @GeneratedValue
-    protected Long id;
+    protected UUID id = UUID.randomUUID();
 
     @Embedded
     protected Name name;
@@ -85,7 +85,7 @@ public abstract class Entity implements Observer {
     @Transient
     protected List<Effect> effects = new ArrayList<>();
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     protected Inventory inventory;
 
@@ -301,17 +301,30 @@ public abstract class Entity implements Observer {
         this.position = position;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
         inventory.setEntity(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id.equals(entity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

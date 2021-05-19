@@ -3,6 +3,8 @@ package com.jscisco.lom.domain.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.Entity;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.jscisco.lom.domain.MathUtils.clamp;
 
@@ -33,7 +36,7 @@ public class AttributeSet {
 
     @Id
     @Column(name = "entity_id")
-    private Long id;
+    private UUID id;
 
     @OneToOne
     @MapsId
@@ -42,6 +45,7 @@ public class AttributeSet {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKeyEnumerated(value = EnumType.STRING)
+    @Fetch(FetchMode.SELECT)
     private Map<AttributeDefinition, Attribute> attributes = new HashMap<>();
 
     public AttributeSet() {
@@ -107,11 +111,11 @@ public class AttributeSet {
         getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -116,8 +116,9 @@ public class TitleScreen extends AbstractScreen {
                 saveGame.addZone(zone);
 
                 // Add hero to the first level
+                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
+
 //                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.GENERIC);
-                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.GENERIC);
                 Hero hero = EntityFactory.player();
 //                AIState state = new AIState(hero);
 //                state.setController(new PlayerHunterSeekerAI(hero));
