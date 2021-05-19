@@ -17,8 +17,14 @@ import java.util.Random;
 
 public abstract class LevelGeneratorStrategy {
     protected static final Logger logger = LoggerFactory.getLogger(LevelGeneratorStrategy.class);
-
     protected abstract Tile[][] generate(int width, int height);
+
+    public enum Strategy {
+        EMPTY,
+        GENERIC,
+        RANDOM_ROOM,
+        CELLULAR_AUTOMATA;
+    }
 
     public static class EmptyLevelStrategy extends LevelGeneratorStrategy {
         @Override

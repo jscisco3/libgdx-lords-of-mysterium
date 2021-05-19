@@ -5,6 +5,4 @@ import javax.persistence.Entity;
 @Entity
 public class GenerationEvent extends LevelEvent {
 
-
-
 }
