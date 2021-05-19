@@ -23,8 +23,7 @@ public class LevelTest {
 
     @Test
     public void whenStageIsCreated_itHasWalls() {
-        // TODO: Fix
-        level = new Level();
+        level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
 
         assertThat(level.getTileAt(Position.of(0, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
         assertThat(level.getTileAt(Position.of(level.getWidth() - 1, level.getHeight() - 1)).getFeature()).isEqualTo(FeatureFactory.WALL);
@@ -36,8 +35,8 @@ public class LevelTest {
 
     @Test
     public void whenActorAddedToStage_positionAndTileUpdatedAppropriately() {
-        //TODO: Fix
-        level = new Level();
+        level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
+
         Hero p = EntityFactory.player();
         Position expectedPosition = Position.of(5, 5);
 
@@ -52,7 +51,7 @@ public class LevelTest {
     @Test
     public void givenAListOfEntities_processProcessesASingleEntity() {
         // Given
-        level = new Level();
+        level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
         for (int i = 0; i < 10; i++) {
             NPC golem = EntityFactory.golem();
             level.addEntityAtPosition(golem, Position.of(i + + 10, i + 10));
@@ -67,7 +66,7 @@ public class LevelTest {
 
     @Test
     public void givenAListOfEntitiesThatRest_howLongIsASingleLoop() {
-        level = new Level();
+        level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
         int numberOfEntities = 100;
         for (int i = 0; i < numberOfEntities; i++) {
             NPC golem = EntityFactory.golem();

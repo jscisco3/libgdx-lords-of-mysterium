@@ -6,6 +6,7 @@ import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class ZoneService {
     public Level loadLevel(Long levelId) {
         logger.info("Loading level with id: " + levelId);
         Level level = levelRepository.findById(levelId).get();
+        Hibernate.initialize(level.getItems());
         // Run through all events
         level.processEvents();
         // Initialize all entity positions

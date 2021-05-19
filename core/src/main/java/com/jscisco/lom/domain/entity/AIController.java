@@ -8,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import java.util.UUID;
 
 @javax.persistence.Entity
 public abstract class AIController {
 
     @Id
-    @GeneratedValue
     @Column(name = "entity_id")
-    private Long id;
+    private UUID id;
 
     @OneToOne
     @MapsId

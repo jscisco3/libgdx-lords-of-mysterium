@@ -11,7 +11,6 @@ import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -77,7 +76,6 @@ public class ZoneServiceTest {
 
 
     @Test
-    @Disabled
     public void loading_a_level_with_npcs_loads_the_correct_number_of_entities() {
         Zone zone = zoneService.createZone();
 
@@ -97,7 +95,6 @@ public class ZoneServiceTest {
     }
 
     @Test
-    @Disabled
     public void can_remove_entity_from_level_correctly() {
         Zone zone = zoneService.createZone();
 
@@ -120,7 +117,6 @@ public class ZoneServiceTest {
 
 
     @Test
-    @Disabled
     public void can_load_a_game_with_a_removed_entity_and_then_save_it() {
         Zone zone = zoneService.createZone();
 

@@ -6,23 +6,21 @@ import com.jscisco.lom.domain.item.Item;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @javax.persistence.Entity
 public class Inventory {
 
     @Id
     @Column(name = "entity_id")
-    private Long id;
+    private UUID id;
 
     @OneToOne
     @MapsId

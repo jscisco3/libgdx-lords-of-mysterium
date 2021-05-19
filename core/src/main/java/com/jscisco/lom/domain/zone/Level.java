@@ -10,6 +10,8 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,11 +57,12 @@ public class Level {
     // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
     // Fetch eager because we just want everything loaded in memory. Revisit if it becomes a problem.
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private List<Entity> entities = new ArrayList<>();
 
     private int currentActorIndex;
 
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
