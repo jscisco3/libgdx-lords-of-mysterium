@@ -4,12 +4,15 @@ import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.action.ChangeLevelAction;
+import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelChange;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.Disabled;
@@ -21,6 +24,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.EntityNotFoundException;
+
+import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -204,5 +209,64 @@ public class ZoneServiceTest {
 
         level = zoneService.loadLevel(level.getId());
         assertThat(level.getItems().isEmpty()).isTrue();
+    }
+
+    @Test
+    public void able_to_move_entity_from_one_level_to_the_next() {
+        Zone zone = zoneService.createZone(2);
+        Level currentLevel = zone.getLevels().get(0);
+        Level nextLevel = zone.getLevels().get(1);
+        zoneService.saveLevel(currentLevel);
+        zoneService.saveLevel(nextLevel);
+
+        Hero hero = EntityFactory.player();
+
+        Position currentHeroPosition = Position.of(2, 2);
+        Position nextLevelPosition = Position.of(5, 5);
+
+        currentLevel.addEntityAtPosition(hero, currentHeroPosition);
+        currentLevel.getTileAt(hero.getPosition()).setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
+
+        ChangeLevelAction action = new ChangeLevelAction(hero);
+
+        // When
+        action.execute();
+
+        // Then
+        currentLevel = zoneService.loadLevel(currentLevel.getId());
+        nextLevel = zoneService.loadLevel(nextLevel.getId());
+
+        assertThat(currentLevel.getEntities().isEmpty()).isTrue();
+        assertThat(nextLevel.getEntities().contains(hero)).isTrue();
+    }
+
+    @Test
+    public void after_changing_level_should_be_able_to_process_next_action() {
+        Zone zone = zoneService.createZone(2);
+        Level currentLevel = zone.getLevels().get(0);
+        Level nextLevel = zone.getLevels().get(1);
+        zoneService.saveLevel(currentLevel);
+        zoneService.saveLevel(nextLevel);
+
+        Hero hero = EntityFactory.player();
+
+        Position currentHeroPosition = Position.of(2, 2);
+        Position nextLevelPosition = Position.of(5, 5);
+
+        currentLevel.addEntityAtPosition(hero, currentHeroPosition);
+        currentLevel.getTileAt(hero.getPosition()).setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
+
+        ChangeLevelAction action = new ChangeLevelAction(hero);
+        action.execute();
+
+        // When
+//        assertThat(hero.nextAction()).isInstanceOf(WalkAction.class);
+        nextLevel = zoneService.loadLevel(nextLevel.getId());
+        hero = nextLevel.getHero();
+        hero.getState().handleInput(Set.of(22));
+        nextLevel.process();
+
+        assertThat(hero.getPosition()).isEqualTo(Position.of(6, 5));
+
     }
 }

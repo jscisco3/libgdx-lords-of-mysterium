@@ -63,13 +63,9 @@ public class GameScreen extends AbstractScreen {
 
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game, SaveGame saveGame, Level level) {
-        this(game, saveGame, level, level.getHero());
-    }
-
-    public GameScreen(Game game, SaveGame saveGame, Level level, Hero hero) {
+    public GameScreen(Game game, SaveGame saveGame, Hero hero) {
         super(game);
-        this.level = level;
+        this.level = hero.getLevel();
         this.hero = hero;
         this.saveGame = saveGame;
 
@@ -153,6 +149,11 @@ public class GameScreen extends AbstractScreen {
         }
         if (!processor.isKeyDown()) {
             keyPressedTime = 0f;
+        }
+        if (this.level != hero.getLevel()) {
+            this.level = hero.getLevel();
+            this.hero = this.level.getHero();
+            this.hero.calculateFieldOfView();
         }
     }
 

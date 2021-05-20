@@ -1,5 +1,8 @@
 package com.jscisco.lom.application.services;
 
+import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.event.level.DescentFeatureAdded;
 import com.jscisco.lom.domain.event.level.Generated;
 import com.jscisco.lom.domain.repository.LevelRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
@@ -55,6 +58,15 @@ public class ZoneService {
             createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.EMPTY);
         }
         // Link levels
+        // Descending...
+        for (int i = 0; i < depth - 1; i++) {
+            Level above = zone.getLevels().get(i);
+            Level below = zone.getLevels().get(i + 1);
+            // Generate stairs down
+            DescentFeatureAdded event = new DescentFeatureAdded(below.getId(), Position.of(5, 5));
+            above.addEvent(event);
+            event.process();
+        }
         return zone;
     }
 
@@ -71,6 +83,7 @@ public class ZoneService {
         level.addEvent(event);
         level.processEvents();
         zone.addLevel(level);
+        saveLevel(level);
         return level;
     }
 
@@ -94,6 +107,17 @@ public class ZoneService {
 //            level.getTileAt(i.getPosition()).addItem(i);
 //        });
         return level;
+    }
+
+    public boolean changeLevel(Entity e, UUID levelId, Position to) {
+        Level nextLevel = loadLevel(levelId);
+        Level currentLevel = e.getLevel();
+        currentLevel.removeEntity(e);
+        // TODO: May have to move any colliding entities
+        nextLevel.addEntityAtPosition(e, to);
+        levelRepository.save(currentLevel);
+        levelRepository.save(nextLevel);
+        return true;
     }
 
     public Long getNextLevelId() {

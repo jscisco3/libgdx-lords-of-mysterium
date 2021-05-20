@@ -120,14 +120,14 @@ public class TitleScreen extends AbstractScreen {
 //                state.setController(new PlayerHunterSeekerAI(hero));
 //                hero.setState(state);
 
-//                level.addEntityAtPosition(hero, Position.of(1, 1));
-                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                level.addEntityAtPosition(hero, Position.of(1, 1));
+//                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
-                for (int i = 0; i < 5; i++) {
-                    NPC golem = EntityFactory.golem();
-//                    level.addEntityAtPosition(golem, Position.of(i + 3, i + 2));
-                    level.addEntityAtPosition(golem, level.getEmptyTile(golem));
-                }
+//                for (int i = 0; i < 5; i++) {
+//                    NPC golem = EntityFactory.golem();
+////                    level.addEntityAtPosition(golem, Position.of(i + 3, i + 2));
+//                    level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+//                }
 
                 logger.debug("Level id: " + level.getId());
 
@@ -143,7 +143,7 @@ public class TitleScreen extends AbstractScreen {
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
-                game.setScreen(new GameScreen(game, saveGame, level));
+                game.setScreen(new GameScreen(game, saveGame, hero));
                 dispose();
                 game.getScreen().show();
             }

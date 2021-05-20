@@ -43,7 +43,7 @@ public class GameService {
         if (saveGame.getLevelId() != null) {
             Level level = zoneService.loadLevel(saveGame.getLevelId());
             logger.info("loading with # of entities: " + level.getEntities().size());
-            return new GameScreen(game, saveGame, level);
+            return new GameScreen(game, saveGame, level.getHero());
         } else {
             return new KingdomScreen(game, saveGame, saveGame.getKingdom());
         }
