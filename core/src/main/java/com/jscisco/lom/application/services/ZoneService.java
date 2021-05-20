@@ -4,6 +4,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.event.level.DescentFeatureAdded;
 import com.jscisco.lom.domain.event.level.Generated;
+import com.jscisco.lom.domain.event.level.LevelTransitionFeatureAdded;
 import com.jscisco.lom.domain.repository.LevelRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
@@ -63,9 +64,14 @@ public class ZoneService {
             Level above = zone.getLevels().get(i);
             Level below = zone.getLevels().get(i + 1);
             // Generate stairs down
-            DescentFeatureAdded event = new DescentFeatureAdded(below.getId(), Position.of(5, 5));
-            above.addEvent(event);
-            event.process();
+            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
+            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(below.getId(), Position.of(6, 5), false);
+            above.addEvent(descent);
+            below.addEvent(ascent);
+            descent.process();
+            ascent.process();
+            saveLevel(above);
+            saveLevel(below);
         }
         return zone;
     }

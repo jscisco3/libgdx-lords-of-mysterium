@@ -152,11 +152,11 @@ public class GameScreen extends AbstractScreen implements Observer {
         if (!processor.isKeyDown()) {
             keyPressedTime = 0f;
         }
-        if (this.level != hero.getLevel()) {
-            this.level = hero.getLevel();
-            this.hero = this.level.getHero();
-            this.hero.calculateFieldOfView();
-        }
+//        if (this.level != hero.getLevel()) {
+//            this.level = hero.getLevel();
+//            this.hero = this.level.getHero();
+//            this.hero.calculateFieldOfView();
+//        }
     }
 
     private void setPlayerAction(Set<Integer> input) {
