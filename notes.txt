@@ -200,3 +200,28 @@ Saving a Level:
         DoorClosed
         WallDestroyed (?)
         WallCreated (?)
+
+Changing levels:
+    Zone could have a current level index? Seems clunky.
+    Zone has List<Level>... we have the level we are on.. can we call zone.nextLevel(Level level)?
+    When do we generate the levels for the zone? When the zone is created? Currently no. Thus we will have to create
+        the next level. Alternatively, can create all levels for the zone at once.
+    We may want to consider when we create the levels we do create them with an ID, and then we just look them up by ID.
+    We may want to consider a Level tracking transitions separately?
+    Other things to consider:
+        Each level has a link to nextLevel and previousLevel (by id? null if top or bottom of dungeon)
+        Each stair has a link to target level, and target position (makes it easier to allow stairs from 1 -> 3, and multiple stairs)
+            * Could require the entire zone to be created at once. At least the structure of each level. Then, we could populate on first visit.
+
+    Zone Creation algorithm:
+        Determine depth (random 3-5)
+        Generate # depth levels
+        Link levels via TransitionFeatures
+        Have to consider how to save features - especially these transitions.
+
+    Problems:
+        * If we have a ChangeLevelAction, how do we determine the level to transition to?
+            - Need a ZoneRepository / ZoneService
+                - We can just retrive this from service locator
+            - Do we consider moving Level::process() -> GameScreen?
+        *

@@ -4,10 +4,14 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 public class WalkAction extends Action {
+
+    private static final Logger logger = LoggerFactory.getLogger(WalkAction.class);
     Direction direction;
 
     public WalkAction(Entity source, Direction direction) {

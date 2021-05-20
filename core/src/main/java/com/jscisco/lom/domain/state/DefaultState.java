@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.state;
 
 import com.badlogic.gdx.Input;
 import com.jscisco.lom.domain.Direction;
+import com.jscisco.lom.domain.action.ChangeLevelAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.attribute.Attribute;
 import com.jscisco.lom.domain.attribute.AttributeModifier;
@@ -29,6 +30,10 @@ public class DefaultState extends State {
         }
         if (input.contains(Input.Keys.RIGHT)) {
             this.action = new WalkAction(hero, Direction.E);
+        }
+//        if (input.contains(Input.Keys.PERIOD) && (input.contains(Input.Keys.SHIFT_LEFT) || input.contains(Input.Keys.SHIFT_RIGHT))) {
+        if (input.contains(Input.Keys.PERIOD)) {
+            this.action = new ChangeLevelAction(hero);
         }
         if (input.contains(Input.Keys.Z)) {
             hero.setState(new AutoexploreState(hero));

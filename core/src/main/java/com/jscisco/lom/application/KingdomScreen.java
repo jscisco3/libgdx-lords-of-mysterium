@@ -68,7 +68,7 @@ public class KingdomScreen extends AbstractScreen {
                 zoneService.saveLevel(level);
                 // TODO: Necessary?
                 gameService.saveGame(saveGame);
-                game.setScreen(new GameScreen(game, saveGame, level, hero));
+                game.setScreen(new GameScreen(game, saveGame, hero));
             }
         });
 

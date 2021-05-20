@@ -158,6 +158,10 @@ public class Level {
             // We have an alternative, so we must process that one before we know if we have ultimately succeeded
             action = result.getAlternative();
         }
+        // TODO: Clean this up to make it nicer
+        if (entities.isEmpty()) {
+            return;
+        }
         currentActorIndex = (currentActorIndex + 1) % entities.size();
         // Here, we can start the next actors turn
         entities.get(currentActorIndex).tick();
@@ -178,6 +182,7 @@ public class Level {
         logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
         entity.setPosition(position);
         entity.setLevel(this);
+        logger.info(String.valueOf(entity.getLevel().id));
         this.entities.add(entity);
         this.subject.register(entity);
     }
@@ -319,6 +324,7 @@ public class Level {
 //        for (LevelEvent event : events) {
 //            logger.info("Event: " + event);
 //        }
+        logger.info("Processing " + events.size() + " events.");
         for (LevelEvent event : events) {
             logger.trace("Processing event: " + event);
             event.process();

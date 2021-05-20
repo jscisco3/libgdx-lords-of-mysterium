@@ -19,11 +19,8 @@ import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
-import com.jscisco.lom.domain.entity.PlayerHunterSeekerAI;
-import com.jscisco.lom.domain.entity.WanderAIController;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
-import com.jscisco.lom.domain.state.AIState;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
@@ -112,26 +109,25 @@ public class TitleScreen extends AbstractScreen {
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
                 saveGame.setKingdom(kingdom);
                 // Create the zone
-                Zone zone = zoneService.createZone();
+                Zone zone = zoneService.createZone(5);
                 saveGame.addZone(zone);
 
                 // Add hero to the first level
-                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
-
-//                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.GENERIC);
+//                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategyFactory.GENERIC);
+                Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
 //                AIState state = new AIState(hero);
 //                state.setController(new PlayerHunterSeekerAI(hero));
 //                hero.setState(state);
 
-//                level.addEntityAtPosition(hero, Position.of(1, 1));
-                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                level.addEntityAtPosition(hero, Position.of(1, 1));
+//                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
-                for (int i = 0; i < 100; i++) {
-                    NPC golem = EntityFactory.golem();
-//                    level.addEntityAtPosition(golem, Position.of(i + 3, i + 2));
-                    level.addEntityAtPosition(golem, level.getEmptyTile(golem));
-                }
+//                for (int i = 0; i < 5; i++) {
+//                    NPC golem = EntityFactory.golem();
+////                    level.addEntityAtPosition(golem, Position.of(i + 3, i + 2));
+//                    level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+//                }
 
                 logger.debug("Level id: " + level.getId());
 
@@ -147,7 +143,7 @@ public class TitleScreen extends AbstractScreen {
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
-                game.setScreen(new GameScreen(game, saveGame, level));
+                game.setScreen(new GameScreen(game, saveGame, hero));
                 dispose();
                 game.getScreen().show();
             }
