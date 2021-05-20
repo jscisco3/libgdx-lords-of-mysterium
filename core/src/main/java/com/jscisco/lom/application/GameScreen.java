@@ -20,15 +20,18 @@ import com.jscisco.lom.application.ui.InventoryWindow;
 import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
 import com.jscisco.lom.domain.MathUtils;
+import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.event.Event;
+import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-public class GameScreen extends AbstractScreen {
+public class GameScreen extends AbstractScreen implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
@@ -58,9 +61,6 @@ public class GameScreen extends AbstractScreen {
     private final GameService gameService;
     private final ZoneService zoneService;
 
-    private LevelProcessingThread levelProcessingThread;
-    private Thread gameLoop;
-
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game, SaveGame saveGame, Hero hero) {
@@ -68,6 +68,8 @@ public class GameScreen extends AbstractScreen {
         this.level = hero.getLevel();
         this.hero = hero;
         this.saveGame = saveGame;
+
+        this.hero.getSubject().register(this);
 
         this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
@@ -198,5 +200,15 @@ public class GameScreen extends AbstractScreen {
                 (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
         popupStage.addActor(popupWindow);
         popupStage.setScrollFocus(popupWindow.getScroller());
+    }
+
+    @Override
+    public void onNotify(Event event) {
+        if (event instanceof HeroChangedLevelEvent) {
+            this.level = hero.getLevel();
+            this.hero = this.level.getHero();
+            this.hero.calculateFieldOfView();
+            this.hero.getSubject().register(this);
+        }
     }
 }
