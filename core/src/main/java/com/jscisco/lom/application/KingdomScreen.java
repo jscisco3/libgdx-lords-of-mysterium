@@ -17,7 +17,6 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

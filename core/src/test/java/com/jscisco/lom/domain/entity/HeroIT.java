@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.application.ServiceLocator;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
 import com.jscisco.lom.configuration.PersistenceConfiguration;
@@ -11,7 +10,6 @@ import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

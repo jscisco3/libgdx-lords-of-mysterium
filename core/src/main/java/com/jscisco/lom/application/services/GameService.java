@@ -7,6 +7,7 @@ import com.jscisco.lom.application.KingdomScreen;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.repository.GameRepository;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class GameService {
     public Screen loadGame(Game game, Long saveGameId) {
         SaveGame saveGame = gameRepository.findById(saveGameId).orElseThrow(IllegalStateException::new);
         if (saveGame.getLevelId() != null) {
-            Level level = zoneService.loadLevel(saveGame.getLevelId());
+            // Load the zone
+            Zone zone = zoneService.getZone(saveGame.getZoneId());
+            Level level = zone.getLevelById(saveGame.getLevelId());
             logger.info("loading with # of entities: " + level.getEntities().size());
             return new GameScreen(game, saveGame, level.getHero());
         } else {

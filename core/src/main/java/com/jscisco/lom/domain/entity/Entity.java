@@ -30,6 +30,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -77,7 +78,7 @@ public abstract class Entity implements Observer {
     @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     protected AttributeSet attributes;
 
@@ -87,7 +88,7 @@ public abstract class Entity implements Observer {
     @Transient
     protected Glyph glyph = Assets.ring;
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     protected Inventory inventory;
 

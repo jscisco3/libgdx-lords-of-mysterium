@@ -44,13 +44,18 @@ public class SaveGame {
      * The zones you have been to, in general.
      */
     @ElementCollection
-    private List<Long> zones = new ArrayList<>();
+    private List<UUID> zones = new ArrayList<UUID>();
 
     /**
      * Optional current level - if it is present, load into that level.
      * Otherwise, load into the kingdom(?)
      */
     private UUID levelId;
+    /**
+     * Optional current zone - if it is present, load into this zone.
+     * Then we will get the level from that zone and set it for the game screen.
+     */
+    private UUID zoneId;
 
     public SaveGame() {
         this.lastPlayed = LocalDateTime.now();
@@ -81,11 +86,11 @@ public class SaveGame {
         this.lastPlayed = lastPlayed;
     }
 
-    public List<Long> getZones() {
+    public List<UUID> getZones() {
         return zones;
     }
 
-    public void setZones(List<Long> zones) {
+    public void setZones(List<UUID> zones) {
         this.zones = zones;
     }
 
@@ -99,6 +104,14 @@ public class SaveGame {
 
     public void setLevelId(UUID levelId) {
         this.levelId = levelId;
+    }
+
+    public UUID getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(UUID zoneId) {
+        this.zoneId = zoneId;
     }
 
     @Override
