@@ -4,7 +4,6 @@ package com.jscisco.lom.domain.entity;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
-import com.jscisco.lom.domain.Glyph;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
@@ -85,8 +84,7 @@ public abstract class Entity implements Observer {
     @Transient
     protected List<Effect> effects = new ArrayList<>();
 
-    @Transient
-    protected Glyph glyph = Assets.ring;
+    protected String glyph = "ring";
 
     @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
@@ -105,7 +103,7 @@ public abstract class Entity implements Observer {
     public static abstract class Builder<T extends Builder<T>> {
         protected Name name;
         protected Position position = Position.UNKNOWN;
-        protected Glyph glyph;
+        protected String glyph;
         protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
@@ -121,7 +119,7 @@ public abstract class Entity implements Observer {
         }
 
         @SuppressWarnings("unchecked")
-        public T withGlyph(Glyph asset) {
+        public T withGlyph(String asset) {
             this.glyph = asset;
             return (T) this;
         }
@@ -264,7 +262,7 @@ public abstract class Entity implements Observer {
         return this.fieldOfView;
     }
 
-    public Glyph getGlyph() {
+    public String getGlyph() {
         return glyph;
     }
 
@@ -314,6 +312,10 @@ public abstract class Entity implements Observer {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
         inventory.setEntity(this);
+    }
+
+    public void setGlyph(String glyph) {
+        this.glyph = glyph;
     }
 
     @Override

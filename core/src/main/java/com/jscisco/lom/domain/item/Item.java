@@ -1,12 +1,9 @@
 package com.jscisco.lom.domain.item;
 
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
-import com.jscisco.lom.domain.Glyph;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Inventory;
@@ -22,7 +19,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
 
 @Entity
 @SequenceGenerator(
@@ -41,8 +37,7 @@ public class Item {
     @Embedded
     private Name name;
 
-    @Transient
-    private Glyph glyph;
+    private String glyph = Assets.ring;
 
     @Embedded
     @Nullable
@@ -66,7 +61,7 @@ public class Item {
     public static class Builder {
         Name name;
         ItemType itemType;
-        Glyph glyph;
+        String glyph;
 
 
         public Builder withName(Name name) {
@@ -79,7 +74,7 @@ public class Item {
             return this;
         }
 
-        public Builder withGlyph(Glyph glyph) {
+        public Builder withGlyph(String glyph) {
             this.glyph = glyph;
             return this;
         }
@@ -139,6 +134,14 @@ public class Item {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public String getGlyph() {
+        return glyph;
+    }
+
+    public void setGlyph(String glyph) {
+        this.glyph = glyph;
     }
 
     @Nullable

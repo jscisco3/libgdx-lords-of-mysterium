@@ -16,9 +16,9 @@ public class LevelChange extends Feature {
 
     public LevelChange(@Nonnull UUID toLevelId, @Nonnull Position toPosition, boolean descend) {
         if (descend) {
-            this.asset = Assets.stairsDown;
+            this.glyph = Assets.stairsDown;
         } else {
-            this.asset = Assets.stairsUp;
+            this.glyph = Assets.stairsUp;
         }
         this.toPosition = toPosition;
         this.toLevelId = toLevelId;

@@ -157,6 +157,7 @@ public class ZoneServiceTest {
 
         Item item = new Item.Builder()
                 .withName(Name.of("Sword"))
+                .withGlyph("sword")
                 .build();
         level.addItemAtPosition(item, Position.of(2, 2));
         zoneService.saveLevel(level);
