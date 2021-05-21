@@ -17,14 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -66,10 +62,6 @@ public class Level {
 
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
-
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @OrderBy("id ASC")
-    private List<LevelEvent> events = new ArrayList<>();
 
     @Transient
     private Tile[][] tiles;
@@ -308,26 +300,17 @@ public class Level {
         return currentActorIndex;
     }
 
-    public void addEvent(LevelEvent levelEvent) {
-        this.events.add(levelEvent);
-        levelEvent.setLevel(this);
-    }
-
-    public List<LevelEvent> getEvents() {
-        return events;
-    }
-
     /**
      * Used for regenerating state of a level
      */
-    public void processEvents() {
+    public void processEvents(List<LevelEvent> events) {
 //        for (LevelEvent event : events) {
 //            logger.info("Event: " + event);
 //        }
         logger.info("Processing " + events.size() + " events.");
         for (LevelEvent event : events) {
             logger.trace("Processing event: " + event);
-            event.process();
+            event.process(this);
         }
     }
 

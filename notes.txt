@@ -225,3 +225,16 @@ Changing levels:
                 - We can just retrive this from service locator
             - Do we consider moving Level::process() -> GameScreen?
         *
+
+Saving and Loading:
+    Using hibernate _all_ the time is really becoming quite a hassle
+        * Things like saving our knowledge (e.g. level events) has to be reconsidered.
+        * Having something observe the hero is having a problem with our current approach
+    Options to consider:
+        Loading an entire zone into memory at once, including all levels, entities, etc and storing those levels in some InMemoryLevelRepository / Cache
+        * Actually we just should Hibernate.initialize(...) the zone?
+        * This may allow us to avoid saving to hibernate all the time, until we explicitly want to save a level.
+        * We may require some kind GameService.save(...) that would save the contents of the InMemoryLevelRepository.
+        * One benefit is we are not saving and loading a level on each level transition, only when we _explicitly_ save the game
+    Need to consider:
+        * Do not link LevelEvent w/ Level as a collection. Instead we may want a LevelEventRepository which retrieves events by level id.

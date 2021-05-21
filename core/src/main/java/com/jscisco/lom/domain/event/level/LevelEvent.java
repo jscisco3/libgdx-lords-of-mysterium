@@ -6,25 +6,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import java.util.UUID;
 
 @Entity
 public abstract class LevelEvent extends Event {
 
     private static final Logger logger = LoggerFactory.getLogger(LevelEvent.class);
 
-    @ManyToOne
-    Level level;
+    UUID levelId;
 
-    public Level getLevel() {
-        return level;
+    protected LevelEvent() {
     }
 
-    public void setLevel(Level level) {
-        this.level = level;
+    public UUID getLevelId() {
+        return levelId;
     }
 
-    public void process() {
+    public void setLevelId(UUID levelId) {
+        this.levelId = levelId;
+    }
+
+    public void process(Level level) {
+        // todo: Asset level.id == levelid
+        assert level.getId() == levelId;
         logger.info("Processing " + this);
     }
 

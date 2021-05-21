@@ -1,10 +1,14 @@
 package com.jscisco.lom.application.services;
 
+import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.event.level.DescentFeatureAdded;
+import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.Generated;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.event.level.LevelTransitionFeatureAdded;
+import com.jscisco.lom.domain.event.level.TileExplored;
+import com.jscisco.lom.domain.repository.LevelEventRepository;
 import com.jscisco.lom.domain.repository.LevelRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
@@ -17,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -29,11 +34,15 @@ public class ZoneService {
     private static final Logger logger = LoggerFactory.getLogger(ZoneService.class);
     private final ZoneRepository zoneRepository;
     private final LevelRepository levelRepository;
+    private final LevelEventRepository levelEventRepository;
+
+
 
     @Autowired
-    public ZoneService(LevelRepository levelRepository, ZoneRepository zoneRepository) {
+    public ZoneService(LevelRepository levelRepository, ZoneRepository zoneRepository, LevelEventRepository levelEventRepository) {
         this.levelRepository = levelRepository;
         this.zoneRepository = zoneRepository;
+        this.levelEventRepository = levelEventRepository;
     }
 
     public Zone getZone(Long zoneId) {
@@ -56,7 +65,7 @@ public class ZoneService {
         Zone zone = new Zone();
         zone = zoneRepository.save(zone);
         for (int i = 0; i < depth; i++) {
-            createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.EMPTY);
+            createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.GENERIC);
         }
         // Link levels
         // Descending...
@@ -66,10 +75,12 @@ public class ZoneService {
             // Generate stairs down
             LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
             LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(below.getId(), Position.of(6, 5), false);
-            above.addEvent(descent);
-            below.addEvent(ascent);
-            descent.process();
-            ascent.process();
+            descent.setLevelId(above.getId());
+            ascent.setLevelId(below.getId());
+            descent.process(above);
+            ascent.process(below);
+            levelEventRepository.save(descent);
+            levelEventRepository.save(ascent);
             saveLevel(above);
             saveLevel(below);
         }
@@ -86,8 +97,9 @@ public class ZoneService {
         Generated event = new Generated();
         event.setStrategy(strategy);
         event.setSeed(0xDEADBEEFL);
-        level.addEvent(event);
-        level.processEvents();
+        event.setLevelId(level.getId());
+        event.process(level);
+        levelEventRepository.save(event);
         zone.addLevel(level);
         saveLevel(level);
         return level;
@@ -102,9 +114,10 @@ public class ZoneService {
     public Level loadLevel(UUID levelId) {
         logger.info("Loading level with id: " + levelId);
         Level level = levelRepository.findById(levelId).get();
+        List<LevelEvent> events = levelEventRepository.findAllByLevelIdOrderByIdAsc(levelId);
         Hibernate.initialize(level.getItems());
         // Run through all events
-        level.processEvents();
+        level.processEvents(events);
         // Initialize all entity positions
         level.getEntities().forEach(e -> e.move(e.getPosition()));
 //        level.getItems().forEach(i -> {
@@ -130,4 +143,18 @@ public class ZoneService {
         return zoneRepository.nextLevelId();
     }
 
+    public void saveLevelEvent(LevelEvent event) {
+        levelEventRepository.save(event);
+    }
+
+    public void saveLevelEvents(List<LevelEvent> events) {
+        levelEventRepository.saveAll(events);
+    }
+
+    public void onNotify(Event event) {
+        if (event instanceof TileExplored) {
+            TileExplored te = (TileExplored) event;
+            levelEventRepository.save(te);
+        }
+    }
 }

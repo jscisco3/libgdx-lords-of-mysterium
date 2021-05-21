@@ -1,6 +1,7 @@
 package com.jscisco.lom.domain.event.level;
 
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 
@@ -36,7 +37,8 @@ public class Generated extends LevelEvent {
     }
 
     @Override
-    public void process() {
+    public void process(Level level) {
+        super.process(level);
         LevelGeneratorStrategy generator = LevelGeneratorStrategyFactory.getStrategy(this.strategy);
         level.setTiles(generator.generate(level.getWidth(), level.getHeight()));
     }
