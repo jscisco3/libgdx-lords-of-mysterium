@@ -44,7 +44,7 @@ public class GameScreen extends AbstractScreen implements Observer {
     // UI Elements
     private AdventurerUI adventurerUI;
     private GameLogUI gameLogUI;
-    private Vector3 playerUIOffset = new Vector3(200f, 0f, 0f);
+    private Vector3 playerUIOffset = new Vector3(400f, 0f, 0f);
     private Vector3 gameLogUIOffset = new Vector3(playerUIOffset.x, 150f, 0f);
 
     private Stage popupStage = new Stage();
@@ -61,6 +61,8 @@ public class GameScreen extends AbstractScreen implements Observer {
     private final GameService gameService;
     private final ZoneService zoneService;
 
+    private final ZoneServiceObserver zoneServiceObserver;
+
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game, SaveGame saveGame, Hero hero) {
@@ -73,6 +75,10 @@ public class GameScreen extends AbstractScreen implements Observer {
 
         this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
+        // TODO: pass in this.zoneService?
+        this.zoneServiceObserver = new ZoneServiceObserver();
+
+        this.hero.getSubject().register(this.zoneServiceObserver);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
@@ -183,11 +189,13 @@ public class GameScreen extends AbstractScreen implements Observer {
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             saveGame.setLevelId(level.getId());
+            saveGame.setZoneId(level.getZone().getId());
             logger.trace("Saving game");
             logger.trace(saveGame.toString());
             gameService.saveGame(saveGame);
             logger.trace("Game saved");
-            zoneService.saveLevel(level);
+            zoneService.saveZone(level.getZone());
+//            zoneService.saveLevel(level);
 //            levelProcessingThread.stop();
             Gdx.app.exit();
         }

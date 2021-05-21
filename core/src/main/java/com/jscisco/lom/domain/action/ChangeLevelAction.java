@@ -22,12 +22,11 @@ public class ChangeLevelAction extends Action {
         Tile t = source.getLevel().getTileAt(source.getPosition());
         if (t.getFeature() instanceof LevelChange) {
             LevelChange feature = (LevelChange) t.getFeature();
-            if (zoneService.changeLevel(source, feature.getToLevelId(), feature.getToPosition())) {
-                if (source instanceof Hero) {
-                    source.getSubject().notify(new HeroChangedLevelEvent());
-                }
-                return ActionResult.succeeded();
+            zoneService.changeLevel(source, source.getLevel().getZone(), feature.getToLevelId(), feature.getToPosition());
+            if (source instanceof Hero) {
+                source.getSubject().notify(new HeroChangedLevelEvent());
             }
+            return ActionResult.succeeded();
         }
         return ActionResult.failed();
     }

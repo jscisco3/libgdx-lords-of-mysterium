@@ -32,6 +32,7 @@ import javax.persistence.Transient;
 )
 public class Item {
 
+    // TODO: Random UUID
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_sequence")
     private Long id;
