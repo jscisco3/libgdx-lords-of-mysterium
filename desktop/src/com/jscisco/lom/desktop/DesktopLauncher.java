@@ -19,6 +19,10 @@ public class DesktopLauncher {
 
         TexturePacker.process(settings, "../../assets/textures/", "packed/", "assets");
 
+        // Unlock FPS
+        config.backgroundFPS = 10;
+        config.foregroundFPS = 600;
+        config.vSyncEnabled = false;
         new LwjglApplication(new Game(), config);
     }
 }

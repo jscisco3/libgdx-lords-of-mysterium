@@ -1,0 +1,45 @@
+@startuml
+
+' hide the spot
+hide circle
+
+' avoid problems with angled crows feet
+skinparam linetype ortho
+
+entity "Game" as game {
+  *id : number <<generated>>
+  --
+  * last_played: timestamp
+}
+
+entity "Kingdom" as kingdom {
+    * id : number <<generated>>
+    --
+    * name: text
+}
+
+entity "Zone" as zone {
+    * id : number <<generated>>
+    --
+    * name: text
+    * seed: text (concatenation of 3 words?)
+}
+
+entity "Level" as level {
+    * id: number <<generated>>
+    --
+    * seed: text
+}
+
+entity "Hero" as hero {
+    * id: number <<generated>>
+    --
+    * name: text
+}
+
+game ||..|| kingdom
+game ||--|{ zone
+zone ||--|{ level
+kingdom ||..|{ hero
+
+@enduml

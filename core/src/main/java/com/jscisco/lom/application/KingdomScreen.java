@@ -9,7 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.application.services.GameService;
+import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
+import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
+import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,18 +28,24 @@ public class KingdomScreen extends AbstractScreen {
 
     private Kingdom kingdom;
     private TextureRegion backgroundTexture;
+    private SaveGame saveGame;
+
+    private GameService gameService;
+    private ZoneService zoneService;
 
     // UI Elements
     private final Label kingdomName;
     private Image inn;
     private Image portal;
 
-    public KingdomScreen(Game game, Kingdom kingdom) {
+    public KingdomScreen(Game game, SaveGame saveGame, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
 //        backgroundTexture = new Texture(game.getAssets().getTextureRegion(Assets.background)
 //        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        backgroundTexture = game.getAssets().getTextureRegion(Assets.background);
+        this.saveGame = saveGame;
+        this.gameService = ServiceLocator.getBean(GameService.class);
+        this.zoneService = ServiceLocator.getBean(ZoneService.class);
 
         kingdomName = new Label(kingdom.getName().getName(), GameConfiguration.getSkin(), "default");
         kingdomName.setPosition(0, GameConfiguration.SCREEN_HEIGHT - kingdomName.getHeight());
@@ -44,7 +59,15 @@ public class KingdomScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.info("Clicked portal");
-                game.setScreen(new GameScreen(game));
+                Zone zone = zoneService.createZone();
+                saveGame.addZone(zone);
+                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
+                Hero hero = EntityFactory.player();
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                zoneService.saveLevel(level);
+                // TODO: Necessary?
+                gameService.saveGame(saveGame);
+                game.setScreen(new GameScreen(game, saveGame, hero));
             }
         });
 

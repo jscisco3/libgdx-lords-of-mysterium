@@ -1,27 +1,59 @@
 package com.jscisco.lom.domain.entity;
 
+
 import com.jscisco.lom.domain.item.Item;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+@javax.persistence.Entity
 public class Inventory {
 
+    @Id
+    @Column(name = "entity_id")
+    private UUID id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "entity_id")
+    private Entity entity;
+
+    @OneToMany(mappedBy = "inventory", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Item> items;
 
     public Inventory() {
         this.items = new ArrayList<>();
     }
 
-    public boolean addItem(Item item) {
-        return items.add(item);
+    public void addItem(Item item) {
+        items.add(item);
+        item.setInventory(this);
     }
 
-    public boolean removeItem(Item item) {
-        return items.remove(item);
+    public void removeItem(Item item) {
+        items.remove(item);
+        item.setInventory(null);
     }
 
     public List<Item> getItems() {
         return items;
     }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
 }

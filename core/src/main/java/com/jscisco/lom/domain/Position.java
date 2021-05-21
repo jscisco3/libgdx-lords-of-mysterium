@@ -1,10 +1,18 @@
 package com.jscisco.lom.domain;
 
+import squidpony.squidmath.Coord;
+
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.util.Objects;
 
+@Embeddable
 public class Position {
+
     int x;
     int y;
+
+    protected Position() {}
 
     private Position(int x, int y) {
         this.x = x;
@@ -40,6 +48,18 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public Coord toCoord() {
+        return Coord.get(x, y);
+    }
+
+    public static Position fromCoord(Coord coord) {
+        return Position.of(coord.x, coord.y);
+    }
+
+    public Position subtract(Position p) {
+        return Position.of(x - p.x, y - p.y);
     }
 
     @Override

@@ -8,89 +8,67 @@ import com.jscisco.lom.domain.cellular_automata.CellularAutomata;
 import com.jscisco.lom.domain.cellular_automata.GameOfLifeRuleSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidgrid.mapping.GrowingTreeMazeGenerator;
+import squidpony.squidgrid.mapping.IDungeonGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.text.MessageFormat;
 
 public abstract class LevelGeneratorStrategy {
     protected static final Logger logger = LoggerFactory.getLogger(LevelGeneratorStrategy.class);
-    protected abstract List<List<Tile>> generate(int width, int height);
+
+    public abstract Tile[][] generate(int width, int height);
+
+    public enum Strategy {
+        EMPTY,
+        GENERIC,
+        RANDOM_ROOM,
+        CELLULAR_AUTOMATA;
+    }
 
     public static class EmptyLevelStrategy extends LevelGeneratorStrategy {
         @Override
-        protected List<List<Tile>> generate(int width, int height) {
-            List<List<Tile>> tiles = new ArrayList<>();
-            // Let's first create the floors.
-            for (int i = 0; i < width; i++) {
-                List<Tile> column = new ArrayList<>();
-                for (int j = 0; j < height; j++) {
-                    column.add(TileFactory.floorTile());
-                }
-                tiles.add(column);
-            }
-            // Now let's do the top and bottom walls
-            for (int i = 0; i < width; i++) {
-                tiles.get(i).set(0, TileFactory.wallTile());
-                tiles.get(i).set(height - 1, TileFactory.wallTile());
-            }
-            // Left and right walls
-            for (int i = 0; i < height; i++) {
-                tiles.get(0).set(i, TileFactory.wallTile());
-                tiles.get(width - 1).set(i, TileFactory.wallTile());
-            }
-
+        public Tile[][] generate(int width, int height) {
+            Tile[][] tiles = LevelGeneratorStrategy.initialize(width, height);
+            // TODO: Place stairs randomly
             // stairs down
-            tiles.get(7).set(7, TileFactory.stairsDown());
+            tiles[7][7] = TileFactory.stairsDown();
             // stairs up
-            tiles.get(10).set(7, TileFactory.stairsUp());
+            tiles[10][7] = TileFactory.stairsUp();
             return tiles;
         }
     }
 
     public static class GenericStrategy extends LevelGeneratorStrategy {
         @Override
-        protected List<List<Tile>> generate(int width, int height) {
-            Random random = new Random();
-            List<List<Tile>> tiles = new ArrayList<>();
-            // Let's first create the floors.
-            for (int i = 0; i < width; i++) {
-                List<Tile> column = new ArrayList<>();
-                for (int j = 0; j < height; j++) {
-                    column.add(TileFactory.floorTile());
+        public Tile[][] generate(int width, int height) {
+            IDungeonGenerator generator = new GrowingTreeMazeGenerator(width, height, GameConfiguration.rng);
+            char[][] dungeon = generator.generate();
+            Tile[][] tiles = new Tile[width][height];
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    if (dungeon[x][y] == '#') {
+                        tiles[x][y] = TileFactory.wallTile();
+                    } else if (dungeon[x][y] == '.') {
+                        tiles[x][y] = TileFactory.floorTile();
+                    } else {
+                        logger.warn(MessageFormat.format("At position ({0}, {1}), we have unknown char {2} -- replacing with floor", x, y, dungeon[x][y]));
+                        tiles[x][y] = TileFactory.floorTile();
+                    }
                 }
-                tiles.add(column);
-            }
-            // Now let's do the top and bottom walls
-            for (int i = 0; i < width; i++) {
-                tiles.get(i).set(0, TileFactory.wallTile());
-                tiles.get(i).set(height - 1, TileFactory.wallTile());
-            }
-            // Left and right walls
-            for (int i = 0; i < height; i++) {
-                tiles.get(0).set(i, TileFactory.wallTile());
-                tiles.get(width - 1).set(i, TileFactory.wallTile());
-            }
-            // Now let us place some random walls
-            for (int i = 0; i < 250; i++) {
-                int x = random.nextInt(width - 6) + 5;
-                int y = random.nextInt(height - 6) + 5;
-                ;
-                tiles.get(x).set(y, TileFactory.wallTile());
             }
 
             // stairs down
-            tiles.get(7).set(7, TileFactory.stairsDown());
-            // stairs up
-            tiles.get(10).set(7, TileFactory.stairsUp());
+//            tiles.get(7).set(7, TileFactory.stairsDown());
+//            // stairs up
+//            tiles.get(10).set(7, TileFactory.stairsUp());
             return tiles;
         }
     }
 
     public static class RandomRoomStrategy extends LevelGeneratorStrategy {
         @Override
-        protected List<List<Tile>> generate(int width, int height) {
-            List<List<Tile>> tiles = allWalls(width, height);
+        public Tile[][] generate(int width, int height) {
+            Tile[][] tiles = allWalls(width, height);
             for (int i = 0; i < 10; i++) {
                 int w = MathUtils.randomIntegerInRange(GameConfiguration.random, 4, 10);
                 int h = MathUtils.randomIntegerInRange(GameConfiguration.random, 4, 10);
@@ -98,7 +76,7 @@ public abstract class LevelGeneratorStrategy {
                 int y = MathUtils.randomIntegerInRange(GameConfiguration.random, 1, height - 11);
                 Room room = new Room(w, h, Position.of(x, y));
                 for (Position p : room.getPoints()) {
-                    tiles.get(p.getX()).get(p.getY()).setFeature(FeatureFactory.FLOOR);
+                    tiles[p.getX()][p.getY()].setFeature(FeatureFactory.FLOOR);
                 }
             }
             return tiles;
@@ -108,9 +86,9 @@ public abstract class LevelGeneratorStrategy {
     public static class CellularAutomataStrategy extends LevelGeneratorStrategy {
 
         @Override
-        protected List<List<Tile>> generate(int width, int height) {
+        public Tile[][] generate(int width, int height) {
             logger.info("Generating...");
-            List<List<Tile>> tiles = allWalls(width, height);
+            Tile[][] tiles = allWalls(width, height);
             Cell[][] seed = new Cell[width][height];
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
@@ -135,9 +113,9 @@ public abstract class LevelGeneratorStrategy {
                 for (int j = 0; j < height; j++) {
                     Cell c = automata.getCell(Position.of(i, j));
                     if (c.isAlive()) {
-                        tiles.get(i).get(j).setFeature(FeatureFactory.FLOOR);
+                        tiles[i][j].setFeature(FeatureFactory.FLOOR);
                     } else {
-                        tiles.get(i).get(j).setFeature(FeatureFactory.WALL);
+                        tiles[i][j].setFeature(FeatureFactory.WALL);
                     }
                 }
             }
@@ -146,15 +124,34 @@ public abstract class LevelGeneratorStrategy {
     }
 
 
-    public static List<List<Tile>> allWalls(int width, int height) {
-        List<List<Tile>> tiles = new ArrayList<>();
+    public static Tile[][] allWalls(int width, int height) {
         // Let's first create the floors.
+        Tile[][] tiles = new Tile[width][height];
         for (int i = 0; i < width; i++) {
-            List<Tile> column = new ArrayList<>();
             for (int j = 0; j < height; j++) {
-                column.add(TileFactory.wallTile());
+                tiles[i][j] = TileFactory.wallTile();
             }
-            tiles.add(column);
+        }
+        return tiles;
+    }
+
+    private static Tile[][] initialize(int width, int height) {
+        // Let's first create the floors.
+        Tile[][] tiles = new Tile[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                tiles[i][j] = TileFactory.floorTile();
+            }
+        }
+        // Now let's do the top and bottom walls
+        for (int i = 0; i < width; i++) {
+            tiles[i][0] = TileFactory.wallTile();
+            tiles[i][height - 1] = TileFactory.wallTile();
+        }
+        // Left and right walls
+        for (int i = 0; i < height; i++) {
+            tiles[0][i] = TileFactory.wallTile();
+            tiles[width - 1][i] = TileFactory.wallTile();
         }
         return tiles;
     }

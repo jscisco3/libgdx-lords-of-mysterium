@@ -19,7 +19,7 @@ public class PeriodicEffectTest {
         Effect periodicEffect = new PeriodicEffect()
                 .withDuration(Duration.turns(100))
                 .addModifier(new AttributeModifier()
-                        .forAttribute(attributeSet.getHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                         .withMagnitude(-10f)
                         .withOperator(Attribute.Operator.ADD));
 

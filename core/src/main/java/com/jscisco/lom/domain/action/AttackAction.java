@@ -29,7 +29,7 @@ public class AttackAction extends Action {
         Attribute health = target.getAttributes().getHealth();
         Effect damage = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(health)
+                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                         .withOperator(Attribute.Operator.ADD)
                         .withMagnitude(-d));
         target.applyEffect(damage);

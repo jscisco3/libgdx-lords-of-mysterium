@@ -1,68 +1,145 @@
 package com.jscisco.lom.domain.zone;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.ActionResult;
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.item.ItemFactory;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+@javax.persistence.Entity
+//@SequenceGenerator(
+//        name = "level_sequence",
+//        sequenceName = "level_sequence",
+//        initialValue = 1,
+//        allocationSize = 1
+//)
 public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
-    private LevelGeneratorStrategy generator;
+    @Id
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "level_sequence")
+    private UUID id = UUID.randomUUID();
 
-    private Hero hero;
+    @ManyToOne
+    @JoinColumn(name = "zone_id", nullable = false)
+    private Zone zone;
+
+    // Orphan Removal == true so that when an entity is removed from this list, it is deleted from the DB.
+    // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
+    // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
+    // Fetch eager because we just want everything loaded in memory. Revisit if it becomes a problem.
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
     private List<Entity> entities = new ArrayList<>();
-    private int currentActorIndex = 0;
 
-    // TODO: Make this a Tile[][]
-    private List<List<Tile>> tiles = new ArrayList<>();
+    private int currentActorIndex;
 
-    private final int width;
-    private final int height;
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Item> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OrderBy("id ASC")
+    private List<LevelEvent> events = new ArrayList<>();
+
+    @Transient
+    private Tile[][] tiles;
+
+    private int width;
+    private int height;
+
+    @Transient
+    private final Subject subject = new Subject();
 
     public Level() {
-        this(80, 40, new LevelGeneratorStrategy.EmptyLevelStrategy());
-        getTileAt(Position.of(5, 5)).setFeature(FeatureFactory.WALL);
+    }
+
+    public Level(int width, int height) {
+        this.width = width;
+        this.height = height;
     }
 
     public Level(int width, int height, LevelGeneratorStrategy generator) {
         this.width = width;
         this.height = height;
-        this.generator = generator;
+        this.currentActorIndex = 0;
         tiles = generator.generate(this.width, this.height);
-
-        this.addEntityAtPosition(EntityFactory.golem(), Position.of(5, 5));
-        addItemAtPosition(ItemFactory.sword(), Position.of(5, 5));
-        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.ring(), Position.of(1, 1));
-        addItemAtPosition(ItemFactory.sword(), Position.of(1, 1));
     }
 
     /**
-     * Process actions from the actors in the current stage
+     * This method processes all actors, returning when we have a null action (this indicates we are waiting for the player
+     * to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and skip that actor.
+     * <p>
+     * However, this does not work if we have a state for the player that returns an action at all times.
+     */
+    public void processAllActors() {
+        while (true) {
+            Entity currentEntity = entities.get(currentActorIndex);
+            Action action = currentEntity.nextAction();
+            if (action == null) {
+                if (currentEntity instanceof NPC) {
+                    logger.error("NPC with a null action: " + String.valueOf(currentEntity));
+                }
+                return;
+            }
+            while (true) {
+                ActionResult result = action.execute();
+                if (!result.success()) {
+                    // Action failed, so don't increment active actor
+                    return;
+                }
+                if (!result.hasAlternate()) {
+                    // No alternative and the action has succeeded, so continue on.
+                    break;
+                }
+                // We have an alternative, so we must process that one before we know if we have ultimately succeeded
+                action = result.getAlternative();
+            }
+            currentActorIndex = (currentActorIndex + 1) % entities.size();
+            // Here, we can start the next actors turn
+            entities.get(currentActorIndex).tick();
+        }
+    }
+
+    // TODO: Consider if we should have something else (e.g. EntityProcessor) handle this?
+
+    /**
+     * Process actions from the actors in the current stage. Currently processes a single actor.
      */
     public void process() {
         Action action = entities.get(currentActorIndex).nextAction();
-//        logger.info(entities.get(currentActorIndex).toString());
         if (action != null) {
-            logger.info(action.toString());
+            logger.trace("Current actor index: " + currentActorIndex);
+            logger.trace(action.toString());
         }
         // No action, so skip
         if (action == null) {
@@ -81,51 +158,26 @@ public class Level {
             // We have an alternative, so we must process that one before we know if we have ultimately succeeded
             action = result.getAlternative();
         }
+        // TODO: Clean this up to make it nicer
+        if (entities.isEmpty()) {
+            return;
+        }
         currentActorIndex = (currentActorIndex + 1) % entities.size();
         // Here, we can start the next actors turn
         entities.get(currentActorIndex).tick();
     }
 
     public Tile getTileAt(Position position) {
-        return tiles.get(position.getX()).get(position.getY());
+        return tiles[position.getX()][position.getY()];
     }
 
     public void addEntityAtPosition(Entity entity, Position position) {
-        this.entities.add(entity);
-        this.getTileAt(position).occupy(entity);
+        logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
+        entity.setPosition(position);
         entity.setLevel(this);
-        entity.move(position);
-        entity.calculateFieldOfView();
-    }
-
-    /**
-     * Responsible for rendering the level to the given SpriteBatch from the hero's perspective
-     *
-     * @param batch
-     * @param assets
-     * @param camera
-     */
-    public void draw(SpriteBatch batch, Assets assets, Camera camera) {
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
-                    tiles.get(i).get(j).draw(batch, assets, i, j, true);
-                } else if (tiles.get(i).get(j).isExplored()) {
-                    batch.setColor(Color.DARK_GRAY);
-                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
-                    batch.setColor(Color.WHITE);
-                }
-//                else if (tiles.get(i).get(j).isExplored() && !this.hero.getFieldOfView().isInSight(Position.of(i, j))) {
-//                    batch.setColor(Color.GRAY);
-//                    tiles.get(i).get(j).draw(batch, assets, i, j, false);
-//                    batch.setColor(Color.WHITE);
-//                }
-            }
-        }
-        batch.end();
+        logger.info(String.valueOf(entity.getLevel().id));
+        this.entities.add(entity);
+        this.subject.register(entity);
     }
 
     public int getWidth() {
@@ -138,30 +190,33 @@ public class Level {
 
     public void removeEntity(Entity entity) {
         // Have to remove it from the tile as well...
-        this.getTileAt(entity.getPosition()).removeOccupant();
         this.entities.remove(entity);
-    }
-
-    public void addHero(Hero hero) {
-        this.hero = hero;
-        addEntityAtPosition(hero, getEmptyTile(hero));
+        entity.setLevel(null);
     }
 
     /**
      * Returns the first tile that is walkable for the entity and unoccupied
+     *
      * @param e
      * @return
      */
     public Position getEmptyTile(Entity e) {
+        Set<Position> occupiedPositions = entities.stream().map(Entity::getPosition).collect(Collectors.toSet());
+        List<Position> walkable = walkablePositions(e);
+        walkable.removeAll(occupiedPositions);
+        return walkable.get(GameConfiguration.random.nextInt(walkable.size()));
+    }
+
+    public List<Position> getUnexploredPositions() {
+        List<Position> unexplored = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                Tile t = tiles.get(i).get(j);
-                if (!t.isOccupied() && t.isWalkable(e)) {
-                    return Position.of(i, j);
+                if (!getTileAt(Position.of(i, j)).isExplored()) {
+                    unexplored.add(Position.of(i, j));
                 }
             }
         }
-        throw new RuntimeException("Could not find empty tile for entity: " + e);
+        return unexplored;
     }
 
     public Tile getTileOccupiedByEntity(Entity entity) {
@@ -169,10 +224,123 @@ public class Level {
     }
 
     public void addItemAtPosition(Item item, Position position) {
-        getTileAt(position).addItem(item);
+        this.items.add(item);
+        item.setPosition(position);
+        item.setLevel(this);
+    }
+
+    public List<Item> getItemsAtPosition(Position p) {
+        return items.stream().filter(i -> {
+            assert i.getPosition() != null;
+            return i.getPosition().equals(p);
+        }).collect(Collectors.toList());
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(item);
+        item.setLevel(null);
     }
 
     public void setTile(Tile t, Position p) {
-        this.tiles.get(p.getX()).set(p.getY(), t);
+        tiles[p.getX()][p.getY()] = t;
+    }
+
+    public void setTiles(Tile[][] tiles) {
+        this.tiles = tiles;
+    }
+
+    public Tile[][] getTiles() {
+        return tiles;
+    }
+
+    public List<Position> walkablePositions(Entity e) {
+        List<Position> walkable = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (tiles[i][j].isWalkable(e)) {
+                    walkable.add(Position.of(i, j));
+                }
+            }
+        }
+        return walkable;
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public Optional<Entity> getEntityAtPosition(Position p) {
+        return entities.stream().filter(e -> e.getPosition().equals(p)).findFirst();
+    }
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public Hero getHero() {
+        return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public int getCurrentActorIndex() {
+        return currentActorIndex;
+    }
+
+    public void addEvent(LevelEvent levelEvent) {
+        this.events.add(levelEvent);
+        levelEvent.setLevel(this);
+    }
+
+    public List<LevelEvent> getEvents() {
+        return events;
+    }
+
+    /**
+     * Used for regenerating state of a level
+     */
+    public void processEvents() {
+//        for (LevelEvent event : events) {
+//            logger.info("Event: " + event);
+//        }
+        logger.info("Processing " + events.size() + " events.");
+        for (LevelEvent event : events) {
+            logger.trace("Processing event: " + event);
+            event.process();
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Level level = (Level) o;
+        return id.equals(level.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Level{" +
+                "id=" + id +
+                '}';
     }
 }

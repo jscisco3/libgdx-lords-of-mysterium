@@ -14,6 +14,16 @@ buildscript {
     }
 }
 
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
+
 allprojects {
     apply plugin: "eclipse"
 
@@ -27,11 +37,16 @@ allprojects {
         aiVersion = '1.8.2'
         gdxControllersVersion = '2.1.0'
 
-        squidLibVersion = '3.0.0-b9'
+        squidLibVersion = '3.0.3'
         slf4jVersion = '1.7.25'
         junitVersion = '5.3.2'
         assertjVersion = '3.11.1'
         guavaVersion = '30.1-jre'
+        springVersion = '5.3.6'
+        jpaVersion = '2.2'
+        h2Version = '1.4.200'
+        hibernateVersion = '5.4.31.Final'
+        springTestVersion = '5.3.6'
 
     }
 
@@ -47,7 +62,6 @@ allprojects {
 project(":desktop") {
     apply plugin: "java-library"
 
-
     dependencies {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -61,7 +75,6 @@ project(":desktop") {
 project(":core") {
     apply plugin: "java-library"
 
-
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
@@ -73,12 +86,19 @@ project(":core") {
         api 'ch.qos.logback:logback-classic:1.2.3'
 
         api "com.google.guava:guava:$guavaVersion"
+        api "com.h2database:h2:$h2Version"
+        api "javax.persistence:javax.persistence-api:$jpaVersion"
+        api "org.springframework:spring-context:$springVersion"
+        api "org.springframework.data:spring-data-jpa:2.5.0"
+        api "org.hibernate:hibernate-core:$hibernateVersion"
 
         testImplementation "org.mockito:mockito-core:2.2.7"
         testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
         testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
         testImplementation "org.assertj:assertj-core:$assertjVersion"
+        testImplementation "org.springframework:spring-test:$springTestVersion"
     }
+
 }
 

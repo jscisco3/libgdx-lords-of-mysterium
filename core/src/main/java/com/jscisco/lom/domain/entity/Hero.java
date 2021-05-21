@@ -2,11 +2,28 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.event.level.TileExplored;
+import com.jscisco.lom.domain.state.DefaultState;
+import com.jscisco.lom.domain.state.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Transient;
+import java.util.Set;
+
+@javax.persistence.Entity
+@DiscriminatorValue("H")
 public class Hero extends Entity {
 
-    private Hero() {
+    private static final Logger logger = LoggerFactory.getLogger(Hero.class);
+
+    @Transient
+    private State state;
+
+    public Hero() {
         super();
+        this.state = new DefaultState(this);
     }
 
     public static class Builder extends Entity.Builder<Builder> {
@@ -16,31 +33,48 @@ public class Hero extends Entity {
             hero.name = this.name;
             hero.position = this.position;
             hero.glyph = this.glyph;
+            hero.setInventory(new Inventory());
             return hero;
         }
     }
 
+    // TODO: Remove
     public void setAction(Action action) {
         this.action = action;
     }
 
     @Override
     public Action nextAction() {
-        Action c = this.action;
-        this.action = null;
-        return c;
+        return state.getNextAction();
     }
 
     @Override
     public double[][] calculateFieldOfView() {
-        double[][] fov = super.calculateFieldOfView();
+        logger.trace("Calculating hero FOV");
+        double[][] fov = fieldOfView.calculateFOV();
         for (int x = 0; x < fov.length; x++) {
-            for (int y = 0 ; y < fov[x].length; y++) {
+            for (int y = 0; y < fov[x].length; y++) {
                 if (fov[x][y] > 0) {
                     this.level.getTileAt(Position.of(x, y)).explore();
+                    TileExplored event = new TileExplored();
+                    event.setPosition(Position.of(x, y));
+                    this.level.addEvent(event);
                 }
             }
         }
         return fov;
     }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public void handleInput(Set<Integer> input) {
+        state.handleInput(input);
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
 }

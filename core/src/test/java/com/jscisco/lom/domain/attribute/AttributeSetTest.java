@@ -12,21 +12,22 @@ public class AttributeSetTest {
     @BeforeEach
     public void setup() {
         this.attributeSet = new AttributeSet();
+        this.attributeSet.initialize();
     }
 
     @Test
     public void whenHealthIsIncreasedByInstantEffect_thenItCannotBeHigherThanMaxHealth() {
         Effect effect = new InstantEffect()
                 .addModifier(new AttributeModifier()
-                        .forAttribute(attributeSet.getHealth())
+                        .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                         .withMagnitude(1000f)
                         .withOperator(Attribute.Operator.ADD));
 
-        float maxHealthValue = attributeSet.getAttributeValue(attributeSet.getMaxHealth());
+        float maxHealthValue = attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH);
 
         effect.apply(this.attributeSet);
 
-        assertThat(this.attributeSet.getAttributeValue(attributeSet.getHealth())).isEqualTo(maxHealthValue);
+        assertThat(this.attributeSet.getAttributeValue(AttributeSet.AttributeDefinition.HEALTH)).isEqualTo(maxHealthValue);
         assertThat(this.attributeSet.getHealth().getBaseValue()).isEqualTo(maxHealthValue);
     }
 }

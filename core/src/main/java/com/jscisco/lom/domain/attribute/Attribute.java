@@ -3,9 +3,30 @@ package com.jscisco.lom.domain.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MapKeyEnumerated;
+import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@SequenceGenerator(
+        name = "attribute_sequence",
+        sequenceName = "attribute_sequence",
+        initialValue = 1,
+        allocationSize = 1
+)
 public class Attribute {
 
     public enum Operator {
@@ -14,11 +35,23 @@ public class Attribute {
         OVERRIDE
     }
 
-    private final Name name;
-    private final Description description;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attribute_sequence")
+    private Long id;
+
+    @Embedded
+    private Name name;
+
+    @Embedded
+    private Description description;
+
     private float baseValue;
-    // These are just modifiers for the "currentValue"
+
+    @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private final List<AttributeModifier> modifiers = new ArrayList<>();
+
+    public Attribute() {
+    }
 
     public Attribute(Name name, Description description) {
         this.name = name;
@@ -67,6 +100,14 @@ public class Attribute {
         return newValue;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Name getName() {
         return name;
     }
@@ -85,6 +126,7 @@ public class Attribute {
 
     public void addModifier(AttributeModifier modifier) {
         this.modifiers.add(modifier);
+        modifier.setAttribute(this);
     }
 
     public void removeModifier(AttributeModifier modifier) {
@@ -93,5 +135,16 @@ public class Attribute {
 
     public List<AttributeModifier> getModifiers() {
         return modifiers;
+    }
+
+    @Override
+    public String toString() {
+        return "Attribute{" +
+                "id=" + id +
+                ", name=" + name +
+                ", description=" + description +
+                ", baseValue=" + baseValue +
+                ", modifiers=" + modifiers +
+                '}';
     }
 }

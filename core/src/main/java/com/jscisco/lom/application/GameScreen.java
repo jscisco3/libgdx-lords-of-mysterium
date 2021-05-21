@@ -12,31 +12,33 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.ui.*;
-import com.jscisco.lom.domain.Direction;
-import com.jscisco.lom.domain.GameLog;
+import com.jscisco.lom.application.services.GameService;
+import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.application.ui.AdventurerUI;
+import com.jscisco.lom.application.ui.GameLogUI;
+import com.jscisco.lom.application.ui.InventoryWindow;
+import com.jscisco.lom.application.ui.PickupItemWindow;
+import com.jscisco.lom.application.ui.PopupWindow;
 import com.jscisco.lom.domain.MathUtils;
-import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.action.WalkAction;
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.InstantEffect;
-import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.Observer;
+import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.event.Event;
+import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
 import com.jscisco.lom.domain.zone.Level;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-public class GameScreen extends AbstractScreen {
+public class GameScreen extends AbstractScreen implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
 
-    Hero hero = EntityFactory.player();
+    SaveGame saveGame;
 
+    Hero hero;
     Level level;
 
     // UI Elements
@@ -56,21 +58,28 @@ public class GameScreen extends AbstractScreen {
     private int cameraWidth = GameConfiguration.SCREEN_WIDTH;
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
+    private final GameService gameService;
+    private final ZoneService zoneService;
+
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game) {
+    public GameScreen(Game game, SaveGame saveGame, Hero hero) {
         super(game);
+        this.level = hero.getLevel();
+        this.hero = hero;
+        this.saveGame = saveGame;
+
+        this.hero.getSubject().register(this);
+
+        this.gameService = ServiceLocator.getBean(GameService.class);
+        this.zoneService = ServiceLocator.getBean(ZoneService.class);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);
         camera.update();
         // TODO: Is this fine?
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        processor = new AdventureInputProcessor(hero);
-        // Create a zone and a stage
-        level = new Level(100, 100, new LevelGeneratorStrategy.EmptyLevelStrategy());
-//        level = new Level(90, 40, new LevelGeneratorStrategy.RandomRoomStrategy());
-//        level = new Level(90, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
-        level.addHero(hero);
+        processor = new AdventureInputProcessor();
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
@@ -88,19 +97,9 @@ public class GameScreen extends AbstractScreen {
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
-        hero.applyEffect(
-                new InstantEffect()
-                        .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getMaxHealth())
-                                .withMagnitude(100f)
-                                .withOperator(Attribute.Operator.OVERRIDE)
-                        )
-                        .addModifier(new AttributeModifier()
-                                .forAttribute(hero.getAttributes().getHealth())
-                                .withMagnitude(100f)
-                                .withOperator(Attribute.Operator.OVERRIDE)
-                        )
-        );
+//        levelProcessingThread = new LevelProcessingThread(this.level);
+//        gameLoop = new Thread(levelProcessingThread);
+//        gameLoop.start();
     }
 
     @Override
@@ -111,11 +110,16 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        if (delta * 1000.0f > 16.0f) {
+            logger.trace("Frame took longer than 16ms");
+        }
         handleInput(delta);
+        // TODO: This should be done in a separate thread?
+//        level.processAllActors();
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
-        level.draw(batch, this.game.getAssets(), camera);
+        LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
         stage.act();
         stage.draw();
         popupStage.act();
@@ -134,6 +138,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     public void handleInput(float delta) {
+//        logger.info("Handling Input...");
         Set<Integer> keysDown = processor.getKeysDown();
         if (processor.isKeyDown() && keyPressedTime == 0f) {
             setPlayerAction(keysDown);
@@ -147,31 +152,20 @@ public class GameScreen extends AbstractScreen {
         if (!processor.isKeyDown()) {
             keyPressedTime = 0f;
         }
+//        if (this.level != hero.getLevel()) {
+//            this.level = hero.getLevel();
+//            this.hero = this.level.getHero();
+//            this.hero.calculateFieldOfView();
+//        }
     }
 
     private void setPlayerAction(Set<Integer> input) {
-//        logger.info("Setting player action...");
-        if (input.contains(Input.Keys.Z)) {
-            Screenshotter.saveScreenshot();
-        }
-        if (input.contains(Input.Keys.UP)) {
-            hero.setAction(new WalkAction(hero, Direction.N));
-        }
-        if (input.contains(Input.Keys.DOWN)) {
-            hero.setAction(new WalkAction(hero, Direction.S));
-        }
-        if (input.contains(Input.Keys.LEFT)) {
-            hero.setAction(new WalkAction(hero, Direction.W));
-        }
-        if (input.contains(Input.Keys.RIGHT)) {
-            hero.setAction(new WalkAction(hero, Direction.E));
-        }
-        if (input.contains(Input.Keys.P)) {
-            logger.info("Paused...");
-        }
+        hero.handleInput(input);
         if (input.contains(Input.Keys.COMMA)) {
-            PickupItemWindow window = new PickupItemWindow(hero, hero.getLevel().getTileAt(hero.getPosition()).getItems(), inputMultiplexer);
+            PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()), inputMultiplexer);
             popup(window);
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // as being pressed.
             input.clear();
         }
         // TODO: Consider opening Inventory window with prototype action
@@ -183,13 +177,20 @@ public class GameScreen extends AbstractScreen {
         if (input.contains(Input.Keys.I)) {
             InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
             popup(inventory);
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // as being pressed.
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
+            saveGame.setLevelId(level.getId());
+            logger.trace("Saving game");
+            logger.trace(saveGame.toString());
+            gameService.saveGame(saveGame);
+            logger.trace("Game saved");
+            zoneService.saveLevel(level);
+//            levelProcessingThread.stop();
             Gdx.app.exit();
         }
-        // Have to clear the input because otherwise, when we change the input processor... it still counts the character
-        // as being pressed.
     }
 
     private void popup(PopupWindow popupWindow) {
@@ -199,5 +200,15 @@ public class GameScreen extends AbstractScreen {
                 (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
         popupStage.addActor(popupWindow);
         popupStage.setScrollFocus(popupWindow.getScroller());
+    }
+
+    @Override
+    public void onNotify(Event event) {
+        if (event instanceof HeroChangedLevelEvent) {
+            this.level = hero.getLevel();
+            this.hero = this.level.getHero();
+            this.hero.calculateFieldOfView();
+            this.hero.getSubject().register(this);
+        }
     }
 }

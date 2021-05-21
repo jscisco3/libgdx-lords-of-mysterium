@@ -1,13 +1,12 @@
 package com.jscisco.lom.domain.entity;
 
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Glyph;
 import com.jscisco.lom.domain.Name;
+import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
@@ -18,40 +17,88 @@ import com.jscisco.lom.domain.attribute.DurationEffect;
 import com.jscisco.lom.domain.attribute.Effect;
 import com.jscisco.lom.domain.attribute.InstantEffect;
 import com.jscisco.lom.domain.attribute.Tag;
+import com.jscisco.lom.domain.event.Event;
+import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import squidpony.squidai.DijkstraMap;
+import squidpony.squidgrid.Measurement;
 
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Embedded;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Representation of any character in the game (e.g. NPCs, Player)
  */
-public abstract class Entity {
+@javax.persistence.Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "entity_type",
+        discriminatorType = DiscriminatorType.STRING
+)
+public abstract class Entity implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(Entity.class);
 
-    protected Name name;
-    protected Level level;
-    protected Position position;
-    protected FieldOfView fieldOfView = new FieldOfView(this);
+    @Id
+    protected UUID id = UUID.randomUUID();
 
+    @Embedded
+    protected Name name;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    protected Level level;
+
+    @Transient
+    protected DijkstraMap dijkstraMap;
+    @Embedded
+    protected Position position;
+    @Transient
+    protected FieldOfView fieldOfView = new FieldOfView(this);
+    @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
-    protected AttributeSet attributes = new AttributeSet();
+
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    protected AttributeSet attributes;
+
+    @Transient
     protected List<Effect> effects = new ArrayList<>();
 
-    protected Inventory inventory = new Inventory();
-    protected Glyph glyph;
+    @Transient
+    protected Glyph glyph = Assets.ring;
 
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    protected Inventory inventory;
+
+    @Transient
     protected Action action = null;
 
+    @Transient
     protected final Subject subject = new Subject();
 
     protected Entity() {
+        this.setAttributes(new AttributeSet());
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -101,8 +148,24 @@ public abstract class Entity {
         this.calculateFieldOfView();
     }
 
+    /**
+     * This is called when an entity is added to a level.
+     * It should:
+     * Calculate the initial DijkstraMap for the entity
+     * Calculate FOV *and* FOV Resistance Map for the level
+     *
+     * @param level
+     */
     public void setLevel(Level level) {
+        if (level == null) {
+            logger.info("Setting level to null");
+            this.level = null;
+            return;
+        }
         this.level = level;
+        this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
+        recalculateDijkstraMap();
+        this.calculateFieldOfView();
     }
 
     public Level getLevel() {
@@ -119,19 +182,13 @@ public abstract class Entity {
 
     public void pickup(Item item) {
         inventory.addItem(item);
+        level.removeItem(item);
     }
 
     public void dropItem(Item item) {
         inventory.removeItem(item);
-        level.getTileAt(this.position).addItem(item);
+        level.addItemAtPosition(item, position);
         subject.notify(null);
-    }
-
-    @Override
-    public String toString() {
-        return "Entity{" +
-                "name=" + name +
-                '}';
     }
 
     public void tick() {
@@ -165,7 +222,7 @@ public abstract class Entity {
     public void removeEffect(Effect effect) {
         // Here, we need to remove the modifiers that are on the attribute
         for (AttributeModifier modifier : effect.getModifiers()) {
-            modifier.getAttribute().removeModifier(modifier);
+            attributes.getAttribute(modifier.getAttributeDefinition()).removeModifier(modifier);
         }
         // Then, we remove the effect
         this.effects.remove(effect);
@@ -177,6 +234,11 @@ public abstract class Entity {
 
     public AttributeSet getAttributes() {
         return this.attributes;
+    }
+
+    public void setAttributes(AttributeSet attributes) {
+        this.attributes = attributes;
+        attributes.setEntity(this);
     }
 
     public void onDied() {
@@ -194,7 +256,7 @@ public abstract class Entity {
     }
 
     public double[][] calculateFieldOfView() {
-        return fieldOfView.calculateFOV();
+        return null;
     }
 
     public FieldOfView getFieldOfView() {
@@ -203,5 +265,75 @@ public abstract class Entity {
 
     public Glyph getGlyph() {
         return glyph;
+    }
+
+    @Override
+    public void onNotify(Event event) {
+        logger.info(MessageFormat.format("Entity notified about event {0}", event));
+        if (event instanceof LevelEvent) {
+            recalculateDijkstraMap();
+            this.fieldOfView.calculateFOV(true);
+        }
+    }
+
+    private void recalculateDijkstraMap() {
+        this.dijkstraMap.initialize(getWeightsForDijkstraMap());
+    }
+
+    private double[][] getWeightsForDijkstraMap() {
+        double[][] weights = new double[level.getWidth()][level.getWidth()];
+        for (int x = 0; x < level.getWidth(); x++) {
+            for (int y = 0; y < level.getHeight(); y++) {
+                if (level.getTileAt(Position.of(x, y)).isWalkable(this)) {
+                    weights[x][y] = DijkstraMap.FLOOR;
+                } else {
+                    weights[x][y] = DijkstraMap.WALL;
+                }
+            }
+        }
+        return weights;
+    }
+
+    public DijkstraMap getDijkstraMap() {
+        return dijkstraMap;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        inventory.setEntity(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id.equals(entity.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Entity{" +
+                "id=" + id +
+                ", name=" + name +
+                ", position=" + position +
+                '}';
     }
 }
