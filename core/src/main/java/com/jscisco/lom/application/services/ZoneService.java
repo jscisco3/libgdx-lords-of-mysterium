@@ -2,6 +2,8 @@ package com.jscisco.lom.application.services;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.entity.EntityFactory;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.Generated;
 import com.jscisco.lom.domain.event.level.LevelEvent;
@@ -91,8 +93,13 @@ public class ZoneService {
             ascent.setLevelId(below.getId());
             ascent.process(below);
             levelEventRepository.save(ascent);
-//            saveLevel(above);
-//            saveLevel(below);
+        }
+        // Populate levels ?
+        for (Level level : zone.getLevels()) {
+            for (int i = 0; i < 20; i++) {
+                NPC golem = EntityFactory.golem();
+                level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+            }
         }
         return zone;
     }
