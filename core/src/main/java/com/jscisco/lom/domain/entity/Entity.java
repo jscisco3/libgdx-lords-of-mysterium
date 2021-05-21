@@ -78,14 +78,14 @@ public abstract class Entity implements Observer {
     @Transient
     protected Map<Tag, Integer> tags = new HashMap<>();
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     protected AttributeSet attributes;
 
     @Transient
     protected List<Effect> effects = new ArrayList<>();
 
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     protected Inventory inventory;
 

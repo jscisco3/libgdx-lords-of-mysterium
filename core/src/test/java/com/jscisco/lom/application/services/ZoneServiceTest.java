@@ -267,6 +267,94 @@ public class ZoneServiceTest {
         nextLevel.process();
 
         assertThat(hero.getPosition()).isEqualTo(Position.of(6, 5));
+    }
 
+    @Test
+    public void loading_a_zone_should_result_in_actual_object() {
+        // Given a persisted zone
+        Zone zone = zoneService.createZone(5);
+        zone = zoneService.saveZone(zone);
+        Long zoneId = zone.getId();
+
+        // When we load that zone
+        Zone loadedZone = zoneService.getZone(zoneId);
+
+        // Then it is the right class and everything is in memory
+        assertThat(loadedZone).isInstanceOf(Zone.class);
+    }
+
+    @Test
+    public void loading_a_zone_should_result_in_levels_being_actual_objects() {
+        // Given a persisted zone
+        Zone zone = zoneService.createZone(5);
+        zone = zoneService.saveZone(zone);
+        Long zoneId = zone.getId();
+
+        // When we load that zone and get a level
+        Zone loadedZone = zoneService.getZone(zoneId);
+        Level level = loadedZone.getLevels().get(0);
+
+        // Then it is the right class and everything is in memory
+        assertThat(loadedZone).isInstanceOf(Zone.class);
+        assertThat(level).isInstanceOf(Level.class);
+    }
+
+    @Test
+    public void saving_a_zone_with_a_level_with_entities_and_loading_them() {
+        Zone zone = zoneService.createZone(1);
+        zone = zoneService.saveZone(zone);
+        Long zoneId = zone.getId();
+
+        // When we load that zone and get a level
+        Zone loadedZone = zoneService.getZone(zoneId);
+        Level level = loadedZone.getLevels().get(0);
+
+        NPC golem = EntityFactory.golem();
+        level.addEntityAtPosition(golem, Position.of(10, 10));
+
+
+        zoneService.saveZone(loadedZone);
+
+        // When we load the zone again and get the level
+
+        loadedZone = zoneService.getZone(zoneId);
+
+        level = loadedZone.getLevels().get(0);
+        // Then we have that golem
+        assertThat(level.getEntities().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void saving_a_zone_with_a_level_with_entities_and_loading_them_then_removing_entity_and_saving() {
+        Zone zone = zoneService.createZone(1);
+        zone = zoneService.saveZone(zone);
+        Long zoneId = zone.getId();
+
+        // When we load that zone and get a level
+        Zone loadedZone = zoneService.getZone(zoneId);
+        Level level = loadedZone.getLevels().get(0);
+
+        NPC golem = EntityFactory.golem();
+        level.addEntityAtPosition(golem, Position.of(10, 10));
+
+        zoneService.saveZone(loadedZone);
+
+        // When we load the zone again and get the level
+
+        loadedZone = zoneService.getZone(zoneId);
+
+        level = loadedZone.getLevels().get(0);
+        // Then we have that golem
+        assertThat(level.getEntities().size()).isEqualTo(1);
+
+        // Now, let us remove that entity
+        golem = (NPC) level.getEntities().get(0);
+        level.removeEntity(golem);
+
+        zoneService.saveZone(loadedZone);
+
+        loadedZone = zoneService.getZone(zoneId);
+        level = loadedZone.getLevels().get(0);
+        assertThat(level.getEntities().isEmpty()).isTrue();
     }
 }

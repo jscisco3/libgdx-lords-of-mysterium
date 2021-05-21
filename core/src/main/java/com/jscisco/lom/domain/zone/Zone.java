@@ -2,6 +2,7 @@ package com.jscisco.lom.domain.zone;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +24,9 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zone_sequence")
     private Long id;
 
-    @OneToMany(mappedBy = "zone", cascade = {CascadeType.MERGE})
+    // TODO: Fetch these eagerly and initialize them when loading
+    // TODO: What about listing zone metadata in the future? Could fetch this lazily and initialize when loading game
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Level> levels = new ArrayList<>();
 
     public Zone() {

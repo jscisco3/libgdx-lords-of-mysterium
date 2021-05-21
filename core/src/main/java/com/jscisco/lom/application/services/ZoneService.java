@@ -46,7 +46,15 @@ public class ZoneService {
     }
 
     public Zone getZone(Long zoneId) {
-        return zoneRepository.getById(zoneId);
+        logger.info("Loading zone...");
+        Zone zone = zoneRepository.getById(zoneId);
+        Hibernate.initialize(zone);
+        Hibernate.initialize(zone.getLevels());
+        for (Level level : zone.getLevels()) {
+            List<LevelEvent> events = levelEventRepository.findAllByLevelIdOrderByIdAsc(level.getId());
+            level.processEvents(events);
+        }
+        return zone;
     }
 
     /**
@@ -63,34 +71,47 @@ public class ZoneService {
 
     public Zone createZone(int depth) {
         Zone zone = new Zone();
-        zone = zoneRepository.save(zone);
+//        zone = zoneRepository.save(zone);
         for (int i = 0; i < depth; i++) {
             createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.GENERIC);
         }
         // Link levels
         // Descending...
-        for (int i = 0; i < depth - 1; i++) {
-            Level above = zone.getLevels().get(i);
-            Level below = zone.getLevels().get(i + 1);
-            // Generate stairs down
-            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
-            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(below.getId(), Position.of(6, 5), false);
-            descent.setLevelId(above.getId());
-            ascent.setLevelId(below.getId());
-            descent.process(above);
-            ascent.process(below);
-            levelEventRepository.save(descent);
-            levelEventRepository.save(ascent);
-            saveLevel(above);
-            saveLevel(below);
-        }
+//        for (int i = 0; i < depth - 1; i++) {
+//            Level above = zone.getLevels().get(i);
+//            Level below = zone.getLevels().get(i + 1);
+//            // Generate stairs down
+//            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
+//            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(below.getId(), Position.of(6, 5), false);
+//            descent.setLevelId(above.getId());
+//            ascent.setLevelId(below.getId());
+//            descent.process(above);
+//            ascent.process(below);
+//            levelEventRepository.save(descent);
+//            levelEventRepository.save(ascent);
+//            saveLevel(above);
+//            saveLevel(below);
+//        }
         return zone;
     }
 
-    public Level createLevel(Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
-        return createLevel(zone.getId(), width, height, strategy);
+    public Zone saveZone(Zone zone) {
+        return zoneRepository.save(zone);
     }
 
+    public Level createLevel(Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
+        Level level = new Level(width, height);
+        Generated event = new Generated();
+        event.setStrategy(strategy);
+        event.setSeed(0xDEADBEEFL);
+        event.setLevelId(level.getId());
+        event.process(level);
+        levelEventRepository.save(event);
+        zone.addLevel(level);
+        return level;
+    }
+
+    @Deprecated
     public Level createLevel(Long zoneId, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
         Zone zone = zoneRepository.getById(zoneId);
         Level level = new Level(width, height);
@@ -101,7 +122,7 @@ public class ZoneService {
         event.process(level);
         levelEventRepository.save(event);
         zone.addLevel(level);
-        saveLevel(level);
+//        saveLevel(level);
         return level;
     }
 

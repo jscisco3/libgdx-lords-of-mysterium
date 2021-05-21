@@ -28,8 +28,16 @@ public abstract class LevelEvent extends Event {
 
     public void process(Level level) {
         // todo: Asset level.id == levelid
-        assert level.getId() == levelId;
-        logger.info("Processing " + this);
+        logger.info("Processing " + this + " for level with id: " + level.getId());
+        assert level.getId().equals(levelId);
     }
 
+    @Override
+    public String toString() {
+        return "LevelEvent{" +
+                "id=" + id +
+                ", eventTime=" + eventTime +
+                ", levelId=" + levelId +
+                '}';
+    }
 }

@@ -31,19 +31,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+// TODO: Saving and loading a game should put the hero directly into the level.
+// TODO: We should load the _entire_ zone into memory, including all levels, and go from there.
 @javax.persistence.Entity
-//@SequenceGenerator(
-//        name = "level_sequence",
-//        sequenceName = "level_sequence",
-//        initialValue = 1,
-//        allocationSize = 1
-//)
 public class Level {
 
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "level_sequence")
     private UUID id = UUID.randomUUID();
 
     @ManyToOne
@@ -54,13 +49,14 @@ public class Level {
     // However, that could be a problem for the hero. So, perhaps, we need the GameScreen to observe the level.
     // And when we remove an entity, we publish that fact. The GameScreen then uses EntityService.deleteEntity(entityId)
     // Fetch eager because we just want everything loaded in memory. Revisit if it becomes a problem.
+    // TODO: Does orphan removal still make sense?
     @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<Entity> entities = new ArrayList<>();
 
     private int currentActorIndex;
 
-    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "level", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
     @Transient
@@ -68,6 +64,10 @@ public class Level {
 
     private int width;
     private int height;
+
+    // TODO: Consider depth as a property of level to control drops, monsters, etc. Also sorting when retrieving a zone
+    @Transient
+    private int depth;
 
     @Transient
     private final Subject subject = new Subject();

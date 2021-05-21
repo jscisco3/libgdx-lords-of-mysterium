@@ -50,6 +50,7 @@ public class Generated extends LevelEvent {
                 ", eventTime=" + eventTime +
                 ", strategy=" + strategy +
                 ", seed=" + seed +
+                ", levelId=" + levelId +
                 '}';
     }
 }
