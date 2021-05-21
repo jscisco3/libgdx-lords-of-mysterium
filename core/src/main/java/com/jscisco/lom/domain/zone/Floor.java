@@ -6,7 +6,7 @@ import com.jscisco.lom.domain.entity.Entity;
 public class Floor extends Feature {
 
     public Floor() {
-        this.asset = Assets.floor;
+        this.glyph = Assets.floor;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -25,8 +26,8 @@ public class KingdomScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(KingdomScreen.class);
 
     private Kingdom kingdom;
+    private TextureRegion backgroundTexture;
     private SaveGame saveGame;
-    private Texture backgroundTexture;
 
     private GameService gameService;
     private ZoneService zoneService;
@@ -39,21 +40,19 @@ public class KingdomScreen extends AbstractScreen {
     public KingdomScreen(Game game, SaveGame saveGame, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
+//        backgroundTexture = new Texture(game.getAssets().getTextureRegion(Assets.background)
+//        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         this.saveGame = saveGame;
         this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
 
-
-        backgroundTexture = game.getAssets().getTexture(Assets.background);
-        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-
         kingdomName = new Label(kingdom.getName().getName(), GameConfiguration.getSkin(), "default");
         kingdomName.setPosition(0, GameConfiguration.SCREEN_HEIGHT - kingdomName.getHeight());
 
-        inn = new Image(game.getAssets().getTexture(Assets.inn));
+        inn = new Image(game.getAssets().getTextureRegion(Assets.inn));
         inn.setPosition(250f, 400f);
 
-        portal = new Image(game.getAssets().getTexture(Assets.portal));
+        portal = new Image(game.getAssets().getTextureRegion(Assets.portal));
         portal.setPosition(600f, 200f);
         portal.addListener(new ClickListener() {
             @Override

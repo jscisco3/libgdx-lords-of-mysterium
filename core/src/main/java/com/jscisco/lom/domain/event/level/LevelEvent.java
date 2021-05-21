@@ -28,7 +28,7 @@ public abstract class LevelEvent extends Event {
 
     public void process(Level level) {
         // todo: Asset level.id == levelid
-        logger.info("Processing " + this + " for level with id: " + level.getId());
+        logger.debug("Processing " + this + " for level with id: " + level.getId());
         assert level.getId().equals(levelId);
     }
 

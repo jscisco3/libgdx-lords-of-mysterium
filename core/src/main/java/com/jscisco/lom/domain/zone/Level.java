@@ -163,13 +163,6 @@ public class Level {
         return tiles[position.getX()][position.getY()];
     }
 
-    /**
-     * Adds an entity to the map at the given position. As of 4/30/2021, there are no checks to see if it
-     * is a walkable tile
-     *
-     * @param entity
-     * @param position
-     */
     public void addEntityAtPosition(Entity entity, Position position) {
         logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
         entity.setPosition(position);

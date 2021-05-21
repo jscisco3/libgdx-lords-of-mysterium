@@ -1,8 +1,7 @@
 package com.jscisco.lom.domain.entity;
 
 
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
@@ -85,15 +84,15 @@ public abstract class Entity implements Observer {
     @Transient
     protected List<Effect> effects = new ArrayList<>();
 
+    protected String glyph = "ring";
+
     @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     protected Inventory inventory;
 
-    // TODO: Should this even be on the entity model? Or is it somewhere else?
-    @Transient
-    protected AssetDescriptor<Texture> asset = Assets.warrior;
     @Transient
     protected Action action = null;
+
     @Transient
     protected final Subject subject = new Subject();
 
@@ -104,7 +103,7 @@ public abstract class Entity implements Observer {
     public static abstract class Builder<T extends Builder<T>> {
         protected Name name;
         protected Position position = Position.UNKNOWN;
-        protected AssetDescriptor<Texture> asset;
+        protected String glyph;
         protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
@@ -120,8 +119,8 @@ public abstract class Entity implements Observer {
         }
 
         @SuppressWarnings("unchecked")
-        public T withAsset(AssetDescriptor<Texture> asset) {
-            this.asset = asset;
+        public T withGlyph(String asset) {
+            this.glyph = asset;
             return (T) this;
         }
 
@@ -173,8 +172,9 @@ public abstract class Entity implements Observer {
     }
 
     public void draw(SpriteBatch batch, Assets assets) {
-        Texture t = assets.getTexture(this.asset);
-        batch.draw(t, position.getX() * t.getWidth(), position.getY() * t.getHeight());
+        Sprite s = new Sprite(assets.getTextureRegion(this.glyph));
+        s.setPosition(s.getWidth() * position.getX(), s.getHeight() * position.getY());
+        s.draw(batch);
     }
 
     public abstract Action nextAction();
@@ -262,8 +262,8 @@ public abstract class Entity implements Observer {
         return this.fieldOfView;
     }
 
-    public AssetDescriptor<Texture> getAsset() {
-        return asset;
+    public String getGlyph() {
+        return glyph;
     }
 
     @Override
@@ -312,6 +312,10 @@ public abstract class Entity implements Observer {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
         inventory.setEntity(this);
+    }
+
+    public void setGlyph(String glyph) {
+        this.glyph = glyph;
     }
 
     @Override

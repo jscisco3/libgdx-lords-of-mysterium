@@ -116,7 +116,7 @@ public class NewGameScreen extends AbstractScreen {
         for (int i = 0; i < 10; i++) {
             heroes.add(new Hero.Builder()
                     .withName(Name.of(String.valueOf(i)))
-                    .withAsset(Assets.warrior)
+                    .withGlyph(Assets.warrior)
                     .build());
         }
     }

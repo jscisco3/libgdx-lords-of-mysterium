@@ -124,7 +124,7 @@ public class TitleScreen extends AbstractScreen {
                 for (int i = 0; i < 5; i++) {
                     Item item = new Item.Builder()
                             .withName(Name.of("Sword"))
-                            .withAsset(Assets.sword)
+                            .withGlyph(Assets.sword)
                             .build();
 
                     level.addItemAtPosition(item, Position.of(i + 3, 5));

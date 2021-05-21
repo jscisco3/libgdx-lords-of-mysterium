@@ -29,7 +29,7 @@ public class NPC extends Entity {
             NPC npc = new NPC();
             npc.name = this.name;
             npc.position = this.position;
-            npc.asset = this.asset;
+            npc.glyph = this.glyph;
             npc.aiController = controller;
             npc.setInventory(new Inventory());
             return npc;

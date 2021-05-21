@@ -32,7 +32,7 @@ public class Hero extends Entity {
             Hero hero = new Hero();
             hero.name = this.name;
             hero.position = this.position;
-            hero.asset = this.asset;
+            hero.glyph = this.glyph;
             hero.setInventory(new Inventory());
             return hero;
         }
