@@ -30,10 +30,6 @@ public abstract class LevelGeneratorStrategy {
         public Tile[][] generate(int width, int height) {
             Tile[][] tiles = LevelGeneratorStrategy.initialize(width, height);
             // TODO: Place stairs randomly
-            // stairs down
-            tiles[7][7] = TileFactory.stairsDown();
-            // stairs up
-            tiles[10][7] = TileFactory.stairsUp();
             return tiles;
         }
     }

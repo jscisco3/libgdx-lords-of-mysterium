@@ -1,6 +1,5 @@
 package com.jscisco.lom.application.services;
 
-import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.event.Event;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Nonnull;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
@@ -37,7 +37,6 @@ public class ZoneService {
     private final LevelEventRepository levelEventRepository;
 
 
-
     @Autowired
     public ZoneService(LevelRepository levelRepository, ZoneRepository zoneRepository, LevelEventRepository levelEventRepository) {
         this.levelRepository = levelRepository;
@@ -45,7 +44,7 @@ public class ZoneService {
         this.levelEventRepository = levelEventRepository;
     }
 
-    public Zone getZone(Long zoneId) {
+    public Zone getZone(UUID zoneId) {
         logger.info("Loading zone...");
         Zone zone = zoneRepository.getById(zoneId);
         Hibernate.initialize(zone);
@@ -53,6 +52,8 @@ public class ZoneService {
         for (Level level : zone.getLevels()) {
             List<LevelEvent> events = levelEventRepository.findAllByLevelIdOrderByIdAsc(level.getId());
             level.processEvents(events);
+            logger.info("Moving entities...");
+            level.getEntities().forEach(e -> e.move(e.getPosition()));
         }
         return zone;
     }
@@ -77,21 +78,22 @@ public class ZoneService {
         }
         // Link levels
         // Descending...
-//        for (int i = 0; i < depth - 1; i++) {
-//            Level above = zone.getLevels().get(i);
-//            Level below = zone.getLevels().get(i + 1);
-//            // Generate stairs down
-//            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
-//            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(below.getId(), Position.of(6, 5), false);
-//            descent.setLevelId(above.getId());
-//            ascent.setLevelId(below.getId());
-//            descent.process(above);
-//            ascent.process(below);
-//            levelEventRepository.save(descent);
-//            levelEventRepository.save(ascent);
+        for (int i = 0; i < depth - 1; i++) {
+            Level above = zone.getLevels().get(i);
+            Level below = zone.getLevels().get(i + 1);
+            // Generate stairs down
+            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
+            descent.setLevelId(above.getId());
+            descent.process(above);
+            levelEventRepository.save(descent);
+
+            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(above.getId(), Position.of(6, 5), false);
+            ascent.setLevelId(below.getId());
+            ascent.process(below);
+            levelEventRepository.save(ascent);
 //            saveLevel(above);
 //            saveLevel(below);
-//        }
+        }
         return zone;
     }
 
@@ -99,7 +101,7 @@ public class ZoneService {
         return zoneRepository.save(zone);
     }
 
-    public Level createLevel(Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
+    public Level createLevel(@Nonnull Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
         Level level = new Level(width, height);
         Generated event = new Generated();
         event.setStrategy(strategy);
@@ -112,7 +114,7 @@ public class ZoneService {
     }
 
     @Deprecated
-    public Level createLevel(Long zoneId, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
+    public Level createLevel(UUID zoneId, int width, int height, LevelGeneratorStrategy.Strategy strategy) {
         Zone zone = zoneRepository.getById(zoneId);
         Level level = new Level(width, height);
         Generated event = new Generated();
@@ -149,19 +151,15 @@ public class ZoneService {
         return level;
     }
 
-    public boolean changeLevel(Entity e, UUID levelId, Position to) {
-        Level nextLevel = loadLevel(levelId);
+    public void changeLevel(Entity e, Zone zone, UUID toLevelId, Position to) {
+        logger.info("Changing level....");
+        Level toLevel = zone.getLevelById(toLevelId);
         Level currentLevel = e.getLevel();
+        logger.info("Zone:" + zone);
+        logger.info("To Level: " + toLevel);
+        logger.info("From Level: " + currentLevel);
         currentLevel.removeEntity(e);
-        // TODO: May have to move any colliding entities
-        nextLevel.addEntityAtPosition(e, to);
-        levelRepository.save(currentLevel);
-        levelRepository.save(nextLevel);
-        return true;
-    }
-
-    public Long getNextLevelId() {
-        return zoneRepository.nextLevelId();
+        toLevel.addEntityAtPosition(e, to);
     }
 
     public void saveLevelEvent(LevelEvent event) {

@@ -3,26 +3,17 @@ package com.jscisco.lom.domain.zone;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
-@SequenceGenerator(
-        name = "zone_sequence",
-        sequenceName = "zone_sequence",
-        initialValue = 1,
-        allocationSize = 1
-)
 public class Zone {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "zone_sequence")
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
     // TODO: Fetch these eagerly and initialize them when loading
     // TODO: What about listing zone metadata in the future? Could fetch this lazily and initialize when loading game
@@ -32,11 +23,11 @@ public class Zone {
     public Zone() {
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -51,6 +42,10 @@ public class Zone {
     public void addLevel(Level level) {
         this.levels.add(level);
         level.setZone(this);
+    }
+
+    public Level getLevelById(UUID levelId) {
+        return this.levels.stream().filter(level -> level.getId().equals(levelId)).findFirst().get();
     }
 
     @Override

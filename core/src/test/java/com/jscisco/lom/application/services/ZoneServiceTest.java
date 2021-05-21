@@ -5,7 +5,6 @@ import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.ChangeLevelAction;
-import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
@@ -15,7 +14,6 @@ import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelChange;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +21,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.persistence.EntityNotFoundException;
-
 import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ApplicationConfiguration.class, PersistenceConfiguration.class})
@@ -44,13 +40,7 @@ public class ZoneServiceTest {
     @Test
     public void able_to_create_a_zone() {
         Zone zone = zoneService.createZone();
-        assertThat(zone.getId()).isEqualTo(1L);
-    }
-
-    @Test
-    public void given_a_noneexistent_zone_when_i_create_a_level_it_fails() {
-        assertThatThrownBy(() -> zoneService.createLevel(12345L, 100, 100, LevelGeneratorStrategy.Strategy.EMPTY))
-                .isInstanceOf(EntityNotFoundException.class);
+        assertThat(zone).isNotNull();
     }
 
     @Test
@@ -58,7 +48,7 @@ public class ZoneServiceTest {
         // Given
         Zone createdZone = zoneService.createZone();
         // When
-        Level createdLevel = zoneService.createLevel(createdZone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
+        Level createdLevel = zoneService.createLevel(createdZone, 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
         // Then
         assertThat(createdLevel).isNotNull();
     }
@@ -67,11 +57,11 @@ public class ZoneServiceTest {
     public void can_load_level_with_hero() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
+        Level level = zoneService.createLevel(zone, 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
         Hero hero = EntityFactory.player();
         level.addEntityAtPosition(hero, Position.of(2, 2));
 
-        zoneService.saveLevel(level);
+        zoneService.saveZone(zone);
 
         level = zoneService.loadLevel(level.getId());
 
@@ -80,22 +70,10 @@ public class ZoneServiceTest {
     }
 
     @Test
-    public void gettingNextLevelId_is1whenThereAreNoIdsGeneratedYet() {
-        Long id = zoneService.getNextLevelId();
-        assertThat(id).isEqualTo(1L);
-
-        zoneService.getNextLevelId();
-        zoneService.getNextLevelId();
-        id = zoneService.getNextLevelId();
-        assertThat(id).isEqualTo(4L);
-    }
-
-
-    @Test
     public void loading_a_level_with_npcs_loads_the_correct_number_of_entities() {
         Zone zone = zoneService.createZone();
 
-        Level level = zoneService.createLevel(zone.getId(), 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
+        Level level = zoneService.createLevel(zone, 25, 25, LevelGeneratorStrategy.Strategy.EMPTY);
         for (int i = 0; i < 5; i++) {
             NPC e = EntityFactory.golem();
             level.addEntityAtPosition(e, level.getEmptyTile(e));
@@ -189,25 +167,25 @@ public class ZoneServiceTest {
     }
 
     @Test
-    @Disabled("This works in practice, but not in the test")
     public void can_remove_items_and_save_level() {
         Zone zone = zoneService.createZone();
-        Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
+        Level level = zoneService.createLevel(zone, 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
         Item item = new Item.Builder()
                 .withName(Name.of("Sword"))
                 .build();
         level.addItemAtPosition(item, Position.of(2, 2));
-        zoneService.saveLevel(level);
+        zoneService.saveZone(zone);
 
         item = level.getItems().get(0);
         level.removeItem(item);
 
         assertThat(level.getItems().isEmpty()).isTrue();
-        zoneService.saveLevel(level);
+        zoneService.saveZone(zone);
         assertThat(level.getItems().isEmpty()).isTrue();
 
-        level = zoneService.loadLevel(level.getId());
+        zone = zoneService.getZone(zone.getId());
+        level = zone.getLevelById(level.getId());
         assertThat(level.getItems().isEmpty()).isTrue();
     }
 
@@ -216,8 +194,7 @@ public class ZoneServiceTest {
         Zone zone = zoneService.createZone(2);
         Level currentLevel = zone.getLevels().get(0);
         Level nextLevel = zone.getLevels().get(1);
-        zoneService.saveLevel(currentLevel);
-        zoneService.saveLevel(nextLevel);
+        zoneService.saveZone(zone);
 
         Hero hero = EntityFactory.player();
 
@@ -231,10 +208,6 @@ public class ZoneServiceTest {
 
         // When
         action.execute();
-
-        // Then
-        currentLevel = zoneService.loadLevel(currentLevel.getId());
-        nextLevel = zoneService.loadLevel(nextLevel.getId());
 
         assertThat(currentLevel.getEntities().isEmpty()).isTrue();
         assertThat(nextLevel.getEntities().contains(hero)).isTrue();
@@ -243,10 +216,9 @@ public class ZoneServiceTest {
     @Test
     public void after_changing_level_should_be_able_to_process_next_action() {
         Zone zone = zoneService.createZone(2);
+        zoneService.saveZone(zone);
         Level currentLevel = zone.getLevels().get(0);
         Level nextLevel = zone.getLevels().get(1);
-        zoneService.saveLevel(currentLevel);
-        zoneService.saveLevel(nextLevel);
 
         Hero hero = EntityFactory.player();
 
@@ -260,8 +232,6 @@ public class ZoneServiceTest {
         action.execute();
 
         // When
-//        assertThat(hero.nextAction()).isInstanceOf(WalkAction.class);
-        nextLevel = zoneService.loadLevel(nextLevel.getId());
         hero = nextLevel.getHero();
         hero.getState().handleInput(Set.of(22));
         nextLevel.process();
@@ -274,7 +244,7 @@ public class ZoneServiceTest {
         // Given a persisted zone
         Zone zone = zoneService.createZone(5);
         zone = zoneService.saveZone(zone);
-        Long zoneId = zone.getId();
+        UUID zoneId = zone.getId();
 
         // When we load that zone
         Zone loadedZone = zoneService.getZone(zoneId);
@@ -288,7 +258,7 @@ public class ZoneServiceTest {
         // Given a persisted zone
         Zone zone = zoneService.createZone(5);
         zone = zoneService.saveZone(zone);
-        Long zoneId = zone.getId();
+        UUID zoneId = zone.getId();
 
         // When we load that zone and get a level
         Zone loadedZone = zoneService.getZone(zoneId);
@@ -303,7 +273,7 @@ public class ZoneServiceTest {
     public void saving_a_zone_with_a_level_with_entities_and_loading_them() {
         Zone zone = zoneService.createZone(1);
         zone = zoneService.saveZone(zone);
-        Long zoneId = zone.getId();
+        UUID zoneId = zone.getId();
 
         // When we load that zone and get a level
         Zone loadedZone = zoneService.getZone(zoneId);
@@ -328,7 +298,7 @@ public class ZoneServiceTest {
     public void saving_a_zone_with_a_level_with_entities_and_loading_them_then_removing_entity_and_saving() {
         Zone zone = zoneService.createZone(1);
         zone = zoneService.saveZone(zone);
-        Long zoneId = zone.getId();
+        UUID zoneId = zone.getId();
 
         // When we load that zone and get a level
         Zone loadedZone = zoneService.getZone(zoneId);
