@@ -84,12 +84,12 @@ public class ZoneService {
             Level above = zone.getLevels().get(i);
             Level below = zone.getLevels().get(i + 1);
             // Generate stairs down
-            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), true);
+            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), Position.of(6, 5), true);
             descent.setLevelId(above.getId());
             descent.process(above);
             levelEventRepository.save(descent);
 
-            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(above.getId(), Position.of(6, 5), false);
+            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(above.getId(), Position.of(6, 5), Position.of(5, 5), false);
             ascent.setLevelId(below.getId());
             ascent.process(below);
             levelEventRepository.save(ascent);
