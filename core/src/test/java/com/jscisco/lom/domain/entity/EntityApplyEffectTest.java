@@ -72,7 +72,7 @@ public class EntityApplyEffectTest extends BaseEntityTest {
     }
 
     @Test
-    public void whenDurationcEffectIsRemoved_thenItIsRemovedFromTheEntity_andItsModifiersAreRemovedFromTheAttributes() {
+    public void whenDurationEffectIsRemoved_thenItIsRemovedFromTheEntity_andItsModifiersAreRemovedFromTheAttributes() {
         AttributeModifier modifier = new AttributeModifier()
                 .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
                 .withMagnitude(100f)

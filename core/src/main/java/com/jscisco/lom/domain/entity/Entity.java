@@ -194,6 +194,8 @@ public abstract class Entity implements Observer {
         // Each turn, we should tick effects
         List<Effect> expiredEffects = new ArrayList<>();
         for (Effect effect : this.effects) {
+            // TODO: Can we move this to Effect::tick()
+            effect.apply(attributes);
             effect.tick();
             if (effect.isExpired()) {
                 expiredEffects.add(effect);
