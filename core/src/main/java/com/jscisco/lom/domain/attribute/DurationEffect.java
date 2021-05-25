@@ -1,10 +1,13 @@
 package com.jscisco.lom.domain.attribute;
 
+import javax.persistence.Entity;
+
 /**
  * This is an effect that modifies an attribute's calculated value. Used for temporary and permanent effects.
  * For example, an effect that adds 10 strength for 4 turns. Or an effect that grants +10% critical chance until
  * canceled.
  */
+@Entity
 public class DurationEffect extends Effect {
 
     public DurationEffect() {

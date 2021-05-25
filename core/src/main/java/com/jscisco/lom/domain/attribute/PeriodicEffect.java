@@ -1,12 +1,14 @@
 package com.jscisco.lom.domain.attribute;
 
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+
 /**
  * A PeriodicEffect is an effect that can modify attribute base values every turn.
  * Example: basic health regeneration, poison, etc.
  */
+@Entity
 public class PeriodicEffect extends Effect {
-
-    private AttributeSet attributeSet;
 
     @Override
     public void apply(AttributeSet attributeSet) {

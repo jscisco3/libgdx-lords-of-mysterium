@@ -1,10 +1,13 @@
 package com.jscisco.lom.domain.attribute;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Duration {
     private boolean permanent;
     private int turns;
 
-    private Duration() {
+    protected Duration() {
 
     }
 
@@ -36,5 +39,13 @@ public class Duration {
 
     public boolean isExpired() {
         return !isPermanent() && this.turns <= 0;
+    }
+
+    public void setPermanent(boolean permanent) {
+        this.permanent = permanent;
+    }
+
+    public void setTurns(int turns) {
+        this.turns = turns;
     }
 }

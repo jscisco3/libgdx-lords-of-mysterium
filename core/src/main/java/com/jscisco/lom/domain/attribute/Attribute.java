@@ -47,9 +47,6 @@ public class Attribute {
 
     private float baseValue;
 
-    @OneToMany(mappedBy = "attribute", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private final List<AttributeModifier> modifiers = new ArrayList<>();
-
     public Attribute() {
     }
 
@@ -65,40 +62,42 @@ public class Attribute {
         this.baseValue = baseValue;
     }
 
-    public float getValue() {
-        return applyOverrides(applyAdders(applyMultipliers(baseValue)));
-    }
+    // TODO: Put this in the attribute set.
+
+//    public float getValue() {
+//        return applyOverrides(applyAdders(applyMultipliers(baseValue)));
+//    }
 
     // Note: If there are multiple overrides, then the most recently added override will be applied
-    public float applyOverrides(float value) {
-        float newValue = value;
-        for (AttributeModifier modifier : modifiers) {
-            if (modifier.getOperator().equals(Operator.OVERRIDE)) {
-                newValue = modifier.getMagnitude();
-            }
-        }
-        return newValue;
-    }
-
-    public float applyMultipliers(float value) {
-        float newValue = value;
-        for (AttributeModifier modifier : modifiers) {
-            if (modifier.getOperator().equals(Operator.MULTIPLY)) {
-                newValue *= modifier.getMagnitude();
-            }
-        }
-        return newValue;
-    }
-
-    public float applyAdders(float value) {
-        float newValue = value;
-        for (AttributeModifier modifier : modifiers) {
-            if (modifier.getOperator().equals(Operator.ADD)) {
-                newValue += modifier.getMagnitude();
-            }
-        }
-        return newValue;
-    }
+//    public float applyOverrides(float value) {
+//        float newValue = value;
+//        for (AttributeModifier modifier : modifiers) {
+//            if (modifier.getOperator().equals(Operator.OVERRIDE)) {
+//                newValue = modifier.getMagnitude();
+//            }
+//        }
+//        return newValue;
+//    }
+//
+//    public float applyMultipliers(float value) {
+//        float newValue = value;
+//        for (AttributeModifier modifier : modifiers) {
+//            if (modifier.getOperator().equals(Operator.MULTIPLY)) {
+//                newValue *= modifier.getMagnitude();
+//            }
+//        }
+//        return newValue;
+//    }
+//
+//    public float applyAdders(float value) {
+//        float newValue = value;
+//        for (AttributeModifier modifier : modifiers) {
+//            if (modifier.getOperator().equals(Operator.ADD)) {
+//                newValue += modifier.getMagnitude();
+//            }
+//        }
+//        return newValue;
+//    }
 
     public Long getId() {
         return id;
@@ -124,19 +123,6 @@ public class Attribute {
         this.baseValue = baseValue;
     }
 
-    public void addModifier(AttributeModifier modifier) {
-        this.modifiers.add(modifier);
-        modifier.setAttribute(this);
-    }
-
-    public void removeModifier(AttributeModifier modifier) {
-        this.modifiers.remove(modifier);
-    }
-
-    public List<AttributeModifier> getModifiers() {
-        return modifiers;
-    }
-
     @Override
     public String toString() {
         return "Attribute{" +
@@ -144,7 +130,6 @@ public class Attribute {
                 ", name=" + name +
                 ", description=" + description +
                 ", baseValue=" + baseValue +
-                ", modifiers=" + modifiers +
                 '}';
     }
 }

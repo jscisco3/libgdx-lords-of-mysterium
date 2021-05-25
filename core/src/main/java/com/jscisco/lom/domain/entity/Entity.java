@@ -35,6 +35,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
@@ -81,7 +82,7 @@ public abstract class Entity implements Observer {
     @PrimaryKeyJoinColumn
     protected AttributeSet attributes;
 
-    @Transient
+    @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     protected List<Effect> effects = new ArrayList<>();
 
     protected String glyph = "ring";
@@ -207,6 +208,7 @@ public abstract class Entity implements Observer {
     }
 
     public void applyEffect(Effect effect) {
+        effect.setEntity(this);
         if (effect instanceof InstantEffect) {
             // Apply them immediately.
             effect.apply(this.attributes);
@@ -222,6 +224,7 @@ public abstract class Entity implements Observer {
 
     public void removeEffect(Effect effect) {
         // Here, we need to remove the modifiers that are on the attribute
+        effect.setEntity(null);
         for (AttributeModifier modifier : effect.getModifiers()) {
             attributes.getAttribute(modifier.getAttributeDefinition()).removeModifier(modifier);
         }
