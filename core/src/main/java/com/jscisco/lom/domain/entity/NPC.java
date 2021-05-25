@@ -54,4 +54,7 @@ public class NPC extends Entity {
     public void setAiController(AIController aiController) {
         this.aiController = aiController;
     }
+
+
+
 }

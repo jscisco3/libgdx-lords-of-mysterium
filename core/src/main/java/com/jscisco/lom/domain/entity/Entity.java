@@ -320,6 +320,8 @@ public abstract class Entity implements Observer {
         this.glyph = glyph;
     }
 
+    public static abstract Entity fromEntityDefinition(EntityDefinition entityDefinition);
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
