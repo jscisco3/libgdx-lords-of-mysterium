@@ -4,16 +4,23 @@ size: 2048, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-floor
+bat
   rotate: false
   xy: 2, 28
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
-golem
+floor
   rotate: false
   xy: 132, 158
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+golem
+  rotate: false
+  xy: 1028, 1118
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
@@ -34,7 +41,7 @@ parchmentAncient
   index: -1
 ring
   rotate: false
-  xy: 132, 140
+  xy: 158, 166
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -48,35 +55,35 @@ skull
   index: -1
 stairsDown
   rotate: false
-  xy: 1028, 1118
+  xy: 1094, 1184
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 stairsUp
   rotate: false
-  xy: 1094, 1184
+  xy: 2, 2
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 sword
   rotate: false
-  xy: 158, 166
+  xy: 1028, 1100
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 wall
   rotate: false
-  xy: 2, 2
+  xy: 28, 28
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 warrior
   rotate: false
-  xy: 28, 28
+  xy: 132, 132
   size: 24, 24
   orig: 24, 24
   offset: 0, 0

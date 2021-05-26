@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import javax.persistence.Embedded;
 import javax.persistence.Id;
@@ -8,7 +8,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @javax.persistence.Entity

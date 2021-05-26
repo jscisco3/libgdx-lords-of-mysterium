@@ -9,19 +9,17 @@ import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
 import com.jscisco.lom.domain.action.Action;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.AttributeSet;
-import com.jscisco.lom.domain.attribute.Duration;
-import com.jscisco.lom.domain.attribute.DurationEffect;
-import com.jscisco.lom.domain.attribute.Effect;
-import com.jscisco.lom.domain.attribute.InstantEffect;
-import com.jscisco.lom.domain.attribute.Tag;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shelf.attribute.AttributeSet;
+import shelf.attribute.Duration;
+import shelf.attribute.DurationEffect;
+import shelf.attribute.Effect;
+import shelf.attribute.Tag;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
@@ -41,9 +39,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -75,15 +71,6 @@ public abstract class Entity implements Observer {
     protected Position position;
     @Transient
     protected FieldOfView fieldOfView = new FieldOfView(this);
-    @Transient
-    protected Map<Tag, Integer> tags = new HashMap<>();
-
-    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    protected AttributeSet attributes;
-
-    @OneToMany(mappedBy = "entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    protected List<Effect> effects = new ArrayList<>();
 
     protected String glyph = "ring";
 
@@ -98,7 +85,6 @@ public abstract class Entity implements Observer {
     protected final Subject subject = new Subject();
 
     protected Entity() {
-        this.setAttributes(new AttributeSet());
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -192,63 +178,9 @@ public abstract class Entity implements Observer {
     }
 
     public void tick() {
-        // Each turn, we should tick effects
-        List<Effect> expiredEffects = new ArrayList<>();
-        for (Effect effect : this.effects) {
-            // TODO: Can we move this to Effect::tick()
-            effect.apply(attributes);
-            effect.tick();
-            if (effect.isExpired()) {
-                expiredEffects.add(effect);
-            }
-        }
-        for (Effect effect : expiredEffects) {
-            removeEffect(effect);
-        }
-    }
-
-    public void applyEffect(Effect effect) {
-        effect.setEntity(this);
-        if (effect instanceof InstantEffect) {
-            // Apply them immediately.
-            effect.apply(this.attributes);
-        }
-        // Otherwise, it is an effect that makes changes over time. Thus, we add it to the entities active effects.
-        // and toggle it on the appropriate modifiers
-        // TODO: should effects be on the attribute set? Not necessarily.
-        else {
-            this.effects.add(effect);
-            effect.apply(attributes);
-        }
-    }
-
-    public void removeEffect(Effect effect) {
-        // Here, we need to remove the modifiers that are on the attribute
-        effect.setEntity(null);
-        for (AttributeModifier modifier : effect.getModifiers()) {
-            attributes.getAttribute(modifier.getAttributeDefinition()).removeModifier(modifier);
-        }
-        // Then, we remove the effect
-        this.effects.remove(effect);
-    }
-
-    public boolean hasTag(Tag tag) {
-        return tags.containsKey(tag) && tags.get(tag) > 0;
-    }
-
-    public AttributeSet getAttributes() {
-        return this.attributes;
-    }
-
-    public void setAttributes(AttributeSet attributes) {
-        this.attributes = attributes;
-        attributes.setEntity(this);
     }
 
     public void onDied() {
-        this.applyEffect(new DurationEffect()
-                .withDuration(Duration.permanent())
-                .grantTag(Tag.DEAD));
     }
 
     public Inventory getInventory() {
@@ -322,8 +254,6 @@ public abstract class Entity implements Observer {
     public void setGlyph(String glyph) {
         this.glyph = glyph;
     }
-
-    public static abstract Entity fromEntityDefinition(EntityDefinition entityDefinition);
 
     @Override
     public boolean equals(Object o) {

@@ -113,7 +113,8 @@ public class TitleScreen extends AbstractScreen {
 //                state.setController(new PlayerHunterSeekerAI(hero));
 //                hero.setState(state);
 
-                level.addEntityAtPosition(hero, Position.of(1, 1));
+//                level.addEntityAtPosition(hero, Position.of(1, 1));
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
                 logger.debug("Level id: " + level.getId());
 

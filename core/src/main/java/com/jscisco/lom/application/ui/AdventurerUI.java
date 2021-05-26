@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.domain.attribute.AttributeSet;
+import shelf.attribute.AttributeSet;
 import com.jscisco.lom.domain.entity.Hero;
 
 public class AdventurerUI extends Table {
@@ -36,9 +36,9 @@ public class AdventurerUI extends Table {
         this.position = new Label(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()), skin);
         this.add(position);
         this.row();
-        this.health = new Label(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
-        this.health.setColor(Color.RED);
-        this.add(health);
+//        this.health = new Label(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
+//        this.health.setColor(Color.RED);
+//        this.add(health);
         this.row();
         this.state = new Label(hero.getState().toString(), skin);
         this.add(state);
@@ -54,7 +54,7 @@ public class AdventurerUI extends Table {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
-        this.health.setText(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
+//        this.health.setText(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
         this.state.setText(hero.getState().toString());
         this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
         this.levelInformation.setText("Level: " + this.hero.getLevel().getId());

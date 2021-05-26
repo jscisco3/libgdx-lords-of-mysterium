@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidgrid.mapping.GrowingTreeMazeGenerator;
 import squidpony.squidgrid.mapping.IDungeonGenerator;
+import squidpony.squidgrid.mapping.SerpentMapGenerator;
 
 import java.text.MessageFormat;
 
@@ -37,7 +38,7 @@ public abstract class LevelGeneratorStrategy {
     public static class GenericStrategy extends LevelGeneratorStrategy {
         @Override
         public Tile[][] generate(int width, int height) {
-            IDungeonGenerator generator = new GrowingTreeMazeGenerator(width, height, GameConfiguration.rng);
+            IDungeonGenerator generator = new SerpentMapGenerator(width, height, GameConfiguration.rng);
             char[][] dungeon = generator.generate();
             Tile[][] tiles = new Tile[width][height];
             for (int x = 0; x < width; x++) {

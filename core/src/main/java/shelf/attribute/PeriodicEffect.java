@@ -1,7 +1,6 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 /**
  * A PeriodicEffect is an effect that can modify attribute base values every turn.

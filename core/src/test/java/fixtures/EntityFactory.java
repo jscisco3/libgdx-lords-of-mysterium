@@ -2,10 +2,10 @@ package fixtures;
 
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.AttributeSet;
-import com.jscisco.lom.domain.attribute.InstantEffect;
+import shelf.attribute.Attribute;
+import shelf.attribute.AttributeModifier;
+import shelf.attribute.AttributeSet;
+import shelf.attribute.InstantEffect;
 import com.jscisco.lom.domain.entity.Hero;
 
 public class EntityFactory {

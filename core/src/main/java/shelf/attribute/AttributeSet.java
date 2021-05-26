@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
@@ -116,7 +116,8 @@ public class AttributeSet {
     }
 //
     private float getValue(AttributeDefinition attributeDefinition, float baseValue) {
-        return applyOverrides(applyAdders(applyMultipliers(attributeDefinition, baseValue)));
+//        return applyOverrides(applyAdders(applyMultipliers(attributeDefinition, baseValue)));
+        return 0.0f;
     }
 
     public float applyOverrides(AttributeDefinition attributeDefinition, float value) {
@@ -168,7 +169,7 @@ public class AttributeSet {
      * @param modifier
      */
     public void applyTemporaryModifier(AttributeModifier modifier) {
-        getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
+//        getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
     }
 
     public UUID getId() {

@@ -152,7 +152,7 @@ Abilities, Attributes, and Effects:
             // Perhaps, Map<AttributeDefinition, Attribute> attributes;
             - Attribute[] attributes;
             // fuck it, perhaps Attribute currentHealth;
-            - // Posibily
+            - // Possibly
             - Effects effects
                 Effect[] effects
             - Effect[] effects;
