@@ -1,26 +1,25 @@
 package com.jscisco.lom.application.services;
 
-import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.repository.EntityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jscisco.lom.application.configuration.GameConfiguration;
+import com.jscisco.lom.domain.entity.EntityDefinition;
 
-@Service
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 public class EntityService {
 
-    final EntityRepository entityRepository;
+    private Map<String, EntityDefinition> entities = new HashMap<>();
 
-    @Autowired
-    public EntityService(EntityRepository entityRepository) {
-        this.entityRepository = entityRepository;
-    }
+    public EntityService() throws JsonProcessingException {
+        ObjectMapper mapper = GameConfiguration.mapper;
 
-    public Entity createEntity(Entity e) {
-        return this.entityRepository.save(e);
-    }
-
-    public void deleteEntity(Long entityId) {
-        this.entityRepository.deleteById(entityId);
+        EntityDefinition[] entityDefinitions = mapper.readValue("data/entities.json", EntityDefinition[].class);
+        Arrays.stream(entityDefinitions).forEach(ed -> {
+            entities.put(ed.getName(), ed);
+        });
     }
 
 }

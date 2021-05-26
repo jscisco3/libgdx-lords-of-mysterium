@@ -34,9 +34,6 @@ public class ZoneServiceTest {
     @Autowired
     ZoneService zoneService;
 
-    @Autowired
-    EntityService entityService;
-
     @Test
     public void able_to_create_a_zone() {
         Zone zone = zoneService.createZone();

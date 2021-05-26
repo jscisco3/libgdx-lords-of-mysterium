@@ -147,6 +147,28 @@ Abilities, Attributes, and Effects:
     Abilities can have a cost
     Abilities can have a cooldown
 
+    Entity:
+        AttributeSet attributes
+            // Perhaps, Map<AttributeDefinition, Attribute> attributes;
+            - Attribute[] attributes;
+            // fuck it, perhaps Attribute currentHealth;
+            - // Posibily
+            - Effects effects
+                Effect[] effects
+            - Effect[] effects;
+                - EffectAttributeModifier[] modifiers
+                    - AttributeModifier modifier
+                        - Operator
+                        - Magnitude
+                    - AttributeDefinition forAttribute
+
+            + getAttributeValue(AttributeDefinition attributeDefinition);
+                - Attribute attr = attributes.get(definition)
+                - AttributeModifier modifiers = getModifiers(effects, definition)
+                - return getValue(attr, modifiers)
+                    applyOverrides(applyAdders(applyMultipliers(attr)))
+
+
 Items:
     Items have a rarity
         Common, Uncommon, Rare, Exotic (random artifacts, Legendary (fixed artifact)
