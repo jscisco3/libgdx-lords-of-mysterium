@@ -1,7 +1,6 @@
 package com.jscisco.lom.application;
 
 import com.badlogic.gdx.InputProcessor;
-import com.jscisco.lom.domain.entity.Hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,12 +10,7 @@ import java.util.Set;
 public class AdventureInputProcessor implements InputProcessor {
     private static final Logger logger = LoggerFactory.getLogger(AdventureInputProcessor.class);
 
-    private final Hero hero;
     private Set<Integer> keysDown = new HashSet<>();
-
-    public AdventureInputProcessor(Hero hero) {
-        this.hero = hero;
-    }
 
     public boolean isKeyDown() {
         return !keysDown.isEmpty();
@@ -24,7 +18,7 @@ public class AdventureInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        logger.info("Keydown: " + keycode);
+        logger.trace("Keydown: " + keycode);
         keysDown.add(keycode);
         return true;
     }

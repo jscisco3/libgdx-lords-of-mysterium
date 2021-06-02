@@ -1,8 +1,17 @@
-sourceCompatibility = 1.8
+plugins {
+    id 'java-library'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(15)
+    }
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/main/java" ]
-sourceSets.test.java.srcDirs = [ "src/test/java" ]
+sourceSets.main.java.srcDirs = ["src/main/java"]
+sourceSets.test.java.srcDirs = ["src/test/java"]
 
 eclipse.project.name = appName + "-core"
 

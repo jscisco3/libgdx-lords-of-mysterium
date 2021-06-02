@@ -6,7 +6,7 @@ import com.jscisco.lom.domain.entity.Entity;
 public class Wall extends Feature {
 
     public Wall() {
-        this.asset = Assets.wall;
+        this.glyph = Assets.wall;
     }
 
     @Override

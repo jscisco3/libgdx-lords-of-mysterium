@@ -2,8 +2,18 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.action.Action;
 
+import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Transient;
+
+@javax.persistence.Entity
+@DiscriminatorValue("N")
 public class NPC extends Entity {
 
+    @OneToOne(mappedBy = "entity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn
     private AIController aiController;
 
     public static class Builder extends Entity.Builder<Builder> {
@@ -19,15 +29,16 @@ public class NPC extends Entity {
             NPC npc = new NPC();
             npc.name = this.name;
             npc.position = this.position;
-            npc.asset = this.asset;
+            npc.glyph = this.glyph;
             npc.aiController = controller;
+            npc.setInventory(new Inventory());
             return npc;
         }
     }
 
     @Override
     public Action nextAction() {
-        return aiController.getNextAction(this);
+        return aiController.getNextAction();
     }
 
     @Override
@@ -35,4 +46,15 @@ public class NPC extends Entity {
         super.onDied();
         this.level.removeEntity(this);
     }
+
+    public AIController getAiController() {
+        return aiController;
+    }
+
+    public void setAiController(AIController aiController) {
+        this.aiController = aiController;
+    }
+
+
+
 }

@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.kingdom;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.Hero;
@@ -21,7 +20,7 @@ public class Inn {
         for (int i = 0; i < numberToGenerate; i++) {
             Hero h = new Hero.Builder()
                     .withName(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)))
-                    .withAsset(Assets.warrior)
+                    .withGlyph(Assets.warrior)
                     .build();
             availableHeroes.add(h);
         }

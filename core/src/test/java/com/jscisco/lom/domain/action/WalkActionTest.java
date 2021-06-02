@@ -6,14 +6,14 @@ import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Door;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class WalkActionTest {
 
-    // TODO: Fix
-    Level level = new Level();
+    Level level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
     Hero hero = EntityFactory.player();
 
     @Test
@@ -27,8 +27,8 @@ public class WalkActionTest {
 
         assertThat(result.success()).isTrue();
         assertThat(hero.getPosition()).isEqualTo(startPosition.add(Direction.N.relativePosition));
-        assertThat(level.getTileAt(startPosition).isOccupied()).isFalse();
-        assertThat(level.getTileAt(startPosition.add(Direction.N.relativePosition)).isOccupied()).isTrue();
+        assertThat(level.getEntityAtPosition(startPosition)).isEmpty();
+        assertThat(level.getEntityAtPosition(startPosition.add(Direction.N.relativePosition))).isPresent();
     }
 
     @Test

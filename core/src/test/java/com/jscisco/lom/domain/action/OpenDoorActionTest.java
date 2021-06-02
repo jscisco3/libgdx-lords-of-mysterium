@@ -5,14 +5,14 @@ import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Door;
 import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OpenDoorActionTest {
 
-    // TODO: Fix
-    Level level = new Level();
+    Level level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
     Hero hero = EntityFactory.player();
 
     @Test

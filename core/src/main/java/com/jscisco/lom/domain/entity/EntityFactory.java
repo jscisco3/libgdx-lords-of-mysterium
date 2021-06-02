@@ -2,36 +2,26 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.attribute.Attribute;
-import com.jscisco.lom.domain.attribute.AttributeModifier;
-import com.jscisco.lom.domain.attribute.InstantEffect;
 
 public class EntityFactory {
 
     public static Hero player() {
-        return new Hero.Builder()
+        Hero hero = new Hero.Builder()
                 .withName(Name.of("Player"))
-                .withAsset(Assets.warrior)
+                .withGlyph(Assets.warrior)
                 .build();
+
+        return hero;
     }
 
     public static NPC golem() {
+
         NPC golem = new NPC.Builder()
                 .withName(Name.of("Golem"))
-                .withAsset(Assets.golem)
-//                .withController(new WanderAIController())
-                .withController(new RestAIController())
+                .withGlyph(Assets.golem)
                 .build();
+        golem.setAiController(new WanderAIController(golem));
 
-        golem.applyEffect(new InstantEffect()
-                .addModifier(new AttributeModifier()
-                        .forAttribute(golem.attributes.getMaxHealth())
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE))
-                .addModifier(new AttributeModifier()
-                        .forAttribute(golem.attributes.getHealth())
-                        .withMagnitude(100f)
-                        .withOperator(Attribute.Operator.OVERRIDE)));
         return golem;
     }
 }

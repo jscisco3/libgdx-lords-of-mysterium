@@ -1,7 +1,12 @@
 package com.jscisco.lom.domain;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Description {
-    final String description;
+    private String description;
+
+    private Description() {}
 
     private Description(String description) {
         this.description = description;
@@ -9,5 +14,13 @@ public class Description {
 
     public static Description of(String description) {
         return new Description(description);
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

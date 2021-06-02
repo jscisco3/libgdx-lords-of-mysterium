@@ -15,7 +15,6 @@ public class FieldOfView {
     private double[][] vision;
     private final FOV fov;
     private Level level;
-    private boolean recalculate = true;
 
     public FieldOfView(Entity entity) {
         this.entity = entity;
@@ -23,7 +22,7 @@ public class FieldOfView {
     }
 
     public void calculateResistanceMap() {
-        logger.info("Calculating resistance map...");
+        logger.debug("Calculating resistance map for entity " + entity.getName().toString());
         if (this.level == null) {
             this.level = this.entity.getLevel();
             this.resistanceMap = new double[level.getWidth()][level.getHeight()];
@@ -35,13 +34,31 @@ public class FieldOfView {
         }
     }
 
+    /**
+     * Calculates vision without recomputing the resistance map
+     *
+     * @return vision
+     */
     public double[][] calculateFOV() {
-        logger.info("Calculating FOV");
-        if (recalculate) {
-            calculateResistanceMap();
-            recalculate = false;
+        if (this.resistanceMap == null) {
+            return calculateFOV(true);
         }
-        this.vision = fov.calculateFOV(resistanceMap, entity.position.getX(), entity.position.getY(), 10.0);
+        return calculateFOV(false);
+    }
+
+    /**
+     * Calculates the vision, and can recompute the resistance map
+     *
+     * @param recalculateResistanceMap true if the resistance map needs to be recalculated (e.g. if level structure has changed)
+     * @return vision
+     */
+    public double[][] calculateFOV(boolean recalculateResistanceMap) {
+        logger.debug("Calculating FOV for entity " + entity.getName());
+        if (recalculateResistanceMap) {
+            calculateResistanceMap();
+        }
+//        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
+        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), 10.0f);
         return this.vision;
     }
 

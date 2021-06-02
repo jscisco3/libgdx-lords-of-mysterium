@@ -4,8 +4,14 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.zone.Door;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 public class WalkAction extends Action {
+
+    private static final Logger logger = LoggerFactory.getLogger(WalkAction.class);
     Direction direction;
 
     public WalkAction(Entity source, Direction direction) {
@@ -15,18 +21,17 @@ public class WalkAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Position oldPosition = this.source.getPosition();
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
-        if (level.getTileAt(newPosition).isOccupied()) {
-            return ActionResult.alternate(new AttackAction(source, level.getTileAt(newPosition).getOccupant()));
+        Optional<Entity> occupant = this.level.getEntities().stream().filter(e -> e.getPosition().equals(newPosition)).findFirst();
+        if (occupant.isPresent()) {
+            return ActionResult.alternate(new AttackAction(source, occupant.get()));
         }
         if (level.getTileAt(newPosition).getFeature() instanceof Door) {
             return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
         }
         if (level.getTileAt(newPosition).isWalkable(source)) {
+            // TODO: This seems bad. Should not be repeating all of this in _every_ function that moves a hero
             this.source.move(newPosition);
-            level.getTileAt(oldPosition).removeOccupant();
-            level.getTileAt(newPosition).occupy(this.source);
             return ActionResult.succeeded();
         }
         return ActionResult.failed();
