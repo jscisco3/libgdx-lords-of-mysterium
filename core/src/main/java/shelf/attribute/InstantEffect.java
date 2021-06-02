@@ -1,5 +1,8 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
+import javax.persistence.Entity;
+
+@Entity
 public class InstantEffect extends Effect {
 
     public InstantEffect() {

@@ -1,6 +1,5 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -8,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class AttributeModifier {
@@ -18,16 +16,16 @@ public class AttributeModifier {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    protected AttributeSet.AttributeDefinition attributeDefinition;
+    protected Attribute.Operator operator;
 
     protected float magnitude;
 
-    @Enumerated(value = EnumType.STRING)
-    protected Attribute.Operator operator;
+    @Enumerated(EnumType.STRING)
+    private AttributeSet.AttributeDefinition attributeDefinition;
 
     @ManyToOne
-    @JoinColumn(name = "attribute_id", nullable = false)
-    private Attribute attribute;
+    @JoinColumn(name = "effect_id", nullable = true)
+    private Effect effect;
 
     public AttributeModifier() {
 
@@ -80,12 +78,13 @@ public class AttributeModifier {
         this.operator = operator;
     }
 
-    public Attribute getAttribute() {
-        return attribute;
+
+    public Effect getEffect() {
+        return effect;
     }
 
-    public void setAttribute(Attribute attribute) {
-        this.attribute = attribute;
+    public void setEffect(Effect effect) {
+        this.effect = effect;
     }
 
     @Override

@@ -111,10 +111,63 @@ Abilities, Attributes, and Effects:
             - Has duration: # of turns, or permanent
             - Can have delay between invocations
     Effects can add tags for their duration
+    Where do we store the modifiers for an attribute?
+        AttributeSet
+            * Attribute[]
+            * Map<AttributeDefinition, Modifier> ??
+            * List<Effect> ??
+        Attribute
+            * baseValue
+        Effect
+            * Duration (optional)
+            * Modifiers
+
+        Thus, we probably want:
+            AttributeSet
+                * @OneToOne Entity entity // which entity this attribute set is for
+                * @OneToMany Map<AttributeDefinition, Attribute> attributes // persisting the actual attributes
+                * @OneToMany List<Effect> effects // Persisting the effects that are modifying our attributes
+                - getAttributeValue(AttributeDefinition definition)
+                    Retrieve attribute
+                    Retrieve modifiers from effect list
+                    calculate value
+                    return value
+            Effect
+                * Map<AttributeDefinition, Modifier>
+                * Duration
+                * List<Tag> grantedTags
+            Modifier
+                * @ManyToOne Effect effect
+                * AttributeDefinition // Should this really be on the modifier? Maybe not.. but it is convenient for now
+                * Magnitude
+                * Operator
+
     Abilities can require tags to be used
     Abilities can be blocked by tags
     Abilities can have a cost
     Abilities can have a cooldown
+
+    Entity:
+        AttributeSet attributes
+            // Perhaps, Map<AttributeDefinition, Attribute> attributes;
+            - Attribute[] attributes;
+            // fuck it, perhaps Attribute currentHealth;
+            - // Possibly
+            - Effects effects
+                Effect[] effects
+            - Effect[] effects;
+                - EffectAttributeModifier[] modifiers
+                    - AttributeModifier modifier
+                        - Operator
+                        - Magnitude
+                    - AttributeDefinition forAttribute
+
+            + getAttributeValue(AttributeDefinition attributeDefinition);
+                - Attribute attr = attributes.get(definition)
+                - AttributeModifier modifiers = getModifiers(effects, definition)
+                - return getValue(attr, modifiers)
+                    applyOverrides(applyAdders(applyMultipliers(attr)))
+
 
 Items:
     Items have a rarity

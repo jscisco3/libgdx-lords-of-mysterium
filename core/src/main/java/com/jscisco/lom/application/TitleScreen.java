@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.application.services.EntityService;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
@@ -35,7 +34,6 @@ public class TitleScreen extends AbstractScreen {
     OrthographicCamera camera = new OrthographicCamera();
     GameService gameService;
     ZoneService zoneService;
-    EntityService entityService;
 
 
     public TitleScreen(Game game) {
@@ -43,7 +41,6 @@ public class TitleScreen extends AbstractScreen {
 
         gameService = ServiceLocator.getBean(GameService.class);
         zoneService = ServiceLocator.getBean(ZoneService.class);
-        entityService = ServiceLocator.getBean(EntityService.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -116,7 +113,8 @@ public class TitleScreen extends AbstractScreen {
 //                state.setController(new PlayerHunterSeekerAI(hero));
 //                hero.setState(state);
 
-                level.addEntityAtPosition(hero, Position.of(1, 1));
+//                level.addEntityAtPosition(hero, Position.of(1, 1));
+                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
                 logger.debug("Level id: " + level.getId());
 

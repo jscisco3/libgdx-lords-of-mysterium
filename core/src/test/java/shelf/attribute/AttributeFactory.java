@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;

@@ -14,10 +14,6 @@ import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.Block;
 import com.jscisco.lom.domain.SaveGame;
-import com.jscisco.lom.domain.repository.EntityRepository;
-import com.jscisco.lom.domain.repository.GameRepository;
-import com.jscisco.lom.domain.repository.HeroRepository;
-import com.jscisco.lom.domain.repository.LevelRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,10 +28,6 @@ public class LoadGameScreen extends AbstractScreen {
     private final Table content;
     private final ScrollPane scroller;
     private final List<SaveGame> savedGames;
-    private final GameRepository gameRepository;
-    private final LevelRepository levelRepository;
-    private final EntityRepository entityRepository;
-    private final HeroRepository heroRepository;
     private final GameService gameService;
 
 
@@ -43,10 +35,6 @@ public class LoadGameScreen extends AbstractScreen {
         super(game);
         this.savedGames = savedGames;
         stage.setDebugAll(false);
-        gameRepository = ServiceLocator.getBean(GameRepository.class);
-        levelRepository = ServiceLocator.getBean(LevelRepository.class);
-        entityRepository = ServiceLocator.getBean(EntityRepository.class);
-        heroRepository = ServiceLocator.getBean(HeroRepository.class);
         gameService = ServiceLocator.getBean(GameService.class);
 
 
