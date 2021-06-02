@@ -4,9 +4,6 @@ import com.badlogic.gdx.Input;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.action.ChangeLevelAction;
 import com.jscisco.lom.domain.action.WalkAction;
-import shelf.attribute.Attribute;
-import shelf.attribute.AttributeModifier;
-import shelf.attribute.AttributeSet;
 import com.jscisco.lom.domain.entity.Hero;
 
 import java.util.Set;

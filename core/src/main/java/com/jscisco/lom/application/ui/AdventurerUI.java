@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import shelf.attribute.AttributeSet;
 import com.jscisco.lom.domain.entity.Hero;
 
 public class AdventurerUI extends Table {

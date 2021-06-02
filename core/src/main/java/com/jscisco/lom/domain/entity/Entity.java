@@ -15,11 +15,6 @@ import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shelf.attribute.AttributeSet;
-import shelf.attribute.Duration;
-import shelf.attribute.DurationEffect;
-import shelf.attribute.Effect;
-import shelf.attribute.Tag;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
@@ -33,13 +28,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Transient;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -91,7 +83,6 @@ public abstract class Entity implements Observer {
         protected Name name;
         protected Position position = Position.UNKNOWN;
         protected String glyph;
-        protected AttributeSet attributeSet;
 
         @SuppressWarnings("unchecked")
         public T withName(Name name) {
@@ -108,12 +99,6 @@ public abstract class Entity implements Observer {
         @SuppressWarnings("unchecked")
         public T withGlyph(String asset) {
             this.glyph = asset;
-            return (T) this;
-        }
-
-        @SuppressWarnings("unchecked")
-        public T withAttributes(AttributeSet attributeSet) {
-            this.attributeSet = attributeSet;
             return (T) this;
         }
 
