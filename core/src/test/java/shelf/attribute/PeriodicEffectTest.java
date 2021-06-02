@@ -1,6 +1,7 @@
 package shelf.attribute;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,7 @@ public class PeriodicEffectTest {
     }
 
     @Test
+    @Disabled
     public void whenPeriodicEffectTicks_thenItModifiesTheBaseValue() {
         Effect periodicEffect = new PeriodicEffect()
                 .withDuration(Duration.turns(100))

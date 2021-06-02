@@ -95,12 +95,12 @@ public class ZoneService {
             levelEventRepository.save(ascent);
         }
         // Populate levels ?
-        for (Level level : zone.getLevels()) {
-            for (int i = 0; i < 20; i++) {
-                NPC golem = EntityFactory.golem();
-                level.addEntityAtPosition(golem, level.getEmptyTile(golem));
-            }
-        }
+//        for (Level level : zone.getLevels()) {
+//            for (int i = 0; i < 20; i++) {
+//                NPC golem = EntityFactory.golem();
+//                level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+//            }
+//        }
         return zone;
     }
 
