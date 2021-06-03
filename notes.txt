@@ -199,6 +199,7 @@ Zone Generation:
         Depth
         Population Density (?)
         Type (e.g. Castle, Demon realm, etc.)
+
     Levels will have
         Length
         Width
