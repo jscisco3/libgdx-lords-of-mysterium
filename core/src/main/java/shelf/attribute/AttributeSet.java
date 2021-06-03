@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
@@ -16,7 +16,9 @@ import javax.persistence.MapKeyEnumerated;
 import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -48,6 +50,10 @@ public class AttributeSet {
     @Fetch(FetchMode.SELECT)
     private Map<AttributeDefinition, Attribute> attributes = new HashMap<>();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    private List<Effect> effects = new ArrayList<>();
+
     public AttributeSet() {
     }
 
@@ -71,6 +77,11 @@ public class AttributeSet {
 
     public Attribute getLightRadius() {
         return attributes.get(AttributeDefinition.LIGHT_RADIUS);
+    }
+
+    public void addEffect(Effect effect) {
+        this.effects.add(effect);
+        effect.setAttributeSet(this);
     }
 
     public void applyBaseValueModifier(AttributeModifier modifier) {
@@ -97,18 +108,68 @@ public class AttributeSet {
 
     public float getAttributeValue(AttributeDefinition attributeDefinition) {
         Attribute attribute = this.attributes.get(attributeDefinition);
-        float attributeValue = attribute.getValue();
+        float attributeValue = getValue(attributeDefinition, attribute.getBaseValue());
         if (attributeDefinition.equals(AttributeDefinition.HEALTH)) {
-            attributeValue = clamp(attribute.getValue(), this.attributes.get(AttributeDefinition.MAX_HEALTH).getValue(), attributeValue);
+            attributeValue = clamp(getValue(attributeDefinition, attribute.getBaseValue()), getValue(AttributeDefinition.MAX_HEALTH, getAttribute(AttributeDefinition.MAX_HEALTH).getBaseValue()), attributeValue);
         }
         return attributeValue;
+    }
+//
+    private float getValue(AttributeDefinition attributeDefinition, float baseValue) {
+//        return applyOverrides(applyAdders(applyMultipliers(attributeDefinition, baseValue)));
+        return 0.0f;
+    }
+
+    public float applyOverrides(AttributeDefinition attributeDefinition, float value) {
+        float newValue = value;
+        // Get modifiers from the effects we have
+        for (Effect effect : effects) {
+            for (AttributeModifier modifier : effect.getModifiers()) {
+                if (modifier.getAttributeDefinition().equals(attributeDefinition)) {
+                    if (modifier.getOperator().equals(Attribute.Operator.OVERRIDE)) {
+                        newValue = modifier.getMagnitude();
+                    }
+                }
+            }
+        }
+        return newValue;
+    }
+
+    public float applyMultipliers(AttributeDefinition attributeDefinition, float value) {
+        float newValue = value;
+        // Get modifiers from the effects we have
+        for (Effect effect : effects) {
+            for (AttributeModifier modifier : effect.getModifiers()) {
+                if (modifier.getAttributeDefinition().equals(attributeDefinition)) {
+                    if (modifier.getOperator().equals(Attribute.Operator.MULTIPLY)) {
+                        newValue *= modifier.getMagnitude();
+                    }
+                }
+            }
+        }
+        return newValue;
+    }
+
+    public float applyAdders(AttributeDefinition attributeDefinition, float value) {
+        float newValue = value;
+        // Get modifiers from the effects we have
+        for (Effect effect : effects) {
+            for (AttributeModifier modifier : effect.getModifiers()) {
+                if (modifier.getAttributeDefinition().equals(attributeDefinition)) {
+                    if (modifier.getOperator().equals(Attribute.Operator.ADD)) {
+                        newValue += modifier.getMagnitude();
+                    }
+                }
+            }
+        }
+        return newValue;
     }
 
     /**
      * @param modifier
      */
     public void applyTemporaryModifier(AttributeModifier modifier) {
-        getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
+//        getAttribute(modifier.getAttributeDefinition()).addModifier(modifier);
     }
 
     public UUID getId() {

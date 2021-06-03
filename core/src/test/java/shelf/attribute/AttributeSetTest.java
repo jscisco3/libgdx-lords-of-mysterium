@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.attribute;
+package shelf.attribute;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

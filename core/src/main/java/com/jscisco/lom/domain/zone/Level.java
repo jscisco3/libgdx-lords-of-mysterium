@@ -199,11 +199,12 @@ public class Level {
         return walkable.get(GameConfiguration.random.nextInt(walkable.size()));
     }
 
+    // TODO: Maybe make this getUnexploredWalkablePositions(Entity e)
     public List<Position> getUnexploredPositions() {
         List<Position> unexplored = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (!getTileAt(Position.of(i, j)).isExplored()) {
+                if (!getTileAt(Position.of(i, j)).isExplored() && getTileAt(Position.of(i, j)).feature instanceof Floor) {
                     unexplored.add(Position.of(i, j));
                 }
             }
