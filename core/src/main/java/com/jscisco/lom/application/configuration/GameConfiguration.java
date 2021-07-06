@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.eventbus.EventBus;
 import com.jscisco.lom.domain.GameLog;
+import com.jscisco.lom.domain.repository.NpcDefinitionRepository;
 import squidpony.squidmath.StatefulRNG;
 
 import java.util.Random;
@@ -25,7 +26,13 @@ public class GameConfiguration {
     public static final StatefulRNG rng = new StatefulRNG(0xDEADBEEF);
     public static final ObjectMapper mapper = new ObjectMapper();
 
+    public static NpcDefinitionRepository npcDefinitionRepository;
+
     public static void configureEventBus() {
 //        eventBus.register(gameLog);
+    }
+
+    public static void configureNpcDefinitionRepository() {
+        npcDefinitionRepository = new NpcDefinitionRepository();
     }
 }

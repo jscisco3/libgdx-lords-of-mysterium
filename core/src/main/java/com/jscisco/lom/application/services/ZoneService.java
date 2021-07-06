@@ -1,5 +1,6 @@
 package com.jscisco.lom.application.services;
 
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
@@ -11,6 +12,7 @@ import com.jscisco.lom.domain.event.level.LevelTransitionFeatureAdded;
 import com.jscisco.lom.domain.event.level.TileExplored;
 import com.jscisco.lom.domain.repository.LevelEventRepository;
 import com.jscisco.lom.domain.repository.LevelRepository;
+import com.jscisco.lom.domain.repository.NpcDefinitionRepository;
 import com.jscisco.lom.domain.repository.ZoneRepository;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
@@ -95,12 +97,14 @@ public class ZoneService {
             levelEventRepository.save(ascent);
         }
         // Populate levels ?
-//        for (Level level : zone.getLevels()) {
-//            for (int i = 0; i < 20; i++) {
-//                NPC golem = EntityFactory.golem();
-//                level.addEntityAtPosition(golem, level.getEmptyTile(golem));
-//            }
-//        }
+        for (Level level : zone.getLevels()) {
+            for (int i = 0; i < 20; i++) {
+                // Pick random entity definition
+                NpcDefinitionRepository npcDefinitionRepository = GameConfiguration.npcDefinitionRepository;
+                NPC npc = EntityFactory.fromEntityDefinition(npcDefinitionRepository.randomDefinition(GameConfiguration.rng));
+                level.addEntityAtPosition(npc, level.getEmptyTile(npc));
+            }
+        }
         return zone;
     }
 

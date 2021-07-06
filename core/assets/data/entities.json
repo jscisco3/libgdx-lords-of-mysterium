@@ -1,18 +1,18 @@
 [
   {
     "name": "Golem",
-    "attributes": {
-      "health": 50
-    },
     "glyph": "golem",
+    "flavors": [
+      "HUMANOID"
+    ],
     "ai": "WanderAI"
   },
   {
     "name": "Bat",
-    "attributes": {
-      "health": 20
-    },
     "glyph": "bat",
+    "flavors": [
+      "NATURAL"
+    ],
     "ai": "HunterSeekerAI"
   }
 ]

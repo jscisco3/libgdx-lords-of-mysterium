@@ -292,3 +292,13 @@ Saving and Loading:
         * One benefit is we are not saving and loading a level on each level transition, only when we _explicitly_ save the game
     Need to consider:
         * Do not link LevelEvent w/ Level as a collection. Instead we may want a LevelEventRepository which retrieves events by level id.
+
+Data files for NPCs:
+    core/assets/entities.json
+        Name
+        Glyph
+        EnemyFlavor(s)?  // Kind of like tags.
+        AI // todo: this could probably be smarter
+        // TODO
+        BaseStats
+        DifficultyClass // todo: should this go elsewhere?
