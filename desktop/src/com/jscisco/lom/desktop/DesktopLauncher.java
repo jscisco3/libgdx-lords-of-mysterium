@@ -25,8 +25,9 @@ public class DesktopLauncher {
         settings.maxWidth = 2048;
         settings.maxHeight = 2048;
 
-        Path textureAssets = Paths.get(".", "assets", "textures");
-        TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");
+//        Path textureAssets = Paths.get(".", "assets", "textures");
+//        TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");
+        TexturePacker.process(settings, "../../assets/textures/", "packed/", "assets");
 
         // Unlock FPS
         config.backgroundFPS = 10;
