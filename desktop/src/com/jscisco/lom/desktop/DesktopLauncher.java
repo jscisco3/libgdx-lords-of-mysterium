@@ -1,5 +1,6 @@
 package com.jscisco.lom.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
@@ -25,9 +26,10 @@ public class DesktopLauncher {
         settings.maxWidth = 2048;
         settings.maxHeight = 2048;
 
+
 //        Path textureAssets = Paths.get(".", "assets", "textures");
 //        TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");
-        TexturePacker.process(settings, "../../assets/textures/", "packed/", "assets");
+//        TexturePacker.process(settings, "../../assets/textures/", "packed/", "assets");
 
         // Unlock FPS
         config.backgroundFPS = 10;
