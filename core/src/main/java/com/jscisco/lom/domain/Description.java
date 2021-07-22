@@ -1,8 +1,5 @@
 package com.jscisco.lom.domain;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Description {
     private String description;
 

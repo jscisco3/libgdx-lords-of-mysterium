@@ -4,38 +4,20 @@ import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 public class Kingdom {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "game_id")
+    // TODO: UUID
     private Long id;
 
-    @Embedded
     private Name name;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "game_id")
     private SaveGame saveGame;
 
-    @Transient
     private List<Hero> heroes = new ArrayList<>();
 
-    @Transient
     private final Inn inn = new Inn();
 
     protected Kingdom() {

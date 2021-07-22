@@ -3,31 +3,14 @@ package shelf.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.Entity;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyEnumerated;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.jscisco.lom.domain.MathUtils.clamp;
 
 /**
  * Responsible for maintaining relevant attributes
  */
-@javax.persistence.Entity
 public class AttributeSet {
 
     public enum AttributeDefinition {
@@ -36,22 +19,12 @@ public class AttributeSet {
         LIGHT_RADIUS
     }
 
-    @Id
-    @Column(name = "entity_id")
     private UUID id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "entity_id")
     private Entity entity;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @MapKeyEnumerated(value = EnumType.STRING)
-    @Fetch(FetchMode.SELECT)
     private Map<AttributeDefinition, Attribute> attributes = new HashMap<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
     private List<Effect> effects = new ArrayList<>();
 
     public AttributeSet() {
@@ -114,7 +87,8 @@ public class AttributeSet {
         }
         return attributeValue;
     }
-//
+
+    //
     private float getValue(AttributeDefinition attributeDefinition, float baseValue) {
 //        return applyOverrides(applyAdders(applyMultipliers(attributeDefinition, baseValue)));
         return 0.0f;

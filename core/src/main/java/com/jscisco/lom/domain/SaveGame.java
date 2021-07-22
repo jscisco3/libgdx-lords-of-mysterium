@@ -3,47 +3,28 @@ package com.jscisco.lom.domain;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Zone;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
-@Table(name = "games")
 public class SaveGame {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     /**
      * The kingdom you are part of
      */
-    @OneToOne(mappedBy = "saveGame", cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn
     private Kingdom kingdom;
 
     /**
      * Last time you played this particular kingdom
      */
-    @Column(name = "last_played")
     private LocalDateTime lastPlayed;
 
     /**
      * The zones you have been to, in general.
      */
-    @ElementCollection
     private List<UUID> zones = new ArrayList<UUID>();
 
     /**

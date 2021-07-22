@@ -1,32 +1,19 @@
 package shelf.attribute;
 
-import javax.persistence.Embedded;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@javax.persistence.Entity
 public abstract class Effect {
 
-    @Id
     UUID id = UUID.randomUUID();
 
-    @ManyToOne
-    @JoinColumn(name = "entity_id", nullable = false)
     protected AttributeSet attributeSet;
 
-    @Embedded
     protected Duration duration;
 
-    @OneToMany(mappedBy = "effect")
     protected List<AttributeModifier> modifiers = new ArrayList<>();
 
-    @Transient
     protected List<Tag> grantedTags = new ArrayList<>();
 
 

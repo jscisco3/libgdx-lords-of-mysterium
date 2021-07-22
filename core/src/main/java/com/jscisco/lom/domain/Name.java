@@ -1,9 +1,7 @@
 package com.jscisco.lom.domain;
 
-import javax.persistence.Embeddable;
 import java.util.Objects;
 
-@Embeddable
 public class Name {
 
     private final String name;

@@ -1,8 +1,5 @@
 package shelf.attribute;
 
-import javax.persistence.Embeddable;
-
-@Embeddable
 public class Duration {
     private boolean permanent;
     private int turns;
