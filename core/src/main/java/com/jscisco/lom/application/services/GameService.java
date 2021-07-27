@@ -2,7 +2,7 @@ package com.jscisco.lom.application.services;
 
 import com.badlogic.gdx.Screen;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

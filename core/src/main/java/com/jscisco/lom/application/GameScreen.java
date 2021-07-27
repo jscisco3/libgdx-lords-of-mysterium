@@ -21,7 +21,7 @@ import com.jscisco.lom.application.ui.PickupItemWindow;
 import com.jscisco.lom.application.ui.PopupWindow;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Observer;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.HeroChangedLevelEvent;

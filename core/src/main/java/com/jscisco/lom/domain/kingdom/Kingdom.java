@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.kingdom;
 
 import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 
 import java.util.ArrayList;

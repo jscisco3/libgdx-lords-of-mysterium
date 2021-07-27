@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain;
+package shelf.domain;
 
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Zone;

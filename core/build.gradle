@@ -8,6 +8,19 @@ java {
     }
 }
 
+copy {
+    description 'Copies the configurations files src/main/resources directory (from) to the target directory(into).'
+    from "src/main/resources"
+    into "$buildDir/libs/conf"
+    include '**/*.properties', '**/*.xml', '**/*.vm', '**/*.txt'
+}
+
+processResources {
+    filesMatching('application.properties') {
+        expand(project.properties)
+    }
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = ["src/main/java"]

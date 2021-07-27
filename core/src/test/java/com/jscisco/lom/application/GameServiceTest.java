@@ -3,7 +3,7 @@ package com.jscisco.lom.application;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;

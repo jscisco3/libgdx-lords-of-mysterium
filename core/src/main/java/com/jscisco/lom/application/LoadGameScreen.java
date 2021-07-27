@@ -13,7 +13,7 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.Block;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
