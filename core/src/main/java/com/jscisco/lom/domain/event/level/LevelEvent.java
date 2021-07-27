@@ -5,10 +5,8 @@ import com.jscisco.lom.domain.zone.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Entity;
 import java.util.UUID;
 
-@Entity
 public abstract class LevelEvent extends Event {
 
     private static final Logger logger = LoggerFactory.getLogger(LevelEvent.class);

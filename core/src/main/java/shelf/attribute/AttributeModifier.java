@@ -1,30 +1,15 @@
 package shelf.attribute;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
-@Entity
 public class AttributeModifier {
 
-    @Id
-    @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     protected Attribute.Operator operator;
 
     protected float magnitude;
 
-    @Enumerated(EnumType.STRING)
     private AttributeSet.AttributeDefinition attributeDefinition;
 
-    @ManyToOne
-    @JoinColumn(name = "effect_id", nullable = true)
     private Effect effect;
 
     public AttributeModifier() {

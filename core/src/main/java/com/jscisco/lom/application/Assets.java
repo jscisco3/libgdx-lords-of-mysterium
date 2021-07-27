@@ -1,5 +1,6 @@
 package com.jscisco.lom.application;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,7 +14,10 @@ public class Assets {
      * Assets go here
      */
 
-    public static final AssetDescriptor<TextureAtlas> atlas = new AssetDescriptor<TextureAtlas>("packed/assets.atlas", TextureAtlas.class);
+    private final AssetDescriptor<TextureAtlas> atlas;
+//            = new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class);
+
+
 
     // Terrain features
     public static final String floor = "floor";
@@ -31,8 +35,9 @@ public class Assets {
     public static final String inn = "inn";
     public static final String portal = "skull";
 
-    public Assets() {
+    public Assets(AssetManager assetManager, AssetDescriptor<TextureAtlas> atlas) {
         this.assetManager = new AssetManager();
+        this.atlas = atlas;
     }
 
     public AssetManager getAssetManager() {

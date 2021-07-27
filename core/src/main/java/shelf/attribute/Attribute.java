@@ -3,20 +3,6 @@ package shelf.attribute;
 import com.jscisco.lom.domain.Description;
 import com.jscisco.lom.domain.Name;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-
-@Entity
-@SequenceGenerator(
-        name = "attribute_sequence",
-        sequenceName = "attribute_sequence",
-        initialValue = 1,
-        allocationSize = 1
-)
 public class Attribute {
 
     public enum Operator {
@@ -24,15 +10,8 @@ public class Attribute {
         MULTIPLY,
         OVERRIDE
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "attribute_sequence")
     private Long id;
-
-    @Embedded
     private Name name;
-
-    @Embedded
     private Description description;
 
     private float baseValue;

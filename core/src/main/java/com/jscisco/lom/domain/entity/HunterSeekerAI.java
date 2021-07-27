@@ -12,18 +12,14 @@ import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 import squidpony.squidmath.Coord;
 
-import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
-@javax.persistence.Entity
 public class HunterSeekerAI extends AIController {
 
     private static final Logger logger = LoggerFactory.getLogger(HunterSeekerAI.class);
-    @Transient
     private DijkstraMap dijkstraMap;
-    @Transient
     private Entity target; // Allow the AI to target things other than the player
 
     public HunterSeekerAI() {}

@@ -2,7 +2,6 @@ package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
-import com.jscisco.lom.configuration.PersistenceConfiguration;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.DropItemAction;
@@ -22,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ApplicationConfiguration.class, PersistenceConfiguration.class})
+@ContextConfiguration(classes = {ApplicationConfiguration.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class HeroIT {
 

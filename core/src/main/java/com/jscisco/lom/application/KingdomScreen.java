@@ -1,6 +1,7 @@
 package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,7 +12,7 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
@@ -26,7 +27,8 @@ public class KingdomScreen extends AbstractScreen {
     private static final Logger logger = LoggerFactory.getLogger(KingdomScreen.class);
 
     private Kingdom kingdom;
-    private TextureRegion backgroundTexture;
+    private TextureRegion backgroundTextureRegion;
+    private Texture backgroundTexture;
     private SaveGame saveGame;
 
     private GameService gameService;
@@ -40,8 +42,12 @@ public class KingdomScreen extends AbstractScreen {
     public KingdomScreen(Game game, SaveGame saveGame, Kingdom kingdom) {
         super(game);
         this.kingdom = kingdom;
-//        backgroundTexture = new Texture(game.getAssets().getTextureRegion(Assets.background)
-//        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        backgroundTextureRegion = game.getAssets().getTextureRegion(Assets.background);
+
+        Pixmap backgroundPixmap = new Pixmap(backgroundTextureRegion.getRegionWidth(), backgroundTextureRegion.getRegionHeight(), Pixmap.Format.RGBA8888);
+        backgroundTexture = new Texture(backgroundPixmap);
+        backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
         this.saveGame = saveGame;
         this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);

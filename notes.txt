@@ -1,3 +1,26 @@
+-- July 26, 2021
+Considering that I want to roll my own serialization and deserialization using Jackson, what should I consider changing
+about the save file format?
+
+Save File Format:
+    kingdom_name/
+        game.json
+            Game Metadata
+                Time Played
+                Version
+        kingdom.json
+        zone_name.json
+            Zone
+                Levels
+                Entities
+                etc.
+        zone_name_2.json
+        ...
+        zone_name_n.json
+
+
+
+
 Performance improvements!
     - It takes about a second to process ~100 AI doing random moves. Why?
     TODO: Profiling

@@ -14,7 +14,7 @@ import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.HeroBlock;
 import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.SaveGame;
+import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import org.apache.commons.lang3.StringUtils;

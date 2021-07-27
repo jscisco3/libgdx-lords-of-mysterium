@@ -14,7 +14,8 @@ import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.SaveGame;
+import com.jscisco.lom.persistence.GameVersion;
+import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
@@ -41,6 +42,7 @@ public class TitleScreen extends AbstractScreen {
 
         gameService = ServiceLocator.getBean(GameService.class);
         zoneService = ServiceLocator.getBean(ZoneService.class);
+        GameVersion gv = ServiceLocator.getBean(GameVersion.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -69,6 +71,10 @@ public class TitleScreen extends AbstractScreen {
         quitGame.setHeight(50f);
 
 
+        TextButton saveGameTest = new TextButton("Save Game Test", skin, "default");
+        saveGameTest.setWidth(100f);
+        saveGameTest.setHeight(100f);
+
         table.add(newGame);
         table.row();
         table.add(quickstart);
@@ -78,6 +84,8 @@ public class TitleScreen extends AbstractScreen {
         table.add(loadGame);
         table.row();
         table.add(quitGame);
+        table.row();
+        table.add(saveGameTest);
 
         newGame.addListener(new ClickListener() {
             @Override
@@ -151,6 +159,14 @@ public class TitleScreen extends AbstractScreen {
                 game.setScreen(new LoadGameScreen(game, gameService.getGames()));
                 dispose();
                 game.getScreen().show();
+            }
+        });
+
+        saveGameTest.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                com.jscisco.lom.persistence.SaveGame sg = new com.jscisco.lom.persistence.SaveGame(gv);
+                logger.info(sg.toString());
             }
         });
 

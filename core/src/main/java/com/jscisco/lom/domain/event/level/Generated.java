@@ -5,14 +5,8 @@ import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-@Entity
 public class Generated extends LevelEvent {
 
-    @Enumerated(EnumType.STRING)
     private LevelGeneratorStrategy.Strategy strategy;
     private Long seed;
 

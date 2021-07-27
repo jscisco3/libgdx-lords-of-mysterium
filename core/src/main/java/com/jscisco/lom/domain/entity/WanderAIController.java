@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
@@ -13,22 +12,16 @@ import squidpony.squidgrid.Measurement;
 import squidpony.squidmath.AStarSearch;
 import squidpony.squidmath.Coord;
 
-import javax.persistence.Transient;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 
-@javax.persistence.Entity
 public class WanderAIController extends AIController {
 
     private static final Logger logger = LoggerFactory.getLogger(WanderAIController.class);
-    @Transient
     private DijkstraMap dijkstraMap;
-    @Transient
     private Coord goal;
-    @Transient
     List<Coord> path;
-    @Transient
     AStarSearch aStarSearch;
 
     public WanderAIController() {

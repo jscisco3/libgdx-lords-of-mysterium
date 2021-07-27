@@ -10,49 +10,19 @@ import com.jscisco.lom.domain.entity.Inventory;
 import com.jscisco.lom.domain.zone.Level;
 
 import javax.annotation.Nullable;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import java.util.UUID;
 
-@Entity
-@SequenceGenerator(
-        name = "item_sequence",
-        sequenceName = "item_sequence",
-        initialValue = 1,
-        allocationSize = 1
-)
 public class Item {
 
-    // TODO: Random UUID
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_sequence")
-    private Long id;
+    private UUID id = UUID.randomUUID();
 
-    @Embedded
     private Name name;
 
     private String glyph = Assets.ring;
 
-    @Embedded
-    @Nullable
     private Position position;
 
-    @Enumerated(EnumType.STRING)
     private ItemType itemType;
-
-    @ManyToOne(optional = true)
-    @Nullable
-    private Level level;
-
-    @ManyToOne(optional = true)
-    @Nullable
-    private Inventory inventory;
 
     public Item() {
 
@@ -112,20 +82,8 @@ public class Item {
         this.itemType = itemType;
     }
 
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    public Long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Position getPosition() {
@@ -144,12 +102,4 @@ public class Item {
         this.glyph = glyph;
     }
 
-    @Nullable
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(@Nullable Inventory inventory) {
-        this.inventory = inventory;
-    }
 }

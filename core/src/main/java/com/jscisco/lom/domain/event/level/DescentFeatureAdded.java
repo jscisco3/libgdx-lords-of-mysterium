@@ -4,10 +4,8 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelChange;
 
-import javax.persistence.Entity;
 import java.util.UUID;
 
-@Entity
 public class DescentFeatureAdded extends LevelEvent {
 
     private UUID toLevel;
