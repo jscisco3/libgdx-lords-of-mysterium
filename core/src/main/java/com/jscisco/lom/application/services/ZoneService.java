@@ -1,5 +1,7 @@
 package com.jscisco.lom.application.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.EntityFactory;
@@ -28,8 +30,11 @@ public class ZoneService {
 
     private static final Logger logger = LoggerFactory.getLogger(ZoneService.class);
 
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    public ZoneService() {
+    public ZoneService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
     public Zone getZone(UUID zoneId) {

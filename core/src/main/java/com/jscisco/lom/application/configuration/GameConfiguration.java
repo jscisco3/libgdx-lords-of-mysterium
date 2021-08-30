@@ -28,4 +28,5 @@ public class GameConfiguration {
     public static void configureEventBus() {
 //        eventBus.register(gameLog);
     }
+
 }
