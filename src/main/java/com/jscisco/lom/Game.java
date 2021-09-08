@@ -34,6 +34,7 @@ public class Game extends ApplicationAdapter {
         // Required for setting the context once! Has to be done.
         new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         GameConfiguration.configureEventBus();
+        // TODO: Add packed/assets.atlas to resources
         assets = new Assets(
                 new AssetManager(),
                 new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class)
