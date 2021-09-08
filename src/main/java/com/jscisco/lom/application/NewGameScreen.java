@@ -2,19 +2,13 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.HeroBlock;
 import com.jscisco.lom.domain.Name;
-import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.FakeLanguageGen;
 
-import javax.swing.event.ChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,11 +85,8 @@ public class NewGameScreen extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // Generate the game and save it
-                SaveGame saveGame = new SaveGame();
                 Kingdom kingdom = new Kingdom(Name.of(input.getText()));
-                saveGame.setKingdom(kingdom);
-                gameService.saveGame(saveGame);
-                game.setScreen(new KingdomScreen(game, saveGame, kingdom));
+                game.setScreen(new KingdomScreen(game, kingdom));
             }
         });
         bottomTable.add(next);

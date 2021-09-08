@@ -2,18 +2,13 @@ package com.jscisco.lom.application;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.Block;
-import shelf.domain.SaveGame;
+import com.jscisco.lom.persistence.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,8 +69,8 @@ public class LoadGameScreen extends AbstractScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     saveGame.setLastPlayed(LocalDateTime.now());
-                    gameService.saveGame(saveGame);
-                    game.setScreen(gameService.loadGame(game, saveGame.getId()));
+//                    game.setScreen(gameService.loadGame(game, saveGame.getId()));
+                    throw new UnsupportedOperationException();
                 }
             });
             content.add(block);
@@ -99,19 +94,14 @@ public class LoadGameScreen extends AbstractScreen {
             table.setFillParent(true);
 
             // Initialize table
-            Label name = new Label("Kingdom: " + saveGame.getKingdom().getName().getName(), skin, "default");
+            Label name = new Label("Kingdom: ", skin, "default");
             table.add(name).top().center();
             table.row();
 
             Label lastPlayed = new Label("Last played: " + saveGame.getLastPlayed().toString(), skin, "default");
             table.add(lastPlayed).top().center();
 
-            Label state = new Label("", skin, "default");
-            if (saveGame.getLevelId() != null) {
-                state.setText("State: Exploring...");
-            } else {
-                state.setText("State: Kingdom...");
-            }
+            Label state = new Label("state placeholder", skin, "default");
             table.add(state).top().center();
 
             this.addActor(table);

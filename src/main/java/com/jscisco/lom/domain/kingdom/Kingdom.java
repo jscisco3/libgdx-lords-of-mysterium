@@ -1,7 +1,6 @@
 package com.jscisco.lom.domain.kingdom;
 
 import com.jscisco.lom.domain.Name;
-import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 
 import java.util.ArrayList;
@@ -13,8 +12,6 @@ public class Kingdom {
     private Long id;
 
     private Name name;
-
-    private SaveGame saveGame;
 
     private List<Hero> heroes = new ArrayList<>();
 
@@ -55,14 +52,6 @@ public class Kingdom {
 
     public Inn getInn() {
         return inn;
-    }
-
-    public SaveGame getSaveGame() {
-        return saveGame;
-    }
-
-    public void setSaveGame(SaveGame saveGame) {
-        this.saveGame = saveGame;
     }
 
     @Override

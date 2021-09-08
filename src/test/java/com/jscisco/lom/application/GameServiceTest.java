@@ -3,7 +3,8 @@ package com.jscisco.lom.application;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
-import shelf.domain.SaveGame;
+import com.jscisco.lom.persistence.GameVersion;
+import com.jscisco.lom.persistence.SaveGame;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
@@ -11,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ApplicationConfiguration.class})
@@ -28,7 +27,7 @@ public class GameServiceTest {
 
     @Test
     public void can_create_save_game() {
-        gameService.saveGame(new SaveGame());
+        gameService.saveGame(new SaveGame(GameVersion.of("Test")));
     }
 
 

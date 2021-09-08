@@ -14,14 +14,9 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
-import com.jscisco.lom.application.ui.AdventurerUI;
-import com.jscisco.lom.application.ui.GameLogUI;
-import com.jscisco.lom.application.ui.InventoryWindow;
-import com.jscisco.lom.application.ui.PickupItemWindow;
-import com.jscisco.lom.application.ui.PopupWindow;
+import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Observer;
-import shelf.domain.SaveGame;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
@@ -35,8 +30,6 @@ public class GameScreen extends AbstractScreen implements Observer {
 
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
     private OrthographicCamera camera;
-
-    SaveGame saveGame;
 
     Hero hero;
     Level level;
@@ -65,11 +58,10 @@ public class GameScreen extends AbstractScreen implements Observer {
 
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
-    public GameScreen(Game game, SaveGame saveGame, Hero hero) {
+    public GameScreen(Game game, Hero hero) {
         super(game);
         this.level = hero.getLevel();
         this.hero = hero;
-        this.saveGame = saveGame;
 
         this.hero.getSubject().register(this);
 
@@ -188,10 +180,7 @@ public class GameScreen extends AbstractScreen implements Observer {
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
-            saveGame.setLevelId(level.getId());
-            saveGame.setZoneId(level.getZone().getId());
             logger.trace("Saving game");
-            logger.trace(saveGame.toString());
 //            gameService.saveGame(saveGame);
             logger.trace("Game saved");
 //            zoneService.saveZone(level.getZone());

@@ -25,9 +25,9 @@ import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.persistence.GameVersion;
+import com.jscisco.lom.persistence.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import shelf.domain.SaveGame;
 import squidpony.FakeLanguageGen;
 
 import java.io.IOException;
@@ -115,13 +115,10 @@ public class TitleScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Create the save game
-                SaveGame saveGame = new SaveGame();
                 // Create the kingdom
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
-                saveGame.setKingdom(kingdom);
                 // Create the zone
                 Zone zone = zoneService.createZone(5);
-                saveGame.addZone(zone);
 
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
@@ -146,7 +143,7 @@ public class TitleScreen extends AbstractScreen {
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
-                game.setScreen(new GameScreen(game, saveGame, hero));
+                game.setScreen(new GameScreen(game, hero));
                 dispose();
                 game.getScreen().show();
             }
