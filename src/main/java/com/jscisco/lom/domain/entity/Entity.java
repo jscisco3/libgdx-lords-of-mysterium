@@ -3,6 +3,7 @@ package com.jscisco.lom.domain.entity;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Observer;
@@ -35,16 +36,20 @@ public abstract class Entity implements Observer {
 
     protected Level level;
 
+    @JsonIgnore
     protected DijkstraMap dijkstraMap;
     protected Position position;
+    @JsonIgnore
     protected FieldOfView fieldOfView = new FieldOfView(this);
 
     protected String glyph = "ring";
 
     protected Inventory inventory;
 
+    @JsonIgnore
     protected Action action = null;
 
+    @JsonIgnore
     protected final Subject subject = new Subject();
 
     protected Entity() {
