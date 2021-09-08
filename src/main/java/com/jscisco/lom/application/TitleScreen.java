@@ -9,24 +9,29 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.persistence.GameVersion;
-import shelf.domain.SaveGame;
+import com.jscisco.lom.domain.entity.EntityDefinition;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
+import com.jscisco.lom.persistence.GameVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import shelf.domain.SaveGame;
 import squidpony.FakeLanguageGen;
 
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.Instant;
 
 public class TitleScreen extends AbstractScreen {
@@ -35,6 +40,7 @@ public class TitleScreen extends AbstractScreen {
     OrthographicCamera camera = new OrthographicCamera();
     GameService gameService;
     ZoneService zoneService;
+    ObjectMapper objectMapper;
 
 
     public TitleScreen(Game game) {
@@ -42,6 +48,8 @@ public class TitleScreen extends AbstractScreen {
 
         gameService = ServiceLocator.getBean(GameService.class);
         zoneService = ServiceLocator.getBean(ZoneService.class);
+        objectMapper = ServiceLocator.getBean(ObjectMapper.class);
+
         GameVersion gv = ServiceLocator.getBean(GameVersion.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -165,10 +173,19 @@ public class TitleScreen extends AbstractScreen {
         saveGameTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                com.jscisco.lom.persistence.SaveGame sg = new com.jscisco.lom.persistence.SaveGame(gv);
-                logger.info(sg.toString());
+                EntityDefinition golem = new EntityDefinition();
+                golem.setName("Golem");
+                golem.setGlyph("golem.png");
+                golem.setAi("WANDER");
+
+                try {
+                    objectMapper.writeValue(Paths.get("monsters.json").toFile(), golem);
+                } catch (IOException e) {
+                    logger.error(e.getMessage());
+                }
             }
         });
+
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

@@ -1,0 +1,36 @@
+{
+  "monster_tags": [],
+  "monsters": [
+    {
+      "name": "Skeleton Warrior",
+      "ai": "HUNTER_SEEKER",
+      "glyph": "skeleton.png",
+      "tags": [
+        "undead",
+        "aggressive"
+      ],
+      "abilities": [
+        "cleave",
+        "attack",
+        "shield_bash"
+      ],
+      "rarity": "COMMON",
+      "starting_stats": {
+        "strength": 20,
+        "health": 200
+      }
+    },
+    {
+      "name": "Leprechaun",
+      "ai": "WANDER",
+      "glyph": "leprechaun.png",
+      "tags": [
+        "small",
+        "cowardly"
+      ],
+      "abilities": [
+        "blink"
+      ]
+    }
+  ]
+}

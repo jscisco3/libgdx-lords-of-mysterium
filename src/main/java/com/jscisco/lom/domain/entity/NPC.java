@@ -1,9 +1,11 @@
 package com.jscisco.lom.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.domain.action.Action;
 
 public class NPC extends Entity {
 
+    @JsonIgnore
     private AIController aiController;
 
     public static class Builder extends Entity.Builder<Builder> {
