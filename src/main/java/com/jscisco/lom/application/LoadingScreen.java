@@ -21,7 +21,7 @@ public class LoadingScreen extends AbstractScreen {
         assets = game.getAssets();
         this.loadingProgress.setPosition(this.stage.getWidth() / 2f, this.stage.getHeight() / 2f);
         this.stage.addActor(loadingProgress);
-        this.assets.load();
+//        this.assets.load();
     }
 
     @Override

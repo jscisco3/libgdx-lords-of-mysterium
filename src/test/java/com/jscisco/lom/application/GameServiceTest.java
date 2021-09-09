@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.IOException;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ApplicationConfiguration.class})
 public class GameServiceTest {
@@ -26,7 +28,7 @@ public class GameServiceTest {
     private ZoneService zoneService;
 
     @Test
-    public void can_create_save_game() {
+    public void can_create_save_game() throws IOException {
         gameService.saveGame(new SaveGame(GameVersion.of("Test")));
     }
 

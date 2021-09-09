@@ -26,6 +26,8 @@ import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.persistence.GameVersion;
 import com.jscisco.lom.persistence.SaveGame;
+import lombok.SneakyThrows;
+import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.FakeLanguageGen;
@@ -168,18 +170,21 @@ public class TitleScreen extends AbstractScreen {
         });
 
         saveGameTest.addListener(new ClickListener() {
+            @SneakyThrows
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                EntityDefinition golem = new EntityDefinition();
-                golem.setName("Golem");
-                golem.setGlyph("golem.png");
-                golem.setAi("WANDER");
+                // Generate a game metadata
+                SaveGame saveGame = new SaveGame(GameVersion.of("1.0.0"));
+                // Save the metadata
+                gameService.saveGame(saveGame);
+                // Create a kingdom
+                Kingdom kingdom = new Kingdom(Name.of("Test Kingdom"));
 
-                try {
-                    objectMapper.writeValue(Paths.get("monsters.json").toFile(), golem);
-                } catch (IOException e) {
-                    logger.error(e.getMessage());
-                }
+                // Save the kingdom
+
+                // Create a zone with two levels
+                // Save the zone and the two levels
+
             }
         });
 

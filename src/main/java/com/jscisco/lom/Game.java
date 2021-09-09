@@ -7,7 +7,9 @@ import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.application.GameScreen;
 import com.jscisco.lom.application.LoadingScreen;
+import com.jscisco.lom.application.TitleScreen;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.configuration.ApplicationConfiguration;
 import org.slf4j.Logger;
@@ -16,7 +18,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Game extends ApplicationAdapter {
     Screen screen;
-    private Assets assets;
+    private Assets assets = null;
     private static final Logger logger = LoggerFactory.getLogger(Game.class);
 
     public void setScreen(Screen screen) {
@@ -35,11 +37,12 @@ public class Game extends ApplicationAdapter {
         new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         GameConfiguration.configureEventBus();
         // TODO: Add packed/assets.atlas to resources
-        assets = new Assets(
-                new AssetManager(),
-                new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class)
-        );
-        setScreen(new LoadingScreen(this));
+//        assets = new Assets(
+//                new AssetManager(),
+//                new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class)
+//        );
+//        setScreen(new LoadingScreen(this));
+        setScreen(new TitleScreen(this));
 
     }
 

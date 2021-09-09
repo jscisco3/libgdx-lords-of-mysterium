@@ -121,4 +121,8 @@ Thumbs.db
 # Packed assets
 packed/
 
+# Build directory
 target/
+
+# Saved games
+saves/

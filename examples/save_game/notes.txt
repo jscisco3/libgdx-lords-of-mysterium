@@ -1,0 +1,29 @@
+The directory name is the game id
+
+metadata.json contains the metadata information for the given game
+    * Game version
+    * Last Played
+    * Random seed
+    * Play time?
+    * Game State?
+
+kingdom.json contains all relevant "kingdom information"
+    * Name
+    * Level of each building
+    * Relevant details of each building
+
+zones/ contains the relevant json files for each zone that you have been to
+zone_name/ is the directory for the levels of the zone?
+#.json is the saved level
+
+-----
+Game flow.
+
+New Game.
+Game metadata created
+    * Game ID -- UUID
+    * Game Version -- String Value Object
+Zone created
+    * Name: whatever
+Two levels created for that zone
+

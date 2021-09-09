@@ -1,11 +1,13 @@
 package com.jscisco.lom.persistence;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * This represents the metadata for a saved game. It contains the bare minimum information used to persist a full game
  */
 public class SaveGame {
+    private UUID id = UUID.randomUUID();
     private LocalDateTime lastPlayed;
     private GameVersion gameVersion;
 
@@ -27,6 +29,14 @@ public class SaveGame {
 
     public void setGameVersion(GameVersion gameVersion) {
         this.gameVersion = gameVersion;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override
