@@ -21,7 +21,7 @@ public class LoadingScreen extends AbstractScreen {
         assets = game.getAssets();
         this.loadingProgress.setPosition(this.stage.getWidth() / 2f, this.stage.getHeight() / 2f);
         this.stage.addActor(loadingProgress);
-//        this.assets.load();
+        this.assets.load();
     }
 
     @Override
@@ -34,7 +34,6 @@ public class LoadingScreen extends AbstractScreen {
 
         float progress = assets.getAssetManager().getProgress();
         String loadingString = MessageFormat.format("Loading: {0}/{1}", progress * 100, 100);
-//        logger.info(loadingString);
         // Display bar here
         this.loadingProgress.setText(loadingString);
         this.stage.draw();

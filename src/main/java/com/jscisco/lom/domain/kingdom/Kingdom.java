@@ -8,9 +8,6 @@ import java.util.List;
 
 public class Kingdom {
 
-    // TODO: UUID
-    private Long id;
-
     private Name name;
 
     private List<Hero> heroes = new ArrayList<>();
@@ -34,14 +31,6 @@ public class Kingdom {
         this.heroes.add(hero);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public List<Hero> getHeroes() {
         return heroes;
     }
@@ -57,7 +46,6 @@ public class Kingdom {
     @Override
     public String toString() {
         return "Kingdom{" +
-                "id=" + id +
                 ", name=" + name +
                 '}';
     }

@@ -37,12 +37,12 @@ public class Game extends ApplicationAdapter {
         new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
         GameConfiguration.configureEventBus();
         // TODO: Add packed/assets.atlas to resources
-//        assets = new Assets(
-//                new AssetManager(),
-//                new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class)
-//        );
-//        setScreen(new LoadingScreen(this));
-        setScreen(new TitleScreen(this));
+        assets = new Assets(
+                new AssetManager(),
+                new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class)
+        );
+        setScreen(new LoadingScreen(this));
+//        setScreen(new TitleScreen(this));
 
     }
 

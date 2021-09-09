@@ -9,6 +9,9 @@ import com.jscisco.lom.application.configuration.GameConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class DesktopLauncher {
 
     private static final Logger logger = LoggerFactory.getLogger(DesktopLauncher.class);
@@ -24,9 +27,9 @@ public class DesktopLauncher {
         settings.maxHeight = 2048;
 
 
-//        Path textureAssets = Paths.get(".", "assets", "textures");
-//        TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");
-//        TexturePacker.process(settings, "../../assets/textures/", "packed/", "assets");
+        Path textureAssets = Paths.get(".", "assets", "textures");
+        TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");
+        TexturePacker.process(settings, "assets/textures/", "packed/", "assets");
 
         // Unlock FPS
         config.setIdleFPS(10);

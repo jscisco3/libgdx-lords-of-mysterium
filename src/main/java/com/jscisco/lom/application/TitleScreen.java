@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.services.GameService;
+import com.jscisco.lom.application.services.KingdomService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
@@ -42,14 +43,17 @@ public class TitleScreen extends AbstractScreen {
     OrthographicCamera camera = new OrthographicCamera();
     GameService gameService;
     ZoneService zoneService;
+    KingdomService kingdomService;
     ObjectMapper objectMapper;
 
 
     public TitleScreen(Game game) {
         super(game);
 
+        // TODO: IOC?
         gameService = ServiceLocator.getBean(GameService.class);
         zoneService = ServiceLocator.getBean(ZoneService.class);
+        kingdomService = ServiceLocator.getBean(KingdomService.class);
         objectMapper = ServiceLocator.getBean(ObjectMapper.class);
 
         GameVersion gv = ServiceLocator.getBean(GameVersion.class);
@@ -179,8 +183,8 @@ public class TitleScreen extends AbstractScreen {
                 gameService.saveGame(saveGame);
                 // Create a kingdom
                 Kingdom kingdom = new Kingdom(Name.of("Test Kingdom"));
-
                 // Save the kingdom
+                kingdomService.saveKingdom(kingdom, saveGame);
 
                 // Create a zone with two levels
                 // Save the zone and the two levels
