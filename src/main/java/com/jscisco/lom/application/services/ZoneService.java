@@ -12,11 +12,15 @@ import com.jscisco.lom.domain.event.level.LevelTransitionFeatureAdded;
 import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
+import com.jscisco.lom.persistence.SaveGame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,8 +84,23 @@ public class ZoneService {
         return zone;
     }
 
+
     public Zone saveZone(Zone zone) {
         throw new UnsupportedOperationException();
+    }
+
+    public void saveZone(SaveGame saveGame, Zone zone) throws IOException {
+        // Create the directory for the zone if it does not exit
+        Path zoneDirectory = Paths.get("saves", saveGame.getId().toString(), zone.getId().toString());
+        zoneDirectory.toFile().mkdirs();
+        // Save the levels
+        for (int i = 0; i < zone.getLevels().size(); i++) {
+            objectMapper.writeValue(Paths.get(zoneDirectory.toString(), String.format("%d.json", i)).toFile(), zone.getLevels().get(i));
+        }
+    }
+
+    public void saveLevel(SaveGame saveGame, Zone zone, Level level) {
+
     }
 
     public Level createLevel(Zone zone, int width, int height, LevelGeneratorStrategy.Strategy strategy) {

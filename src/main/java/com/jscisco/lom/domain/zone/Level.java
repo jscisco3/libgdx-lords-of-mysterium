@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.zone;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.Subject;
@@ -24,8 +25,6 @@ public class Level {
     private static final Logger logger = LoggerFactory.getLogger(Level.class);
 
     private UUID id = UUID.randomUUID();
-
-    private Zone zone;
 
     private List<Entity> entities = new ArrayList<>();
 
@@ -235,14 +234,6 @@ public class Level {
         return entities.stream().filter(e -> e.getPosition().equals(p)).findFirst();
     }
 
-    public Zone getZone() {
-        return zone;
-    }
-
-    public void setZone(Zone zone) {
-        this.zone = zone;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -251,6 +242,7 @@ public class Level {
         this.id = id;
     }
 
+    @JsonIgnore
     public Hero getHero() {
         return (Hero) entities.stream().filter(e -> e instanceof Hero).findFirst().get();
     }

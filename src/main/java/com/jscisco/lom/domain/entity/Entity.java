@@ -34,10 +34,12 @@ public abstract class Entity implements Observer {
 
     protected Name name;
 
+    @JsonIgnore
     protected Level level;
 
     @JsonIgnore
     protected DijkstraMap dijkstraMap;
+
     protected Position position;
     @JsonIgnore
     protected FieldOfView fieldOfView = new FieldOfView(this);

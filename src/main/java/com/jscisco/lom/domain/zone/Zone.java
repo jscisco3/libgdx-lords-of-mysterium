@@ -31,7 +31,6 @@ public class Zone {
 
     public void addLevel(Level level) {
         this.levels.add(level);
-        level.setZone(this);
     }
 
     public Level getLevelById(UUID levelId) {

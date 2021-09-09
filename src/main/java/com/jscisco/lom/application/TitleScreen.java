@@ -187,7 +187,9 @@ public class TitleScreen extends AbstractScreen {
                 kingdomService.saveKingdom(kingdom, saveGame);
 
                 // Create a zone with two levels
+                Zone zone = zoneService.createZone(2);
                 // Save the zone and the two levels
+                zoneService.saveZone(saveGame, zone);
 
             }
         });
