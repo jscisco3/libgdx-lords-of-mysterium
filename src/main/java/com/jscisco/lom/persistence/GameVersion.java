@@ -1,7 +1,10 @@
 package com.jscisco.lom.persistence;
 
 public class GameVersion {
-    private final String version;
+    private String version;
+
+    private GameVersion() {
+    }
 
     private GameVersion(String version) {
         this.version = version;
@@ -16,7 +19,8 @@ public class GameVersion {
     }
 
     @Override
-    public String toString() { return "GameVersion{" +
+    public String toString() {
+        return "GameVersion{" +
                 "version='" + version + '\'' +
                 '}';
     }

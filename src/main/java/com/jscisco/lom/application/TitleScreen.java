@@ -167,7 +167,11 @@ public class TitleScreen extends AbstractScreen {
         loadGame.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new LoadGameScreen(game, gameService.getGames()));
+                try {
+                    game.setScreen(new LoadGameScreen(game, gameService.getGames()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 dispose();
                 game.getScreen().show();
             }

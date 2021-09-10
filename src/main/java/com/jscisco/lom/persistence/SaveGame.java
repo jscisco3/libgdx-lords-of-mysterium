@@ -11,6 +11,8 @@ public class SaveGame {
     private LocalDateTime lastPlayed;
     private GameVersion gameVersion;
 
+    public SaveGame() {}
+
     public SaveGame(GameVersion gameVersion) {
         this.gameVersion = gameVersion;
     }
