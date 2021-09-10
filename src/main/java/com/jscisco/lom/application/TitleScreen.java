@@ -191,6 +191,12 @@ public class TitleScreen extends AbstractScreen {
                 // Save the zone and the two levels
                 zoneService.saveZone(saveGame, zone);
 
+                // Add the hero
+                Hero hero = EntityFactory.player();
+                zone.getLevels().get(0).addEntityAtPosition(hero, Position.of(1, 1));
+
+                zoneService.saveZone(saveGame, zone);
+
             }
         });
 
