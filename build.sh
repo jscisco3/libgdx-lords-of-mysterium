@@ -1,4 +1,4 @@
 #!/bin/bash
 
-export JAVA_HOME=/usr/lib/jvm/jre-16-openjdk
+export JAVA_HOME=$HOME/.jdks/corretto-15.0.2
 ./mvnw clean package -Dmaven.test.skip=true
