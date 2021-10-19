@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
     <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <gdx.version>1.10.0</gdx.version>
         <jackson.version>2.12.3</jackson.version>
         <squidlib.version>3.0.3</squidlib.version>
