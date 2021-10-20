@@ -136,7 +136,6 @@ public class GameScreen extends AbstractScreen implements Observer {
     }
 
     public void handleInput(float delta) {
-//        logger.info("Handling Input...");
         Set<Integer> keysDown = processor.getKeysDown();
         if (processor.isKeyDown() && keyPressedTime == 0f) {
             setPlayerAction(keysDown);

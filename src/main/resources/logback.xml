@@ -8,14 +8,14 @@
         </encoder>
     </appender>
 
-    <logger name="com.jscisco.lom.domain" level="INFO" />
+    <logger name="com.jscisco.lom.domain" level="DEBUG" />
     <logger name="com.jscisco.lom.domain.state" level="DEBUG" />
     <logger name="org.hibernate" level="INFO" />
     <logger name="org.hibernate.SQL" level="INFO" />
     <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
     <logger name="org.hibernate.type" level="INFO" />
 
-    <root level="debug">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
