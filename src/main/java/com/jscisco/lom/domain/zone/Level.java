@@ -134,7 +134,7 @@ public class Level {
     }
 
     public void addEntityAtPosition(Entity entity, Position position) {
-        logger.info(MessageFormat.format("Adding entity: {0} and position: {1}", entity.getName().getName(), position.toString()));
+        logger.info(MessageFormat.format("Adding entity: {0} at position: {1}", entity.getName().getName(), position.toString()));
         entity.setPosition(position);
         entity.setLevel(this);
         logger.info(String.valueOf(entity.getLevel().id));

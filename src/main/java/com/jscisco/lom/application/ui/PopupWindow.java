@@ -33,7 +33,7 @@ public abstract class PopupWindow extends Window {
 
     protected void close() {
         Gdx.input.setInputProcessor(previousInput);
-        this.addAction(Actions.removeActor(this));
+        this.setVisible(false);
     }
 
     protected abstract void setContent();

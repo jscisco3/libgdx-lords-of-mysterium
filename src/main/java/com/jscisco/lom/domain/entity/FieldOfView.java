@@ -53,7 +53,7 @@ public class FieldOfView {
      * @return vision
      */
     public double[][] calculateFOV(boolean recalculateResistanceMap) {
-        logger.debug("Calculating FOV for entity " + entity.getName());
+        logger.debug("Calculating FOV for entity " + entity.getName() + " and recalculating resistance map: " + recalculateResistanceMap);
         if (recalculateResistanceMap) {
             calculateResistanceMap();
         }

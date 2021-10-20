@@ -169,6 +169,7 @@ public abstract class Entity implements Observer {
     @Override
     public void onNotify(Event event) {
         logger.info(MessageFormat.format("Entity notified about event {0}", event));
+        logger.info(String.format("Entity notified about event %s", event.getClass().getSimpleName()));
         if (event instanceof LevelEvent) {
             recalculateDijkstraMap();
             this.fieldOfView.calculateFOV(true);

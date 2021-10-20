@@ -2,7 +2,9 @@ package com.jscisco.lom.domain.action;
 
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DropItemAction extends Action {
 
     private final Item item;
@@ -14,6 +16,7 @@ public class DropItemAction extends Action {
 
     @Override
     public ActionResult execute() {
+        log.debug("DropItemAction executed...");
         if (!source.getInventory().getItems().contains(item)) {
             return ActionResult.failed();
         }

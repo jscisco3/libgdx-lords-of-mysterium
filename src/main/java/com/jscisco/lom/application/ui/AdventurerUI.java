@@ -1,5 +1,6 @@
 package com.jscisco.lom.application.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -17,6 +18,8 @@ public class AdventurerUI extends Table {
     private Label state;
     private Label zoneInformation;
     private Label levelInformation;
+    // TODO: Move to a debug UI that can be toggled on and off
+    private Label fps;
 
     private Skin skin = GameConfiguration.getSkin();
 
@@ -28,6 +31,7 @@ public class AdventurerUI extends Table {
         this.levelInformation = new Label("", skin);
 
         this.name = new Label(this.hero.getName().getName(), skin);
+        this.fps = new Label(String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()), skin);
 
         this.setFillParent(false);
         this.add(this.name);
@@ -45,6 +49,8 @@ public class AdventurerUI extends Table {
         this.add(this.zoneInformation);
         this.row();
         this.add(this.levelInformation);
+        this.row();
+        this.add(this.fps);
 
     }
 
@@ -57,5 +63,6 @@ public class AdventurerUI extends Table {
         this.state.setText(hero.getState().toString());
 //        this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
         this.levelInformation.setText("Level: " + this.hero.getLevel().getId());
+        this.fps.setText(String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()));
     }
 }
