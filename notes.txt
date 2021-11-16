@@ -1,3 +1,21 @@
+-- November 15, 2021
+
+Some considerations about services:
+* Entity Service
+    * Handles all things related to entities.
+        - Parse entity definition files and load into repository
+        - Save modified entity definition files in the future
+        - Generate NPCs and Heroes when needed
+        - Persist NPCs and Heroes when needed
+    * Could be broken up?
+        - EntityContentService
+            * Parse entity definition files
+            * Update entity definition files
+        - EntityGameplayService
+            * Reads from entity definition repository to generate NPCs and Heroes
+* Item Service
+    Basically same as aboves
+
 -- July 26, 2021
 Considering that I want to roll my own serialization and deserialization using Jackson, what should I consider changing
 about the save file format?
