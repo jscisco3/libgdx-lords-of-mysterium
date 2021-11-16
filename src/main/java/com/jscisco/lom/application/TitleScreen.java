@@ -11,12 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
+import com.jscisco.lom.application.services.EntityService;
 import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.KingdomService;
 import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.content.EntityDefinition;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.entity.EntityDefinition;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
@@ -44,6 +45,7 @@ public class TitleScreen extends AbstractScreen {
     GameService gameService;
     ZoneService zoneService;
     KingdomService kingdomService;
+    EntityService entityService;
     ObjectMapper objectMapper;
 
 
@@ -55,6 +57,7 @@ public class TitleScreen extends AbstractScreen {
         zoneService = ServiceLocator.getBean(ZoneService.class);
         kingdomService = ServiceLocator.getBean(KingdomService.class);
         objectMapper = ServiceLocator.getBean(ObjectMapper.class);
+        entityService = ServiceLocator.getBean(EntityService.class);
 
         GameVersion gv = ServiceLocator.getBean(GameVersion.class);
 
@@ -131,21 +134,31 @@ public class TitleScreen extends AbstractScreen {
 //                AIState state = new AIState(hero);
 //                state.setController(new PlayerHunterSeekerAI(hero));
 //                hero.setState(state);
-
 //                level.addEntityAtPosition(hero, Position.of(1, 1));
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+
+                // Add some NPCs
+                EntityDefinition def = new EntityDefinition();
+                def.setName("Snuugz");
+                def.setAi("WanderAI");
+                def.setGlyph("golem");
+
+                for (int i = 0 ; i < 5; i++) {
+                    NPC npc = entityService.generateNPC(def);
+                    level.addEntityAtPosition(npc, level.getEmptyTile(npc));
+                }
 
                 logger.debug("Level id: " + level.getId());
 
                 // Add some items;
-                for (int i = 0; i < 5; i++) {
-                    Item item = new Item.Builder()
-                            .withName(Name.of("Sword"))
-                            .withGlyph(Assets.sword)
-                            .build();
-
-                    level.addItemAtPosition(item, Position.of(i + 3, 5));
-                }
+//                for (int i = 0; i < 5; i++) {
+//                    Item item = new Item.Builder()
+//                            .withName(Name.of("Sword"))
+//                            .withGlyph(Assets.sword)
+//                            .build();
+//
+//                    level.addItemAtPosition(item, Position.of(i + 3, 5));
+//                }
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
