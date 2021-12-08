@@ -126,3 +126,6 @@ target/
 
 # Saved games
 saves/
+
+# Vagrant
+.vagrant
