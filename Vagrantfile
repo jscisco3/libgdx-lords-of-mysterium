@@ -62,5 +62,6 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision :shell, path: "bootstrap.sh"
+  config.ssh.extra_args = ["-t", "cd /vagrant; bash"]
 
 end
