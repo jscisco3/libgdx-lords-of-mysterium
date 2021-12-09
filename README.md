@@ -11,7 +11,6 @@ Use vagrant to make things easy!
 ```shell
 vagrant up
 vagrant ssh
-cd /vagrant
 ./build.sh
 ```
 
