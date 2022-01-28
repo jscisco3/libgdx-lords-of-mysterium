@@ -1,6 +1,6 @@
 # Install Java 17
 - name: Provision
-  hosts: localhost
+  hosts: all
   become: yes
   tasks:
     - name: Get JDK 17
