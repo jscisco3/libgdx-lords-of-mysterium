@@ -20,8 +20,8 @@
 
 # Set JAVA_HOME and PATH
     - name: Adding the java_home
-      lineinfile: dest=/home/vagrant/.profile line='export JAVA_HOME=/opt/jdk-17' insertafter='EOF' state=present
+      lineinfile: dest=/home/vagrant/.bashrc line='export JAVA_HOME=/opt/jdk-17' insertafter='EOF' state=present
     - name: Add path
-      lineinfile: dest=/home/vagrant/.profile line='export PATH=$PATH:/opt/jdk-17/bin' insertafter='EOF' state=present
-    - name: Source the bashrc file
-      shell: source /home/vagrant/.profile executable=/bin/bash
+      lineinfile: dest=/home/vagrant/.bashrc line='export PATH=$PATH:/opt/jdk-17/bin' insertafter='EOF' state=present
+    - name: Source the profile file
+      shell: source /home/vagrant/.bashrc executable=/bin/bash
