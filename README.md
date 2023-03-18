@@ -7,6 +7,8 @@ This project is written in Java, targeting JDK 17. It utilizes [LibGDX](https://
 ### Building
 Requires Java 17 JDK
 
+Without Vagrant, set $JAVA_HOME to a JDK 17 directory, like ~/.jdks/corretto-17
+
 Use vagrant to make things easy!
 ```shell
 vagrant up

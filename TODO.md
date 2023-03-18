@@ -81,6 +81,8 @@
     - [x] PickupItemCommand
     - [x] DropItemCommand
 - [ ] Generate items as part of level generation
+- [ ] Materials
+- [ ] Item Factory
 
 ## Zone
 - [ ] Initial Zone skeleton
@@ -107,6 +109,15 @@
 
 ## Game log
 - [ ] Display messages in some log
+
+## Skills
+- [ ] Define some basic skills, just the skeleton
+
+## Feats
+- [ ] Define some basic feats, just the skeleton
+
+## Classes
+- [ ] Define some basic character classes, just the skeleton
 
 ## AI
 ### General AI enhancements
