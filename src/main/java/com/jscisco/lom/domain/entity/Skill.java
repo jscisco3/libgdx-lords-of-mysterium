@@ -6,7 +6,7 @@ package com.jscisco.lom.domain.entity;
  */
 public class Skill {
 
-    private SkillDefinition skillDefinition;
+    private final SkillDefinition skillDefinition;
     private int currentExperience;
 
     public Skill(SkillDefinition skillDefinition) {

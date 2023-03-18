@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.application.Assets;
+import com.jscisco.lom.application.Skills;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.Position;
@@ -20,6 +21,8 @@ import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -33,6 +36,8 @@ public abstract class Entity implements Observer {
     protected UUID id = UUID.randomUUID();
 
     protected Name name;
+
+    protected Map<String, Skill> skills = new HashMap<>();
 
     @JsonIgnore
     protected Level level;
@@ -55,6 +60,18 @@ public abstract class Entity implements Observer {
     protected final Subject subject = new Subject();
 
     protected Entity() {
+        this.skills.put(
+                Skills.conjuration.getName(), new Skill(Skills.conjuration)
+        );
+        this.skills.put(
+                Skills.oneHanded.getName(), new Skill(Skills.oneHanded)
+        );
+        this.skills.put(
+                Skills.twoHanded.getName(), new Skill(Skills.twoHanded)
+        );
+        this.skills.put(
+                Skills.smithing.getName(), new Skill(Skills.smithing)
+        );
     }
 
     public static abstract class Builder<T extends Builder<T>> {
@@ -238,5 +255,9 @@ public abstract class Entity implements Observer {
                 ", name=" + name +
                 ", position=" + position +
                 '}';
+    }
+
+    public Map<String, Skill> getSkills() {
+        return skills;
     }
 }

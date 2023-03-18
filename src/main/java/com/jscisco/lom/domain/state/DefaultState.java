@@ -5,10 +5,15 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.action.ChangeLevelAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.Skill;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.Set;
 
 public class DefaultState extends State {
+    private static final Logger logger = LoggerFactory.getLogger(DefaultState.class);
 
     public DefaultState(Hero hero) {
         super(hero);
@@ -35,6 +40,20 @@ public class DefaultState extends State {
         if (input.contains(Input.Keys.Z)) {
             hero.setState(new AutoexploreState(hero));
             input.clear();
+        }
+        if (input.contains(Input.Keys.C)) {
+            // Display Character sheet
+            for (Map.Entry<String, Skill> entry : hero.getSkills().entrySet()) {
+                String s = "%s | %s";
+                Skill skill = entry.getValue();
+
+                logger.info(String.format(s, skill.getName(), skill.getLevel()));
+            }
+        }
+        if (input.contains(Input.Keys.L)) {
+            for (Skill skill : hero.getSkills().values()) {
+                skill.gainExperience(1200);
+            }
         }
         if (input.contains(Input.Keys.BACKSPACE)) {
 //            hero.getAttributes().applyBaseValueModifier(new AttributeModifier()
