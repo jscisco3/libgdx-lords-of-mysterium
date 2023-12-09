@@ -1,3 +1,8 @@
+## Packaging and Deployment
+- [ ] Run on a clean machine
+  - [ ] jpackage
+  - [ ] packr
+
 ## Asset Manager
 - [x] Loading screen: Initial
 - [ ] Loading screen: pretty
