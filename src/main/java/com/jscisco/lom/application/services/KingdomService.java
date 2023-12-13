@@ -3,7 +3,8 @@ package com.jscisco.lom.application.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.persistence.SaveGame;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Service
-@Slf4j
 public class KingdomService {
 
+    final Logger logger = LoggerFactory.getLogger(KingdomService.class);
     final ObjectMapper objectMapper;
 
     @Autowired

@@ -4,7 +4,8 @@ import com.badlogic.gdx.Screen;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.persistence.SaveGame;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Slf4j
 public class GameService {
+
+    final Logger logger = LoggerFactory.getLogger(GameService.class);
 
     final ZoneService zoneService;
     final ObjectMapper objectMapper;
@@ -35,7 +37,7 @@ public class GameService {
         List<SaveGame> games = new ArrayList<>();
         Path savedGamePath = Paths.get("saves");
         for (File file : Objects.requireNonNull(savedGamePath.toFile().listFiles())) {
-            log.info(file.toString());
+            logger.info(file.toString());
             File savedGame = Paths.get(file.toString(), "metadata.json").toFile();
             games.add(objectMapper.readValue(savedGame, SaveGame.class));
         }
@@ -47,13 +49,17 @@ public class GameService {
      *
      * @param saveGame
      */
-    public void saveGame(SaveGame saveGame) throws IOException {
+    public void saveGame(SaveGame saveGame) {
         // Update last played
         saveGame.setLastPlayed(LocalDateTime.now());
         // Create the folder if it does not exist
         String filePath = "saves/" + saveGame.getId().toString();
         new File(filePath).mkdirs();
-        objectMapper.writeValue(Paths.get(filePath + "/metadata.json").toFile(), saveGame);
+        try {
+            objectMapper.writeValue(Paths.get(filePath + "/metadata.json").toFile(), saveGame);
+        } catch (IOException e) {
+            logger.error(String.valueOf(e));
+        }
     }
 
     public Screen loadGame(Game game, Long saveGameId) {

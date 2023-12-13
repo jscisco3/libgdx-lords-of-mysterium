@@ -27,7 +27,6 @@ import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.persistence.GameVersion;
 import com.jscisco.lom.persistence.SaveGame;
-import lombok.SneakyThrows;
 import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -178,7 +177,6 @@ public class TitleScreen extends AbstractScreen {
         });
 
         saveGameTest.addListener(new ClickListener() {
-            @SneakyThrows
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 // Generate a game metadata
@@ -188,18 +186,30 @@ public class TitleScreen extends AbstractScreen {
                 // Create a kingdom
                 Kingdom kingdom = new Kingdom(Name.of("Test Kingdom"));
                 // Save the kingdom
-                kingdomService.saveKingdom(kingdom, saveGame);
+                try {
+                    kingdomService.saveKingdom(kingdom, saveGame);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // Create a zone with two levels
                 Zone zone = zoneService.createZone(2);
                 // Save the zone and the two levels
-                zoneService.saveZone(saveGame, zone);
+                try {
+                    zoneService.saveZone(saveGame, zone);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
                 // Add the hero
                 Hero hero = EntityFactory.player();
-                zone.getLevels().get(0).addEntityAtPosition(hero, Position.of(1, 1));
+                zone.getLevels().getFirst().addEntityAtPosition(hero, Position.of(1, 1));
 
-                zoneService.saveZone(saveGame, zone);
+                try {
+                    zoneService.saveZone(saveGame, zone);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
         });
