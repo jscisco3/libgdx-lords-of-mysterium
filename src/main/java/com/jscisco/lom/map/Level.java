@@ -2,8 +2,10 @@ package com.jscisco.lom.map;
 
 // TODO: Migrate to `map` package
 
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
+import com.jscisco.lom.domain.zone.Floor;
 import com.jscisco.lom.domain.zone.Tile;
 import com.jscisco.lom.domain.zone.TileFactory;
 import org.slf4j.Logger;
@@ -49,5 +51,17 @@ public class Level {
 
     public void setTile(int x, int y, Tile tile) {
         this.tiles[x][y] = tile;
+    }
+
+    public List<Position> floorIndices() {
+        final List<Position> floorIndices = new ArrayList<>();
+        IntStream.range(0, this.width).forEach(x -> {
+            IntStream.range(0, this.height).forEach(y -> {
+                if (this.tiles[x][y].getFeature() instanceof Floor) {
+                    floorIndices.add(Position.of(x, y));
+                }
+            });
+        });
+        return floorIndices;
     }
 }
