@@ -21,4 +21,12 @@ public class BuildData {
     public Level getLevel() {
         return level;
     }
+
+    public Position getStartingPosition() {
+        return startingPosition;
+    }
+
+    public void setStartingPosition(Position startingPosition) {
+        this.startingPosition = startingPosition;
+    }
 }
