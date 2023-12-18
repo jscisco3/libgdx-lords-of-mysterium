@@ -11,13 +11,13 @@ public class Wall extends Feature {
 
     @Override
     public boolean isWalkable(Entity entity) {
-//        return true;
+        // return true;
         return false;
     }
 
     @Override
     public boolean blocksSight(Entity entity) {
-//        return false;
+        // return false;
         return true;
     }
 }

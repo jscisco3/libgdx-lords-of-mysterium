@@ -4,9 +4,7 @@ public class Cell {
 
     public enum State {
         DEFINITIVELY_ALIVE, // Never update, counts as alive
-        ALIVE,
-        DEAD,
-        DEFINITIVELY_DEAD // Never update, counts as alive
+        ALIVE, DEAD, DEFINITIVELY_DEAD // Never update, counts as alive
     }
 
     private State state;

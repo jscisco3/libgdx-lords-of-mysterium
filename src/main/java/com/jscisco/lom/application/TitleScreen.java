@@ -45,7 +45,6 @@ public class TitleScreen extends AbstractScreen {
     KingdomService kingdomService;
     ObjectMapper objectMapper;
 
-
     public TitleScreen(Game game) {
         super(game);
 
@@ -66,7 +65,6 @@ public class TitleScreen extends AbstractScreen {
         table.defaults().pad(10f);
         table.setFillParent(true);
 
-
         TextButton newGame = new TextButton("New Game", skin, "default");
         newGame.setWidth(100f);
         newGame.setHeight(50f);
@@ -82,7 +80,6 @@ public class TitleScreen extends AbstractScreen {
         TextButton quitGame = new TextButton("Quit", skin, "default");
         quitGame.setWidth(100f);
         quitGame.setHeight(50f);
-
 
         TextButton saveGameTest = new TextButton("Save Game Test", skin, "default");
         saveGameTest.setWidth(100f);
@@ -127,21 +124,18 @@ public class TitleScreen extends AbstractScreen {
 
                 Level level = zone.getLevels().get(0);
                 Hero hero = EntityFactory.player();
-//                AIState state = new AIState(hero);
-//                state.setController(new PlayerHunterSeekerAI(hero));
-//                hero.setState(state);
+                // AIState state = new AIState(hero);
+                // state.setController(new PlayerHunterSeekerAI(hero));
+                // hero.setState(state);
 
-//                level.addEntityAtPosition(hero, Position.of(1, 1));
+                // level.addEntityAtPosition(hero, Position.of(1, 1));
                 level.addEntityAtPosition(hero, level.getEmptyTile(hero));
 
                 logger.debug("Level id: " + level.getId());
 
                 // Add some items;
                 for (int i = 0; i < 5; i++) {
-                    Item item = new Item.Builder()
-                            .withName(Name.of("Sword"))
-                            .withGlyph(Assets.sword)
-                            .build();
+                    Item item = new Item.Builder().withName(Name.of("Sword")).withGlyph(Assets.sword).build();
 
                     level.addItemAtPosition(item, Position.of(i + 3, 5));
                 }
@@ -213,7 +207,6 @@ public class TitleScreen extends AbstractScreen {
 
             }
         });
-
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

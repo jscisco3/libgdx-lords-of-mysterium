@@ -20,15 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ____________________
- * |                   \
- * |  Name: ====       \
- * |                   \
- * |         ______    \
- * |         |next|    \
- * |         -----     \
- * |                   \
- * |___________________\
+ * ____________________ | \ | Name: ==== \ | \ | ______ \ | |next| \ | ----- \ | \ |___________________\
  */
 
 public class NewGameScreen extends AbstractScreen {
@@ -37,7 +29,8 @@ public class NewGameScreen extends AbstractScreen {
     private final List<Hero> heroes = new ArrayList<Hero>();
     private final Table heroChoice;
 
-    private final TextArea input = new TextArea(FakeLanguageGen.FANTASY_NAME.word(true), GameConfiguration.getSkin(), "default");
+    private final TextArea input = new TextArea(FakeLanguageGen.FANTASY_NAME.word(true), GameConfiguration.getSkin(),
+            "default");
     private final TextButton next = new TextButton("Start Game", GameConfiguration.getSkin(), "default");
     private final GameService gameService;
 
@@ -52,7 +45,6 @@ public class NewGameScreen extends AbstractScreen {
 
         setUpKingdomNameTable();
         generateHeroes();
-
 
         // Hero summary
         heroChoice = createHeroChoiceTable();
@@ -105,10 +97,7 @@ public class NewGameScreen extends AbstractScreen {
 
     private void generateHeroes() {
         for (int i = 0; i < 10; i++) {
-            heroes.add(new Hero.Builder()
-                    .withName(Name.of(String.valueOf(i)))
-                    .withGlyph(Assets.warrior)
-                    .build());
+            heroes.add(new Hero.Builder().withName(Name.of(String.valueOf(i))).withGlyph(Assets.warrior).build());
         }
     }
 
@@ -116,7 +105,7 @@ public class NewGameScreen extends AbstractScreen {
         Table table = new Table(GameConfiguration.getSkin());
         for (Hero p : heroes) {
             table.add(new HeroBlock(p)).top();
-//            table.add(new Label(p.getName().getName(), table.getSkin(), "default")).top().center();
+            // table.add(new Label(p.getName().getName(), table.getSkin(), "default")).top().center();
             table.row();
         }
         Table scrollTable = new Table(GameConfiguration.getSkin());
@@ -124,9 +113,7 @@ public class NewGameScreen extends AbstractScreen {
         ScrollPane scroller = new ScrollPane(table, GameConfiguration.getSkin());
         scroller.setFadeScrollBars(false);
         float width = 350f;
-        scrollTable.add(scroller)
-                .width(width)
-                .expandY();
+        scrollTable.add(scroller).width(width).expandY();
         return scrollTable;
     }
 

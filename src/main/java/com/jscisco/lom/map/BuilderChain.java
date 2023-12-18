@@ -1,6 +1,5 @@
 package com.jscisco.lom.map;
 
-
 import squidpony.squidmath.RNG;
 
 import java.util.ArrayList;

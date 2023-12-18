@@ -13,7 +13,7 @@ public class GameOfLifeRuleSet extends RuleSet {
         } else if (!cell.isAlive() && livingNeighbors == 3) {
             // It now lives
             updated.reproduce();
-        } else{
+        } else {
             // It now dies
             updated.die();
         }

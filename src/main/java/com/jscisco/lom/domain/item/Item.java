@@ -30,7 +30,6 @@ public class Item {
         ItemType itemType;
         String glyph;
 
-
         public Builder withName(Name name) {
             this.name = name;
             return this;

@@ -22,8 +22,6 @@ public class DescentFeatureAdded extends LevelEvent {
     @Override
     public void process(Level level) {
         super.process(level);
-        level.getTileAt(this.atPosition).setFeature(
-                new LevelChange(toLevel, atPosition, true)
-        );
+        level.getTileAt(this.atPosition).setFeature(new LevelChange(toLevel, atPosition, true));
     }
 }

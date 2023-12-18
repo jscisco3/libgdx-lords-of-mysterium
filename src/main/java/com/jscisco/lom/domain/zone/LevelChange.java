@@ -31,9 +31,6 @@ public class LevelChange extends Feature {
 
     @Override
     public String toString() {
-        return "LevelChange{" +
-                "toLevelId=" + toLevelId +
-                ", toPosition=" + toPosition +
-                '}';
+        return "LevelChange{" + "toLevelId=" + toLevelId + ", toPosition=" + toPosition + '}';
     }
 }

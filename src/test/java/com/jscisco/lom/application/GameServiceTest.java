@@ -16,7 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.io.IOException;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ApplicationConfiguration.class})
+@ContextConfiguration(classes = { ApplicationConfiguration.class })
 public class GameServiceTest {
 
     private static final Logger logger = LoggerFactory.getLogger(GameServiceTest.class);
@@ -31,6 +31,5 @@ public class GameServiceTest {
     public void can_create_save_game() throws IOException {
         gameService.saveGame(new SaveGame(GameVersion.of("Test")));
     }
-
 
 }

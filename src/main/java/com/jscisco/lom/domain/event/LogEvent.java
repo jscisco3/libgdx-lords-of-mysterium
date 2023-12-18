@@ -14,8 +14,6 @@ public class LogEvent extends Event {
 
     @Override
     public String toString() {
-        return "LogEvent{" +
-                "message='" + message + '\'' +
-                '}';
+        return "LogEvent{" + "message='" + message + '\'' + '}';
     }
 }

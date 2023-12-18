@@ -27,7 +27,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-@ContextConfiguration(classes = {ApplicationConfiguration.class})
+@ContextConfiguration(classes = { ApplicationConfiguration.class })
 public class ZoneServiceTest {
 
     @Autowired
@@ -104,7 +104,6 @@ public class ZoneServiceTest {
         assertThat(loadedLevel.getEntities().size()).isEqualTo(4);
     }
 
-
     @Test
     public void can_load_a_game_with_a_removed_entity_and_then_save_it() {
         Zone zone = zoneService.createZone();
@@ -134,9 +133,7 @@ public class ZoneServiceTest {
         Zone zone = zoneService.createZone();
         Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
-        Item item = new Item.Builder()
-                .withName(Name.of("Sword"))
-                .build();
+        Item item = new Item.Builder().withName(Name.of("Sword")).build();
         level.addItemAtPosition(item, Position.of(2, 2));
 
         level = zoneService.saveLevel(level);
@@ -151,10 +148,7 @@ public class ZoneServiceTest {
         Zone zone = zoneService.createZone();
         Level level = zoneService.createLevel(zone.getId(), 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
-        Item item = new Item.Builder()
-                .withName(Name.of("Sword"))
-                .withGlyph("sword")
-                .build();
+        Item item = new Item.Builder().withName(Name.of("Sword")).withGlyph("sword").build();
         level.addItemAtPosition(item, Position.of(2, 2));
         zoneService.saveLevel(level);
 
@@ -168,9 +162,7 @@ public class ZoneServiceTest {
         Zone zone = zoneService.createZone();
         Level level = zoneService.createLevel(zone, 24, 24, LevelGeneratorStrategy.Strategy.EMPTY);
 
-        Item item = new Item.Builder()
-                .withName(Name.of("Sword"))
-                .build();
+        Item item = new Item.Builder().withName(Name.of("Sword")).build();
         level.addItemAtPosition(item, Position.of(2, 2));
         zoneService.saveZone(zone);
 
@@ -199,7 +191,8 @@ public class ZoneServiceTest {
         Position nextLevelPosition = Position.of(5, 5);
 
         currentLevel.addEntityAtPosition(hero, currentHeroPosition);
-        currentLevel.getTileAt(hero.getPosition()).setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
+        currentLevel.getTileAt(hero.getPosition())
+                .setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
 
         ChangeLevelAction action = new ChangeLevelAction(hero);
 
@@ -223,7 +216,8 @@ public class ZoneServiceTest {
         Position nextLevelPosition = Position.of(5, 5);
 
         currentLevel.addEntityAtPosition(hero, currentHeroPosition);
-        currentLevel.getTileAt(hero.getPosition()).setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
+        currentLevel.getTileAt(hero.getPosition())
+                .setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
 
         ChangeLevelAction action = new ChangeLevelAction(hero);
         action.execute();
@@ -278,7 +272,6 @@ public class ZoneServiceTest {
 
         NPC golem = EntityFactory.golem();
         level.addEntityAtPosition(golem, Position.of(10, 10));
-
 
         zoneService.saveZone(loadedZone);
 

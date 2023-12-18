@@ -31,8 +31,6 @@ public class LevelTransitionFeatureAdded extends LevelEvent {
     @Override
     public void process(Level level) {
         super.process(level);
-        level.getTileAt(this.atPosition).setFeature(
-                new LevelChange(toLevel, toPosition, descending)
-        );
+        level.getTileAt(this.atPosition).setFeature(new LevelChange(toLevel, toPosition, descending));
     }
 }

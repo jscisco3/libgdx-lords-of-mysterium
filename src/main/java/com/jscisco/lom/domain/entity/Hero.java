@@ -56,7 +56,7 @@ public class Hero extends Entity {
                     event.setPosition(Position.of(x, y));
                     event.setLevelId(level.getId());
                     subject.notify(event);
-//                    this.level.addEvent(event);
+                    // this.level.addEvent(event);
                 }
             }
         }

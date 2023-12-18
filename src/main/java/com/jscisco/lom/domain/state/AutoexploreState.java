@@ -70,7 +70,8 @@ public class AutoexploreState extends State {
             return null;
         }
         if (this.goal != null && level.getTileAt(Position.fromCoord(this.goal)).isExplored()) {
-            // This was messed up with CHEBYSHEV measurement. Not sure why, but we could not find a path to the last unexplored corner of an empty square map
+            // This was messed up with CHEBYSHEV measurement. Not sure why, but we could not find a path to the last
+            // unexplored corner of an empty square map
             this.goal = this.dijkstraMap.findNearest(hero.getPosition().toCoord(), unexploredCoords());
         }
         // We have no goal, and no unexplored coordinates
@@ -80,7 +81,8 @@ public class AutoexploreState extends State {
             return null;
         }
         // We have a goal, we should move towards it
-        logger.debug("Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
+        logger.debug(
+                "Goal is " + goal + " which has feature: " + level.getTileAt(Position.fromCoord(goal)).getFeature());
         List<Coord> path = this.dijkstraMap.findPath(1, null, null, hero.getPosition().toCoord(), this.goal);
         // This probably isn't reachable. But now I will be experimenting with different dungeon layouts
         if (path.isEmpty()) {
@@ -105,9 +107,7 @@ public class AutoexploreState extends State {
      * @return list of coordinates that correspond to unexplored tiles
      */
     private List<Coord> unexploredCoords() {
-        return level.getUnexploredPositions().stream()
-                .map(Position::toCoord)
-                .collect(Collectors.toList());
+        return level.getUnexploredPositions().stream().map(Position::toCoord).collect(Collectors.toList());
     }
 
     @Override

@@ -29,8 +29,10 @@ public class Name {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Name name1 = (Name) o;
         return name.equals(name1.name);
     }

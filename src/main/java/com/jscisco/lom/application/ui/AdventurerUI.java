@@ -36,12 +36,15 @@ public class AdventurerUI extends Table {
         this.setFillParent(false);
         this.add(this.name);
         this.row();
-        this.position = new Label(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()), skin);
+        this.position = new Label(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()),
+                skin);
         this.add(position);
         this.row();
-//        this.health = new Label(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
-//        this.health.setColor(Color.RED);
-//        this.add(health);
+        // this.health = new Label(String.format("%.2f/%.2f",
+        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH),
+        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
+        // this.health.setColor(Color.RED);
+        // this.add(health);
         this.row();
         this.state = new Label(hero.getState().toString(), skin);
         this.add(state);
@@ -59,9 +62,11 @@ public class AdventurerUI extends Table {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
-//        this.health.setText(String.format("%.2f/%.2f", hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH), hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
+        // this.health.setText(String.format("%.2f/%.2f",
+        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH),
+        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
         this.state.setText(hero.getState().toString());
-//        this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
+        // this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
         this.levelInformation.setText("Level: " + this.hero.getLevel().getId());
         this.fps.setText(String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()));
     }

@@ -26,10 +26,6 @@ public class TileExplored extends LevelEvent {
 
     @Override
     public String toString() {
-        return "TileExplored{" +
-                "id=" + id +
-                ", eventTime=" + eventTime +
-                ", position=" + position +
-                '}';
+        return "TileExplored{" + "id=" + id + ", eventTime=" + eventTime + ", position=" + position + '}';
     }
 }

@@ -10,7 +10,8 @@ public abstract class AIController {
 
     protected Entity entity;
 
-    public AIController() {}
+    public AIController() {
+    }
 
     public AIController(Entity entity) {
         this.entity = entity;

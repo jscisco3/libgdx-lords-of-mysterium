@@ -25,7 +25,7 @@ public class ZoneServiceObserver implements Observer {
             TileExplored te = (TileExplored) event;
             eventList.add(te);
             if (eventList.size() > 100) {
-//                zoneService.saveLevelEvents(eventList);
+                // zoneService.saveLevelEvents(eventList);
                 eventList.clear();
             }
         }

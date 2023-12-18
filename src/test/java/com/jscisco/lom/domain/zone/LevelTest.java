@@ -26,11 +26,13 @@ public class LevelTest {
         level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
 
         assertThat(level.getTileAt(Position.of(0, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
-        assertThat(level.getTileAt(Position.of(level.getWidth() - 1, level.getHeight() - 1)).getFeature()).isEqualTo(FeatureFactory.WALL);
+        assertThat(level.getTileAt(Position.of(level.getWidth() - 1, level.getHeight() - 1)).getFeature())
+                .isEqualTo(FeatureFactory.WALL);
         assertThat(level.getTileAt(Position.of(0, level.getHeight() - 1)).getFeature()).isEqualTo(FeatureFactory.WALL);
         assertThat(level.getTileAt(Position.of(level.getWidth() - 1, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
 
-        assertThat(level.getTileAt(Position.of(level.getWidth() / 2, level.getHeight() / 2)).getFeature()).isEqualTo(FeatureFactory.FLOOR);
+        assertThat(level.getTileAt(Position.of(level.getWidth() / 2, level.getHeight() / 2)).getFeature())
+                .isEqualTo(FeatureFactory.FLOOR);
     }
 
     @Test
@@ -54,7 +56,7 @@ public class LevelTest {
         level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
         for (int i = 0; i < 10; i++) {
             NPC golem = EntityFactory.golem();
-            level.addEntityAtPosition(golem, Position.of(i + + 10, i + 10));
+            level.addEntityAtPosition(golem, Position.of(i + +10, i + 10));
         }
         int initialActorIndex = level.getCurrentActorIndex();
         int expectedActorIndex = initialActorIndex + 1;
@@ -70,7 +72,7 @@ public class LevelTest {
         int numberOfEntities = 100;
         for (int i = 0; i < numberOfEntities; i++) {
             NPC golem = EntityFactory.golem();
-//            golem.setAiController(new RestAIController(golem));
+            // golem.setAiController(new RestAIController(golem));
             level.addEntityAtPosition(golem, level.getEmptyTile(golem));
         }
         long totalTime = 0L;

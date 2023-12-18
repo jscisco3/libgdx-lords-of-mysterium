@@ -4,8 +4,5 @@ public enum ZoneFlavor {
     /**
      * Flavor of terrain
      */
-    FOREST,
-    BATTLEFIELD,
-    CASTLE,
-    CITY
+    FOREST, BATTLEFIELD, CASTLE, CITY
 }

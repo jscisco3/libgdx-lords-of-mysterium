@@ -85,7 +85,8 @@ public class GameScreen extends AbstractScreen implements Observer {
         adventurerUI.setWidth(playerUIOffset.x);
         adventurerUI.setHeight(Gdx.graphics.getHeight());
 
-        gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0, GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
+        gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0,
+                GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
         gameLogUI.setPosition(playerUIOffset.x, 0f);
         gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
         gameLogUI.setHeight(gameLogUIOffset.y);
@@ -95,9 +96,9 @@ public class GameScreen extends AbstractScreen implements Observer {
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
-//        levelProcessingThread = new LevelProcessingThread(this.level);
-//        gameLoop = new Thread(levelProcessingThread);
-//        gameLoop.start();
+        // levelProcessingThread = new LevelProcessingThread(this.level);
+        // gameLoop = new Thread(levelProcessingThread);
+        // gameLoop.start();
     }
 
     @Override
@@ -113,7 +114,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         }
         handleInput(delta);
         // TODO: This should be done in a separate thread?
-//        level.processAllActors();
+        // level.processAllActors();
         level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
@@ -149,42 +150,45 @@ public class GameScreen extends AbstractScreen implements Observer {
         if (!processor.isKeyDown()) {
             keyPressedTime = 0f;
         }
-//        if (this.level != hero.getLevel()) {
-//            this.level = hero.getLevel();
-//            this.hero = this.level.getHero();
-//            this.hero.calculateFieldOfView();
-//        }
+        // if (this.level != hero.getLevel()) {
+        // this.level = hero.getLevel();
+        // this.hero = this.level.getHero();
+        // this.hero.calculateFieldOfView();
+        // }
     }
 
     private void setPlayerAction(Set<Integer> input) {
         hero.handleInput(input);
         if (input.contains(Input.Keys.COMMA)) {
-            PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()), inputMultiplexer);
+            PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()),
+                    inputMultiplexer);
             popup(window);
-            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the
+            // character
             // as being pressed.
             input.clear();
         }
         // TODO: Consider opening Inventory window with prototype action
-//        if (input.contains(Input.Keys.D)) {
-//            hero.setAction(new DropItemAction(hero));
-//        }
+        // if (input.contains(Input.Keys.D)) {
+        // hero.setAction(new DropItemAction(hero));
+        // }
         // TODO: we just hide the window, and then we create a new window when we close it.
         // Consider how we can re-use or delete the old window.
         if (input.contains(Input.Keys.I)) {
             InventoryWindow inventory = new InventoryWindow("Inventory", hero, inputMultiplexer);
             popup(inventory);
-            // Have to clear the input because otherwise, when we change the input processor... it still counts the character
+            // Have to clear the input because otherwise, when we change the input processor... it still counts the
+            // character
             // as being pressed.
             input.clear();
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             logger.trace("Saving game");
-//            gameService.saveGame(saveGame);
+            // gameService.saveGame(saveGame);
             logger.trace("Game saved");
-//            zoneService.saveZone(level.getZone());
-//            zoneService.saveLevel(level);
-//            levelProcessingThread.stop();
+            // zoneService.saveZone(level.getZone());
+            // zoneService.saveLevel(level);
+            // levelProcessingThread.stop();
             Gdx.app.exit();
         }
     }
@@ -192,8 +196,8 @@ public class GameScreen extends AbstractScreen implements Observer {
     private void popup(PopupWindow popupWindow) {
         Gdx.input.setInputProcessor(popupStage);
         float newWidth = 400, newHeight = 200;
-        popupWindow.setBounds((Gdx.graphics.getWidth() - newWidth) / 2,
-                (Gdx.graphics.getHeight() - newHeight) / 2, newWidth, newHeight); //Center on screen.
+        popupWindow.setBounds((Gdx.graphics.getWidth() - newWidth) / 2, (Gdx.graphics.getHeight() - newHeight) / 2,
+                newWidth, newHeight); // Center on screen.
         popupStage.addActor(popupWindow);
         popupStage.setScrollFocus(popupWindow.getScroller());
     }

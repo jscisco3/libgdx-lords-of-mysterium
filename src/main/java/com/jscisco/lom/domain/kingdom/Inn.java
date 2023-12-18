@@ -18,10 +18,8 @@ public class Inn {
 
     public void generateHeroes(int numberToGenerate) {
         for (int i = 0; i < numberToGenerate; i++) {
-            Hero h = new Hero.Builder()
-                    .withName(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)))
-                    .withGlyph(Assets.warrior)
-                    .build();
+            Hero h = new Hero.Builder().withName(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)))
+                    .withGlyph(Assets.warrior).build();
             availableHeroes.add(h);
         }
     }

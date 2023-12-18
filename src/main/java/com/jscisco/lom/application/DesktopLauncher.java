@@ -1,6 +1,5 @@
 package com.jscisco.lom.application;
 
-
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
@@ -25,7 +24,6 @@ public class DesktopLauncher {
         TexturePacker.Settings settings = new TexturePacker.Settings();
         settings.maxWidth = 2048;
         settings.maxHeight = 2048;
-
 
         Path textureAssets = Paths.get(".", "assets", "textures");
         TexturePacker.process(settings, textureAssets.toAbsolutePath().toString(), "packed/", "assets");

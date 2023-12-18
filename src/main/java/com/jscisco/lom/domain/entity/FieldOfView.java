@@ -49,15 +49,19 @@ public class FieldOfView {
     /**
      * Calculates the vision, and can recompute the resistance map
      *
-     * @param recalculateResistanceMap true if the resistance map needs to be recalculated (e.g. if level structure has changed)
+     * @param recalculateResistanceMap
+     *            true if the resistance map needs to be recalculated (e.g. if level structure has changed)
+     *
      * @return vision
      */
     public double[][] calculateFOV(boolean recalculateResistanceMap) {
-        logger.debug("Calculating FOV for entity " + entity.getName() + " and recalculating resistance map: " + recalculateResistanceMap);
+        logger.debug("Calculating FOV for entity " + entity.getName() + " and recalculating resistance map: "
+                + recalculateResistanceMap);
         if (recalculateResistanceMap) {
             calculateResistanceMap();
         }
-//        this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), entity.getAttributes().getLightRadius().getValue());
+        // this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(),
+        // entity.getAttributes().getLightRadius().getValue());
         this.vision = fov.calculateFOV(this.resistanceMap, entity.position.getX(), entity.position.getY(), 10.0f);
         return this.vision;
     }

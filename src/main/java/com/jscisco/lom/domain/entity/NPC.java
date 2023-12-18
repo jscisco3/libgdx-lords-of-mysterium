@@ -47,6 +47,4 @@ public class NPC extends Entity {
         this.aiController = aiController;
     }
 
-
-
 }

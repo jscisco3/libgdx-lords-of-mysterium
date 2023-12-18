@@ -39,8 +39,6 @@ public class Zone {
 
     @Override
     public String toString() {
-        return "Zone{" +
-                "id=" + id +
-                '}';
+        return "Zone{" + "id=" + id + '}';
     }
 }

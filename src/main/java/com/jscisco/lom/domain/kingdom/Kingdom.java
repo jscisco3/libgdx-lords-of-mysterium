@@ -45,8 +45,6 @@ public class Kingdom {
 
     @Override
     public String toString() {
-        return "Kingdom{" +
-                ", name=" + name +
-                '}';
+        return "Kingdom{" + ", name=" + name + '}';
     }
 }

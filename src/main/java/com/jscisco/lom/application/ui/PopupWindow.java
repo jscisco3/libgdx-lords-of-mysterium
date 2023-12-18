@@ -10,7 +10,6 @@ import com.jscisco.lom.application.configuration.GameConfiguration;
 
 public abstract class PopupWindow extends Window {
 
-
     protected final Table content;
     protected final ScrollPane scroller;
     protected final InputMultiplexer previousInput;

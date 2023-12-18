@@ -39,12 +39,7 @@ public class Generated extends LevelEvent {
 
     @Override
     public String toString() {
-        return "Generated{" +
-                "id=" + id +
-                ", eventTime=" + eventTime +
-                ", strategy=" + strategy +
-                ", seed=" + seed +
-                ", levelId=" + levelId +
-                '}';
+        return "Generated{" + "id=" + id + ", eventTime=" + eventTime + ", strategy=" + strategy + ", seed=" + seed
+                + ", levelId=" + levelId + '}';
     }
 }

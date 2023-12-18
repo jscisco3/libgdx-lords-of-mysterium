@@ -44,9 +44,8 @@ public class ZoneService {
     }
 
     /**
-     * This method generates the skeleton of a zone.
-     * That is, it is responsible for creating the empty levels, persisting them to generate ids,
-     * and then linking the levels together via LevelTransitionFeatures
+     * This method generates the skeleton of a zone. That is, it is responsible for creating the empty levels,
+     * persisting them to generate ids, and then linking the levels together via LevelTransitionFeatures
      *
      * @return
      */
@@ -56,7 +55,7 @@ public class ZoneService {
 
     public Zone createZone(int depth) {
         Zone zone = new Zone();
-//        zone = zoneRepository.save(zone);
+        // zone = zoneRepository.save(zone);
         for (int i = 0; i < depth; i++) {
             createLevel(zone, 60, 60, LevelGeneratorStrategy.Strategy.GENERIC);
         }
@@ -66,24 +65,25 @@ public class ZoneService {
             Level above = zone.getLevels().get(i);
             Level below = zone.getLevels().get(i + 1);
             // Generate stairs down
-            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5), Position.of(6, 5), true);
+            LevelTransitionFeatureAdded descent = new LevelTransitionFeatureAdded(below.getId(), Position.of(5, 5),
+                    Position.of(6, 5), true);
             descent.setLevelId(above.getId());
             descent.process(above);
 
-            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(above.getId(), Position.of(6, 5), Position.of(5, 5), false);
+            LevelTransitionFeatureAdded ascent = new LevelTransitionFeatureAdded(above.getId(), Position.of(6, 5),
+                    Position.of(5, 5), false);
             ascent.setLevelId(below.getId());
             ascent.process(below);
         }
         // Populate levels ?
-//        for (Level level : zone.getLevels()) {
-//            for (int i = 0; i < 20; i++) {
-//                NPC golem = EntityFactory.golem();
-//                level.addEntityAtPosition(golem, level.getEmptyTile(golem));
-//            }
-//        }
+        // for (Level level : zone.getLevels()) {
+        // for (int i = 0; i < 20; i++) {
+        // NPC golem = EntityFactory.golem();
+        // level.addEntityAtPosition(golem, level.getEmptyTile(golem));
+        // }
+        // }
         return zone;
     }
-
 
     public Zone saveZone(Zone zone) {
         throw new UnsupportedOperationException();
@@ -95,7 +95,8 @@ public class ZoneService {
         zoneDirectory.toFile().mkdirs();
         // Save the levels
         for (int i = 0; i < zone.getLevels().size(); i++) {
-            objectMapper.writeValue(Paths.get(zoneDirectory.toString(), String.format("%d.json", i)).toFile(), zone.getLevels().get(i));
+            objectMapper.writeValue(Paths.get(zoneDirectory.toString(), String.format("%d.json", i)).toFile(),
+                    zone.getLevels().get(i));
         }
     }
 
@@ -122,7 +123,7 @@ public class ZoneService {
         event.setSeed(0xDEADBEEFL);
         event.setLevelId(level.getId());
         event.process(level);
-//        saveLevel(level);
+        // saveLevel(level);
         return level;
     }
 

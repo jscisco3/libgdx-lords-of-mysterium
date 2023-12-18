@@ -25,13 +25,11 @@ public class LoadGameScreen extends AbstractScreen {
     private final List<SaveGame> savedGames;
     private final GameService gameService;
 
-
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
         super(game);
         this.savedGames = savedGames;
         stage.setDebugAll(false);
         gameService = ServiceLocator.getBean(GameService.class);
-
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
 
@@ -69,7 +67,7 @@ public class LoadGameScreen extends AbstractScreen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     saveGame.setLastPlayed(LocalDateTime.now());
-//                    game.setScreen(gameService.loadGame(game, saveGame.getId()));
+                    // game.setScreen(gameService.loadGame(game, saveGame.getId()));
                     throw new UnsupportedOperationException();
                 }
             });
@@ -77,7 +75,6 @@ public class LoadGameScreen extends AbstractScreen {
             content.row();
         }
     }
-
 
     private static class SavedGameBlock extends Block {
         private final SaveGame saveGame;
@@ -108,6 +105,5 @@ public class LoadGameScreen extends AbstractScreen {
             this.setSize(container.getWidth(), container.getHeight());
         }
     }
-
 
 }

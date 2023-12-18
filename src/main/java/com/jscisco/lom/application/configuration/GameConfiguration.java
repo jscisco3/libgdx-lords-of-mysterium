@@ -24,7 +24,7 @@ public class GameConfiguration {
     public static final ObjectMapper mapper = new ObjectMapper();
 
     public static void configureEventBus() {
-//        eventBus.register(gameLog);
+        // eventBus.register(gameLog);
     }
 
 }

@@ -42,7 +42,8 @@ public class KingdomScreen extends AbstractScreen {
         this.kingdom = kingdom;
         backgroundTextureRegion = game.getAssets().getTextureRegion(Assets.background);
 
-        Pixmap backgroundPixmap = new Pixmap(backgroundTextureRegion.getRegionWidth(), backgroundTextureRegion.getRegionHeight(), Pixmap.Format.RGBA8888);
+        Pixmap backgroundPixmap = new Pixmap(backgroundTextureRegion.getRegionWidth(),
+                backgroundTextureRegion.getRegionHeight(), Pixmap.Format.RGBA8888);
         backgroundTexture = new Texture(backgroundPixmap);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 

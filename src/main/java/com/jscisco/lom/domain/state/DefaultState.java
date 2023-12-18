@@ -28,7 +28,8 @@ public class DefaultState extends State {
         if (input.contains(Input.Keys.RIGHT)) {
             this.action = new WalkAction(hero, Direction.E);
         }
-//        if (input.contains(Input.Keys.PERIOD) && (input.contains(Input.Keys.SHIFT_LEFT) || input.contains(Input.Keys.SHIFT_RIGHT))) {
+        // if (input.contains(Input.Keys.PERIOD) && (input.contains(Input.Keys.SHIFT_LEFT) ||
+        // input.contains(Input.Keys.SHIFT_RIGHT))) {
         if (input.contains(Input.Keys.PERIOD)) {
             this.action = new ChangeLevelAction(hero);
         }
@@ -37,10 +38,10 @@ public class DefaultState extends State {
             input.clear();
         }
         if (input.contains(Input.Keys.BACKSPACE)) {
-//            hero.getAttributes().applyBaseValueModifier(new AttributeModifier()
-//                    .withOperator(Attribute.Operator.ADD)
-//                    .withMagnitude(-10)
-//                    .forAttribute(AttributeSet.AttributeDefinition.HEALTH));
+            // hero.getAttributes().applyBaseValueModifier(new AttributeModifier()
+            // .withOperator(Attribute.Operator.ADD)
+            // .withMagnitude(-10)
+            // .forAttribute(AttributeSet.AttributeDefinition.HEALTH));
         }
     }
 

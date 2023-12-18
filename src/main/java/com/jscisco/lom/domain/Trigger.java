@@ -16,14 +16,12 @@ public class Trigger {
     /**
      * This is the event handler. It is actually what controls the trigger.
      *
-     * So for example, we may have a trigger:
-     *  When {Entity} is hit with a melee attack
-     *  The {Attacker} is poisoned for 5 turns, 2 damage per turn
+     * So for example, we may have a trigger: When {Entity} is hit with a melee attack The {Attacker} is poisoned for 5
+     * turns, 2 damage per turn
      *
-     *  When {An enemy} enters line of sight
-     *  {Trigger haver} gains 2 ev for 3 turns
+     * When {An enemy} enters line of sight {Trigger haver} gains 2 ev for 3 turns
      *
-     *  When {an entity}
+     * When {an entity}
      *
      */
     Handler handler;

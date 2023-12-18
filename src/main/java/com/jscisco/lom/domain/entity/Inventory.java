@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-
 import com.jscisco.lom.domain.item.Item;
 
 import java.util.ArrayList;

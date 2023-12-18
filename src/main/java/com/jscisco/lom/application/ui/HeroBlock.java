@@ -8,10 +8,8 @@ import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.entity.Hero;
 
 /**
- * This class represents a displayable block of information about the hero
- * Used for:
- * Initial hero select
- * (possibly) Graveyeard
+ * This class represents a displayable block of information about the hero Used for: Initial hero select (possibly)
+ * Graveyeard
  */
 public class HeroBlock extends Block {
     private final Hero hero;

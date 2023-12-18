@@ -3,7 +3,8 @@ package com.jscisco.lom.domain;
 public class Description {
     private String description;
 
-    private Description() {}
+    private Description() {
+    }
 
     private Description(String description) {
         this.description = description;

@@ -1,6 +1,5 @@
 package com.jscisco.lom.domain.entity;
 
-
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -98,9 +97,7 @@ public abstract class Entity implements Observer {
     }
 
     /**
-     * This is called when an entity is added to a level.
-     * It should:
-     * Calculate the initial DijkstraMap for the entity
+     * This is called when an entity is added to a level. It should: Calculate the initial DijkstraMap for the entity
      * Calculate FOV *and* FOV Resistance Map for the level
      *
      * @param level
@@ -220,8 +217,10 @@ public abstract class Entity implements Observer {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Entity entity = (Entity) o;
         return id.equals(entity.id);
     }
@@ -233,10 +232,6 @@ public abstract class Entity implements Observer {
 
     @Override
     public String toString() {
-        return "Entity{" +
-                "id=" + id +
-                ", name=" + name +
-                ", position=" + position +
-                '}';
+        return "Entity{" + "id=" + id + ", name=" + name + ", position=" + position + '}';
     }
 }

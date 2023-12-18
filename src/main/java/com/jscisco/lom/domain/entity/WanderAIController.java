@@ -31,21 +31,22 @@ public class WanderAIController extends AIController {
         super(entity);
     }
 
-//    @Override
-//    public Action getNextAction() {
-//        Direction d = Direction.values()[GameConfiguration.random.nextInt(Direction.values().length)];
-//        return new WalkAction(entity, d);
-//    }
+    // @Override
+    // public Action getNextAction() {
+    // Direction d = Direction.values()[GameConfiguration.random.nextInt(Direction.values().length)];
+    // return new WalkAction(entity, d);
+    // }
 
     @Override
     public Action getNextAction() {
-//        // Either we have no goal, or we reached it.
+        // // Either we have no goal, or we reached it.
         if (goal == null || entity.getPosition().toCoord().equals(goal)) {
             pickGoal();
         }
         Position p = entity.getPosition();
         // TODO: How to handle when we do not move?
-        // If we do not move, then next == our position, thus, we should remove that one and get the next coord in the path
+        // If we do not move, then next == our position, thus, we should remove that one and get the next coord in the
+        // path
         this.path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
         Coord next = path.get(0);
         logger.debug(MessageFormat.format("Picking direction from position {0} to coord {1}", p, next));
@@ -58,16 +59,16 @@ public class WanderAIController extends AIController {
             initializeDijkstraMap(entity);
         }
         if (aStarSearch == null) {
-//            initializeAStarSearch();
+            // initializeAStarSearch();
         }
         // Pick a random, walkable tile
         logger.trace("Choosing goal...");
         this.goal = entity.getLevel().getEmptyTile(entity).toCoord();
-//        this.dijkstraMap.setGoal(this.goal);
-//        this.dijkstraMap.scan(entity.position.toCoord(), null);
+        // this.dijkstraMap.setGoal(this.goal);
+        // this.dijkstraMap.scan(entity.position.toCoord(), null);
         logger.debug(MessageFormat.format("Goal chosen {0}", this.goal));
-//        calculatePathDijkstra();
-//        calculatePathAStar();
+        // calculatePathDijkstra();
+        // calculatePathAStar();
     }
 
     private Direction pickDirection() {
@@ -84,16 +85,10 @@ public class WanderAIController extends AIController {
 
     private List<Position> relativePositions() {
         Position p = entity.getPosition();
-        return Arrays.asList(
-                p.add(Direction.N.relativePosition),
-                p.add(Direction.NE.relativePosition),
-                p.add(Direction.NW.relativePosition),
-                p.add(Direction.E.relativePosition),
-                p.add(Direction.W.relativePosition),
-                p.add(Direction.SW.relativePosition),
-                p.add(Direction.S.relativePosition),
-                p.add(Direction.SE.relativePosition)
-        );
+        return Arrays.asList(p.add(Direction.N.relativePosition), p.add(Direction.NE.relativePosition),
+                p.add(Direction.NW.relativePosition), p.add(Direction.E.relativePosition),
+                p.add(Direction.W.relativePosition), p.add(Direction.SW.relativePosition),
+                p.add(Direction.S.relativePosition), p.add(Direction.SE.relativePosition));
     }
 
     private void calculatePathDijkstra() {
@@ -110,7 +105,8 @@ public class WanderAIController extends AIController {
         double[][] weights = new double[level.getWidth()][level.getWidth()];
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR : DijkstraMap.WALL;
+                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
+                        : DijkstraMap.WALL;
             }
         }
         this.dijkstraMap = new DijkstraMap(weights, Measurement.EUCLIDEAN);

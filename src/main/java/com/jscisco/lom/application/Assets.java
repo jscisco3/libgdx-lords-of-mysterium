@@ -15,9 +15,7 @@ public class Assets {
      */
 
     private final AssetDescriptor<TextureAtlas> atlas;
-//            = new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class);
-
-
+    // = new AssetDescriptor<TextureAtlas>(Gdx.files.internal("packed/assets.atlas").path(), TextureAtlas.class);
 
     // Terrain features
     public static final String floor = "floor";

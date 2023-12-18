@@ -10,11 +10,14 @@ public class LevelGeneratorStrategyFactory {
     public static LevelGeneratorStrategy GENERIC = new LevelGeneratorStrategy.GenericStrategy();
 
     public static final Map<LevelGeneratorStrategy.Strategy, LevelGeneratorStrategy> generators = Map.ofEntries(
-            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.EMPTY, new LevelGeneratorStrategy.EmptyLevelStrategy()),
-            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.GENERIC, new LevelGeneratorStrategy.GenericStrategy()),
-            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.RANDOM_ROOM, new LevelGeneratorStrategy.RandomRoomStrategy()),
-            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.CELLULAR_AUTOMATA, new LevelGeneratorStrategy.CellularAutomataStrategy())
-    );
+            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.EMPTY,
+                    new LevelGeneratorStrategy.EmptyLevelStrategy()),
+            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.GENERIC,
+                    new LevelGeneratorStrategy.GenericStrategy()),
+            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.RANDOM_ROOM,
+                    new LevelGeneratorStrategy.RandomRoomStrategy()),
+            new AbstractMap.SimpleEntry<>(LevelGeneratorStrategy.Strategy.CELLULAR_AUTOMATA,
+                    new LevelGeneratorStrategy.CellularAutomataStrategy()));
 
     public static LevelGeneratorStrategy getStrategy(LevelGeneratorStrategy.Strategy strategy) {
         return generators.get(strategy);

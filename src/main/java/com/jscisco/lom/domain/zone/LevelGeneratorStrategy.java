@@ -20,10 +20,7 @@ public abstract class LevelGeneratorStrategy {
     public abstract Tile[][] generate(int width, int height);
 
     public enum Strategy {
-        EMPTY,
-        GENERIC,
-        RANDOM_ROOM,
-        CELLULAR_AUTOMATA;
+        EMPTY, GENERIC, RANDOM_ROOM, CELLULAR_AUTOMATA;
     }
 
     public static class EmptyLevelStrategy extends LevelGeneratorStrategy {
@@ -48,16 +45,18 @@ public abstract class LevelGeneratorStrategy {
                     } else if (dungeon[x][y] == '.') {
                         tiles[x][y] = TileFactory.floorTile();
                     } else {
-                        logger.warn(MessageFormat.format("At position ({0}, {1}), we have unknown char {2} -- replacing with floor", x, y, dungeon[x][y]));
+                        logger.warn(MessageFormat.format(
+                                "At position ({0}, {1}), we have unknown char {2} -- replacing with floor", x, y,
+                                dungeon[x][y]));
                         tiles[x][y] = TileFactory.floorTile();
                     }
                 }
             }
 
             // stairs down
-//            tiles.get(7).set(7, TileFactory.stairsDown());
-//            // stairs up
-//            tiles.get(10).set(7, TileFactory.stairsUp());
+            // tiles.get(7).set(7, TileFactory.stairsDown());
+            // // stairs up
+            // tiles.get(10).set(7, TileFactory.stairsUp());
             return tiles;
         }
     }
@@ -119,7 +118,6 @@ public abstract class LevelGeneratorStrategy {
             return tiles;
         }
     }
-
 
     public static Tile[][] allWalls(int width, int height) {
         // Let's first create the floors.

@@ -20,8 +20,6 @@ public class GameVersion {
 
     @Override
     public String toString() {
-        return "GameVersion{" +
-                "version='" + version + '\'' +
-                '}';
+        return "GameVersion{" + "version='" + version + '\'' + '}';
     }
 }

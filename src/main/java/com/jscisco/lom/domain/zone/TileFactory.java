@@ -18,7 +18,6 @@ public class TileFactory {
         return new Tile(FeatureFactory.STAIRS_DOWN);
     }
 
-
     public static Tile stairsUp() {
         return new Tile(FeatureFactory.STAIRS_UP);
     }

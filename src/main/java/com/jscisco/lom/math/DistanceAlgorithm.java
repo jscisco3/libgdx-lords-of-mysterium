@@ -7,10 +7,14 @@ import com.jscisco.lom.domain.Position;
  */
 public class DistanceAlgorithm {
     /**
-     * Calculate the distance from start to end via the euclidean distance metric, without calculating the square root of the result
-     * Useful for comparing general distances without worrying about the correct result.
-     * @param start The starting position
-     * @param end The ending position
+     * Calculate the distance from start to end via the euclidean distance metric, without calculating the square root
+     * of the result Useful for comparing general distances without worrying about the correct result.
+     *
+     * @param start
+     *            The starting position
+     * @param end
+     *            The ending position
+     *
      * @return The distance
      */
     public static float euclideanSquared(Position start, Position end) {
@@ -20,8 +24,11 @@ public class DistanceAlgorithm {
     /**
      * Calculate the distance from start to end using the Manhattan distance metric.
      *
-     * @param start The starting position
-     * @param end The ending position
+     * @param start
+     *            The starting position
+     * @param end
+     *            The ending position
+     *
      * @return The distance
      */
     public static float manhattan(Position start, Position end) {

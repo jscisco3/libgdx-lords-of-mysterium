@@ -42,9 +42,11 @@ public class PlayerHunterSeekerAI extends AIController {
         if (this.dijkstraMap == null) {
             initializeDijkstraMap(entity);
         }
-        List<Coord> path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.target.getPosition().toCoord());
+        List<Coord> path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(),
+                this.target.getPosition().toCoord());
         if (path.isEmpty()) {
-            logger.info(MessageFormat.format("We have a target at position: {0} but we could not find a path from {1}", target.getPosition(), entity.getPosition()));
+            logger.info(MessageFormat.format("We have a target at position: {0} but we could not find a path from {1}",
+                    target.getPosition(), entity.getPosition()));
             return new RestAction(entity);
         }
         Direction d = Direction.byValue(Position.fromCoord(path.get(0)).subtract(entity.getPosition()));
@@ -66,7 +68,8 @@ public class PlayerHunterSeekerAI extends AIController {
         double[][] weights = new double[level.getWidth()][level.getWidth()];
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR : DijkstraMap.WALL;
+                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
+                        : DijkstraMap.WALL;
             }
         }
         this.dijkstraMap = new DijkstraMap(weights, Measurement.EUCLIDEAN);

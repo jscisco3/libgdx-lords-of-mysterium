@@ -58,8 +58,9 @@ public class Level {
     }
 
     /**
-     * This method processes all actors, returning when we have a null action (this indicates we are waiting for the player
-     * to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and skip that actor.
+     * This method processes all actors, returning when we have a null action (this indicates we are waiting for the
+     * player to input a command). If we have a null action, and the current actor is an NPC - we will log a warning and
+     * skip that actor.
      * <p>
      * However, this does not work if we have a state for the player that returns an action at all times.
      */
@@ -134,7 +135,8 @@ public class Level {
     }
 
     public void addEntityAtPosition(Entity entity, Position position) {
-        logger.info(MessageFormat.format("Adding entity: {0} at position: {1}", entity.getName().getName(), position.toString()));
+        logger.info(MessageFormat.format("Adding entity: {0} at position: {1}", entity.getName().getName(),
+                position.toString()));
         entity.setPosition(position);
         entity.setLevel(this);
         logger.info(String.valueOf(entity.getLevel().id));
@@ -160,6 +162,7 @@ public class Level {
      * Returns the first tile that is walkable for the entity and unoccupied
      *
      * @param e
+     *
      * @return
      */
     public Position getEmptyTile(Entity e) {
@@ -174,7 +177,8 @@ public class Level {
         List<Position> unexplored = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (!getTileAt(Position.of(i, j)).isExplored() && getTileAt(Position.of(i, j)).feature instanceof Floor) {
+                if (!getTileAt(Position.of(i, j)).isExplored()
+                        && getTileAt(Position.of(i, j)).feature instanceof Floor) {
                     unexplored.add(Position.of(i, j));
                 }
             }
@@ -259,9 +263,9 @@ public class Level {
      * Used for regenerating state of a level
      */
     public void processEvents(List<LevelEvent> events) {
-//        for (LevelEvent event : events) {
-//            logger.info("Event: " + event);
-//        }
+        // for (LevelEvent event : events) {
+        // logger.info("Event: " + event);
+        // }
         logger.info("Processing " + events.size() + " events.");
         for (LevelEvent event : events) {
             logger.trace("Processing event: " + event);
@@ -271,8 +275,10 @@ public class Level {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Level level = (Level) o;
         return id.equals(level.id);
     }
@@ -284,8 +290,6 @@ public class Level {
 
     @Override
     public String toString() {
-        return "Level{" +
-                "id=" + id +
-                '}';
+        return "Level{" + "id=" + id + '}';
     }
 }

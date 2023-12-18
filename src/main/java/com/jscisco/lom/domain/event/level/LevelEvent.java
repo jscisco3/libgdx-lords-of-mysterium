@@ -32,10 +32,6 @@ public abstract class LevelEvent extends Event {
 
     @Override
     public String toString() {
-        return "LevelEvent{" +
-                "id=" + id +
-                ", eventTime=" + eventTime +
-                ", levelId=" + levelId +
-                '}';
+        return "LevelEvent{" + "id=" + id + ", eventTime=" + eventTime + ", levelId=" + levelId + '}';
     }
 }

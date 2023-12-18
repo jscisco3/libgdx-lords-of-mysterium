@@ -11,7 +11,8 @@ public class SaveGame {
     private LocalDateTime lastPlayed;
     private GameVersion gameVersion;
 
-    public SaveGame() {}
+    public SaveGame() {
+    }
 
     public SaveGame(GameVersion gameVersion) {
         this.gameVersion = gameVersion;
@@ -43,9 +44,6 @@ public class SaveGame {
 
     @Override
     public String toString() {
-        return "SaveGame{" +
-                "lastPlayed=" + lastPlayed +
-                ", gameVersion=" + gameVersion +
-                '}';
+        return "SaveGame{" + "lastPlayed=" + lastPlayed + ", gameVersion=" + gameVersion + '}';
     }
 }

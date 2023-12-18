@@ -29,7 +29,7 @@ public class GameLogUI extends Table implements Observer {
         this.scroller = new ScrollPane(content);
         this.add(scroller).fill().expand();
 
-//        this.add(this.content).left().top().fillX().expandX();
+        // this.add(this.content).left().top().fillX().expandX();
     }
 
     @Override
