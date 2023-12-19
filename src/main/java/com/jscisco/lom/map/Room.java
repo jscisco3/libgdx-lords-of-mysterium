@@ -2,6 +2,10 @@ package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+
 public class Room {
     private final Position bottomLeft;
     private final Position topRight;
@@ -24,5 +28,15 @@ public class Room {
 
     public Position center() {
         return Position.of((this.bottomLeft.getX() + this.topRight.getX()) / 2, (this.bottomLeft.getY() + this.topRight.getY()) / 2);
+    }
+
+    public List<Position> points() {
+        List<Position> points = new ArrayList<>();
+        IntStream.range(bottomLeft.getX(), topRight.getX()).forEach(x -> {
+            IntStream.range(bottomLeft.getY(), topRight.getY()).forEach(y -> {
+                points.add(Position.of(x, y));
+            });
+        });
+        return points;
     }
 }

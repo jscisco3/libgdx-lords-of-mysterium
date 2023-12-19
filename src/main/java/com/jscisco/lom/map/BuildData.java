@@ -29,4 +29,10 @@ public class BuildData {
     public void setStartingPosition(Position startingPosition) {
         this.startingPosition = startingPosition;
     }
+
+    public void takeSnapshot() {
+        // Clone the level
+        this.history.add(this.level.clone());
+    }
+
 }

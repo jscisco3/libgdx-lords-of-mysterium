@@ -28,6 +28,18 @@ public class BSPBuilder implements InitialMapBuilder {
         ));
         Room first = this.rects.getFirst();
         this.addSubRects(first);
+        int numberOfRooms = 0;
+        while (numberOfRooms < 240) {
+            Room room = this.getRandomRoom(rng);
+            Room candidate = this.getRandomSubRect(room, rng);
+            if (this.isPossible(candidate, buildData.getLevel())) {
+                Utils.applyRoomToLevel(buildData.getLevel(), candidate);
+                rooms.add(candidate);
+                this.rects.add(room);
+            }
+            numberOfRooms += 1;
+
+        }
     }
 
     private void connectRooms(RNG rng, BuildData buildData) {
@@ -35,4 +47,24 @@ public class BSPBuilder implements InitialMapBuilder {
 
     private void addSubRects(Room room) {
     }
+
+    private boolean isPossible(Room room, Level level)  {
+        return false;
+    }
+
+    private Room getRandomRoom(RNG rng) {
+        if (this.rects.size() == 1) {
+            return this.rects.getFirst();
+        }
+        int roll = rng.between(0, this.rects.size());
+        return this.rects.get(roll);
+    }
+
+    private Room getRandomSubRect(Room room, RNG rng) {
+        return null;
+    }
+
+    private void digCorridor(Level level, Position start, Position end) {}
+
+
 }

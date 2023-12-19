@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Level {
+public class Level implements Cloneable {
     final Logger logger = LoggerFactory.getLogger(Level.class);
     // Representation of the level
     final int width;
@@ -24,7 +24,7 @@ public class Level {
 
     // Contents of the level
 
-    final Tile[][] tiles;
+    protected Tile[][] tiles;
 
     private List<Item> items;
     private List<Entity> entities = new ArrayList<>();
@@ -63,5 +63,18 @@ public class Level {
             });
         });
         return floorIndices;
+    }
+
+
+    @Override
+    public Level clone() {
+        try {
+            Level clone = (Level) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            // Maybe: Tiles, Items, Entities, more?
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
