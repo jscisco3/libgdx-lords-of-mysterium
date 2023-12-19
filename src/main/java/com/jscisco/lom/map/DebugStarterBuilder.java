@@ -15,7 +15,7 @@ public class DebugStarterBuilder implements InitialMapBuilder {
     }
 
     @Override
-    public void build_map(RNG rng, BuildData buildData) {
+    public void buildMap(RNG rng, BuildData buildData) {
         IntStream.range(0, buildData.getLevel().width - 1).forEach(x -> {
             IntStream.range(0, buildData.getLevel().height - 1).forEach(y -> {
                 buildData.getLevel().setTile(x, y, new Tile(FeatureFactory.FLOOR));

@@ -16,6 +16,7 @@
         <jackson.databind.version>2.12.7.1</jackson.databind.version>
         <jackson.jsr310.version>2.16.0</jackson.jsr310.version>
         <squidlib.version>3.0.3</squidlib.version>
+        <!-- TODO: Can I use spring boot? -->
         <spring.version>6.1.1</spring.version>
 
         <junit.version>5.10.0</junit.version>
