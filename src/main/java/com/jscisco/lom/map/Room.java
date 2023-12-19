@@ -6,9 +6,15 @@ public class Room {
     private final Position bottomLeft;
     private final Position topRight;
 
+    public final int width;
+
+    public final int height;
+
     public Room(Position bottomLeft, Position topRight) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
+        this.width = Math.abs(this.bottomLeft.getX() - this.topRight.getX());
+        this.height = Math.abs(this.bottomLeft.getY() - this.topRight.getY());
     }
 
     public boolean intersects(Room other) {
