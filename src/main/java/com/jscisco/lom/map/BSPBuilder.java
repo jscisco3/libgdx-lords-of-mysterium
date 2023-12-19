@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BSPBuilder implements InitialMapBuilder {
 
-    private final List<Room> rects = new ArrayList<>();
+    private final List<Rect> rects = new ArrayList<>();
 
     public BSPBuilder() {
     }
@@ -22,18 +22,18 @@ public class BSPBuilder implements InitialMapBuilder {
     }
 
     private void build(RNG rng, BuildData buildData) {
-        List<Room> rooms = new ArrayList<>();
-        this.rects.add(new Room(
+        List<Rect> rooms = new ArrayList<>();
+        this.rects.add(new Rect(
                 Position.of(2, 2),
                 Position.of(buildData.getLevel().width - 3,
                         buildData.getLevel().height - 3)
         ));
-        Room first = this.rects.getFirst();
+        Rect first = this.rects.getFirst();
         this.addSubRects(first);
         int numberOfRooms = 0;
         while (numberOfRooms < 240) {
-            Room room = this.getRandomRoom(rng);
-            Room candidate = this.getRandomSubRect(room, rng);
+            Rect room = this.getRandomRoom(rng);
+            Rect candidate = this.getRandomSubRect(room, rng);
             if (this.isPossible(candidate, buildData.getLevel())) {
                 Utils.applyRoomToLevel(buildData.getLevel(), candidate);
                 rooms.add(candidate);
@@ -47,9 +47,10 @@ public class BSPBuilder implements InitialMapBuilder {
     private void connectRooms(RNG rng, BuildData buildData) {
     }
 
-    private void addSubRects(Room room) {
+    private void addSubRects(Rect rect) {
     }
 
+<<<<<<< HEAD
     private boolean isPossible(Room room, Level level)  {
         Position expandedBottomLeft = Position.of(room.getBottomLeft().getX() -2, room.getBottomLeft().getY() - 2);
         Position expandedTopRight = Position.of(room.getTopRight().getY() + 2, room.getTopRight().getY() + 2);
@@ -75,7 +76,7 @@ public class BSPBuilder implements InitialMapBuilder {
         return true;
     }
 
-    private Room getRandomRoom(RNG rng) {
+    private Rect getRandomRoom(RNG rng) {
         if (this.rects.size() == 1) {
             return this.rects.getFirst();
         }
@@ -83,12 +84,12 @@ public class BSPBuilder implements InitialMapBuilder {
         return this.rects.get(roll);
     }
 
-    private Room getRandomSubRect(Room room, RNG rng) {
+    private Rect getRandomSubRect(Rect room, RNG rng) {
         int width = Math.max(3, rng.between(1, Math.min(room.width, 10)) - 1) + 1;
         int height = Math.max(3, rng.between(1, Math.min(room.height, 10)) - 1) + 1;
         Position bottomLeft = Position.of(rng.between(0, 5), rng.between(0, 5));
         Position topRight = Position.of(bottomLeft.getX() + width, bottomLeft.getY() + height);
-        return new Room(bottomLeft, topRight);
+        return new Rect(bottomLeft, topRight);
     }
 
     private void digCorridor(Level level, Position start, Position end) {}

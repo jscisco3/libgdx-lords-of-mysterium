@@ -5,13 +5,12 @@ import com.jscisco.lom.domain.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class BuildData {
     private List<Entity> spawnList = new ArrayList<>();
     private Level level;
     private Position startingPosition = null;
-    private List<Room> rooms = new ArrayList<>();
+    private List<Rect> rooms = new ArrayList<>();
     private List<Level> history = new ArrayList<>();
 
     BuildData(int depth, int width, int height) {

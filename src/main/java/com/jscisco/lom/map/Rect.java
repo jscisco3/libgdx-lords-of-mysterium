@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Room {
+public class Rect {
     private final Position bottomLeft;
     private final Position topRight;
 
@@ -14,14 +14,14 @@ public class Room {
 
     public final int height;
 
-    public Room(Position bottomLeft, Position topRight) {
+    public Rect(Position bottomLeft, Position topRight) {
         this.bottomLeft = bottomLeft;
         this.topRight = topRight;
         this.width = Math.abs(this.bottomLeft.getX() - this.topRight.getX());
         this.height = Math.abs(this.bottomLeft.getY() - this.topRight.getY());
     }
 
-    public boolean intersects(Room other) {
+    public boolean intersects(Rect other) {
         return this.bottomLeft.getX() <= other.topRight.getX() && this.topRight.getX() >= other.bottomLeft.getX()
                 && this.bottomLeft.getY() <= other.topRight.getY() && this.topRight.getY() >= other.bottomLeft.getY();
     }
