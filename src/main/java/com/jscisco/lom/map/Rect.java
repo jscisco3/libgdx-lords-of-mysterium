@@ -27,7 +27,8 @@ public class Rect {
     }
 
     public Position center() {
-        return Position.of((this.bottomLeft.getX() + this.topRight.getX()) / 2, (this.bottomLeft.getY() + this.topRight.getY()) / 2);
+        return Position.of((this.bottomLeft.getX() + this.topRight.getX()) / 2,
+                (this.bottomLeft.getY() + this.topRight.getY()) / 2);
     }
 
     public List<Position> points() {

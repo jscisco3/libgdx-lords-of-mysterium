@@ -69,7 +69,6 @@ public class Level implements Cloneable {
         return this.tiles[p.getX()][p.getY()];
     }
 
-
     @Override
     public Level clone() {
         try {

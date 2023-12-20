@@ -1,7 +1,6 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Floor;
 import com.jscisco.lom.domain.zone.Wall;
 import squidpony.squidmath.RNG;
 
@@ -23,16 +22,13 @@ public class BSPBuilder implements InitialMapBuilder {
 
     private void build(RNG rng, BuildData buildData) {
         List<Rect> rooms = new ArrayList<>();
-        this.rects.add(new Rect(
-                Position.of(2, 2),
-                Position.of(buildData.getLevel().width - 3,
-                        buildData.getLevel().height - 3)
-        ));
+        this.rects.add(new Rect(Position.of(2, 2),
+                Position.of(buildData.getLevel().width - 3, buildData.getLevel().height - 3)));
         Rect first = this.rects.getFirst();
         this.addSubRects(first);
         int numberOfRooms = 0;
         while (numberOfRooms < 240) {
-            Rect room = this.getRandomRoom(rng);
+            Rect room = this.getRandomRect(rng);
             Rect candidate = this.getRandomSubRect(room, rng);
             if (this.isPossible(candidate, buildData.getLevel())) {
                 Utils.applyRoomToLevel(buildData.getLevel(), candidate);
@@ -50,11 +46,10 @@ public class BSPBuilder implements InitialMapBuilder {
     private void addSubRects(Rect rect) {
     }
 
-<<<<<<< HEAD
-    private boolean isPossible(Room room, Level level)  {
-        Position expandedBottomLeft = Position.of(room.getBottomLeft().getX() -2, room.getBottomLeft().getY() - 2);
+    private boolean isPossible(Rect room, Level level) {
+        Position expandedBottomLeft = Position.of(room.getBottomLeft().getX() - 2, room.getBottomLeft().getY() - 2);
         Position expandedTopRight = Position.of(room.getTopRight().getY() + 2, room.getTopRight().getY() + 2);
-        Room expanded = new Room(expandedBottomLeft, expandedTopRight);
+        Rect expanded = new Rect(expandedBottomLeft, expandedTopRight);
         // Check if we are in the bounds of the map.
         for (Position p : expanded.points()) {
             if (p.getX() > level.width - 2) {
@@ -76,7 +71,7 @@ public class BSPBuilder implements InitialMapBuilder {
         return true;
     }
 
-    private Rect getRandomRoom(RNG rng) {
+    private Rect getRandomRect(RNG rng) {
         if (this.rects.size() == 1) {
             return this.rects.getFirst();
         }
@@ -92,7 +87,7 @@ public class BSPBuilder implements InitialMapBuilder {
         return new Rect(bottomLeft, topRight);
     }
 
-    private void digCorridor(Level level, Position start, Position end) {}
-
+    private void digCorridor(Level level, Position start, Position end) {
+    }
 
 }
