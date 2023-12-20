@@ -39,4 +39,12 @@ public class Room {
         });
         return points;
     }
+
+    public Position getBottomLeft() {
+        return bottomLeft;
+    }
+
+    public Position getTopRight() {
+        return topRight;
+    }
 }

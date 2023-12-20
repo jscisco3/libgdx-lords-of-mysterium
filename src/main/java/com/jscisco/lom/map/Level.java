@@ -65,14 +65,17 @@ public class Level implements Cloneable {
         return floorIndices;
     }
 
+    public Tile getTile(Position p) {
+        return this.tiles[p.getX()][p.getY()];
+    }
+
 
     @Override
     public Level clone() {
         try {
-            Level clone = (Level) super.clone();
             // TODO: copy mutable state here, so the clone can't change the internals of the original
             // Maybe: Tiles, Items, Entities, more?
-            return clone;
+            return (Level) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }

@@ -1,6 +1,8 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.zone.Floor;
+import com.jscisco.lom.domain.zone.Wall;
 import squidpony.squidmath.RNG;
 
 import java.util.ArrayList;
@@ -49,7 +51,28 @@ public class BSPBuilder implements InitialMapBuilder {
     }
 
     private boolean isPossible(Room room, Level level)  {
-        return false;
+        Position expandedBottomLeft = Position.of(room.getBottomLeft().getX() -2, room.getBottomLeft().getY() - 2);
+        Position expandedTopRight = Position.of(room.getTopRight().getY() + 2, room.getTopRight().getY() + 2);
+        Room expanded = new Room(expandedBottomLeft, expandedTopRight);
+        // Check if we are in the bounds of the map.
+        for (Position p : expanded.points()) {
+            if (p.getX() > level.width - 2) {
+                return false;
+            }
+            if (p.getY() > level.height - 2) {
+                return false;
+            }
+            if (p.getX() < 1) {
+                return false;
+            }
+            if (p.getY() < 1) {
+                return false;
+            }
+            if (!(level.getTile(p).getFeature() instanceof Wall)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Room getRandomRoom(RNG rng) {
@@ -61,7 +84,11 @@ public class BSPBuilder implements InitialMapBuilder {
     }
 
     private Room getRandomSubRect(Room room, RNG rng) {
-        return null;
+        int width = Math.max(3, rng.between(1, Math.min(room.width, 10)) - 1) + 1;
+        int height = Math.max(3, rng.between(1, Math.min(room.height, 10)) - 1) + 1;
+        Position bottomLeft = Position.of(rng.between(0, 5), rng.between(0, 5));
+        Position topRight = Position.of(bottomLeft.getX() + width, bottomLeft.getY() + height);
+        return new Room(bottomLeft, topRight);
     }
 
     private void digCorridor(Level level, Position start, Position end) {}
