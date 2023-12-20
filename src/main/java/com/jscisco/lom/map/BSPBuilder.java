@@ -3,12 +3,16 @@ package com.jscisco.lom.map;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.zone.TileFactory;
 import com.jscisco.lom.domain.zone.Wall;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BSPBuilder implements InitialMapBuilder {
+    private final Logger logger = LoggerFactory.getLogger(BSPBuilder.class);
 
     private final List<Rect> rects = new ArrayList<>();
 
@@ -29,13 +33,16 @@ public class BSPBuilder implements InitialMapBuilder {
         this.addSubRects(first);
         int numberOfRooms = 0;
         while (numberOfRooms < 240) {
+            logger.info(MessageFormat.format("numberOfRooms: {0}", numberOfRooms));
             Rect room = this.getRandomRect(rng);
             Rect candidate = this.getRandomSubRect(room, rng);
             if (this.isPossible(candidate, buildData.getLevel())) {
+                logger.info("Applying candidate...");
                 Utils.applyRoomToLevel(buildData.getLevel(), candidate);
                 rooms.add(candidate);
                 buildData.takeSnapshot();
                 this.rects.add(room);
+                this.addSubRects(room);
             }
             numberOfRooms += 1;
         }
@@ -107,6 +114,7 @@ public class BSPBuilder implements InitialMapBuilder {
         int height = Math.max(3, rng.between(1, Math.min(room.height, 10)) - 1) + 1;
         Position bottomLeft = Position.of(rng.between(0, 5), rng.between(0, 5));
         Position topRight = Position.of(bottomLeft.getX() + width, bottomLeft.getY() + height);
+        logger.info("Getting subrect from ({}, {})", bottomLeft, topRight);
         return new Rect(bottomLeft, topRight);
     }
 

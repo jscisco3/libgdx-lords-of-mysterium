@@ -2,11 +2,14 @@ package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BuildData {
+    private final Logger logger = LoggerFactory.getLogger(BuildData.class);
     private List<Entity> spawnList = new ArrayList<>();
     private Level level;
     private Position startingPosition = null;
@@ -31,6 +34,7 @@ public class BuildData {
 
     public void takeSnapshot() {
         // Clone the level
+        logger.info("Taking snapshot...");
         this.history.add(this.level.clone());
     }
 

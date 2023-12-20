@@ -25,7 +25,7 @@ public class DebugLevelScreen extends AbstractScreen {
     private final OrthographicCamera camera;
     private int historyIndex = 0;
     private Level currentLevel;
-    Matrix4 levelBatchTransform = new Matrix4(new Vector3(0f, 0f, 0f), new Quaternion(), new Vector3(1f, 1f, 1f));
+    // Matrix4 levelBatchTransform = new Matrix4(new Vector3(0f, 0f, 0f), new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public DebugLevelScreen(Game game, BuilderChain chain) {
         super(game);
@@ -47,7 +47,7 @@ public class DebugLevelScreen extends AbstractScreen {
                 this.historyIndex = 0;
             }
         }
-        batch.setTransformMatrix(levelBatchTransform);
+        // batch.setTransformMatrix(levelBatchTransform);
         batch.setProjectionMatrix(this.camera.combined);
         batch.begin();
         drawTerrain(batch, this.game.getAssets(), this.currentLevel);
