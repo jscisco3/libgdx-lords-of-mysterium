@@ -12,7 +12,7 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -128,12 +128,12 @@ public abstract class Entity implements Observer {
 
     public void pickup(Item item) {
         inventory.addItem(item);
-        level.removeItem(item);
+        // level.removeItem(item);
     }
 
     public void dropItem(Item item) {
         inventory.removeItem(item);
-        level.addItemAtPosition(item, position);
+        // level.addItemAtPosition(item, position);
         subject.notify(null);
     }
 
@@ -181,7 +181,7 @@ public abstract class Entity implements Observer {
         double[][] weights = new double[level.getWidth()][level.getWidth()];
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                if (level.getTileAt(Position.of(x, y)).isWalkable(this)) {
+                if (level.getTile(Position.of(x, y)).isWalkable(this)) {
                     weights[x][y] = DijkstraMap.FLOOR;
                 } else {
                     weights[x][y] = DijkstraMap.WALL;

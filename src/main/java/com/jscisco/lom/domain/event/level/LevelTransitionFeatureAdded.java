@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.event.level;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelChange;
 
 import java.util.UUID;
@@ -31,6 +31,6 @@ public class LevelTransitionFeatureAdded extends LevelEvent {
     @Override
     public void process(Level level) {
         super.process(level);
-        level.getTileAt(this.atPosition).setFeature(new LevelChange(toLevel, toPosition, descending));
+        level.getTile(this.atPosition).setFeature(new LevelChange(toLevel, toPosition, descending));
     }
 }

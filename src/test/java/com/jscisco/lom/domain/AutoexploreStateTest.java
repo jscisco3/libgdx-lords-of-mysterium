@@ -4,11 +4,10 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.state.AutoexploreState;
 import com.jscisco.lom.domain.state.DefaultState;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Tile;
 import fixtures.EntityFactory;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

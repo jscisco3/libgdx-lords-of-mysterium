@@ -50,11 +50,11 @@ public class Hero extends Entity {
         for (int x = 0; x < fov.length; x++) {
             for (int y = 0; y < fov[x].length; y++) {
                 if (fov[x][y] > 0) {
-                    this.level.getTileAt(Position.of(x, y)).explore();
+                    this.level.getTile(Position.of(x, y)).explore();
                     // TODO: Save this somehow? Notify... something?
                     TileExplored event = new TileExplored();
                     event.setPosition(Position.of(x, y));
-                    event.setLevelId(level.getId());
+                    // event.setLevelId(level.getId());
                     subject.notify(event);
                     // this.level.addEvent(event);
                 }

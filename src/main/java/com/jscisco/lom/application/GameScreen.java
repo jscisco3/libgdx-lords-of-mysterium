@@ -20,7 +20,7 @@ import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,19 +81,19 @@ public class GameScreen extends AbstractScreen implements Observer {
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
-        adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
-        adventurerUI.setWidth(playerUIOffset.x);
-        adventurerUI.setHeight(Gdx.graphics.getHeight());
+        // adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
+        // adventurerUI.setWidth(playerUIOffset.x);
+        // adventurerUI.setHeight(Gdx.graphics.getHeight());
+        //
+        // gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0,
+        // GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
+        // gameLogUI.setPosition(playerUIOffset.x, 0f);
+        // gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
+        // gameLogUI.setHeight(gameLogUIOffset.y);
 
-        gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0,
-                GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
-        gameLogUI.setPosition(playerUIOffset.x, 0f);
-        gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
-        gameLogUI.setHeight(gameLogUIOffset.y);
-
-        adventurerUI.top();
-        stage.addActor(adventurerUI);
-        stage.addActor(gameLogUI);
+        // adventurerUI.top();
+        // stage.addActor(adventurerUI);
+        // stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
         // levelProcessingThread = new LevelProcessingThread(this.level);
@@ -115,7 +115,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         handleInput(delta);
         // TODO: This should be done in a separate thread?
         // level.processAllActors();
-        level.process();
+        // level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
@@ -160,9 +160,9 @@ public class GameScreen extends AbstractScreen implements Observer {
     private void setPlayerAction(Set<Integer> input) {
         hero.handleInput(input);
         if (input.contains(Input.Keys.COMMA)) {
-            PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()),
-                    inputMultiplexer);
-            popup(window);
+            // PickupItemWindow window = new PickupItemWindow(hero, level.getItemsAtPosition(hero.getPosition()),
+            // inputMultiplexer);
+            // popup(window);
             // Have to clear the input because otherwise, when we change the input processor... it still counts the
             // character
             // as being pressed.
@@ -206,7 +206,7 @@ public class GameScreen extends AbstractScreen implements Observer {
     public void onNotify(Event event) {
         if (event instanceof HeroChangedLevelEvent) {
             this.level = hero.getLevel();
-            this.hero = this.level.getHero();
+            // this.hero = this.level.getHero();
             this.hero.calculateFieldOfView();
             this.hero.getSubject().register(this);
         }

@@ -1,7 +1,5 @@
 package com.jscisco.lom.map;
 
-// TODO: Migrate to `map` package
-
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
@@ -67,6 +65,22 @@ public class Level implements Cloneable {
 
     public Tile getTile(Position p) {
         return this.tiles[p.getX()][p.getY()];
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void removeEntity(Entity e) {
+
     }
 
     @Override

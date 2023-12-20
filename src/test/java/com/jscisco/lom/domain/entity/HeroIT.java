@@ -7,7 +7,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.DropItemAction;
 import com.jscisco.lom.domain.action.PickUpItemAction;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import org.junit.jupiter.api.BeforeEach;

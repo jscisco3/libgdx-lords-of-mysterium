@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.event.level;
 
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategyFactory;
 

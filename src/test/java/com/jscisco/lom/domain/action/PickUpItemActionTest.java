@@ -5,7 +5,7 @@ import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.item.ItemFactory;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.junit.jupiter.api.Test;
 

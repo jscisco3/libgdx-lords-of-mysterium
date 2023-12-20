@@ -15,7 +15,7 @@ import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
@@ -61,14 +61,14 @@ public class KingdomScreen extends AbstractScreen {
         portal.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                logger.info("Clicked portal");
-                Zone zone = zoneService.createZone();
-                Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
-                Hero hero = EntityFactory.player();
-                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
-                zoneService.saveLevel(level);
+                // logger.info("Clicked portal");
+                // Zone zone = zoneService.createZone();
+                // Level level = zoneService.createLevel(zone.getId(), 100, 100, LevelGeneratorStrategy.Strategy.EMPTY);
+                // Hero hero = EntityFactory.player();
+                // level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                // zoneService.saveLevel(level);
                 // TODO: Necessary?
-                game.setScreen(new GameScreen(game, hero));
+                // game.setScreen(new GameScreen(game, hero));
             }
         });
 

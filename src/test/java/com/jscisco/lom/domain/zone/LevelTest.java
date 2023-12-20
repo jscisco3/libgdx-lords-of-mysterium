@@ -4,7 +4,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
-import com.jscisco.lom.domain.entity.RestAIController;
+import com.jscisco.lom.shelf.Level;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import java.time.Duration;
 import java.time.Instant;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.in;
 
 public class LevelTest {
 
@@ -25,13 +24,13 @@ public class LevelTest {
     public void whenStageIsCreated_itHasWalls() {
         level = new Level(25, 25, new LevelGeneratorStrategy.EmptyLevelStrategy());
 
-        assertThat(level.getTileAt(Position.of(0, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
-        assertThat(level.getTileAt(Position.of(level.getWidth() - 1, level.getHeight() - 1)).getFeature())
+        assertThat(level.getTile(Position.of(0, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
+        assertThat(level.getTile(Position.of(level.getWidth() - 1, level.getHeight() - 1)).getFeature())
                 .isEqualTo(FeatureFactory.WALL);
-        assertThat(level.getTileAt(Position.of(0, level.getHeight() - 1)).getFeature()).isEqualTo(FeatureFactory.WALL);
-        assertThat(level.getTileAt(Position.of(level.getWidth() - 1, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
+        assertThat(level.getTile(Position.of(0, level.getHeight() - 1)).getFeature()).isEqualTo(FeatureFactory.WALL);
+        assertThat(level.getTile(Position.of(level.getWidth() - 1, 0)).getFeature()).isEqualTo(FeatureFactory.WALL);
 
-        assertThat(level.getTileAt(Position.of(level.getWidth() / 2, level.getHeight() / 2)).getFeature())
+        assertThat(level.getTile(Position.of(level.getWidth() / 2, level.getHeight() / 2)).getFeature())
                 .isEqualTo(FeatureFactory.FLOOR);
     }
 

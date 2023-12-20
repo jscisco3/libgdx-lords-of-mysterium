@@ -67,7 +67,7 @@ public class AdventurerUI extends Table {
         // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
         this.state.setText(hero.getState().toString());
         // this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
-        this.levelInformation.setText("Level: " + this.hero.getLevel().getId());
+        // this.levelInformation.setText("Level: " + this.hero.getLevel().getId());
         this.fps.setText(String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()));
     }
 }

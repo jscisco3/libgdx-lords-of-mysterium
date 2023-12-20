@@ -21,6 +21,13 @@ public class Rect {
         this.height = Math.abs(this.bottomLeft.getY() - this.topRight.getY());
     }
 
+    public Rect(Position bottomLeft, int width, int height) {
+        this.bottomLeft = bottomLeft;
+        this.topRight = Position.of(bottomLeft.getX() + width, bottomLeft.getY() + height);
+        this.width = width;
+        this.height = height;
+    }
+
     public boolean intersects(Rect other) {
         return this.bottomLeft.getX() <= other.topRight.getX() && this.topRight.getX() >= other.bottomLeft.getX()
                 && this.bottomLeft.getY() <= other.topRight.getY() && this.topRight.getY() >= other.bottomLeft.getY();

@@ -1,4 +1,4 @@
-package com.jscisco.lom.domain.zone;
+package com.jscisco.lom.shelf;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.application.configuration.GameConfiguration;
@@ -11,6 +11,9 @@ import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
+import com.jscisco.lom.domain.zone.Floor;
+import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
+import com.jscisco.lom.domain.zone.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,7 +133,7 @@ public class Level {
         entities.get(currentActorIndex).tick();
     }
 
-    public Tile getTileAt(Position position) {
+    public Tile getTile(Position position) {
         return tiles[position.getX()][position.getY()];
     }
 
@@ -138,8 +141,8 @@ public class Level {
         logger.info(MessageFormat.format("Adding entity: {0} at position: {1}", entity.getName().getName(),
                 position.toString()));
         entity.setPosition(position);
-        entity.setLevel(this);
-        logger.info(String.valueOf(entity.getLevel().id));
+        // entity.setLevel(this);
+        // logger.info(String.valueOf(entity.getLevel().id));
         this.entities.add(entity);
         this.subject.register(entity);
     }
@@ -177,8 +180,8 @@ public class Level {
         List<Position> unexplored = new ArrayList<>();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                if (!getTileAt(Position.of(i, j)).isExplored()
-                        && getTileAt(Position.of(i, j)).feature instanceof Floor) {
+                if (!getTile(Position.of(i, j)).isExplored()
+                        && getTile(Position.of(i, j)).getFeature() instanceof Floor) {
                     unexplored.add(Position.of(i, j));
                 }
             }
@@ -187,7 +190,7 @@ public class Level {
     }
 
     public Tile getTileOccupiedByEntity(Entity entity) {
-        return getTileAt(entity.getPosition());
+        return getTile(entity.getPosition());
     }
 
     public void addItemAtPosition(Item item, Position position) {

@@ -10,23 +10,23 @@ public class BuilderChain {
     private final List<MetaMapBuilder> metaMapBuilders = new ArrayList<>();
     private BuildData buildData;
 
-    BuilderChain data(int depth, int width, int height) {
+    public BuilderChain data(int depth, int width, int height) {
         this.buildData = new BuildData(depth, width, height);
         return this;
     }
 
-    BuilderChain startWith(InitialMapBuilder starter) {
+    public BuilderChain startWith(InitialMapBuilder starter) {
         this.starter = starter;
         return this;
     }
 
-    BuilderChain with(MetaMapBuilder builder) {
+    public BuilderChain with(MetaMapBuilder builder) {
         this.metaMapBuilders.add(builder);
         return this;
     }
 
     // TODO: Raws
-    void build(RNG rng) {
+    public void build(RNG rng) {
         if (this.starter == null) {
             throw new IllegalStateException("Cannot run a builder chain without a starter.");
         }

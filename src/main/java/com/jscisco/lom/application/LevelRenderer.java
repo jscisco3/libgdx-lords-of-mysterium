@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.FieldOfView;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.zone.Level;
 import com.jscisco.lom.domain.zone.Tile;
+import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class LevelRenderer {
     private static void drawTerrain(SpriteBatch batch, Assets assets, Level level, Hero hero) {
         for (int i = 0; i < level.getWidth(); i++) {
             for (int j = 0; j < level.getHeight(); j++) {
-                Tile t = level.getTileAt(Position.of(i, j));
+                Tile t = level.getTile(Position.of(i, j));
                 if (hero.getFieldOfView().isInSight(Position.of(i, j))) {
                     t.draw(batch, assets, i, j);
                 } else if (t.isExplored()) {
@@ -41,22 +41,22 @@ public class LevelRenderer {
 
     private static void drawItems(SpriteBatch batch, Assets assets, Level level, Hero hero) {
         FieldOfView fov = hero.getFieldOfView();
-        level.getItems().forEach(item -> {
-            assert item.getPosition() != null;
-            if (fov.isInSight(item.getPosition())) {
-                item.draw(batch, assets);
-            }
-        });
+        // level.getItems().forEach(item -> {
+        // assert item.getPosition() != null;
+        // if (fov.isInSight(item.getPosition())) {
+        // item.draw(batch, assets);
+        // }
+        // });
     }
 
     private static void drawEntities(SpriteBatch batch, Assets assets, Level level, Hero hero) {
         FieldOfView fov = hero.getFieldOfView();
-        level.getEntities().forEach(entity -> {
-            assert entity.getPosition() != null;
-            if (fov.isInSight(entity.getPosition())) {
-                entity.draw(batch, assets);
-            }
-        });
+        // level.getEntities().forEach(entity -> {
+        // assert entity.getPosition() != null;
+        // if (fov.isInSight(entity.getPosition())) {
+        // entity.draw(batch, assets);
+        // }
+        // });
     }
 
 }

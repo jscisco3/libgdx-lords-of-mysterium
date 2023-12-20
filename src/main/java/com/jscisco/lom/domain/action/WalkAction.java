@@ -21,20 +21,21 @@ public class WalkAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Position newPosition = this.source.getPosition().add(direction.relativePosition);
-        Optional<Entity> occupant = this.level.getEntities().stream().filter(e -> e.getPosition().equals(newPosition))
-                .findFirst();
-        if (occupant.isPresent()) {
-            return ActionResult.alternate(new AttackAction(source, occupant.get()));
-        }
-        if (level.getTileAt(newPosition).getFeature() instanceof Door) {
-            return ActionResult.alternate(new OpenDoorAction(source, level.getTileAt(newPosition)));
-        }
-        if (level.getTileAt(newPosition).isWalkable(source)) {
-            // TODO: This seems bad. Should not be repeating all of this in _every_ function that moves a hero
-            this.source.move(newPosition);
-            return ActionResult.succeeded();
-        }
+        // Position newPosition = this.source.getPosition().add(direction.relativePosition);
+        // Optional<Entity> occupant = this.level.getEntities().stream().filter(e ->
+        // e.getPosition().equals(newPosition))
+        // .findFirst();
+        // if (occupant.isPresent()) {
+        // return ActionResult.alternate(new AttackAction(source, occupant.get()));
+        // }
+        // if (level.getTile(newPosition).getFeature() instanceof Door) {
+        // return ActionResult.alternate(new OpenDoorAction(source, level.getTile(newPosition)));
+        // }
+        // if (level.getTile(newPosition).isWalkable(source)) {
+        // // TODO: This seems bad. Should not be repeating all of this in _every_ function that moves a hero
+        // this.source.move(newPosition);
+        // return ActionResult.succeeded();
+        // }
         return ActionResult.failed();
     }
 

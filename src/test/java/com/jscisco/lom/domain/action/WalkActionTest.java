@@ -5,7 +5,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.zone.Door;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +51,7 @@ public class WalkActionTest {
 
         Door door = new Door();
         door.close();
-        level.getTileAt(endPosition).setFeature(door);
+        level.getTile(endPosition).setFeature(door);
 
         ActionResult result = action.execute();
 

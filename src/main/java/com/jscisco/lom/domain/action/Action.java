@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.action;
 
 import com.jscisco.lom.domain.entity.Entity;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.map.Level;
 
 public abstract class Action {
 

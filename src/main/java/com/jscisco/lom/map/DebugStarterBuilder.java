@@ -21,5 +21,6 @@ public class DebugStarterBuilder implements InitialMapBuilder {
                 buildData.getLevel().setTile(x, y, new Tile(FeatureFactory.FLOOR));
             });
         });
+        buildData.takeSnapshot();
     }
 }

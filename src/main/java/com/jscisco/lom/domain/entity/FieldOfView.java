@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.entity;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidgrid.FOV;
@@ -29,7 +29,7 @@ public class FieldOfView {
         }
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                resistanceMap[x][y] = level.getTileAt(Position.of(x, y)).blocksSight(entity) ? 1.0 : 0.0;
+                resistanceMap[x][y] = level.getTile(Position.of(x, y)).blocksSight(entity) ? 1.0 : 0.0;
             }
         }
     }

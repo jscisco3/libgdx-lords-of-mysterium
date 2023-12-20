@@ -1,6 +1,7 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.zone.TileFactory;
 import com.jscisco.lom.domain.zone.Wall;
 import squidpony.squidmath.RNG;
 
@@ -33,17 +34,39 @@ public class BSPBuilder implements InitialMapBuilder {
             if (this.isPossible(candidate, buildData.getLevel())) {
                 Utils.applyRoomToLevel(buildData.getLevel(), candidate);
                 rooms.add(candidate);
+                buildData.takeSnapshot();
                 this.rects.add(room);
             }
             numberOfRooms += 1;
-
         }
+        buildData.setRooms(rooms);
     }
 
     private void connectRooms(RNG rng, BuildData buildData) {
+        List<Rect> rooms = buildData.getRooms();
+        rooms.sort((o1, o2) -> Float.compare(o1.getBottomLeft().getX(), o2.getBottomLeft().getX()));
+        for (int i = 0; i < rooms.size() - 1; i++) {
+            Rect room = rooms.get(i);
+            Rect next = rooms.get(i + 1);
+            int startX = room.getBottomLeft().getX() + rng.between(1, room.width) - 1;
+            int startY = room.getBottomLeft().getY() + rng.between(1, room.height) - 1;
+            int endX = next.getBottomLeft().getX() + rng.between(1, next.width - 1);
+            int endY = next.getBottomLeft().getY() + rng.between(1, next.height) - 1;
+            this.digCorridor(buildData.getLevel(), Position.of(startX, startY), Position.of(endX, endY));
+            buildData.takeSnapshot();
+        }
     }
 
     private void addSubRects(Rect rect) {
+        Position bottomLeft = rect.getBottomLeft();
+        Position topRight = rect.getTopRight();
+        int halfWidth = Math.max(rect.width / 2, 1);
+        int halfHeight = Math.max(rect.height / 2, 1);
+        this.rects.add(new Rect(bottomLeft, halfWidth, halfHeight));
+        this.rects.add(new Rect(Position.of(bottomLeft.getX(), bottomLeft.getY() + halfHeight), halfWidth, halfHeight));
+        this.rects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY()), halfWidth, halfHeight));
+        this.rects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY() + halfHeight), halfWidth,
+                halfHeight));
     }
 
     private boolean isPossible(Rect room, Level level) {
@@ -88,6 +111,20 @@ public class BSPBuilder implements InitialMapBuilder {
     }
 
     private void digCorridor(Level level, Position start, Position end) {
+        int x = start.getX();
+        int y = start.getY();
+        while (x != end.getX() || y != end.getY()) {
+            if (x < end.getX()) {
+                x += 1;
+            } else if (x > end.getX()) {
+                x -= 1;
+            } else if (y < end.getY()) {
+                y += 1;
+            } else if (y > end.getY()) {
+                y -= 1;
+            }
+            level.setTile(x, y, TileFactory.floorTile());
+        }
     }
 
 }

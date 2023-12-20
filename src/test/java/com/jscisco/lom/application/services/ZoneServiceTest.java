@@ -9,7 +9,7 @@ import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.LevelChange;
 import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
@@ -191,7 +191,7 @@ public class ZoneServiceTest {
         Position nextLevelPosition = Position.of(5, 5);
 
         currentLevel.addEntityAtPosition(hero, currentHeroPosition);
-        currentLevel.getTileAt(hero.getPosition())
+        currentLevel.getTile(hero.getPosition())
                 .setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
 
         ChangeLevelAction action = new ChangeLevelAction(hero);
@@ -216,7 +216,7 @@ public class ZoneServiceTest {
         Position nextLevelPosition = Position.of(5, 5);
 
         currentLevel.addEntityAtPosition(hero, currentHeroPosition);
-        currentLevel.getTileAt(hero.getPosition())
+        currentLevel.getTile(hero.getPosition())
                 .setFeature(new LevelChange(nextLevel.getId(), nextLevelPosition, false));
 
         ChangeLevelAction action = new ChangeLevelAction(hero);

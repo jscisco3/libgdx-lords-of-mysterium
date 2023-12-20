@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.event.level;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 
 public class TileExplored extends LevelEvent {
 
@@ -21,7 +21,7 @@ public class TileExplored extends LevelEvent {
     @Override
     public void process(Level level) {
         super.process(level);
-        level.getTileAt(position).explore();
+        level.getTile(position).explore();
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.zone.Floor;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import com.jscisco.lom.domain.zone.StairsDown;
 import com.jscisco.lom.domain.zone.StairsUp;
 import com.jscisco.lom.domain.zone.Tile;
@@ -22,7 +22,7 @@ public class LevelOutputToFile {
         StringBuilder sb = new StringBuilder();
         for (int j = level.getHeight() - 1; j >= 0; j--) {
             for (int i = 0; i < level.getWidth(); i++) {
-                Tile t = level.getTileAt(Position.of(i, j));
+                Tile t = level.getTile(Position.of(i, j));
                 if (t.getFeature() instanceof Wall) {
                     sb.append("#");
                 }

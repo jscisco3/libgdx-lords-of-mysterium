@@ -16,25 +16,19 @@ import com.jscisco.lom.application.services.KingdomService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.entity.EntityDefinition;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.entity.NPC;
-import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.domain.kingdom.Kingdom;
-import com.jscisco.lom.domain.zone.Level;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
 import com.jscisco.lom.domain.zone.Zone;
+import com.jscisco.lom.map.BSPBuilder;
+import com.jscisco.lom.map.BuilderChain;
+import com.jscisco.lom.map.DebugStarterBuilder;
+import com.jscisco.lom.map.Level;
 import com.jscisco.lom.persistence.GameVersion;
-import com.jscisco.lom.persistence.SaveGame;
-import org.lwjgl.system.CallbackI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.FakeLanguageGen;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.time.Instant;
+import squidpony.squidmath.RNG;
 
 public class TitleScreen extends AbstractScreen {
 
@@ -85,6 +79,10 @@ public class TitleScreen extends AbstractScreen {
         saveGameTest.setWidth(100f);
         saveGameTest.setHeight(100f);
 
+        TextButton mapGenTest = new TextButton("Map Generation Test", skin, "default");
+        mapGenTest.setWidth(100f);
+        mapGenTest.setHeight(100f);
+
         table.add(newGame);
         table.row();
         table.add(quickstart);
@@ -96,20 +94,37 @@ public class TitleScreen extends AbstractScreen {
         table.add(quitGame);
         table.row();
         table.add(saveGameTest);
+        table.row();
+        table.add(mapGenTest);
 
-        newGame.addListener(new ClickListener() {
+        // newGame.addListener(new ClickListener() {
+        // @Override
+        // public void clicked(InputEvent event, float x, float y) {
+        // game.setScreen(new NewGameScreen(game));
+        // game.getScreen().show();
+        // }
+        // });
+        //
+        // quitGame.addListener(new ClickListener() {
+        // @Override
+        // public void clicked(InputEvent event, float x, float y) {
+        // dispose();
+        // Gdx.app.exit();
+        // }
+        // });
+
+        mapGenTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new NewGameScreen(game));
-                game.getScreen().show();
-            }
-        });
+                BuilderChain chain = new BuilderChain();
+                chain.data(1, 100, 100);
+                // chain.startWith(new DebugStarterBuilder());
+                chain.startWith(new BSPBuilder());
+                chain.build(new RNG());
 
-        quitGame.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new DebugLevelScreen(game, chain));
                 dispose();
-                Gdx.app.exit();
+                game.getScreen().show();
             }
         });
 
@@ -122,23 +137,25 @@ public class TitleScreen extends AbstractScreen {
                 // Create the zone
                 Zone zone = zoneService.createZone(5);
 
-                Level level = zone.getLevels().get(0);
+                Level level = zone.getLevels().getFirst();
                 Hero hero = EntityFactory.player();
+                hero.setPosition(Position.of(1, 1));
+                hero.setLevel(level);
                 // AIState state = new AIState(hero);
                 // state.setController(new PlayerHunterSeekerAI(hero));
                 // hero.setState(state);
 
                 // level.addEntityAtPosition(hero, Position.of(1, 1));
-                level.addEntityAtPosition(hero, level.getEmptyTile(hero));
-
-                logger.debug("Level id: " + level.getId());
-
-                // Add some items;
-                for (int i = 0; i < 5; i++) {
-                    Item item = new Item.Builder().withName(Name.of("Sword")).withGlyph(Assets.sword).build();
-
-                    level.addItemAtPosition(item, Position.of(i + 3, 5));
-                }
+                // level.addEntityAtPosition(hero, level.getEmptyTile(hero));
+                //
+                // logger.debug("Level id: " + level.getId());
+                //
+                // // Add some items;
+                // for (int i = 0; i < 5; i++) {
+                // Item item = new Item.Builder().withName(Name.of("Sword")).withGlyph(Assets.sword).build();
+                //
+                // level.addItemAtPosition(item, Position.of(i + 3, 5));
+                // }
 
                 // Set the screen with the correct level.
                 // The level can get the hero, so we do not need to pass it in
@@ -148,65 +165,65 @@ public class TitleScreen extends AbstractScreen {
             }
         });
 
-        outputLevel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Level level = new Level(80, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
-                String filename = "test" + Instant.now().toString() + ".txt";
-                LevelOutputToFile.outputToFile(level, filename);
-            }
-        });
-
-        loadGame.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                try {
-                    game.setScreen(new LoadGameScreen(game, gameService.getGames()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                dispose();
-                game.getScreen().show();
-            }
-        });
-
-        saveGameTest.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                // Generate a game metadata
-                SaveGame saveGame = new SaveGame(GameVersion.of("1.0.0"));
-                // Save the metadata
-                gameService.saveGame(saveGame);
-                // Create a kingdom
-                Kingdom kingdom = new Kingdom(Name.of("Test Kingdom"));
-                // Save the kingdom
-                try {
-                    kingdomService.saveKingdom(kingdom, saveGame);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                // Create a zone with two levels
-                Zone zone = zoneService.createZone(2);
-                // Save the zone and the two levels
-                try {
-                    zoneService.saveZone(saveGame, zone);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                // Add the hero
-                Hero hero = EntityFactory.player();
-                zone.getLevels().getFirst().addEntityAtPosition(hero, Position.of(1, 1));
-
-                try {
-                    zoneService.saveZone(saveGame, zone);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        });
+        // outputLevel.addListener(new ClickListener() {
+        // @Override
+        // public void clicked(InputEvent event, float x, float y) {
+        // Level level = new Level(80, 40, new LevelGeneratorStrategy.CellularAutomataStrategy());
+        // String filename = "test" + Instant.now().toString() + ".txt";
+        // LevelOutputToFile.outputToFile(level, filename);
+        // }
+        // });
+        //
+        // loadGame.addListener(new ClickListener() {
+        // @Override
+        // public void clicked(InputEvent event, float x, float y) {
+        // try {
+        // game.setScreen(new LoadGameScreen(game, gameService.getGames()));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // dispose();
+        // game.getScreen().show();
+        // }
+        // });
+        //
+        // saveGameTest.addListener(new ClickListener() {
+        // @Override
+        // public void clicked(InputEvent event, float x, float y) {
+        // // Generate a game metadata
+        // SaveGame saveGame = new SaveGame(GameVersion.of("1.0.0"));
+        // // Save the metadata
+        // gameService.saveGame(saveGame);
+        // // Create a kingdom
+        // Kingdom kingdom = new Kingdom(Name.of("Test Kingdom"));
+        // // Save the kingdom
+        // try {
+        // kingdomService.saveKingdom(kingdom, saveGame);
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
+        //
+        // // Create a zone with two levels
+        // Zone zone = zoneService.createZone(2);
+        // // Save the zone and the two levels
+        // try {
+        // zoneService.saveZone(saveGame, zone);
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
+        //
+        // // Add the hero
+        // Hero hero = EntityFactory.player();
+        // zone.getLevels().getFirst().addEntityAtPosition(hero, Position.of(1, 1));
+        //
+        // try {
+        // zoneService.saveZone(saveGame, zone);
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
+        //
+        // }
+        // });
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);

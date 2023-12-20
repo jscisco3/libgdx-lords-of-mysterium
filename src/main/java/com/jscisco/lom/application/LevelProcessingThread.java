@@ -1,6 +1,6 @@
 package com.jscisco.lom.application;
 
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 
 public class LevelProcessingThread implements Runnable {
 

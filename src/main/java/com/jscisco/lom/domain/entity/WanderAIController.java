@@ -4,7 +4,7 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.WalkAction;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -63,10 +63,10 @@ public class WanderAIController extends AIController {
         }
         // Pick a random, walkable tile
         logger.trace("Choosing goal...");
-        this.goal = entity.getLevel().getEmptyTile(entity).toCoord();
-        // this.dijkstraMap.setGoal(this.goal);
-        // this.dijkstraMap.scan(entity.position.toCoord(), null);
-        logger.debug(MessageFormat.format("Goal chosen {0}", this.goal));
+        // this.goal = entity.getLevel().getEmptyTile(entity).toCoord();
+        // // this.dijkstraMap.setGoal(this.goal);
+        // // this.dijkstraMap.scan(entity.position.toCoord(), null);
+        // logger.debug(MessageFormat.format("Goal chosen {0}", this.goal));
         // calculatePathDijkstra();
         // calculatePathAStar();
     }
@@ -101,25 +101,25 @@ public class WanderAIController extends AIController {
     }
 
     private void initializeDijkstraMap(Entity entity) {
-        Level level = entity.getLevel();
-        double[][] weights = new double[level.getWidth()][level.getWidth()];
-        for (int x = 0; x < level.getWidth(); x++) {
-            for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
-                        : DijkstraMap.WALL;
-            }
-        }
-        this.dijkstraMap = new DijkstraMap(weights, Measurement.EUCLIDEAN);
+        // Level level = entity.getLevel();
+        // double[][] weights = new double[level.getWidth()][level.getWidth()];
+        // for (int x = 0; x < level.getWidth(); x++) {
+        // for (int y = 0; y < level.getHeight(); y++) {
+        // weights[x][y] = level.getTile(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
+        // : DijkstraMap.WALL;
+        // }
+        // }
+        // this.dijkstraMap = new DijkstraMap(weights, Measurement.EUCLIDEAN);
     }
 
     private void initializeAStarSearch() {
-        Level level = entity.level;
-        double[][] weights = new double[level.getWidth()][level.getWidth()];
-        for (int x = 0; x < level.getWidth(); x++) {
-            for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? 1.0 : DijkstraMap.WALL;
-            }
-        }
-        aStarSearch = new AStarSearch(weights, AStarSearch.SearchType.CHEBYSHEV);
+        // Level level = entity.level;
+        // double[][] weights = new double[level.getWidth()][level.getHeight()];
+        // for (int x = 0; x < level.getWidth(); x++) {
+        // for (int y = 0; y < level.getHeight(); y++) {
+        // weights[x][y] = level.getTile(Position.of(x, y)).isWalkable(entity) ? 1.0 : DijkstraMap.WALL;
+        // }
+        // }
+        // aStarSearch = new AStarSearch(weights, AStarSearch.SearchType.CHEBYSHEV);
     }
 }

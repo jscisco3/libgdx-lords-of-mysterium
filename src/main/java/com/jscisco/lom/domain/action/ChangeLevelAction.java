@@ -19,7 +19,7 @@ public class ChangeLevelAction extends Action {
 
     @Override
     public ActionResult execute() {
-        Tile t = source.getLevel().getTileAt(source.getPosition());
+        Tile t = source.getLevel().getTile(source.getPosition());
         if (t.getFeature() instanceof LevelChange) {
             LevelChange feature = (LevelChange) t.getFeature();
             // zoneService.changeLevel(source, source.getLevel().getZone(), feature.getToLevelId(),

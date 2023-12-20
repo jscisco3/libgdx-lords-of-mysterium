@@ -34,4 +34,15 @@ public class BuildData {
         this.history.add(this.level.clone());
     }
 
+    public void setRooms(List<Rect> rooms) {
+        this.rooms = rooms;
+    }
+
+    public List<Rect> getRooms() {
+        return rooms;
+    }
+
+    public List<Level> getHistory() {
+        return history;
+    }
 }

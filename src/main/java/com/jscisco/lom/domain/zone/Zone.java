@@ -1,5 +1,7 @@
 package com.jscisco.lom.domain.zone;
 
+import com.jscisco.lom.map.Level;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,10 +33,6 @@ public class Zone {
 
     public void addLevel(Level level) {
         this.levels.add(level);
-    }
-
-    public Level getLevelById(UUID levelId) {
-        return this.levels.stream().filter(level -> level.getId().equals(levelId)).findFirst().get();
     }
 
     @Override

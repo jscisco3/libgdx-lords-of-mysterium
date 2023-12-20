@@ -5,7 +5,7 @@ import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.RestAction;
 import com.jscisco.lom.domain.action.WalkAction;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
@@ -54,11 +54,12 @@ public class HunterSeekerAI extends AIController {
     }
 
     private boolean chooseTarget(Entity entity) {
-        Optional<Entity> target = entity.getLevel().getEntities().stream().filter(e -> e instanceof Hero).findFirst();
-        if (target.isPresent()) {
-            this.target = target.get();
-            return true;
-        }
+        // Optional<Entity> target = entity.getLevel().getEntities().stream().filter(e -> e instanceof
+        // Hero).findFirst();
+        // if (target.isPresent()) {
+        // this.target = target.get();
+        // return true;
+        // }
         return false;
     }
 
@@ -67,7 +68,7 @@ public class HunterSeekerAI extends AIController {
         double[][] weights = new double[level.getWidth()][level.getWidth()];
         for (int x = 0; x < level.getWidth(); x++) {
             for (int y = 0; y < level.getHeight(); y++) {
-                weights[x][y] = level.getTileAt(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
+                weights[x][y] = level.getTile(Position.of(x, y)).isWalkable(entity) ? DijkstraMap.FLOOR
                         : DijkstraMap.WALL;
             }
         }

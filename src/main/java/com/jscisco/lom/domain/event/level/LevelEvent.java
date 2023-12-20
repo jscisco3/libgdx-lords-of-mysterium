@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.event.level;
 
 import com.jscisco.lom.domain.event.Event;
-import com.jscisco.lom.domain.zone.Level;
+import com.jscisco.lom.shelf.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
