@@ -1,11 +1,17 @@
 package com.jscisco.lom.application;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
@@ -18,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.Set;
 
 public class DebugLevelScreen extends AbstractScreen {
     private final Logger logger = LoggerFactory.getLogger(DebugLevelScreen.class);
@@ -25,28 +32,36 @@ public class DebugLevelScreen extends AbstractScreen {
     private final OrthographicCamera camera;
     private int historyIndex = 0;
     private Level currentLevel;
+    private AdventureInputProcessor processor = new AdventureInputProcessor();
+    private InputMultiplexer inputMultiplexer = new InputMultiplexer();
     // Matrix4 levelBatchTransform = new Matrix4(new Vector3(0f, 0f, 0f), new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public DebugLevelScreen(Game game, BuilderChain chain) {
         super(game);
         this.chain = chain;
         this.camera = new OrthographicCamera();
+        camera.zoom = 2.0f;
         this.camera.setToOrtho(false, GameConfiguration.SCREEN_WIDTH, GameConfiguration.SCREEN_HEIGHT);
         this.camera.update();
         this.currentLevel = this.chain.getBuildData().getHistory().getFirst();
         logger.info(MessageFormat.format("Amount of history: {0}", this.chain.getBuildData().getHistory().size()));
+        stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        inputMultiplexer.addProcessor(processor);
+        inputMultiplexer.addProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
-        if (delta * 1000.0f > 16f) {
-            this.historyIndex += 1;
-            this.currentLevel = this.chain.getBuildData().getHistory().get(this.historyIndex);
-            if (this.historyIndex > this.chain.getBuildData().getHistory().size() - 1) {
-                this.historyIndex = 0;
-            }
-        }
+        handleInput(delta);
+        camera.update();
+        // if (delta * 1000.0f > 16f) {
+        // this.currentLevel = this.chain.getBuildData().getHistory().get(this.historyIndex);
+        // this.historyIndex += 1;
+        // if (this.historyIndex > this.chain.getBuildData().getHistory().size() - 1) {
+        // this.historyIndex = 0;
+        // }
+        // }
         // batch.setTransformMatrix(levelBatchTransform);
         batch.setProjectionMatrix(this.camera.combined);
         batch.begin();
@@ -57,6 +72,42 @@ public class DebugLevelScreen extends AbstractScreen {
     @Override
     public void show() {
         super.show();
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    public void handleInput(float delta) {
+        Set<Integer> keysDown = processor.getKeysDown();
+        // Camera stuff
+        int step = 5;
+        int dx = 0;
+        int dy = 0;
+        if (processor.isKeyDown()) {
+            logger.info("{}", keysDown);
+        }
+        if (keysDown.contains(Input.Keys.LEFT)) {
+            logger.info("Moving Left...");
+            dx -= step;
+        }
+        if (keysDown.contains(Input.Keys.RIGHT)) {
+            dx += step;
+        }
+        if (keysDown.contains(Input.Keys.UP)) {
+            dy += step;
+        }
+        if (keysDown.contains(Input.Keys.DOWN)) {
+            dy -= step;
+        }
+        if (keysDown.contains(Input.Keys.Z)) {
+            camera.zoom -= 0.02f;
+        }
+        if (keysDown.contains(Input.Keys.X)) {
+            camera.zoom += 0.02f;
+        }
+        if (keysDown.contains(Input.Keys.SPACE)) {
+            logger.info("zoom: {}", camera.zoom);
+            logger.info("pos: {}", camera.position);
+        }
+        camera.translate(dx, dy);
     }
 
     private static void drawTerrain(SpriteBatch batch, Assets assets, Level level) {

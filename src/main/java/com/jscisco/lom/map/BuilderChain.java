@@ -8,11 +8,10 @@ import java.util.List;
 public class BuilderChain {
     private InitialMapBuilder starter = null;
     private final List<MetaMapBuilder> metaMapBuilders = new ArrayList<>();
-    private BuildData buildData;
+    private final BuildData buildData;
 
-    public BuilderChain data(int depth, int width, int height) {
+    public BuilderChain(int depth, int width, int height) {
         this.buildData = new BuildData(depth, width, height);
-        return this;
     }
 
     public BuilderChain startWith(InitialMapBuilder starter) {

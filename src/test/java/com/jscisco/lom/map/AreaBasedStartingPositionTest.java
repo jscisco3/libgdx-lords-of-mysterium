@@ -11,12 +11,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class AreaBasedStartingPositionTest {
 
     private RNG rng;
-    private final BuilderChain chain = new BuilderChain();
+    private BuilderChain chain;
 
     @BeforeEach
     void setUp() {
         this.rng = new RNG(0xDEADBEEFL);
-        this.chain.data(1, 20, 20);
+        this.chain = new BuilderChain(1, 20, 20);
         this.chain.startWith(new DebugStarterBuilder());
     }
 

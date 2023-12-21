@@ -44,8 +44,7 @@ public class ZoneService {
         Zone zone = new Zone();
         // zone = zoneRepository.save(zone);
         // TODO: Builder
-        BuilderChain chain = new BuilderChain();
-        chain.data(1, 80, 80);
+        BuilderChain chain = new BuilderChain(1, 80, 80);
         chain.startWith(new DebugStarterBuilder());
         chain.with(new AreaBasedStartingPosition(XStart.CENTER, YStart.CENTER));
         chain.build(new RNG());

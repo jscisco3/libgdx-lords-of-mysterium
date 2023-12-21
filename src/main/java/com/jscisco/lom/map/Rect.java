@@ -55,4 +55,10 @@ public class Rect {
     public Position getTopRight() {
         return topRight;
     }
+
+    @Override
+    public String toString() {
+        return "Rect{" + "bottomLeft=" + bottomLeft + ", topRight=" + topRight + ", width=" + width + ", height="
+                + height + '}';
+    }
 }

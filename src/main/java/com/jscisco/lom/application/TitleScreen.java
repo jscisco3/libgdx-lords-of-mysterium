@@ -22,7 +22,6 @@ import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.map.BSPBuilder;
 import com.jscisco.lom.map.BuilderChain;
-import com.jscisco.lom.map.DebugStarterBuilder;
 import com.jscisco.lom.map.Level;
 import com.jscisco.lom.persistence.GameVersion;
 import org.slf4j.Logger;
@@ -116,10 +115,9 @@ public class TitleScreen extends AbstractScreen {
         mapGenTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                BuilderChain chain = new BuilderChain();
-                chain.data(1, 100, 100);
-                // chain.startWith(new DebugStarterBuilder());
+                BuilderChain chain = new BuilderChain(1, 100, 100);
                 chain.startWith(new BSPBuilder());
+                // chain.startWith(new BSPBuilder());
                 chain.build(new RNG());
 
                 game.setScreen(new DebugLevelScreen(game, chain));

@@ -28,24 +28,26 @@ public class BSPBuilder implements InitialMapBuilder {
     private void build(RNG rng, BuildData buildData) {
         List<Rect> rooms = new ArrayList<>();
         this.rects.add(new Rect(Position.of(2, 2),
-                Position.of(buildData.getLevel().width - 3, buildData.getLevel().height - 3)));
+                Position.of(buildData.getLevel().width - 5, buildData.getLevel().height - 5)));
         Rect first = this.rects.getFirst();
+        logger.info(String.valueOf(first));
         this.addSubRects(first);
+        logger.info(MessageFormat.format("There are {0} rects possible", this.rects.size()));
         int numberOfRooms = 0;
         while (numberOfRooms < 240) {
-            logger.info(MessageFormat.format("numberOfRooms: {0}", numberOfRooms));
+            logger.info(MessageFormat.format("Room Attempt: {0}", numberOfRooms));
             Rect room = this.getRandomRect(rng);
             Rect candidate = this.getRandomSubRect(room, rng);
             if (this.isPossible(candidate, buildData.getLevel())) {
                 logger.info("Applying candidate...");
                 Utils.applyRoomToLevel(buildData.getLevel(), candidate);
                 rooms.add(candidate);
-                buildData.takeSnapshot();
-                this.rects.add(room);
                 this.addSubRects(room);
+                buildData.takeSnapshot();
             }
             numberOfRooms += 1;
         }
+        logger.info(MessageFormat.format("Total rooms generated: {0}", rooms.size()));
         buildData.setRooms(rooms);
     }
 
@@ -64,23 +66,28 @@ public class BSPBuilder implements InitialMapBuilder {
         }
     }
 
-    private void addSubRects(Rect rect) {
+    protected List<Rect> addSubRects(Rect rect) {
         Position bottomLeft = rect.getBottomLeft();
-        Position topRight = rect.getTopRight();
         int halfWidth = Math.max(rect.width / 2, 1);
         int halfHeight = Math.max(rect.height / 2, 1);
-        this.rects.add(new Rect(bottomLeft, halfWidth, halfHeight));
-        this.rects.add(new Rect(Position.of(bottomLeft.getX(), bottomLeft.getY() + halfHeight), halfWidth, halfHeight));
-        this.rects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY()), halfWidth, halfHeight));
-        this.rects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY() + halfHeight), halfWidth,
+        List<Rect> subRects = new ArrayList<>();
+        subRects.add(new Rect(bottomLeft, halfWidth, halfHeight));
+        subRects.add(new Rect(Position.of(bottomLeft.getX(), bottomLeft.getY() + halfHeight), halfWidth, halfHeight));
+        subRects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY()), halfWidth, halfHeight));
+        subRects.add(new Rect(Position.of(bottomLeft.getX() + halfWidth, bottomLeft.getY() + halfHeight), halfWidth,
                 halfHeight));
+
+        this.rects.addAll(subRects);
+        return subRects;
     }
 
-    private boolean isPossible(Rect room, Level level) {
+    protected boolean isPossible(Rect room, Level level) {
         Position expandedBottomLeft = Position.of(room.getBottomLeft().getX() - 2, room.getBottomLeft().getY() - 2);
         Position expandedTopRight = Position.of(room.getTopRight().getY() + 2, room.getTopRight().getY() + 2);
         Rect expanded = new Rect(expandedBottomLeft, expandedTopRight);
         // Check if we are in the bounds of the map.
+        logger.info(MessageFormat.format("Checking if Rect ({0}, {1}) is possible", expanded.getBottomLeft(),
+                expanded.getTopRight()));
         for (Position p : expanded.points()) {
             if (p.getX() > level.width - 2) {
                 return false;
@@ -95,9 +102,11 @@ public class BSPBuilder implements InitialMapBuilder {
                 return false;
             }
             if (!(level.getTile(p).getFeature() instanceof Wall)) {
+                logger.info("Encountered a non-wall space, thus it is impossible to place a room here");
                 return false;
             }
         }
+        logger.info("Rect is possible");
         return true;
     }
 
@@ -106,16 +115,20 @@ public class BSPBuilder implements InitialMapBuilder {
             return this.rects.getFirst();
         }
         int roll = rng.between(0, this.rects.size());
-        return this.rects.get(roll);
+        logger.info("Rolled {}", roll);
+        Rect r = this.rects.get(roll);
+        logger.info("{}", r);
+        return r;
     }
 
     private Rect getRandomSubRect(Rect room, RNG rng) {
+        logger.info("Getting subrect for room: {}", room);
         int width = Math.max(3, rng.between(1, Math.min(room.width, 10)) - 1) + 1;
         int height = Math.max(3, rng.between(1, Math.min(room.height, 10)) - 1) + 1;
-        Position bottomLeft = Position.of(rng.between(0, 5), rng.between(0, 5));
+        Position bottomLeft = room.getBottomLeft().add(Position.of(rng.between(0, 5), rng.between(0, 5)));
         Position topRight = Position.of(bottomLeft.getX() + width, bottomLeft.getY() + height);
         logger.info("Getting subrect from ({}, {})", bottomLeft, topRight);
-        return new Rect(bottomLeft, topRight);
+        return new Rect(bottomLeft, width, height);
     }
 
     private void digCorridor(Level level, Position start, Position end) {

@@ -13,8 +13,8 @@ public class BuildDataTest {
     @Test
     public void generatingADebugDungeonResultsInACorrectlySizedDungeon() {
         RNG rng = new RNG(0xDEADBEEFL);
-        BuilderChain chain = new BuilderChain();
-        chain.data(1, 20, 20).startWith(new DebugStarterBuilder()).build(rng);
+        BuilderChain chain = new BuilderChain(1, 20, 20);
+        chain.startWith(new DebugStarterBuilder()).build(rng);
 
         Level level = chain.getBuildData().getLevel();
         assertThat(level.width).isEqualTo(20);
