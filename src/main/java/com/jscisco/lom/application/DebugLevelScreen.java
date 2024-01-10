@@ -82,10 +82,10 @@ public class DebugLevelScreen extends AbstractScreen {
         int dx = 0;
         int dy = 0;
         if (processor.isKeyDown()) {
-            logger.info("{}", keysDown);
+            logger.trace("{}", keysDown);
         }
         if (keysDown.contains(Input.Keys.LEFT)) {
-            logger.info("Moving Left...");
+            logger.debug("Moving Left...");
             dx -= step;
         }
         if (keysDown.contains(Input.Keys.RIGHT)) {
