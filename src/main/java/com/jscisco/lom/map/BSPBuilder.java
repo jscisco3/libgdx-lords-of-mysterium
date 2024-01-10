@@ -33,7 +33,7 @@ public class BSPBuilder implements InitialMapBuilder {
         // Start like this to ensure that we have walls surrounding us at the end.
         Rect root = new Rect(Position.of(1, 1), buildData.getLevel().width - 1, buildData.getLevel().height - 1);
         this.rects = new Node<>(root);
-        int iterations = 4;
+        int iterations = 5;
         for (int i = 0; i < iterations; i++) {
             // At each iteration, divide the leaf nodes in half. Add these children to the tree.
             // TODO: Future enhancements: Not dividing a room, where we divide, etc.
@@ -45,13 +45,13 @@ public class BSPBuilder implements InitialMapBuilder {
                 Rect r = leaf.getValue();
                 logger.debug("Adding children");
                 boolean horizontal = rng.nextBoolean();
-                if (horizontal) {
-                    for (Rect child : r.divideHorizontally(leaf.getValue().height / 2)) {
+                if (horizontal && r.height / 2 > minimumHeight) {
+                    for (Rect child : r.divideHorizontally(r.height / 2)) {
                         leaf.addChild(new Node<>(child));
                         logger.debug("---> Child: " + child);
                     }
-                } else {
-                    for (Rect child : r.divideVertically(leaf.getValue().width / 2)) {
+                } else if (!horizontal && r.width / 2 > minimumWidth) {
+                    for (Rect child : r.divideVertically(r.width / 2)) {
                         leaf.addChild(new Node<>(child));
                         logger.debug("---> Child: " + child);
                     }
@@ -61,20 +61,29 @@ public class BSPBuilder implements InitialMapBuilder {
         // The dungeon has been divided. Now, let's dig the rooms
         // TODO: For each leaf, create a smaller room and add it as a child to support connecting the rooms at the end
         for (Node<Rect> leaf : this.rects.getLeaves()) {
-            Position bottomLeft = leaf.getValue().getBottomLeft();
-            Rect room = new Rect(Position.of(bottomLeft.getX(), bottomLeft.getY()), leaf.getValue().width,
-                    leaf.getValue().height);
+            // Create the room
+            Rect r = leaf.getValue();
+            int bottomLeftX = rng.between(r.getBottomLeft().getX(),
+                    r.getBottomLeft().getX() + r.width - minimumWidth + 1);
+            int bottomLeftY = rng.between(r.getBottomLeft().getY(),
+                    r.getBottomLeft().getY() + r.height - minimumHeight + 1);
+            Position bottomLeft = Position.of(bottomLeftX, bottomLeftY);
+            Rect room = new Rect(bottomLeft, rng.between(minimumWidth, r.width - bottomLeftX),
+                    rng.between(minimumHeight, r.height - bottomLeftY));
             Utils.applyRoomToLevel(buildData.getLevel(), room);
             buildData.takeSnapshot();
+            leaf.addChild(new Node<>(room));
         }
+        connectRooms(rng, buildData);
     }
 
     private void connectRooms(RNG rng, BuildData buildData) {
-        List<Rect> rooms = buildData.getRooms();
-        rooms.sort((o1, o2) -> Float.compare(o1.getBottomLeft().getX(), o2.getBottomLeft().getX()));
+        List<Node<Rect>> rooms = this.rects.getLeaves();
+        rooms.sort(
+                (o1, o2) -> Float.compare(o1.getValue().getBottomLeft().getX(), o2.getValue().getBottomLeft().getX()));
         for (int i = 0; i < rooms.size() - 1; i++) {
-            Rect room = rooms.get(i);
-            Rect next = rooms.get(i + 1);
+            Rect room = rooms.get(i).getValue();
+            Rect next = rooms.get(i + 1).getValue();
             int startX = room.getBottomLeft().getX() + rng.between(1, room.width) - 1;
             int startY = room.getBottomLeft().getY() + rng.between(1, room.height) - 1;
             int endX = next.getBottomLeft().getX() + rng.between(1, next.width - 1);
