@@ -133,12 +133,12 @@
             <version>3.12.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-checkstyle-plugin</artifactId>
-            <version>3.3.1</version>
-            <type>maven-plugin</type>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.maven.plugins</groupId>-->
+<!--            <artifactId>maven-checkstyle-plugin</artifactId>-->
+<!--            <version>3.3.1</version>-->
+<!--            <type>maven-plugin</type>-->
+<!--        </dependency>-->
 
         <!-- Test dependencies -->
         <dependency>
