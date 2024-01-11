@@ -5,10 +5,13 @@ import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.action.ChangeLevelAction;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.Hero;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
 public class DefaultState extends State {
+    private final Logger logger = LoggerFactory.getLogger(DefaultState.class);
 
     public DefaultState(Hero hero) {
         super(hero);
@@ -16,6 +19,7 @@ public class DefaultState extends State {
 
     @Override
     public void handleInput(Set<Integer> input) {
+        logger.info("Handling input..." + input);
         if (input.contains(Input.Keys.UP)) {
             this.action = new WalkAction(hero, Direction.N);
         }

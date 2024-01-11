@@ -17,7 +17,11 @@ import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Observer;
+import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.action.ActionResult;
+import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.entity.Hero;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
 import com.jscisco.lom.map.Level;
@@ -33,6 +37,8 @@ public class GameScreen extends AbstractScreen implements Observer {
 
     Hero hero;
     Level level;
+    // Action Processing queue
+    int currentActorIndex = 0;
 
     // UI Elements
     private AdventurerUI adventurerUI;
@@ -62,6 +68,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         super(game);
         this.level = hero.getLevel();
         this.hero = hero;
+        logger.info(this.hero.getState().toString());
 
         this.hero.getSubject().register(this);
 
@@ -81,19 +88,19 @@ public class GameScreen extends AbstractScreen implements Observer {
         inputMultiplexer.addProcessor(processor);
         inputMultiplexer.addProcessor(stage);
 
-        // adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
-        // adventurerUI.setWidth(playerUIOffset.x);
-        // adventurerUI.setHeight(Gdx.graphics.getHeight());
-        //
-        // gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0,
-        // GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
-        // gameLogUI.setPosition(playerUIOffset.x, 0f);
-        // gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
-        // gameLogUI.setHeight(gameLogUIOffset.y);
+        adventurerUI = new AdventurerUI(hero, 0, 0, playerUIOffset.x, cameraHeight, Color.GRAY);
+        adventurerUI.setWidth(playerUIOffset.x);
+        adventurerUI.setHeight(Gdx.graphics.getHeight());
 
-        // adventurerUI.top();
-        // stage.addActor(adventurerUI);
-        // stage.addActor(gameLogUI);
+        gameLogUI = new GameLogUI(GameConfiguration.gameLog, playerUIOffset.x, 0,
+                GameConfiguration.SCREEN_WIDTH - playerUIOffset.x, gameLogUIOffset.y, new Color(0x7f7f7faa));
+        gameLogUI.setPosition(playerUIOffset.x, 0f);
+        gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
+        gameLogUI.setHeight(gameLogUIOffset.y);
+
+         adventurerUI.top();
+         stage.addActor(adventurerUI);
+         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
         // levelProcessingThread = new LevelProcessingThread(this.level);
@@ -114,7 +121,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         }
         handleInput(delta);
         // TODO: This should be done in a separate thread?
-        // level.processAllActors();
+        processAllActors(level);
         // level.process();
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
@@ -150,11 +157,6 @@ public class GameScreen extends AbstractScreen implements Observer {
         if (!processor.isKeyDown()) {
             keyPressedTime = 0f;
         }
-        // if (this.level != hero.getLevel()) {
-        // this.level = hero.getLevel();
-        // this.hero = this.level.getHero();
-        // this.hero.calculateFieldOfView();
-        // }
     }
 
     private void setPlayerAction(Set<Integer> input) {
@@ -209,6 +211,34 @@ public class GameScreen extends AbstractScreen implements Observer {
             // this.hero = this.level.getHero();
             this.hero.calculateFieldOfView();
             this.hero.getSubject().register(this);
+        }
+    }
+
+    public void processAllActors(Level level) {
+        while (true) {
+            Entity currentEntity = level.getEntity(currentActorIndex);
+            Action action = currentEntity.nextAction();
+            if (action == null) {
+                if (currentEntity instanceof NPC) {
+                    logger.error("NPC with a null action: " + currentEntity);
+                }
+                return;
+            }
+            while (true) {
+                ActionResult result = action.execute();
+                if (!result.success()) {
+                    // Action failed, so do not increment active actor
+                    return;
+                }
+                if (!result.hasAlternate()) {
+                    break;
+                }
+                // We have an alternative action (e.g. moving into a closed door results in a OpenDoorAction rather than MoveAction)
+                action = result.getAlternative();
+            }
+            currentActorIndex = (currentActorIndex + 1) % level.getNumberOfEntities();
+            // We start the next actors turn here?
+            level.getEntity(currentActorIndex).tick();
         }
     }
 }

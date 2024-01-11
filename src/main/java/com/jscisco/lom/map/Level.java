@@ -27,10 +27,6 @@ public class Level implements Cloneable {
     private List<Item> items;
     private List<Entity> entities = new ArrayList<>();
 
-    // Whose turn it is.
-    // TODO: This should probably not be here, instead elsewhere.
-    private int currentActorIndex = 0;
-
     public Level(int depth, int width, int height) {
         this.depth = depth;
         this.width = width;
@@ -80,7 +76,23 @@ public class Level implements Cloneable {
     }
 
     public void removeEntity(Entity e) {
+        this.entities.remove(e);
+    }
 
+    public void addEntity(Entity e) {
+        this.entities.add(e);
+    }
+
+    public Entity getEntity(int index) {
+        return this.entities.get(index);
+    }
+
+    public int getNumberOfEntities() {
+        return this.entities.size();
+    }
+
+    public List<Entity> getEntities() {
+        return entities;
     }
 
     @Override

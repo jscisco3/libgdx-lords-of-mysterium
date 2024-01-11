@@ -133,10 +133,11 @@ public class TitleScreen extends AbstractScreen {
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
                 // Create the zone
                 Zone zone = zoneService.createZone(5);
-
                 Level level = zone.getLevels().getFirst();
+                BuildData buildData = zoneService.getBuildDataAtDepth(1);
                 Hero hero = EntityFactory.player();
-                hero.setPosition(Position.of(1, 1));
+                hero.setPosition(buildData.getStartingPosition());
+                logger.info("" + hero.getPosition());
                 hero.setLevel(level);
 
                 game.setScreen(new GameScreen(game, hero));
