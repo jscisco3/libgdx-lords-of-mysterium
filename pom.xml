@@ -17,8 +17,6 @@
         <jackson.databind.version>2.12.7.1</jackson.databind.version>
         <jackson.jsr310.version>2.16.0</jackson.jsr310.version>
         <squidlib.version>3.0.3</squidlib.version>
-        <!-- TODO: Can I use spring boot? -->
-<!--        <spring.version>6.1.1</spring.version>-->
         <spring.boot.version>3.2.1</spring.boot.version>
 
         <junit.version>5.10.0</junit.version>
@@ -116,11 +114,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-context</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -138,11 +131,6 @@
             <artifactId>assertj-core</artifactId>
             <version>${assertj.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework</groupId>-->
-<!--            <artifactId>spring-test</artifactId>-->
-<!--            <version>${spring.version}</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.junit-pioneer</groupId>
             <artifactId>junit-pioneer</artifactId>
