@@ -7,8 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class BSPBuilder implements InitialMapBuilder {
@@ -31,6 +29,7 @@ public class BSPBuilder implements InitialMapBuilder {
 
     private void build(RNG rng, BuildData buildData) {
         // Start like this to ensure that we have walls surrounding us at the end.
+        // TODO: Fix issue with subdividing rooms correctly.
         Rect root = new Rect(Position.of(1, 1), buildData.getLevel().width - 1, buildData.getLevel().height - 1);
         this.rects = new Node<>(root);
         int iterations = 5;

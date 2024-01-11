@@ -1,0 +1,4 @@
+# Map Generation
+## BSP Dungeon Generation
+Rare bug of room being too close to the edge resulting in OOB exceptions.
+Proposed solution: Change bounds of initial rect?

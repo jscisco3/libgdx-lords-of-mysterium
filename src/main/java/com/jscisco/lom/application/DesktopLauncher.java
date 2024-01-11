@@ -7,10 +7,12 @@ import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@SpringBootApplication
 public class DesktopLauncher {
 
     private static final Logger logger = LoggerFactory.getLogger(DesktopLauncher.class);
