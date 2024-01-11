@@ -29,9 +29,9 @@ public class BuilderChain {
         if (this.starter == null) {
             throw new IllegalStateException("Cannot run a builder chain without a starter.");
         }
-        starter.buildMap(rng, this.buildData);
+        starter.initializeMap(rng, this.buildData);
         for (MetaMapBuilder meta : this.metaMapBuilders) {
-            meta.buildMap(rng, this.buildData);
+            meta.mutateMap(rng, this.buildData);
         }
     }
 

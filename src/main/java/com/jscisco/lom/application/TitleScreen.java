@@ -20,9 +20,7 @@ import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Zone;
-import com.jscisco.lom.map.BSPBuilder;
-import com.jscisco.lom.map.BuilderChain;
-import com.jscisco.lom.map.Level;
+import com.jscisco.lom.map.*;
 import com.jscisco.lom.persistence.GameVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,8 +114,9 @@ public class TitleScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 BuilderChain chain = new BuilderChain(1, 100, 100);
-                chain.startWith(new BSPBuilder());
-                // chain.startWith(new BSPBuilder());
+                chain.startWith(new DebugStarterBuilder());
+                chain.with(new RoomBasedStartingPosition());
+                chain.with(new RoomBasedSpawner());
                 chain.build(new RNG());
 
                 game.setScreen(new DebugLevelScreen(game, chain));
@@ -139,24 +138,7 @@ public class TitleScreen extends AbstractScreen {
                 Hero hero = EntityFactory.player();
                 hero.setPosition(Position.of(1, 1));
                 hero.setLevel(level);
-                // AIState state = new AIState(hero);
-                // state.setController(new PlayerHunterSeekerAI(hero));
-                // hero.setState(state);
 
-                // level.addEntityAtPosition(hero, Position.of(1, 1));
-                // level.addEntityAtPosition(hero, level.getEmptyTile(hero));
-                //
-                // logger.debug("Level id: " + level.getId());
-                //
-                // // Add some items;
-                // for (int i = 0; i < 5; i++) {
-                // Item item = new Item.Builder().withName(Name.of("Sword")).withGlyph(Assets.sword).build();
-                //
-                // level.addItemAtPosition(item, Position.of(i + 3, 5));
-                // }
-
-                // Set the screen with the correct level.
-                // The level can get the hero, so we do not need to pass it in
                 game.setScreen(new GameScreen(game, hero));
                 dispose();
                 game.getScreen().show();

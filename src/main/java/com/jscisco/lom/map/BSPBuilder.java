@@ -22,7 +22,7 @@ public class BSPBuilder implements InitialMapBuilder {
     }
 
     @Override
-    public void buildMap(RNG rng, BuildData buildData) {
+    public void initializeMap(RNG rng, BuildData buildData) {
         this.build(rng, buildData);
         this.connectRooms(rng, buildData);
     }

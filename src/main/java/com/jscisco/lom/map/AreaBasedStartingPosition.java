@@ -16,7 +16,7 @@ public class AreaBasedStartingPosition implements MetaMapBuilder {
     }
 
     @Override
-    public void buildMap(RNG rng, BuildData buildData) {
+    public void mutateMap(RNG rng, BuildData buildData) {
         this.build(rng, buildData);
     }
 

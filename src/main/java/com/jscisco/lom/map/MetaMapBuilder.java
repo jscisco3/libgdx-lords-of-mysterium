@@ -3,5 +3,5 @@ package com.jscisco.lom.map;
 import squidpony.squidmath.RNG;
 
 public interface MetaMapBuilder {
-    void buildMap(RNG rng, BuildData buildData);
+    void mutateMap(RNG rng, BuildData buildData);
 }
