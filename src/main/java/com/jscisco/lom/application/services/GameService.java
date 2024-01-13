@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.persistence.SaveGame;
+import com.jscisco.lom.raws.RawMaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,12 @@ public class GameService {
     final ZoneService zoneService;
     final ObjectMapper objectMapper;
 
+    final RawMaster rawMaster;
+
     @Autowired
     public GameService(ObjectMapper objectMapper, ZoneService zoneService) {
+        this.rawMaster = new RawMaster();
+        this.rawMaster.load();
         this.zoneService = zoneService;
         this.objectMapper = objectMapper;
     }
