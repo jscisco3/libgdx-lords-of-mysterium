@@ -34,20 +34,6 @@ public class ZoneService {
         this.objectMapper = objectMapper;
     }
 
-    public Zone getZone(UUID zoneId) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * This method generates the skeleton of a zone. That is, it is responsible for creating the empty levels,
-     * persisting them to generate ids, and then linking the levels together via LevelTransitionFeatures
-     *
-     * @return
-     */
-    public Zone createZone() {
-        throw new UnsupportedOperationException();
-    }
-
     public Zone createZone(int depth) {
         Zone zone = new Zone();
         IntStream.range(1, depth + 1).forEach(d -> {

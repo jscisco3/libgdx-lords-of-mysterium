@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
 import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.MathUtils;
@@ -57,7 +56,6 @@ public class GameScreen extends AbstractScreen implements Observer {
     private int cameraWidth = GameConfiguration.SCREEN_WIDTH;
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
-    private final GameService gameService;
     private final ZoneService zoneService;
 
     private final ZoneServiceObserver zoneServiceObserver;
@@ -72,7 +70,6 @@ public class GameScreen extends AbstractScreen implements Observer {
 
         this.hero.getSubject().register(this);
 
-        this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
         // TODO: pass in this.zoneService?
         this.zoneServiceObserver = new ZoneServiceObserver();
@@ -186,11 +183,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         }
         if (input.contains(Input.Keys.ESCAPE)) {
             logger.trace("Saving game");
-            // gameService.saveGame(saveGame);
             logger.trace("Game saved");
-            // zoneService.saveZone(level.getZone());
-            // zoneService.saveLevel(level);
-            // levelProcessingThread.stop();
             Gdx.app.exit();
         }
     }

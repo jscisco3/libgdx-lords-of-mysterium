@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.Block;
 import com.jscisco.lom.persistence.SaveGame;
 import org.slf4j.Logger;
@@ -23,13 +22,10 @@ public class LoadGameScreen extends AbstractScreen {
     private final Table content;
     private final ScrollPane scroller;
     private final List<SaveGame> savedGames;
-    private final GameService gameService;
-
     public LoadGameScreen(Game game, List<SaveGame> savedGames) {
         super(game);
         this.savedGames = savedGames;
         stage.setDebugAll(false);
-        gameService = ServiceLocator.getBean(GameService.class);
 
         logger.info(MessageFormat.format("We have {0} games to choose from.", this.savedGames));
 

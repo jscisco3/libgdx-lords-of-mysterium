@@ -10,14 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.services.ZoneService;
-import com.jscisco.lom.domain.entity.EntityFactory;
-import com.jscisco.lom.domain.entity.Hero;
 import com.jscisco.lom.domain.kingdom.Kingdom;
-import com.jscisco.lom.shelf.Level;
-import com.jscisco.lom.domain.zone.LevelGeneratorStrategy;
-import com.jscisco.lom.domain.zone.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +23,6 @@ public class KingdomScreen extends AbstractScreen {
     private TextureRegion backgroundTextureRegion;
     private Texture backgroundTexture;
 
-    private GameService gameService;
     private ZoneService zoneService;
 
     // UI Elements
@@ -47,7 +40,6 @@ public class KingdomScreen extends AbstractScreen {
         backgroundTexture = new Texture(backgroundPixmap);
         backgroundTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        this.gameService = ServiceLocator.getBean(GameService.class);
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
 
         kingdomName = new Label(kingdom.getName().getName(), GameConfiguration.getSkin(), "default");

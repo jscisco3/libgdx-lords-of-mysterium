@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.GameService;
 import com.jscisco.lom.application.ui.HeroBlock;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.Hero;
@@ -32,14 +31,10 @@ public class NewGameScreen extends AbstractScreen {
     private final TextArea input = new TextArea(FakeLanguageGen.FANTASY_NAME.word(true), GameConfiguration.getSkin(),
             "default");
     private final TextButton next = new TextButton("Start Game", GameConfiguration.getSkin(), "default");
-    private final GameService gameService;
-
     private static final Logger logger = LoggerFactory.getLogger(NewGameScreen.class);
 
     public NewGameScreen(Game game) {
         super(game);
-
-        gameService = ServiceLocator.getBean(GameService.class);
 
         stage.setDebugAll(true);
 

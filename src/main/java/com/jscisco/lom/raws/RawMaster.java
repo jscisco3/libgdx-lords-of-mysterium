@@ -19,7 +19,10 @@ public class RawMaster {
         try {
             RawEntity[] rawEntities = new ObjectMapper().readValue(new File("raws/entities.json"), RawEntity[].class);
             raws.entities = Arrays.asList(rawEntities);
-            logger.info("Successfully loaded entities: " + raws.entities);
+            logger.info("Successfully loaded entities: ");
+            for (RawEntity e : raws.entities) {
+                logger.info("---> " + e.name);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
