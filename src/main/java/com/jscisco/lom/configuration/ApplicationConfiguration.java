@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@PropertySource("application.properties")
+@PropertySource("application.yaml")
 @ComponentScan("com.jscisco.lom")
 public class ApplicationConfiguration {
 

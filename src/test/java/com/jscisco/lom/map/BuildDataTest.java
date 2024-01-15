@@ -1,8 +1,10 @@
 package com.jscisco.lom.map;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.domain.zone.Feature;
 import com.jscisco.lom.domain.zone.Floor;
 import com.jscisco.lom.domain.zone.Wall;
+import com.jscisco.lom.raws.RawMaster;
 import org.junit.jupiter.api.Test;
 import squidpony.squidmath.RNG;
 
@@ -13,8 +15,9 @@ public class BuildDataTest {
     @Test
     public void generatingADebugDungeonResultsInACorrectlySizedDungeon() {
         RNG rng = new RNG(0xDEADBEEFL);
+        RawMaster raws = new RawMaster(new ObjectMapper());
         BuilderChain chain = new BuilderChain(1, 20, 20);
-        chain.startWith(new DebugStarterBuilder()).build(rng);
+        chain.startWith(new DebugStarterBuilder()).build(rng, raws);
 
         Level level = chain.getBuildData().getLevel();
         assertThat(level.width).isEqualTo(20);
