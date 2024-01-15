@@ -95,9 +95,9 @@ public class GameScreen extends AbstractScreen implements Observer {
         gameLogUI.setWidth(GameConfiguration.SCREEN_WIDTH - playerUIOffset.x);
         gameLogUI.setHeight(gameLogUIOffset.y);
 
-         adventurerUI.top();
-         stage.addActor(adventurerUI);
-         stage.addActor(gameLogUI);
+        adventurerUI.top();
+        stage.addActor(adventurerUI);
+        stage.addActor(gameLogUI);
         stage.setDebugAll(false);
 
         // levelProcessingThread = new LevelProcessingThread(this.level);

@@ -28,6 +28,7 @@ public class Hero extends Entity {
             hero.name = this.name;
             hero.position = this.position;
             hero.glyph = this.glyph;
+            hero.pools = pools;
             hero.setInventory(new Inventory());
             return hero;
         }

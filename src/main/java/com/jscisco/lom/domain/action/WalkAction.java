@@ -22,12 +22,12 @@ public class WalkAction extends Action {
     @Override
     public ActionResult execute() {
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
-//        Optional<Entity> occupant = this.level.getEntities().stream().filter(e ->
-//                        e.getPosition().equals(newPosition))
-//                .findFirst();
-//        if (occupant.isPresent()) {
-//            return ActionResult.alternate(new AttackAction(source, occupant.get()));
-//        }
+        Optional<Entity> occupant = this.level.getEntities().stream().filter(e ->
+                        e.getPosition().equals(newPosition))
+                .findFirst();
+        if (occupant.isPresent()) {
+            return ActionResult.alternate(new AttackAction(source, occupant.get()));
+        }
 //        if (level.getTile(newPosition).getFeature() instanceof Door) {
 //            return ActionResult.alternate(new OpenDoorAction(source, level.getTile(newPosition)));
 //        }

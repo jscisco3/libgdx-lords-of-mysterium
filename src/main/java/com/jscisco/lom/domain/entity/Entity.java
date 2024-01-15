@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.application.Assets;
-import com.jscisco.lom.domain.Name;
-import com.jscisco.lom.domain.Observer;
-import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.Subject;
+import com.jscisco.lom.domain.*;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.LevelEvent;
@@ -47,6 +44,8 @@ public abstract class Entity implements Observer {
 
     protected Inventory inventory;
 
+    protected Pools pools;
+
     @JsonIgnore
     protected Action action = null;
 
@@ -60,6 +59,14 @@ public abstract class Entity implements Observer {
         protected Name name;
         protected Position position = Position.UNKNOWN;
         protected String glyph;
+        protected Pools pools;
+
+        @SuppressWarnings("unchecked")
+
+        public T withPools(Pools pools) {
+            this.pools = pools;
+            return (T) this;
+        }
 
         @SuppressWarnings("unchecked")
         public T withName(Name name) {
@@ -99,7 +106,7 @@ public abstract class Entity implements Observer {
     /**
      * This is called when an entity is added to a level. It should: Calculate the initial DijkstraMap for the entity
      * Calculate FOV *and* FOV Resistance Map for the level
-     *
+     * <p>
      * TODO: Is this necessary?
      *
      * @param level
@@ -164,6 +171,10 @@ public abstract class Entity implements Observer {
 
     public String getGlyph() {
         return glyph;
+    }
+
+    public Pools getPools() {
+        return pools;
     }
 
     @Override

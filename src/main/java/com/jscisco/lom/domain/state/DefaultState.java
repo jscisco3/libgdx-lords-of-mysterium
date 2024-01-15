@@ -19,7 +19,7 @@ public class DefaultState extends State {
 
     @Override
     public void handleInput(Set<Integer> input) {
-        logger.info("Handling input..." + input);
+        logger.trace("Handling input..." + input);
         if (input.contains(Input.Keys.UP)) {
             this.action = new WalkAction(hero, Direction.N);
         }

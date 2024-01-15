@@ -1,6 +1,8 @@
 [
   {
     "name": "Golem",
-    "glyph": "golem"
+    "glyph": "golem",
+    "hp": 20,
+    "level": 2
   }
 ]

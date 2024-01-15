@@ -1,5 +1,8 @@
 package com.jscisco.lom.domain.action;
 
+import com.badlogic.gdx.tools.hiero.unicodefont.effects.Effect;
+import com.jscisco.lom.domain.Pool;
+import com.jscisco.lom.domain.Pools;
 import com.jscisco.lom.domain.entity.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,24 +22,20 @@ public class AttackAction extends Action {
 
     @Override
     public ActionResult execute() {
-        float d = 10f;
-        // Attribute health = target.getAttributes().getHealth();
-        // Effect damage = new InstantEffect()
-        // .addModifier(new AttributeModifier()
-        // .forAttribute(AttributeSet.AttributeDefinition.HEALTH)
-        // .withOperator(Attribute.Operator.ADD)
-        // .withMagnitude(-d));
-        // target.applyEffect(damage);
-        // GameConfiguration.eventBus.post(new LogEvent(MessageFormat.format("{0} was dealt {1} damage by {2} and has
-        // {3} health remaining.", target.getName().getName(), d, source.getName().getName(), health.getValue())));
-        // logger.debug(MessageFormat.format("{0} was dealt {1} damage by {2} and has {3} health remaining.",
-        // target.getName().getName(), d, source.getName().getName(), health.getValue()));
-        // if (health.getValue() <= 0f) {
-        // target.applyEffect(new DurationEffect()
-        // .withDuration(Duration.permanent())
-        // .grantTag(Tag.DEAD));
-        // target.onDied();
-        // }
+        int d = 10;
+        logger.info("{} attacked {} and dealt {} damage", source.getName(), target.getName(), d);
+        Pools sourcePools = source.getPools();
+        Pools targetPools = target.getPools();
+        Pool targetHp = targetPools.getHp();
+        logger.info("{} had {} hp", target.getName(), targetHp.getCurrent());
+        targetHp.subtract(d);
+        logger.info("{} now has {} hp", target.getName(), targetHp.getCurrent());
+        if (targetHp.getCurrent() <= 0) {
+            // TODO: Level up
+            sourcePools.addExperience(targetPools.getLevel() * 100);
+            // TODO: Make this more abstract some how?
+            source.getLevel().removeEntity(target);
+        }
         return ActionResult.succeeded();
     }
 }

@@ -8,6 +8,10 @@ public class RawNPC {
     public String name;
     // Reference to the Key in the Assets Library.
     public String glyph;
+    // Pools
+    public Integer hp;
+    public Integer mp;
+    public Integer level;
     // Field of view
     // Stats
 }
