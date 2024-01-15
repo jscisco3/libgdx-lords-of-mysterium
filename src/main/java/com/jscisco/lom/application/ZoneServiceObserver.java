@@ -1,6 +1,6 @@
 package com.jscisco.lom.application;
 
-import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.services.ZoneService;
 import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.level.LevelEvent;

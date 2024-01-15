@@ -100,6 +100,8 @@ public abstract class Entity implements Observer {
      * This is called when an entity is added to a level. It should: Calculate the initial DijkstraMap for the entity
      * Calculate FOV *and* FOV Resistance Map for the level
      *
+     * TODO: Is this necessary?
+     *
      * @param level
      */
     public void setLevel(Level level) {
@@ -109,7 +111,7 @@ public abstract class Entity implements Observer {
             return;
         }
         this.level = level;
-        level.addEntity(this);
+        level.addEntity(this, this.position);
         this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
         recalculateDijkstraMap();
         this.calculateFieldOfView();

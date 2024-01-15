@@ -1,5 +1,6 @@
 package com.jscisco.lom.domain.entity;
 
+import com.jscisco.lom.ai.WanderAIController;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 

@@ -1,12 +1,27 @@
 package com.jscisco.lom.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jscisco.lom.ai.AIController;
+import com.jscisco.lom.ai.RestAIController;
+import com.jscisco.lom.ai.WanderAIController;
+import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.raws.RawNPC;
 
 public class NPC extends Entity {
 
     @JsonIgnore
     private AIController aiController;
+
+    public static NPC from(RawNPC raw) {
+        NPC npc = new NPC();
+        npc.name = Name.of(raw.name);
+        npc.glyph = raw.glyph;
+        // TODO: More raws
+        npc.aiController = new RestAIController(npc);
+        npc.inventory = new Inventory();
+        return npc;
+    }
 
     public static class Builder extends Entity.Builder<Builder> {
 

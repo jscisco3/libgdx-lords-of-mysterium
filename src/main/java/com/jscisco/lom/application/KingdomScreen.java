@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.services.ZoneService;
 import com.jscisco.lom.domain.kingdom.Kingdom;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

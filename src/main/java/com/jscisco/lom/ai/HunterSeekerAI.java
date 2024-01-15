@@ -1,10 +1,12 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.ai;
 
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.RestAction;
 import com.jscisco.lom.domain.action.WalkAction;
+import com.jscisco.lom.domain.entity.Entity;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,6 @@ import squidpony.squidmath.Coord;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 
 public class HunterSeekerAI extends AIController {
 

@@ -11,7 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.raws.RawMaster;
+import com.jscisco.lom.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
@@ -31,14 +32,16 @@ public class TitleScreen extends AbstractScreen {
     ZoneService zoneService;
     ObjectMapper objectMapper;
 
+    RawMaster raws;
+
     public TitleScreen(Game game) {
         super(game);
 
         // TODO: IOC?
         zoneService = ServiceLocator.getBean(ZoneService.class);
         objectMapper = ServiceLocator.getBean(ObjectMapper.class);
-
         GameVersion gv = ServiceLocator.getBean(GameVersion.class);
+        raws = ServiceLocator.getBean(RawMaster.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -94,7 +97,7 @@ public class TitleScreen extends AbstractScreen {
                 chain.startWith(new DebugStarterBuilder());
                 chain.with(new RoomBasedStartingPosition());
                 chain.with(new RoomBasedSpawner());
-                chain.build(new RNG());
+                chain.build(new RNG(), raws);
 
                 game.setScreen(new DebugLevelScreen(game, chain));
                 dispose();

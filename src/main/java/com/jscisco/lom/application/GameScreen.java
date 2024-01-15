@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.application.services.ZoneService;
+import com.jscisco.lom.services.ZoneService;
 import com.jscisco.lom.application.ui.*;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Observer;

@@ -79,7 +79,8 @@ public class Level implements Cloneable {
         this.entities.remove(e);
     }
 
-    public void addEntity(Entity e) {
+    public void addEntity(Entity e, Position position) {
+        e.setPosition(position);
         this.entities.add(e);
     }
 

@@ -1,5 +1,6 @@
 package com.jscisco.lom.map;
 
+import com.jscisco.lom.raws.RawMaster;
 import squidpony.squidmath.RNG;
 
 import java.util.ArrayList;
@@ -25,13 +26,13 @@ public class BuilderChain {
     }
 
     // TODO: Raws
-    public void build(RNG rng) {
+    public void build(RNG rng, RawMaster rawMaster) {
         if (this.starter == null) {
             throw new IllegalStateException("Cannot run a builder chain without a starter.");
         }
         starter.initializeMap(rng, this.buildData);
         for (MetaMapBuilder meta : this.metaMapBuilders) {
-            meta.mutateMap(rng, this.buildData);
+            meta.mutateMap(rng, this.buildData, rawMaster);
         }
     }
 

@@ -1,11 +1,9 @@
 package com.jscisco.lom.raws;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * The Raw representation of an entity.
  */
-public class RawEntity {
+public class RawNPC {
     // Name of the entity (e.g. `Goblin`)
     public String name;
     // Reference to the Key in the Assets Library.

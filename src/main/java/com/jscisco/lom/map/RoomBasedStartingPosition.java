@@ -1,14 +1,12 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.math.DistanceAlgorithm;
+import com.jscisco.lom.raws.RawMaster;
 import squidpony.squidmath.RNG;
-
-import java.util.List;
 
 public class RoomBasedStartingPosition implements MetaMapBuilder {
     @Override
-    public void mutateMap(RNG rng, BuildData buildData) {
+    public void mutateMap(RNG rng, BuildData buildData, RawMaster raws) {
         this.build(rng, buildData);
     }
 

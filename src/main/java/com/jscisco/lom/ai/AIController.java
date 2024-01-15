@@ -1,6 +1,7 @@
-package com.jscisco.lom.domain.entity;
+package com.jscisco.lom.ai;
 
 import com.jscisco.lom.domain.action.Action;
+import com.jscisco.lom.domain.entity.Entity;
 
 import java.util.UUID;
 

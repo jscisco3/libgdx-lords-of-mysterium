@@ -1,14 +1,13 @@
 package com.jscisco.lom.map;
 
+import com.jscisco.lom.raws.RawMaster;
 import squidpony.squidmath.RNG;
-
-import java.util.stream.Collectors;
 
 // TODO: Implement with spawn tables
 public class RoomBasedSpawner implements MetaMapBuilder {
 
     @Override
-    public void mutateMap(RNG rng, BuildData buildData) {
+    public void mutateMap(RNG rng, BuildData buildData, RawMaster raws) {
         if (buildData.getRooms() != null && !buildData.getRooms().isEmpty()) {
             for (Rect room : buildData.getRooms()) {
 

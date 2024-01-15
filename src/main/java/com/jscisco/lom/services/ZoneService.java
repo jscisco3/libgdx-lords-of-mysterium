@@ -1,18 +1,18 @@
-package com.jscisco.lom.application.services;
+package com.jscisco.lom.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.map.*;
 import com.jscisco.lom.random.RNGProvider;
+import com.jscisco.lom.raws.RawMaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import squidpony.squidmath.RNG;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.IntStream;
 
 /**
@@ -26,12 +26,22 @@ public class ZoneService {
     private final ObjectMapper objectMapper;
     private final Map<Integer, BuilderChain> builderChains = new HashMap<>();
 
-    @Autowired
-    private RNGProvider rngProvider;
+    private final RNGProvider rngProvider;
+
+    private final EntityService entityService;
+
+    private final RawMaster raws;
 
     @Autowired
-    public ZoneService(ObjectMapper objectMapper) {
+    public ZoneService(ObjectMapper objectMapper,
+                       RNGProvider rngProvider,
+                       EntityService entityService,
+                       RawMaster raws
+                       ) {
         this.objectMapper = objectMapper;
+        this.rngProvider = rngProvider;
+        this.entityService = entityService;
+        this.raws = raws;
     }
 
     public Zone createZone(int depth) {
@@ -41,9 +51,15 @@ public class ZoneService {
             chain.startWith(new DebugStarterBuilder());
             chain.with(new AreaBasedStartingPosition(XStart.CENTER, YStart.CENTER));
             // TODO: Pass in RNG
-            chain.build(rngProvider.getRng());
+            chain.build(rngProvider.getRng(), this.raws);
             builderChains.put(d, chain);
             zone.addLevel(chain.getBuildData().getLevel());
+
+            Position startingPosition = chain.getBuildData().getStartingPosition();
+            Position npcSpawnPosition = startingPosition.add(Position.of(2, 0));
+            entityService.spawnNPC(this.raws, "Golem", chain.getBuildData().getLevel(), npcSpawnPosition);
+
+
         });
         return zone;
     }

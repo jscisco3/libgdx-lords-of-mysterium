@@ -1,7 +1,7 @@
 package com.jscisco.lom.domain.state;
 
 import com.jscisco.lom.domain.action.Action;
-import com.jscisco.lom.domain.entity.AIController;
+import com.jscisco.lom.ai.AIController;
 import com.jscisco.lom.domain.entity.Hero;
 
 import java.util.Set;
