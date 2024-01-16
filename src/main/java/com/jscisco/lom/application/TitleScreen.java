@@ -11,8 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jscisco.lom.Game;
-import com.jscisco.lom.raws.RawMaster;
-import com.jscisco.lom.services.ZoneService;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.entity.EntityFactory;
 import com.jscisco.lom.domain.entity.Hero;
@@ -20,6 +18,8 @@ import com.jscisco.lom.domain.kingdom.Kingdom;
 import com.jscisco.lom.domain.zone.Zone;
 import com.jscisco.lom.map.*;
 import com.jscisco.lom.persistence.GameVersion;
+import com.jscisco.lom.raws.RawMaster;
+import com.jscisco.lom.services.ZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.FakeLanguageGen;
@@ -34,6 +34,8 @@ public class TitleScreen extends AbstractScreen {
 
     RawMaster raws;
 
+    Spawner spawner;
+
     public TitleScreen(Game game) {
         super(game);
 
@@ -42,6 +44,7 @@ public class TitleScreen extends AbstractScreen {
         objectMapper = ServiceLocator.getBean(ObjectMapper.class);
         GameVersion gv = ServiceLocator.getBean(GameVersion.class);
         raws = ServiceLocator.getBean(RawMaster.class);
+        spawner = ServiceLocator.getBean(Spawner.class);
 
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera));
@@ -96,7 +99,7 @@ public class TitleScreen extends AbstractScreen {
                 BuilderChain chain = new BuilderChain(1, 100, 100);
                 chain.startWith(new DebugStarterBuilder());
                 chain.with(new RoomBasedStartingPosition());
-                chain.with(new RoomBasedSpawner());
+                chain.with(new RoomBasedSpawner(spawner));
                 chain.build(new RNG(), raws);
 
                 game.setScreen(new DebugLevelScreen(game, chain));
@@ -110,7 +113,7 @@ public class TitleScreen extends AbstractScreen {
             public void clicked(InputEvent event, float x, float y) {
                 Kingdom kingdom = new Kingdom(Name.of(FakeLanguageGen.FANTASY_NAME.word(true)));
                 // Create the zone
-                Zone zone = zoneService.createZone(5);
+                Zone zone = zoneService.createZone(1);
                 Level level = zone.getLevels().getFirst();
                 BuildData buildData = zoneService.getBuildDataAtDepth(1);
                 Hero hero = EntityFactory.player();

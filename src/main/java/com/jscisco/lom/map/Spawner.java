@@ -1,17 +1,25 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.random.RNGProvider;
 import com.jscisco.lom.raws.RawMaster;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import squidpony.squidmath.RNG;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Spawner {
+    private final Logger logger = LoggerFactory.getLogger(Spawner.class);
     private RawMaster raws;
-    private RNG rng;
+    private final RNG rng;
 
+    @Autowired
     public Spawner(RawMaster raws, RNGProvider rngProvider) {
         this.raws = raws;
         this.rng = rngProvider.getRng();
@@ -25,7 +33,8 @@ public class Spawner {
                 region.add(p);
             }
         });
-        // Pass them to spawnRegion
+        // Pass them to spawnRegion, which is responsible for
+        // actually spawning entities.
         spawnRegion(level, region);
     }
 
@@ -36,7 +45,23 @@ public class Spawner {
      * @param region The valid positions for spawning
      */
     public void spawnRegion(Level level, List<Position> region) {
-
+        int num_spawns = 4;
+        for (int i = 0; i < num_spawns; i++) {
+            Position p = rng.getRandomElement(region);
+            // Get random entity from Raws
+            int roll = rng.between(0, 2);
+            String toSpawn;
+            if (roll == 0) {
+                toSpawn = "Golem";
+            } else {
+                toSpawn = "Bat";
+            }
+            NPC npc = NPC.from(
+                    raws.getRaws().getNPC(toSpawn)
+            );
+            level.addEntity(npc, p);
+            logger.info("Spawning {} at {}", npc.getName(), p);
+        }
     }
 
     private void spawnNPC() {

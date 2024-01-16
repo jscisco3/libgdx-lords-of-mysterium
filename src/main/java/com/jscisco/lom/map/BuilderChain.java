@@ -25,7 +25,6 @@ public class BuilderChain {
         return this;
     }
 
-    // TODO: Raws
     public void build(RNG rng, RawMaster rawMaster) {
         if (this.starter == null) {
             throw new IllegalStateException("Cannot run a builder chain without a starter.");

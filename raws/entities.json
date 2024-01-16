@@ -4,5 +4,11 @@
     "glyph": "golem",
     "hp": 20,
     "level": 2
+  },
+  {
+    "name": "Bat",
+    "glyph": "bat",
+    "hp": 5,
+    "level": 1
   }
 ]

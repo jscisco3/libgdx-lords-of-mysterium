@@ -32,34 +32,34 @@ public class ZoneService {
 
     private final RawMaster raws;
 
+    private final Spawner spawner;
+
     @Autowired
     public ZoneService(ObjectMapper objectMapper,
                        RNGProvider rngProvider,
                        EntityService entityService,
-                       RawMaster raws
-                       ) {
+                       RawMaster raws,
+                       Spawner spawner
+    ) {
         this.objectMapper = objectMapper;
         this.rngProvider = rngProvider;
         this.entityService = entityService;
         this.raws = raws;
+        this.spawner = spawner;
     }
 
     public Zone createZone(int depth) {
         Zone zone = new Zone();
         IntStream.range(1, depth + 1).forEach(d -> {
             BuilderChain chain = new BuilderChain(d, 80, 80);
-            chain.startWith(new DebugStarterBuilder());
+//            chain.startWith(new DebugStarterBuilder());
+            chain.startWith(new BSPBuilder());
+            chain.with(new RoomBasedSpawner(spawner));
             chain.with(new AreaBasedStartingPosition(XStart.CENTER, YStart.CENTER));
             // TODO: Pass in RNG
             chain.build(rngProvider.getRng(), this.raws);
             builderChains.put(d, chain);
             zone.addLevel(chain.getBuildData().getLevel());
-
-            Position startingPosition = chain.getBuildData().getStartingPosition();
-            Position npcSpawnPosition = startingPosition.add(Position.of(2, 0));
-            entityService.spawnNPC(this.raws, "Golem", chain.getBuildData().getLevel(), npcSpawnPosition);
-
-
         });
         return zone;
     }
