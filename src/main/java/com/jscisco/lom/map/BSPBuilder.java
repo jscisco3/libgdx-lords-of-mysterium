@@ -2,7 +2,6 @@ package com.jscisco.lom.map;
 
 import com.jscisco.lom.collections.Node;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.TileFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import squidpony.squidmath.RNG;

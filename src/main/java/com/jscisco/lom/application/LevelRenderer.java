@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.FieldOfView;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.zone.Tile;
+import com.jscisco.lom.map.Tile;
 import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -7,7 +7,6 @@ import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.*;
 import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.event.Event;
-import com.jscisco.lom.domain.event.level.LevelEvent;
 import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import squidpony.squidai.DijkstraMap;
 import squidpony.squidgrid.Measurement;
 
-import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -179,12 +177,6 @@ public abstract class Entity implements Observer {
 
     @Override
     public void onNotify(Event event) {
-        logger.info(MessageFormat.format("Entity notified about event {0}", event));
-        logger.info(String.format("Entity notified about event %s", event.getClass().getSimpleName()));
-        if (event instanceof LevelEvent) {
-            recalculateDijkstraMap();
-            this.fieldOfView.calculateFOV(true);
-        }
     }
 
     private void recalculateDijkstraMap() {

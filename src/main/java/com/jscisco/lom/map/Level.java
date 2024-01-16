@@ -3,9 +3,6 @@ package com.jscisco.lom.map;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.Entity;
 import com.jscisco.lom.domain.item.Item;
-import com.jscisco.lom.domain.zone.Floor;
-import com.jscisco.lom.domain.zone.Tile;
-import com.jscisco.lom.domain.zone.TileFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +48,7 @@ public class Level implements Cloneable {
         final List<Position> floorIndices = new ArrayList<>();
         IntStream.range(0, this.width).forEach(x -> {
             IntStream.range(0, this.height).forEach(y -> {
-                if (this.tiles[x][y].getFeature() instanceof Floor) {
+                if (this.tiles[x][y].getFeature() == Feature.FLOOR) {
                     floorIndices.add(Position.of(x, y));
                 }
             });

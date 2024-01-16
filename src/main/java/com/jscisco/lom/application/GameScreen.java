@@ -57,9 +57,6 @@ public class GameScreen extends AbstractScreen implements Observer {
     private int cameraHeight = GameConfiguration.SCREEN_HEIGHT;
 
     private final ZoneService zoneService;
-
-    private final ZoneServiceObserver zoneServiceObserver;
-
     Matrix4 levelBatchTransform = new Matrix4(playerUIOffset, new Quaternion(), new Vector3(1f, 1f, 1f));
 
     public GameScreen(Game game, Hero hero) {
@@ -71,10 +68,6 @@ public class GameScreen extends AbstractScreen implements Observer {
         this.hero.getSubject().register(this);
 
         this.zoneService = ServiceLocator.getBean(ZoneService.class);
-        // TODO: pass in this.zoneService?
-        this.zoneServiceObserver = new ZoneServiceObserver();
-
-        this.hero.getSubject().register(this.zoneServiceObserver);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, cameraWidth, cameraHeight);

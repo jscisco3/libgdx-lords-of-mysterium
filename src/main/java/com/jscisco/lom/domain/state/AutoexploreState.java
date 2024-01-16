@@ -6,7 +6,7 @@ import com.jscisco.lom.domain.action.Action;
 import com.jscisco.lom.domain.action.WalkAction;
 import com.jscisco.lom.domain.entity.FieldOfView;
 import com.jscisco.lom.domain.entity.Hero;
-import com.jscisco.lom.domain.zone.Tile;
+import com.jscisco.lom.map.Tile;
 import com.jscisco.lom.map.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import squidpony.squidmath.Coord;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class AutoexploreState extends State {
 

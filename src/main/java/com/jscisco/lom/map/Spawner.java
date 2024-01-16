@@ -1,7 +1,6 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.Floor;
 import com.jscisco.lom.random.RNGProvider;
 import com.jscisco.lom.raws.RawMaster;
 import squidpony.squidmath.RNG;
@@ -22,7 +21,7 @@ public class Spawner {
         // Get list of possible points (floors)
         List<Position> region = new ArrayList<>();
         room.points().forEach(p -> {
-            if (level.getTile(p).getFeature() instanceof Floor) {
+            if (level.getTile(p).getFeature() == Feature.FLOOR) {
                 region.add(p);
             }
         });

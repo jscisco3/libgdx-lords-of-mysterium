@@ -1,12 +1,14 @@
-package com.jscisco.lom.domain.zone;
+package com.jscisco.lom.map;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.entity.Entity;
 
+import java.util.Set;
+
 public class Tile {
 
-    Feature feature = FeatureFactory.WALL;
+    Feature feature = Feature.WALL;
     private boolean explored = false;
 
     public Tile() {
@@ -25,11 +27,11 @@ public class Tile {
     }
 
     public boolean isWalkable(Entity entity) {
-        return feature.isWalkable(entity);
+        return Set.of(Feature.STAIRS_DOWN, Feature.STAIRS_UP, Feature.FLOOR).contains(this.feature);
     }
 
     public boolean blocksSight(Entity entity) {
-        return feature.blocksSight(entity);
+        return this.feature == Feature.WALL;
     }
 
     public boolean isExplored() {

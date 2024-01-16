@@ -1,12 +1,9 @@
 package com.jscisco.lom.map;
 
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.domain.zone.FeatureFactory;
-import com.jscisco.lom.domain.zone.Tile;
 import squidpony.squidmath.RNG;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * This builder will generate an entirely empty dungeon, surrounded by walls.

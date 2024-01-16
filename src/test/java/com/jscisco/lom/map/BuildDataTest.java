@@ -1,9 +1,6 @@
 package com.jscisco.lom.map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jscisco.lom.domain.zone.Feature;
-import com.jscisco.lom.domain.zone.Floor;
-import com.jscisco.lom.domain.zone.Wall;
 import com.jscisco.lom.raws.RawMaster;
 import org.junit.jupiter.api.Test;
 import squidpony.squidmath.RNG;
@@ -29,10 +26,10 @@ public class BuildDataTest {
         for (int i = 0; i < level.width; i++) {
             for (int j = 0; j < level.height; j++) {
                 Feature f = level.tiles[i][j].getFeature();
-                if (f instanceof Floor) {
+                if (f == Feature.FLOOR) {
                     floorCount += 1;
                 }
-                if (f instanceof Wall) {
+                if (f == Feature.WALL) {
                     wallCount += 1;
                 }
             }
