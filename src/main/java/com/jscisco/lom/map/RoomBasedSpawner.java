@@ -10,7 +10,9 @@ public class RoomBasedSpawner implements MetaMapBuilder {
     public void mutateMap(RNG rng, BuildData buildData, RawMaster raws) {
         if (buildData.getRooms() != null && !buildData.getRooms().isEmpty()) {
             for (Rect room : buildData.getRooms()) {
-
+                // Get a random point in the room
+                // Roll for a monster
+                // Spawn the monster
             }
         } else {
             throw new RuntimeException("Room based spawning only works after rooms have been created!");
