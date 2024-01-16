@@ -1,3 +1,12 @@
+- Spawn Tables
+- AI: Wanderer
+- AI: Hunter Seeker
+- Attributes
+- Items
+- Inventory
+- Equipment
+
+
 ## Packaging and Deployment
 - [ ] Run on a clean machine
   - [ ] jpackage
