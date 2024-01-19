@@ -34,7 +34,7 @@ public class HunterSeekerAI extends AIController {
 
     @Override
     public Action getNextAction() {
-        if (target == null) {
+        if (target == null || target.getPools().getHp().getCurrent() <= 0) {
             if (!chooseTarget(entity)) {
                 // Could not choose a target.
                 logger.info("Could not find a target, no hero?");

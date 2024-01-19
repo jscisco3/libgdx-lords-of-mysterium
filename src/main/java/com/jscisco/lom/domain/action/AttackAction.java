@@ -38,6 +38,7 @@ public class AttackAction extends Action {
             source.getLevel().removeEntity(target);
         }
         // TODO: Game over
+        // TODO: handle player and npc death appropriately
         return ActionResult.succeeded();
     }
 }

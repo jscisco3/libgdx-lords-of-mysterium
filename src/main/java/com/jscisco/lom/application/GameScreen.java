@@ -12,8 +12,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
-import com.jscisco.lom.services.ZoneService;
-import com.jscisco.lom.application.ui.*;
+import com.jscisco.lom.application.ui.AdventurerUI;
+import com.jscisco.lom.application.ui.GameLogUI;
+import com.jscisco.lom.application.ui.InventoryWindow;
+import com.jscisco.lom.application.ui.PopupWindow;
 import com.jscisco.lom.domain.MathUtils;
 import com.jscisco.lom.domain.Observer;
 import com.jscisco.lom.domain.action.Action;
@@ -24,6 +26,7 @@ import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.domain.event.Event;
 import com.jscisco.lom.domain.event.HeroChangedLevelEvent;
 import com.jscisco.lom.map.Level;
+import com.jscisco.lom.services.ZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,10 +95,6 @@ public class GameScreen extends AbstractScreen implements Observer {
         stage.addActor(adventurerUI);
         stage.addActor(gameLogUI);
         stage.setDebugAll(false);
-
-        // levelProcessingThread = new LevelProcessingThread(this.level);
-        // gameLoop = new Thread(levelProcessingThread);
-        // gameLoop.start();
     }
 
     @Override
@@ -110,9 +109,13 @@ public class GameScreen extends AbstractScreen implements Observer {
             logger.trace("Frame took longer than 16ms");
         }
         handleInput(delta);
-        // TODO: This should be done in a separate thread?
+        // TODO: Game States
+        logger.info("Processing actors...");
         processAllActors(level);
-        // level.process();
+        logger.info("Done processing actors...");
+        if (hero.getPools().getHp().getCurrent() <= 0) {
+            game.setScreen(new TitleScreen(game));
+        }
         updateCamera();
         batch.setTransformMatrix(levelBatchTransform);
         LevelRenderer.draw(batch, this.game.getAssets(), camera, level, hero);
@@ -222,6 +225,10 @@ public class GameScreen extends AbstractScreen implements Observer {
                 }
                 // We have an alternative action (e.g. moving into a closed door results in a OpenDoorAction rather than MoveAction)
                 action = result.getAlternative();
+            }
+            // TODO: Check if player is dead. If so, go back to title screen?
+            if (hero.getPools().getHp().getCurrent() <= 0) {
+                return;
             }
             currentActorIndex = (currentActorIndex + 1) % level.getNumberOfEntities();
             logger.trace("Next actor: {}", currentActorIndex);
