@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -78,6 +79,7 @@ public class Level implements Cloneable {
 
     public void addEntity(Entity e, Position position) {
         e.setPosition(position);
+        e.setLevel(this);
         this.entities.add(e);
     }
 
@@ -95,6 +97,18 @@ public class Level implements Cloneable {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public List<Position> getWalkableTiles(Entity entity) {
+        List<Position> walkablePositions = new ArrayList<>();
+        for (int i = 0; i < this.width; i++) {
+            for (int j = 0; j < this.height; j++) {
+                if (this.tiles[i][j].isWalkable(entity)) {
+                    walkablePositions.add(Position.of(i, j));
+                }
+            }
+        }
+        return walkablePositions;
     }
 
     @Override

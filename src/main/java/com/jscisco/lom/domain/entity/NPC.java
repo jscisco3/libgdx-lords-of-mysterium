@@ -3,6 +3,7 @@ package com.jscisco.lom.domain.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jscisco.lom.ai.AIController;
 import com.jscisco.lom.ai.RestAIController;
+import com.jscisco.lom.ai.WanderAIController;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Pool;
 import com.jscisco.lom.domain.Pools;
@@ -23,7 +24,7 @@ public class NPC extends Entity {
         int level = raw.level == null ? 1 : raw.level;
         npc.pools = new Pools(health, mana, 0, level);
         // TODO: More raws
-        npc.aiController = new RestAIController(npc);
+        npc.aiController = new WanderAIController(npc);
         npc.inventory = new Inventory();
         return npc;
     }

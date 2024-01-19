@@ -204,6 +204,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         while (true) {
             Entity currentEntity = level.getEntity(currentActorIndex);
             Action action = currentEntity.nextAction();
+            logger.trace("Turn ticking for actor {} : {}", currentEntity.getName(), currentActorIndex);
             if (action == null) {
                 if (currentEntity instanceof NPC) {
                     logger.error("NPC with a null action: " + currentEntity);
@@ -223,6 +224,7 @@ public class GameScreen extends AbstractScreen implements Observer {
                 action = result.getAlternative();
             }
             currentActorIndex = (currentActorIndex + 1) % level.getNumberOfEntities();
+            logger.trace("Next actor: {}", currentActorIndex);
             // We start the next actors turn here?
             level.getEntity(currentActorIndex).tick();
         }

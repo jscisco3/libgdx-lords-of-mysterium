@@ -1,5 +1,6 @@
 package com.jscisco.lom.ai;
 
+import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Direction;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.action.Action;
@@ -32,15 +33,9 @@ public class WanderAIController extends AIController {
         super(entity);
     }
 
-    // @Override
-    // public Action getNextAction() {
-    // Direction d = Direction.values()[GameConfiguration.random.nextInt(Direction.values().length)];
-    // return new WalkAction(entity, d);
-    // }
-
     @Override
     public Action getNextAction() {
-        // // Either we have no goal, or we reached it.
+        // Either we have no goal, or we reached it.
         if (goal == null || entity.getPosition().toCoord().equals(goal)) {
             pickGoal();
         }
@@ -48,9 +43,10 @@ public class WanderAIController extends AIController {
         // TODO: How to handle when we do not move?
         // If we do not move, then next == our position, thus, we should remove that one and get the next coord in the
         // path
-        this.path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
-        Coord next = path.getFirst();
-        logger.debug(MessageFormat.format("Picking direction from position {0} to coord {1}", p, next));
+//        this.path = this.dijkstraMap.findPath(1, null, null, entity.getPosition().toCoord(), this.goal);
+        calculatePathDijkstra();
+        Coord next = this.path.getFirst();
+        logger.info("Picking direction from position {} to coord {}", p, next);
         Direction d = Direction.byValue(Position.fromCoord(next).subtract(p));
         return new WalkAction(entity, d);
     }
@@ -63,11 +59,11 @@ public class WanderAIController extends AIController {
             initializeAStarSearch();
         }
         // Pick a random, walkable tile
-        logger.trace("Choosing goal...");
-//         this.goal = entity.getLevel().getEmptyTile(entity).toCoord();
-        // this.dijkstraMap.setGoal(this.goal);
+        logger.info("Choosing goal for {}", entity.getName());
+        this.goal = GameConfiguration.rng.getRandomElement(entity.getLevel().getWalkableTiles(entity)).toCoord();
+        this.dijkstraMap.setGoal(this.goal);
         // this.dijkstraMap.scan(entity.position.toCoord(), null);
-        logger.debug(MessageFormat.format("Goal chosen {0}", this.goal));
+        logger.info("Goal chosen: {}", this.goal);
         calculatePathDijkstra();
         calculatePathAStar();
     }

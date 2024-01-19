@@ -1,4 +1,3 @@
-- Spawn Tables
 - AI: Wanderer
 - AI: Hunter Seeker
 - Attributes

@@ -116,7 +116,6 @@ public abstract class Entity implements Observer {
             return;
         }
         this.level = level;
-        level.addEntity(this, this.position);
         this.dijkstraMap = new DijkstraMap(getWeightsForDijkstraMap(), Measurement.EUCLIDEAN);
         recalculateDijkstraMap();
         this.calculateFieldOfView();

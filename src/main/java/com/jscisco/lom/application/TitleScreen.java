@@ -117,9 +117,8 @@ public class TitleScreen extends AbstractScreen {
                 Level level = zone.getLevels().getFirst();
                 BuildData buildData = zoneService.getBuildDataAtDepth(1);
                 Hero hero = EntityFactory.player();
-                hero.setPosition(buildData.getStartingPosition());
-                logger.info("" + hero.getPosition());
-                hero.setLevel(level);
+                // TODO: EntityService?
+                level.addEntity(hero, buildData.getStartingPosition());
 
                 game.setScreen(new GameScreen(game, hero));
                 dispose();
