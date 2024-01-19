@@ -46,7 +46,7 @@ public class Spawner {
      * @param region The valid positions for spawning
      */
     public void spawnRegion(Level level, List<Position> region) {
-        int num_spawns = 4;
+        int num_spawns = 1;
         if (region.isEmpty()) {
             return;
         }

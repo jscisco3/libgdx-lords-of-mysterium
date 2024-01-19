@@ -22,6 +22,7 @@ public class AttackAction extends Action {
 
     @Override
     public ActionResult execute() {
+        logger.info("Executing Attack action. {} is attacking {}", source.getName(), target.getName());
         int d = 10;
         logger.info("{} attacked {} and dealt {} damage", source.getName(), target.getName(), d);
         Pools sourcePools = source.getPools();
@@ -36,6 +37,7 @@ public class AttackAction extends Action {
             // TODO: Make this more abstract some how?
             source.getLevel().removeEntity(target);
         }
+        // TODO: Game over
         return ActionResult.succeeded();
     }
 }

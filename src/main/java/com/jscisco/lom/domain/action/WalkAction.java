@@ -20,11 +20,13 @@ public class WalkAction extends Action {
 
     @Override
     public ActionResult execute() {
+        logger.info("Executing WalkAction from {} in direction {}", source.getPosition(), direction.relativePosition);
         Position newPosition = this.source.getPosition().add(direction.relativePosition);
         Optional<Entity> occupant = this.level.getEntities().stream().filter(e ->
                         e.getPosition().equals(newPosition))
                 .findFirst();
         if (occupant.isPresent()) {
+            logger.info("---> Target tile is occupied. Alternating to attack action");
             return ActionResult.alternate(new AttackAction(source, occupant.get()));
         }
 //        if (level.getTile(newPosition).getFeature() instanceof Door) {
