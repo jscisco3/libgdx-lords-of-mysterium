@@ -46,6 +46,9 @@ public class Spawner {
      */
     public void spawnRegion(Level level, List<Position> region) {
         int num_spawns = 4;
+        if (region.isEmpty()) {
+            return;
+        }
         for (int i = 0; i < num_spawns; i++) {
             Position p = rng.getRandomElement(region);
             // Get random entity from Raws
@@ -60,6 +63,7 @@ public class Spawner {
                     raws.getRaws().getNPC(toSpawn)
             );
             level.addEntity(npc, p);
+            region.remove(p);
             logger.info("Spawning {} at {}", npc.getName(), p);
         }
     }

@@ -14,7 +14,8 @@ public class BuildDataTest {
         RNG rng = new RNG(0xDEADBEEFL);
         RawMaster raws = new RawMaster(new ObjectMapper());
         BuilderChain chain = new BuilderChain(1, 20, 20);
-        chain.startWith(new DebugStarterBuilder()).build(rng, raws);
+        chain.startWith(new DebugStarterBuilder())
+                .build(rng, raws);
 
         Level level = chain.getBuildData().getLevel();
         assertThat(level.width).isEqualTo(20);
@@ -34,10 +35,10 @@ public class BuildDataTest {
                 }
             }
         }
-        // 19 * 19
-        int expectedFloors = 361;
-        // 39 (400 - 361)
-        int expectedWalls = 39;
+        // 18*18
+        int expectedFloors = 324;
+        // 74 (400 - 326)
+        int expectedWalls = 76;
         assertThat(floorCount).isEqualTo(expectedFloors);
         assertThat(wallCount).isEqualTo(expectedWalls);
     }

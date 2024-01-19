@@ -10,9 +10,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.jscisco.lom.Game;
 import com.jscisco.lom.application.configuration.GameConfiguration;
 import com.jscisco.lom.domain.Position;
-import com.jscisco.lom.map.Tile;
 import com.jscisco.lom.map.BuilderChain;
 import com.jscisco.lom.map.Level;
+import com.jscisco.lom.map.Tile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +59,8 @@ public class DebugLevelScreen extends AbstractScreen {
         batch.setProjectionMatrix(this.camera.combined);
         batch.begin();
         drawTerrain(batch, this.game.getAssets(), this.currentLevel);
+        drawItems(batch, this.game.getAssets(), this.currentLevel);
+        drawEntities(batch, this.game.getAssets(), this.currentLevel);
         batch.end();
     }
 
@@ -113,20 +115,14 @@ public class DebugLevelScreen extends AbstractScreen {
     }
 
     private static void drawItems(SpriteBatch batch, Assets assets, Level level) {
-        // level.getItems().forEach(item -> {
-        // assert item.getPosition() != null;
-        // if (fov.isInSight(item.getPosition())) {
-        // item.draw(batch, assets);
-        // }
-        // });
+        level.getItems().forEach(item -> {
+            item.draw(batch, assets);
+        });
     }
 
     private static void drawEntities(SpriteBatch batch, Assets assets, Level level) {
-        // level.getEntities().forEach(entity -> {
-        // assert entity.getPosition() != null;
-        // if (fov.isInSight(entity.getPosition())) {
-        // entity.draw(batch, assets);
-        // }
-        // });
+        level.getEntities().forEach(entity -> {
+            entity.draw(batch, assets);
+        });
     }
 }

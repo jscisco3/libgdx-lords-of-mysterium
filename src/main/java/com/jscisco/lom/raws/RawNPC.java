@@ -11,7 +11,7 @@ public class RawNPC {
     // Pools
     public Integer hp;
     public Integer mp;
-    public Integer level;
+    public Integer level = 1;
     // Field of view
     // Stats
 }

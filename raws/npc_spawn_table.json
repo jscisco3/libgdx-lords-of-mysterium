@@ -2,13 +2,13 @@
   {
     "name": "Golem",
     "weight": 1,
-    "min_depth": 1,
-    "max_depth": 10
+    "minimumDepth": 1,
+    "maximumDepth": 10
   },
   {
     "name": "Bat",
     "weight": 2,
-    "min_depth": 1,
-    "max_depth": 5
+    "minimumDepth": 1,
+    "maximumDepth": 5
   }
 ]

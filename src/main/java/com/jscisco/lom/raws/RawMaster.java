@@ -1,7 +1,6 @@
 package com.jscisco.lom.raws;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jscisco.lom.application.configuration.GameConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class RawMaster {
@@ -27,15 +27,25 @@ public class RawMaster {
 
     private void load() {
         try {
-            RawNPC[] rawEntities = this.mapper.readValue(new File("raws/entities.json"), RawNPC[].class);
-            Arrays.stream(rawEntities).forEach(e -> raws.npcs.put(e.name, e));
-            logger.info("Successfully loaded entities: ");
-            for (String name : raws.npcs.keySet()) {
-                logger.info("---> " + name);
-            }
+            this.loadRawNPCs();
+            this.loadNPCSpawnTable();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void loadRawNPCs() throws IOException {
+        RawNPC[] rawNPCs = this.mapper.readValue(new File("raws/npcs.json"), RawNPC[].class);
+        Arrays.stream(rawNPCs).forEach(e -> raws.npcs.put(e.name, e));
+        logger.info("Successfully loaded entities: ");
+        for (String name : raws.npcs.keySet()) {
+            logger.info("---> " + name);
+        }
+    }
+
+    private void loadNPCSpawnTable() throws IOException {
+        SpawnTableEntry[] npcSpawnTableEntries = this.mapper.readValue(new File("raws/npc_spawn_table.json"), SpawnTableEntry[].class);
+        raws.npc_spawn_table = List.of(npcSpawnTableEntries);
     }
 
     public Raws getRaws() {

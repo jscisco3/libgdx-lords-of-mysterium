@@ -21,8 +21,8 @@ public class Level implements Cloneable {
 
     protected Tile[][] tiles;
 
-    private List<Item> items;
-    private List<Entity> entities = new ArrayList<>();
+    private final List<Item> items = new ArrayList<>();
+    private final List<Entity> entities = new ArrayList<>();
 
     public Level(int depth, int width, int height) {
         this.depth = depth;
@@ -91,6 +91,10 @@ public class Level implements Cloneable {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 
     @Override

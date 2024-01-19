@@ -96,7 +96,7 @@ public class TitleScreen extends AbstractScreen {
         mapGenTest.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                BuilderChain chain = new BuilderChain(1, 100, 100);
+                BuilderChain chain = new BuilderChain(1, 20, 20);
                 chain.startWith(new DebugStarterBuilder());
                 chain.with(new RoomBasedStartingPosition());
                 chain.with(new RoomBasedSpawner(spawner));

@@ -52,8 +52,8 @@ public class ZoneService {
         Zone zone = new Zone();
         IntStream.range(1, depth + 1).forEach(d -> {
             BuilderChain chain = new BuilderChain(d, 80, 80);
-//            chain.startWith(new DebugStarterBuilder());
-            chain.startWith(new BSPBuilder());
+            chain.startWith(new DebugStarterBuilder());
+//            chain.startWith(new BSPBuilder());
             chain.with(new RoomBasedSpawner(spawner));
             chain.with(new AreaBasedStartingPosition(XStart.CENTER, YStart.CENTER));
             // TODO: Pass in RNG
