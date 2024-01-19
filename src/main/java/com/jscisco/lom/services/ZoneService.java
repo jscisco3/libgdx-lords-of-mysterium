@@ -51,6 +51,7 @@ public class ZoneService {
     public Zone createZone(int depth) {
         Zone zone = new Zone();
         IntStream.range(1, depth + 1).forEach(d -> {
+            logger.info("Creating level at depth {}", d);
             BuilderChain chain = new BuilderChain(d, 80, 80);
             chain.startWith(new DebugStarterBuilder());
 //            chain.startWith(new BSPBuilder());

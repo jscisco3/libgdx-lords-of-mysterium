@@ -1,5 +1,6 @@
 package com.jscisco.lom.map;
 
+import com.jscisco.lom.RandomTable;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.NPC;
 import com.jscisco.lom.random.RNGProvider;
@@ -49,16 +50,11 @@ public class Spawner {
         if (region.isEmpty()) {
             return;
         }
+        RandomTable table = this.raws.getNpcSpawnTableForDepth(level.depth);
         for (int i = 0; i < num_spawns; i++) {
             Position p = rng.getRandomElement(region);
             // Get random entity from Raws
-            int roll = rng.between(0, 2);
-            String toSpawn;
-            if (roll == 0) {
-                toSpawn = "Golem";
-            } else {
-                toSpawn = "Bat";
-            }
+            String toSpawn = table.roll(this.rng);
             NPC npc = NPC.from(
                     raws.getRaws().getNPC(toSpawn)
             );

@@ -1,6 +1,8 @@
 package com.jscisco.lom.raws;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jscisco.lom.RandomEntry;
+import com.jscisco.lom.RandomTable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,13 @@ public class RawMaster {
 
     public Raws getRaws() {
         return raws;
+    }
+
+    public RandomTable getNpcSpawnTableForDepth(int depth) {
+        RandomTable table = new RandomTable();
+        this.raws.npc_spawn_table.stream()
+                .filter(e -> depth >= e.minimumDepth && depth <= e.maximumDepth)
+                .forEach(e -> table.add(new RandomEntry(e.name, e.addMapDepthToWeight ? e.weight + depth : e.weight)));
+        return table;
     }
 }
