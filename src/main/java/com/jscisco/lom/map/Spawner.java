@@ -3,6 +3,7 @@ package com.jscisco.lom.map;
 import com.jscisco.lom.RandomTable;
 import com.jscisco.lom.domain.Position;
 import com.jscisco.lom.domain.entity.NPC;
+import com.jscisco.lom.domain.item.Item;
 import com.jscisco.lom.random.RNGProvider;
 import com.jscisco.lom.raws.RawMaster;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import squidpony.squidmath.RNG;
+import squidpony.tileset.SquareRoomsWithRandomRects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,26 +52,42 @@ public class Spawner {
         if (region.isEmpty()) {
             return;
         }
-        RandomTable table = this.raws.getNpcSpawnTableForDepth(level.depth);
+        RandomTable npcTable = this.raws.getNpcSpawnTableForDepth(level.depth);
+        RandomTable itemTable = this.raws.getItemSpawnTableForDepth(level.depth);
         for (int i = 0; i < num_spawns; i++) {
             Position p = rng.getRandomElement(region);
             // Get random entity from Raws
-            String toSpawn = table.roll(this.rng);
-            NPC npc = NPC.from(
-                    raws.getRaws().getNPC(toSpawn)
-            );
-            level.addEntity(npc, p);
+            String spawned;
+            if (this.rng.nextBoolean()) {
+                spawned = spawnRandomNpc(npcTable, p, level);
+            } else {
+                spawned = spawnRandomItem(itemTable, p, level);
+            }
             region.remove(p);
-            logger.info("Spawning {} at {}", npc.getName(), p);
+            logger.info("Spawning {} at {}", spawned, p);
         }
     }
 
-    private void spawnNPC() {
-
+    private String spawnRandomNpc(RandomTable npcTable, Position p, Level level) {
+        String toSpawn = npcTable.roll(this.rng);
+        spawnNPC(toSpawn, p, level);
+        return toSpawn;
     }
 
-    private void spawnItem() {
+    private void spawnNPC(String name, Position p, Level level) {
+        NPC npc = NPC.from(raws.getRaws().getNPC(name));
+        level.addEntity(npc, p);
+    }
 
+    private String spawnRandomItem(RandomTable itemTable, Position p, Level level) {
+        String toSpawn = itemTable.roll(this.rng);
+        spawnItem(toSpawn, p, level);
+        return toSpawn;
+    }
+
+    private void spawnItem(String name, Position p, Level level) {
+        Item item = Item.from(raws.getRaws().getItem(name));
+        level.addItem(item, p);
     }
 
 }

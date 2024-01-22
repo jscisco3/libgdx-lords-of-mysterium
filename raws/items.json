@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Health Potion",
+    "weight": 1,
+    "value": 10,
+    "glyph": "healthPotion",
+    "consumable": {
+      "effects": {
+        "heal": "5"
+      }
+    }
+  },
+  {
+    "name": "Sword",
+    "weight": 5,
+    "value": 10,
+    "glyph": "sword",
+    "equippable": {
+      "slot": "hand"
+    }
+  }
+]

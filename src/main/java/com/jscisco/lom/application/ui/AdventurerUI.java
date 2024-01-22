@@ -67,11 +67,6 @@ public class AdventurerUI extends Table {
                 skin);
         this.add(position);
         this.row();
-        // this.health = new Label(String.format("%.2f/%.2f",
-        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH),
-        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)), skin);
-        // this.health.setColor(Color.RED);
-        // this.add(health);
         this.row();
         this.state = new Label(hero.getState().toString(), skin);
         this.add(state);
@@ -88,7 +83,10 @@ public class AdventurerUI extends Table {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+        Pools pools = hero.getPools();
         this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
+        this.health.setText(String.format("Health: %d/%d", pools.getHp().getCurrent(), pools.getHp().getMax()));
+        this.mana.setText(String.format("Mana: %d/%d", pools.getMp().getCurrent(), pools.getMp().getMax()));
         // this.health.setText(String.format("%.2f/%.2f",
         // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH),
         // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));

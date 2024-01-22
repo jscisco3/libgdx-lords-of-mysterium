@@ -2,13 +2,13 @@
   {
     "name": "Golem",
     "glyph": "golem",
-    "hp": 10000,
+    "hp": 20,
     "level": 2
   },
   {
     "name": "Bat",
     "glyph": "bat",
-    "hp": 10000,
+    "hp": 5,
     "level": 1
   }
 ]

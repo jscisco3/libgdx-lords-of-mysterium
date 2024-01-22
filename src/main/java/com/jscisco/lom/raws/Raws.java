@@ -7,12 +7,23 @@ import java.util.Map;
 
 public class Raws {
     protected Map<String, RawNPC> npcs = new HashMap<>();
-    protected List<SpawnTableEntry> npc_spawn_table = new ArrayList<>();
+    protected Map<String, RawItem> items = new HashMap<>();
+    protected List<SpawnTableEntry> npcSpawnTable = new ArrayList<>();
+    protected List<SpawnTableEntry> itemSpawnTable = new ArrayList<>();
 
     public RawNPC getNPC(String name) {
         RawNPC raw = npcs.get(name);
         if (raw == null) {
             throw new RuntimeException("Illegal name for a Raw NPC. Attempted to look up " + name + ", but was" +
+                    "not in the raws.");
+        }
+        return raw;
+    }
+
+    public RawItem getItem(String name) {
+        RawItem raw = items.get(name);
+        if (raw == null) {
+            throw new RuntimeException("Illegal name for a Raw Item. Attempted to look up " + name + ", but was" +
                     "not in the raws.");
         }
         return raw;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.jscisco.lom.application.Assets;
 import com.jscisco.lom.domain.Name;
 import com.jscisco.lom.domain.Position;
+import com.jscisco.lom.raws.RawItem;
 
 import java.util.UUID;
 
@@ -17,12 +18,25 @@ public class Item {
 
     private String glyph = Assets.ring;
 
+    private int weight;
+    private int value;
+
     private Position position;
 
     private ItemType itemType;
 
     public Item() {
 
+    }
+
+    public static Item from(RawItem raw) {
+        Item item = new Item();
+        item.name = Name.of(raw.name);
+        item.glyph = raw.glyph;
+        item.weight = raw.weight;
+        item.value = raw.value;
+        // TODO: Consumable, Equippable
+        return item;
     }
 
     public static class Builder {

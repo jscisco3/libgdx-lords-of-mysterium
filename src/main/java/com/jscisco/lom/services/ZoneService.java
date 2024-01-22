@@ -53,8 +53,8 @@ public class ZoneService {
         IntStream.range(1, depth + 1).forEach(d -> {
             logger.info("Creating level at depth {}", d);
             BuilderChain chain = new BuilderChain(d, 80, 80);
-            chain.startWith(new DebugStarterBuilder());
-//            chain.startWith(new BSPBuilder());
+//            chain.startWith(new DebugStarterBuilder());
+            chain.startWith(new BSPBuilder());
             chain.with(new RoomBasedSpawner(spawner));
             chain.with(new AreaBasedStartingPosition(XStart.CENTER, YStart.CENTER));
             // TODO: Pass in RNG

@@ -86,7 +86,7 @@ public class TitleScreen extends AbstractScreen {
         table.add(outputLevel);
 //        table.row();
 //        table.add(loadGame);
-//        table.row();
+        table.row();
         table.add(quitGame);
         table.row();
 //        table.add(saveGameTest);

@@ -1,6 +1,5 @@
 package com.jscisco.lom.application;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -27,6 +26,7 @@ public class Assets {
     public static final String golem = "golem";
     // Items
     public static final String sword = "sword";
+    public static final String healthPosition = "healthPotion";
     public static final String ring = "ring";
     // Kingdom screen
     public static final String background = "parchmentAncient";

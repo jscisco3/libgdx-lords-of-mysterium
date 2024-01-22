@@ -41,12 +41,12 @@ public class LevelRenderer {
 
     private static void drawItems(SpriteBatch batch, Assets assets, Level level, Hero hero) {
         FieldOfView fov = hero.getFieldOfView();
-        // level.getItems().forEach(item -> {
-        // assert item.getPosition() != null;
-        // if (fov.isInSight(item.getPosition())) {
-        // item.draw(batch, assets);
-        // }
-        // });
+         level.getItems().forEach(item -> {
+             assert item.getPosition() != null;
+             if (fov.isInSight(item.getPosition())) {
+                 item.draw(batch, assets);
+             }
+         });
     }
 
     private static void drawEntities(SpriteBatch batch, Assets assets, Level level, Hero hero) {

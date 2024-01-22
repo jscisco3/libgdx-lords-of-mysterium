@@ -1,10 +1,17 @@
-- AI: Wanderer
-- AI: Hunter Seeker
 - Attributes
 - Items
 - Inventory
 - Equipment
 
+## Items
+
+Items should be
+- Stackable
+- Have weight, value, name, glyph
+- May be consumable, equippable
+
+### Consumables
+### Equipment
 
 ## Packaging and Deployment
 - [ ] Run on a clean machine

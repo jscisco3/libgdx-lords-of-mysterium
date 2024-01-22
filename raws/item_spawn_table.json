@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Sword",
+    "weight": 1,
+    "minimumDepth": 1,
+    "maximumDepth": 100
+  },
+  {
+    "name": "Health Potion",
+    "weight": 2,
+    "minimumDepth": 1,
+    "maximumDepth": 100
+  }
+]
