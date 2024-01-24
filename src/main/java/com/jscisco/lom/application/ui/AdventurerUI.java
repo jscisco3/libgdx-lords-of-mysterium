@@ -87,12 +87,7 @@ public class AdventurerUI extends Table {
         this.position.setText(String.format("(%d, %d)", hero.getPosition().getX(), hero.getPosition().getY()));
         this.health.setText(String.format("Health: %d/%d", pools.getHp().getCurrent(), pools.getHp().getMax()));
         this.mana.setText(String.format("Mana: %d/%d", pools.getMp().getCurrent(), pools.getMp().getMax()));
-        // this.health.setText(String.format("%.2f/%.2f",
-        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.HEALTH),
-        // hero.getAttributes().getAttributeValue(AttributeSet.AttributeDefinition.MAX_HEALTH)));
         this.state.setText(hero.getState().toString());
-        // this.zoneInformation.setText("Zone: " + this.hero.getLevel().getZone().getId());
-        // this.levelInformation.setText("Level: " + this.hero.getLevel().getId());
         this.fps.setText(String.format("FPS: %d", Gdx.graphics.getFramesPerSecond()));
     }
 }
