@@ -39,35 +39,6 @@ public class Item {
         return item;
     }
 
-    public static class Builder {
-        Name name;
-        ItemType itemType;
-        String glyph;
-
-        public Builder withName(Name name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder ofType(ItemType itemType) {
-            this.itemType = itemType;
-            return this;
-        }
-
-        public Builder withGlyph(String glyph) {
-            this.glyph = glyph;
-            return this;
-        }
-
-        public Item build() {
-            Item item = new Item();
-            item.name = this.name;
-            item.glyph = this.glyph;
-            item.itemType = this.itemType;
-            return item;
-        }
-    }
-
     public void draw(SpriteBatch batch, Assets assets) {
         TextureRegion t = assets.getTextureRegion(this.glyph);
         Sprite s = new Sprite(t);
