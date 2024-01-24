@@ -46,6 +46,8 @@ public class InventoryWindow extends PopupWindow implements Observer {
                 public void clicked(InputEvent event, float x, float y) {
                     DropItemAction action = new DropItemAction(hero, block.getItem());
                     action.execute();
+                    content.clear();
+                    setContent();
                 }
             });
             content.add(block);

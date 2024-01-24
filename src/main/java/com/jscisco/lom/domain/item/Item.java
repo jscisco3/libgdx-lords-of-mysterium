@@ -23,7 +23,7 @@ public class Item {
 
     private Position position;
 
-    private ItemType itemType;
+    private ItemCategory itemCategory;
 
     public Item() {
 
@@ -35,6 +35,7 @@ public class Item {
         item.glyph = raw.glyph;
         item.weight = raw.weight;
         item.value = raw.value;
+        item.itemCategory = ItemCategory.valueOf(raw.category);
         // TODO: Consumable, Equippable
         return item;
     }
@@ -55,12 +56,12 @@ public class Item {
         this.name = name;
     }
 
-    public ItemType getItemType() {
-        return itemType;
+    public ItemCategory getItemType() {
+        return itemCategory;
     }
 
-    public void setItemType(ItemType itemType) {
-        this.itemType = itemType;
+    public void setItemType(ItemCategory itemCategory) {
+        this.itemCategory = itemCategory;
     }
 
     public UUID getId() {

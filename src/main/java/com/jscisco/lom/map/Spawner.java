@@ -58,11 +58,12 @@ public class Spawner {
             Position p = rng.getRandomElement(region);
             // Get random entity from Raws
             String spawned;
-            if (this.rng.nextBoolean()) {
-                spawned = spawnRandomNpc(npcTable, p, level);
-            } else {
-                spawned = spawnRandomItem(itemTable, p, level);
-            }
+//            if (this.rng.nextBoolean()) {
+//                spawned = spawnRandomNpc(npcTable, p, level);
+//            } else {
+//                spawned = spawnRandomItem(itemTable, p, level);
+//            }
+            spawned = spawnRandomItem(itemTable, p, level);
             region.remove(p);
             logger.info("Spawning {} at {}", spawned, p);
         }

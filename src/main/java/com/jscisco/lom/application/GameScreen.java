@@ -110,9 +110,7 @@ public class GameScreen extends AbstractScreen implements Observer {
         }
         handleInput(delta);
         // TODO: Game States
-        logger.info("Processing actors...");
         processAllActors(level);
-        logger.info("Done processing actors...");
         if (hero.getPools().getHp().getCurrent() <= 0) {
             game.setScreen(new TitleScreen(game));
         }

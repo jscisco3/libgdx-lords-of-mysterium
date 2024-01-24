@@ -21,14 +21,14 @@ public class PickUpItemAction extends Action {
 
     @Override
     public ActionResult execute() {
-        // if (level.getItems().stream().filter(i -> {
-        // assert i.getPosition() != null;
-        // return i.getPosition().equals(source.getPosition());
-        // }).collect(Collectors.toList()).contains(item) && item != null) {
-        // source.pickup(item);
-        // source.getLevel().removeItem(item);
-        // return ActionResult.succeeded();
-        // }
+         if (level.getItems().stream().filter(i -> {
+             assert i.getPosition() != null;
+             return i.getPosition().equals(source.getPosition());
+         }).toList().contains(item) && item != null) {
+             source.pickup(item);
+             source.getLevel().removeItem(item);
+             return ActionResult.succeeded();
+         }
         return ActionResult.failed();
     }
 }

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Level implements Cloneable {
@@ -114,6 +115,14 @@ public class Level implements Cloneable {
             }
         }
         return walkablePositions;
+    }
+
+    public List<Item> getItemsAtPosition(Position p) {
+        return this.items.stream().filter(x -> x.getPosition().equals(p)).collect(Collectors.toList());
+    }
+
+    public void removeItem(Item item) {
+        this.items.remove(item);
     }
 
     @Override

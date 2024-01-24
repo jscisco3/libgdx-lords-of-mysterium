@@ -22,6 +22,7 @@ public class DropItemAction extends Action {
             return ActionResult.failed();
         }
         source.dropItem(item);
+        level.addItem(item, source.getPosition());
         return ActionResult.succeeded();
     }
 }

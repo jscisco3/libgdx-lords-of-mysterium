@@ -135,13 +135,11 @@ public abstract class Entity implements Observer {
 
     public void pickup(Item item) {
         inventory.addItem(item);
-        // level.removeItem(item);
     }
 
     public void dropItem(Item item) {
         inventory.removeItem(item);
-        // level.addItemAtPosition(item, position);
-        subject.notify(null);
+//        subject.notify(null);
     }
 
     public void tick() {
